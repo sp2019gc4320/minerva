@@ -1,0 +1,534 @@
+
+<!-- file: postres.view.html
+ -->
+<!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+<div class="container text-center infoContainer" id="postResContainer" ng-controller="postresController">
+	<form>
+		<div class="row justify-content-center">
+			<div class="col-xs-12">
+				<h1>Post Res</h1>
+			</div>
+		</div>
+		<fieldset class="form-group">
+			<div class="row">
+				<legend class="col-form-label col-xs-12"></legend>
+			</div>
+			<div class="form-row">
+				<div class="col-md-2 d-none d-md-block"></div>
+				<div class="form-group col-md-2">
+					<label for="mentorContactInput">Mentor Contact</label>
+					<input type="checkbox" class="form-control-file" id="mentorContactInput" ng-model="header.MeetsRequiredContact">
+				</div>
+				<div class="form-group col-md-2">
+					<label for="meetsPlacementCriteriaInput">Meets Placement Criteria</label>
+					<input type="checkbox" class="form-control-file" id="meetsPlacementCriteriaInput" ng-model="header.MeetsPlacementCriteria">
+				</div>
+				<div class="form-group col-md-2">
+					<label for="selectedMonth">Select Month</label>
+					<select ng-model="header.PlacementMonth" id="selectedMonth" ng-change="selectPlacementMonth(header.PlacementMonth)">
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label for="forDates">For Dates</label>
+					<input type="text" class="form-control" id="forDates">
+				</div>
+				<div class="col-md-2 d-none d-md-block"></div>
+			</div>
+			<div class="form-row">
+			       <div class="form-group col-md-3">
+			           <label>LPM</label>
+			           <input type="text" class="form-control">
+			       </div>
+			       <div class="form-group col-md-3">
+			           <label>LCM</label>
+			           <input type="text" class="form-control">
+			       </div>
+			       <div class="form-group col-md-3">
+			           <label>LMCRM</label>
+			           <input type="text" class="form-control">
+			       </div>
+			       <div class="form-group col-md-3">
+			           <label>LRM</label>
+			           <input type="text" class="form-control">
+			       </div>
+			    
+			</div>
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger">Copy Placement Details from Previous Month (Education, Military, Employment, Misc)</button>
+			</div>
+		</fieldset>
+		<fieldset class="form-group">
+			<div class="row">
+				<legend class="col-form-label col-xs-12">Reports</legend>
+			</div>
+			<div ng-repeat="reports in allreports track by $index">
+			<div ng-if="isCurrentReports($index)">
+			<div class="form-row">
+				<div class="col-md-1 d-none d-md-block"></div>
+				<div class="form-group col-md-2">
+					<label>Type</label>
+					<select ng-model="reports.PRReportType">
+					    <option></option>
+					    <option value="Attempted Contact">Attempted Contact</option>
+					    <option value="Attempted Contact Mentor">Attempted Contact Mentor</option>
+					    <option value="E-Mail">Email</option>
+					    <option value="Fax">Fax</option>
+					    <option value="Mail">Mail</option>
+					    <option value="Personal Contact">Personal Contact</option>
+					    <option value="Phone Call">Phone Call</option>
+					    <option value="Social Media">Social Media</option>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label >Reporter Category</label>
+					<select ng-model="reports.PRReporterCategory">
+					    <option></option>
+					    <option value="Cadet">Cadet</option>
+					    <option value="Case Manager">Case Manager</option>
+					    <option value="Mentor">Mentor</option>
+					    <option value="Other">Other</option>
+					    <option value="Parent/Guardian">Parent/Guardian</option>
+					    <option value="Staff">Staff</option>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label>Reporter</label>
+					<input type="type" class="form-control" ng-model="reports.PRReporterID">
+				</div>
+				<div class="form-group col-md-2">
+					<label >Date</label>
+					<input type="text" class="form-control" ng-model="reports.PRReportDate">
+				</div>
+				<div class="form-group col-md-2">
+					<label>Contact made?</label>
+					<input type="checkbox" class="form-control-file" ng-model="reports.WasContactMade">
+				</div>
+				<div class="col-md-1 d-none d-md-block"></div>
+			</div>
+			<div class="form-row">
+			    <div class="col-md-1 d-none d-md-block"></div>
+			    <div class="form-group col-md-10">
+			        <label >Note</label>
+					<div style="text-align: center;">
+						<button ng-click="enableEdit1()" class="btn btn-success">Edit</button>
+						<button ng-click="disableEdit1()" class="btn btn-success">Cancel</button>
+						<button ng-click="saveNote()" class="btn btn-success">Save</button>
+					</div>
+					<div id="notes1">
+					<textarea style="resize:vertical;" class="form-control" ng-model="reports.PRReportNote" disabled=true></textarea>							<!--NOTE 1-->
+
+					<div ng-app="module" ng-controller="postresController">
+						<div ng-repeat="input in inputList">
+							<textarea style="resize:vertical;" class="form-control" ng-model="reports.PRReportNote"></textarea>
+							<button ng-click="remove(input)" class="btn btn-danger">Remove Note</button>
+						</div>
+						<button ng-click="add()" class="btn btn-success">Add Note</button>
+					</div>
+					</div>
+			    </div>
+			    <div class="col-md-1 d-none d-md-block"></div>
+			</div>
+			</div>
+			</div>
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger" >Add Another Report</button>
+			</div>
+		</fieldset>
+		<fieldset class="form-group">
+			<div class="row">
+				<legend class="col-form-label col-xs-12">Mentor Contacts</legend>
+			</div>
+			<div ng-repeat="contacts in allcontacts track by $index" >
+			<div ng-if="isCurrentContacts($index)">
+			<div class="form-row">
+				<div class="col-md-2 d-none d-md-block"></div>
+				<div class="form-group col-md-2">
+					<label >Date</label>
+					<input type="text" class="form-control" ng-model="contacts.ContactDate">
+				</div>
+				<div class="form-group col-md-2">
+					<label>Type</label>
+					<select ng-model="contacts.MentorContactType">
+					    <option></option>
+					    <option value="E-Mail">E-Mail</option>
+					    <option value="Facebook">Facebook</option>
+					    <option value="Letter">Letter</option>
+					    <option value="Offsite Visit">Offsite Visit</option>
+					    <option value="Other">Other</option>
+					    <option value="Personal Contact">Personal Contact</option>
+					    <option value="Phone Call">Phone Call</option>
+					    <option value="Text Msg">Text Msg</option>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label>Mentor</label>
+					<input type="type" class="form-control"  ng-model="contacts.fkMentorID">
+				</div>
+				<div class="form-group col-md-2">
+					<label >Placement Month</label>
+					<select ng-model="contacts.ContactPlacementMonth">
+						<option></option>
+						<option value="1">1</option>
+						<option value="2">2</option>
+						<option value="3">3</option>
+						<option value="4">4</option>
+						<option value="5">5</option>
+						<option value="6">6</option>
+						<option value="7">7</option>
+						<option value="8">8</option>
+						<option value="9">9</option>
+						<option value="10">10</option>
+						<option value="11">11</option>
+						<option value="12">12</option>
+					</select>
+				</div>
+				<div class="col-md-2 d-none d-md-block"></div>
+			</div>
+			<div class="form-row">
+			    <div class="col-md-1 d-none d-md-block"></div>
+			    <div class="form-group col-md-10">
+			        <label >Note</label>
+					<input type="text" class="form-control" ng-model="contacts.MentorContactNote">
+			    </div>
+			    <div class="col-md-1 d-none d-md-block"></div>
+			</div>
+		    </div>
+			</div> 
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger">Add Mentor Contact Report</button>
+			</div>
+		</fieldset>		
+		<fieldset class="form-group">
+			<div class="row">
+				<legend class="col-form-label col-xs-12">Education</legend>
+			</div>
+			<div ng-repeat="education in alleducation track by $index" >
+			<div ng-if="isCurrentEducation($index)">
+			<div class="form-row">
+				<div class="col-md-1 d-none d-md-block"></div>
+				<div class="form-group col-md-2">
+					<label >School Type</label>
+					<select ng-model="education.PREdSchoolType">
+					    <option></option>
+					    <option value="2 Year College">2 Year College</option>
+					    <option value="4 Year College">4 Year College</option>
+					    <option value="Adult Education">Adult Education</option>
+					    <option value="Alternative">Alternative</option>
+					    <option value="ChalleNge">ChalleNge</option>
+					    <option value="Charter">Charter</option>
+					    <option value="High School">High School</option>
+					    <option value="Job Corps">Job Corps</option>
+					    <option value="Magnet">Magnet</option>
+					    <option value="NCCC">NCCC</option>
+					    <option value="Other">Other</option>
+					    <option value="Private">Private</option>
+					    <option value="Vo Tech">Vo Tech</option>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label >Status</label>
+					<select ng-model="education.PREdStatus">
+					    <option></option>
+					    <option value="Did Not Pass">Did Not Pass</option>
+					    <option value="Dropped Out">Dropped Out</option>
+					    <option value="Enrolled">Enrolled</option>
+					    <option value="Graduated">Graduated</option>
+					    <option value="Suspended">Suspended</option>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label>Start Date</label>
+					<input type="type" class="form-control"  ng-model="education.PREdStartDate">
+				</div>
+				<div class="form-group col-md-2">
+					<label >End Date</label>
+					<input type="text" class="form-control"  ng-model="education.PREdEndDate">
+				</div>
+				<div class="form-group col-md-2">
+					<label >Full Time</label>
+					<input type="checkbox" class="form-control-file"  ng-model="education.IsPREdFullTime">
+				</div>
+				<div class="col-md-1 d-none d-md-block"></div>
+			</div>
+			<div class="form-row">
+			    <div class="col-md-1 d-none d-md-block"></div>
+			    <div class="form-group col-md-10">
+			        <label >Note</label>
+					<input type="text" class="form-control" ng-model="education.PREdNote">
+			    </div>
+			    <div class="col-md-1 d-none d-md-block"></div>
+			</div>
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger" ng-click="updateEducation($index)">Update</button>
+			</div>
+			</div>
+			</div>
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger">Add Education Report</button>
+			</div>
+		</fieldset>
+		<fieldset class="form-group">
+			<div class="row">
+				<legend class="col-form-label col-xs-12">Military</legend>
+			</div>
+			<div ng-repeat="military in allmilitary track by $index">
+			<div ng-if="isCurrentMilitary($index)">
+			<div class="form-row">
+				<div class="form-group col-md-2">
+					<label >Affiliation</label>
+                    <select ng-model="military.PRMilAffiliation">
+                        <option></option>
+                        <option value="ANG">ANG</option>
+                        <option value="ARNG">ARNG</option>
+                        <option value="USA">USA</option>
+                        <option value="USAF">USAF</option>
+                        <option value="USCG">USCG</option>
+                        <option value="USMC">USMC</option>
+                        <option value="USN">USN</option>
+                    </select>
+				</div>
+				<div class="form-group col-md-2">
+					<label >Status</label>
+                    <select ng-model="military.PRMilStatus">
+                        <option></option>
+                        <option value="Active">Active</option>
+                        <option value="National Guard">National Guard</option>
+                        <option value="Reserve">Reserve</option>
+                        <option value="Retired">Retired</option>
+                    </select>
+				</div>
+				<div class="form-group col-md-2">
+					<label >Enlisted</label>
+					<input type="type" class="form-control"  ng-model="military.PRMilEnlistDate">
+				</div>
+				<div class="form-group col-md-2">
+					<label >Entered</label>
+					<input type="text" class="form-control" ng-model="military.PRMilDelayedEntryDate">
+				</div>
+				<div class="form-group col-md-2">
+					<label >Discharged</label>
+					<input type="checkbox" class="form-control-file"  ng-model="military.PRMilDischargeDate">
+				</div>
+				<div class="form-group col-md-2">
+					<label >AGR?</label>
+					<input type="checkbox" class="form-control-file"  ng-model="military.isAGR">
+				</div>
+			</div>
+			<div class="form-row">
+			    <div class="col-md-1 d-none d-md-block"></div>
+			    <div class="form-group col-md-10">
+			        <label >Note</label>
+					<div style="text-align: center;">
+						<button ng-click="enableEdit2()" class="btn btn-success">Edit</button>
+						<button ng-click="disableEdit2()" class="btn btn-success">Cancel</button>
+						<button ng-click="saveNote()" class="btn btn-success">Save</button>
+					</div>
+					<div id="notes2">
+					<textarea style="resize:vertical;" class="form-control" ng-model="military.PRMilNote" disabled=true></textarea>
+
+					<div ng-app="module" ng-controller="postresController">
+						<div ng-repeat="input in inputList">
+							<textarea style="resize:vertical;" class="form-control" ng-model="military.PRMilNote"></textarea>				<!-- NOTE 2-->
+							<button ng-click="remove(input)" class="btn btn-danger">Remove Note</button>
+						</div>
+						<button ng-click="add()" class="btn btn-success">Add Note</button>
+					</div>
+					</div>
+			    </div>
+			    <div class="col-md-1 d-none d-md-block"></div>
+			</div>
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger" ng-click="updateMilitary($index)">Update</button>
+			</div>
+			</div>
+			</div>
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger">Add Military Report</button>
+			</div>
+		</fieldset>
+		<fieldset class="form-group">
+			<div class="row">
+				<legend class="col-form-label col-xs-12">Employment</legend>
+			</div>
+			<div ng-repeat="employment in allemployment track by $index">
+			<div ng-if="isCurrentEmployment($index)">
+			<div class="form-row">
+				<div class="col-md-1 d-none d-md-block"></div>
+				<div class="form-group col-md-2">
+					<label >Employer</label>
+					<input type="text" class="form-control"  ng-model="employment.PREmployer">
+				</div>
+				<div class="form-group col-md-2">
+					<label >Hire Date</label>
+					<input type="text" class="form-control"  ng-model="employment.PREmpHireDate">
+				</div>
+				<div class="form-group col-md-2">
+					<label>End Date</label>
+					<input type="type" class="form-control"  ng-model="employment.PREmpTermDate">
+				</div>
+				<div class="form-group col-md-2">
+					<label >Work Status</label>
+                    <select ng-model="employment.PREmpWorkStatus">
+                        <option></option>
+                        <option value="Deployed">Deployed</option>
+                        <option value="Full Time">Full Time</option>
+                        <option value="Part Time">Part Time</option>
+                        <option value="Retired">Retired</option>
+                        <option value="Temporary">Temporary</option>
+                        <option value="Unemployed">Unemployed</option>
+                        <option value="Volunteer">Volunteer</option>
+                    </select>
+				</div>
+				<div class="form-group col-md-2">
+					<label>Self Emp?</label>
+					<input type="checkbox" class="form-control-file"  ng-model="employment.IsPREmpSelfEmployed">
+				</div>
+				<div class="col-md-1 d-none d-md-block"></div>
+			</div>
+			<div class="form-row">
+				<div class="col-md-1 d-none d-md-block"></div>
+				<div class="form-group col-md-2">
+					<label >HRS/WK</label>
+					<input type="text" class="form-control"  ng-model="employment.PREmpHrsPerWeek">
+				</div>
+				<div class="form-group col-md-2">
+					<label >Wage Type</label>
+                    <select ng-model="employment.PREmpWageType">
+                        <option></option>
+                        <option value="Annually">Annually</option>
+                        <option value="Biweekly">Biweekly</option>
+                        <option value="Commission">Commission</option>
+                        <option value="Hourly">Hourly</option>
+                        <option value="Monthly">Monthly</option>
+                        <option value="Salary">Salary</option>
+                        <option value="Weekly">Weekly</option>
+                    </select>
+				</div>
+				<div class="form-group col-md-2">
+					<label >Rate</label>
+					<input type="type" class="form-control" ng-model="employment.PREmpWageRate">
+				</div>
+				<div class="form-group col-md-2">
+					<label >POC Name</label>
+					<input type="text" class="form-control"  ng-model="employment.PREmpPOCName">
+				</div>
+				<div class="form-group col-md-2">
+					<label>POC Phone</label>
+					<input type="text" class="form-control"  ng-model="employment.PREmpPOCPhone">
+				</div>
+				<div class="col-md-1 d-none d-md-block"></div>
+			</div>
+			<div class="form-row">
+			    <div class="col-md-1 d-none d-md-block"></div>
+			    <div class="form-group col-md-10">
+			        <label>Term Notes</label>
+					<input type="text" class="form-control" ng-model="employment.PREmpTermNote">
+			    </div>
+			    <div class="col-md-1 d-none d-md-block"></div>
+			</div>
+			<div class="form-row">
+			    <div class="col-md-1 d-none d-md-block"></div>
+			    <div class="form-group col-md-10">
+			        <label >Notes</label>
+					<input type="text" class="form-control" ng-model="employment.PREmpNotes">
+			    </div>
+			    <div class="col-md-1 d-none d-md-block"></div>
+			</div>
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger" ng-click="updateEmployment($index)">Update</button>
+			</div>
+			</div>
+			</div>
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger">Add Employment Report</button>
+			</div>
+		</fieldset>
+		<fieldset class="form-group">
+			<div class="row">
+				<legend class="col-form-label col-xs-12">Misc</legend>
+			</div>
+			<div ng-repeat="misc in allmisc track by $index">
+			<div ng-if="isCurrentMisc($index)">
+			<div class="form-row">
+				<div class="col-md-2 d-none d-md-block"></div>
+				<div class="form-group col-md-2">
+					<label >Type</label>
+					<select ng-model="misc.PRMiscPlacementType">
+					    <option></option>
+					    <option value="Care Giver">Care Giver</option>
+					    <option value="Disabled/Hospitalized">Disabled/Hospitalized</option>
+					    <option value="Homemaker">Homemaker</option>
+					    <option value="Incarcerated">Incarcerated</option>
+					    <option value="Other">Other</option>
+					    <option value="Volunteer">Volunteer</option>
+					</select>
+				</div>
+				<div class="form-group col-md-2">
+					<label >Hours</label>
+					<input type="text" class="form-control" ng-model="misc.PRMiscHrs">
+				</div>
+				<div class="form-group col-md-2">
+					<label >Start Date</label>
+					<input type="type" class="form-control"  ng-model="misc.PRMiscStartDate">
+				</div>
+				<div class="form-group col-md-2">
+					<label >End Date</label>
+					<input type="text" class="form-control" ng-model="misc.PRMiscEndDate">
+				</div>
+				<div class="col-md-2 d-none d-md-block"></div>
+			</div>
+				<!--<div class="card bg-transparent " ng-if="!editNoteSection3">
+						<button class="btn-primary" ng-click="editSection('noteSection3')">Edit</button>-->
+
+
+				<div class="form-row">
+				<!--<button ng-click="enableEdit()" class="btn btn-success">Edit</button>
+				<button ng-click="disableEdit()" class="btn btn-success">Cancel</button>-->
+			    <div class="col-md-1 d-none d-md-block"></div>
+			    <div class="form-group col-md-10">
+			        <label>Note</label>
+					<div style="text-align: center;">
+						<button ng-click="enableEdit3()" class="btn btn-success">Edit</button>
+						<button ng-click="disableEdit3()" class="btn btn-success">Cancel</button>
+						<button ng-click="saveNote()" class="btn btn-success">Save</button>
+					</div>
+						<div id="notes3">
+					<textarea style="resize:vertical;" class="form-control" ng-model="misc.PRMiscNote" disabled=true></textarea>						<!--NOTE 3-->
+
+
+                    <div ng-app="module" ng-controller="postresController">
+                        <div ng-repeat="input in inputList">
+							<textarea style="resize:vertical;" class="form-control" ng-model="misc.PRMiscNote"></textarea>
+							<button ng-click="remove(input)" class="btn btn-danger">Remove Note</button>
+                        </div>
+						<button ng-click="add()" class="btn btn-success">Add Note</button>
+                    </div>
+					</div>
+
+			    </div>
+			    <div class="col-md-1 d-none d-md-block"></div>
+			</div>
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger" ng-click="updateMisc($index)">Update</button>
+			</div>
+			</div>
+			</div>
+
+			<div class="form-row justify-content-center">
+				<button class="col-xs-12 btn-danger">Add Misc Report</button>
+			</div>
+		</fieldset>
+	</form>
+</div>

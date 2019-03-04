@@ -1,0 +1,68 @@
+
+<!DOCTYPE html>
+<html lang="en" ng-app="searchApp">
+<head>
+    <meta charset="UTF-8">
+    <title>Minerva</title>
+
+    <!-- Used with Bootstrap 4 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+
+    <!--Donwloaded files and stored in resource folder -->
+    <!--    jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <!-- JQuery needed for  Bootstrap 4 and Angular -->
+    <script src="../../lib/jquery/dist/jquery.js"></script>
+
+    <!-- Popper needed for Bootstrap 4 - Bootstrap 4 requires UMD version of popper.js -->
+    <script src="../../lib/popper.js/dist/umd/popper.js"></script>
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="../../lib/bootstrap/dist/css/bootstrap.css">
+    <script src="../../lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    <!-- Angular 1.7.5 -->
+    <!--
+     Routes in Angular 1.6+ need to add ! when redirecting to state: $window.location = '#!/homeOptions';
+    -->
+    <script type="text/javascript" src="../../lib/angular/angular.js"></script>
+    <script type="text/javascript" src="../../lib/angular-route/angular-route.min.js"></script>
+
+    <!-- iconic icons -->
+    <link href="../../lib/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../../css/site.css">
+
+    <!-- The angular controller javascript files are in the controllers directory -->
+    <!--<script src="controllers/minerva_Ctrl.js"></script> -->
+    <script>
+        Object.toparams = function ObjecttoParams(obj) {
+            var p = [];
+            for (var key in obj) {
+                p.push(key + '=' + encodeURIComponent(obj[key]));
+            }
+            return p.join('&');
+        };
+
+        angular.module("searchApp",[]);
+
+    </script>
+    <script src="peopleViewCtrl.js"></script>
+
+    <script src="addMentorCtrl.js"></script>
+
+    <script src="searchMentorViewCtrl.js"></script>
+
+
+</head>
+<body >  <!--place the color here to get the top part of window -->
+<h1>Search Mentor View Index</h1>
+<font size="2">
+<div >
+
+    <ng-include  src="'./chooseMentorView.html'"></ng-include>
+
+</div>
+</font>
+</body>
+</html>

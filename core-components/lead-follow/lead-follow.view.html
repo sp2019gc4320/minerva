@@ -1,0 +1,449 @@
+<!--lead-follow.view.html-->
+<!--view page for Lead/Follow Residental tab-->
+<!--fields that can be updated are autoloaded with current values,-->
+<!--past values for duty,inspection,position,and rank are also displayed-->
+
+<!--load app.controller from leadFollowCtrl.js-->
+<head>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
+    <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css"/>
+</head>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<style>
+    textarea {
+        resize: none;
+    }
+
+    .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+    }
+
+    .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+    }
+
+    input:checked + .slider {
+        background-color: #2196F3;
+    }
+
+    input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+    }
+
+    input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+    }
+
+    /* Rounded sliders */
+    .slider.round {
+        border-radius: 34px;
+    }
+
+    .slider.round:before {
+        border-radius: 50%;
+    }
+
+    textarea {
+        resize: none;
+    }
+</style>
+
+<!--load app.controller from leadFollowCtrl.js-->
+<div class="well container infoContainer" id="lfContainer">
+    <div ng-controller="leadFollowController">
+        <h3>Tasks</h3>
+
+        <!--Tasks-->
+        <div class="well text-center">
+            <form>
+                <!--table to edit&display tasks from coreComponentTasks&cadetClassEvents-->
+                <table>
+                    <tr>
+                        <th>Tasks</th>
+                        <th>Description</th>
+                        <th>Last Activity</th>
+                        <th>Pass/Fail</th>
+                        <th>Note</th>
+                    </tr>
+                    <!--iterate through each instance in scope from controller-->
+                    <tr ng-repeat="task in tasks">
+                        <td>{{task.TaskNumber}}</td>
+                        <td class="text-left">{{task.Task}}</td>
+                        <!--editable fields for cadetClassEvents-->
+                        <td><input id="date" type="date" placeholder="MM/DD/YYYY" ng-model="task.EventDate"></td>
+                        <td><input name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="task.DidPass"></td>
+                        <td><textarea name="EventNote" rows="1" c wrap="off" ng-model="task.EventNote"></textarea></td>
+                    </tr>
+                </table>
+                <button ng-click="update()">Update</button>
+                <button ng-click="cancelUpdate()">Cancel Update</button>
+            </form>
+        </div>
+
+
+        <table style="width:100%">
+            <tr>
+                <th style="text-align: left"><h3>Duties</h3></th>
+                <th style="text-align: right">
+                    <div id="editButton">
+                        <button class="btn btn-outline-primary" ng-disabled="!editInfo"
+                                ng-click="editSection2('stopEditButton','updateButtons')">Edit
+                        </button>
+                    </div>
+                    <div id="stopEditButton">
+                        <button class="btn btn-outline-warning" ng-click="stopEditing('stopEditButton','updateButtons')"
+                                ng-disabled="editInfo">Stop Editing
+                        </button>
+                    </div>
+                </th>
+            </tr>
+        </table>
+        <!--Duties-->
+        <div class="well container infoContainer text-center" style="border: 1px solid white">
+            <!--creates new duty entry-->
+            <h6 style="text-align: left;">Add Duty</h6>
+            <form>
+                <table>
+                    <tr>
+                        <th><label>Duties: </label>
+                            <!--dropdown options from tlkpJBDutyPosition-->
+                            <select id="1" ng-model="duty.JobPosition" name="JobPosition"
+                                    ng-options="option.DutyPosition for option in DutyPositionOptions track by option.id"
+                                    ng-change="changeJobPosition(duty.JobPosition)" ng-disabled="editInfo"></select>
+                        </th>
+                        <th><label>Failed: </label>
+                            <input id="2" name="DutyDidFail: " type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="duty.DutyDidFail" ng-disabled="editInfo"></th>
+                        <th><label>Start Date: </label>
+                            <input id="3" name="DutyStartDate" type="date" placeholder="MM/DD/YYYY"
+                                   ng-model="duty.DutyStartDate" ng-disabled="editInfo"></th>
+                        <th><label>End Date: </label>
+                            <input id="4" name="DutyEndDate" type="date" placeholder="MM/DD/YYYY"
+                                   ng-model="duty.DutyEndDate" ng-disabled="editInfo"></th>
+                        <th><label>Note: </label>
+                            <input id="5" name="DutyNote" type="text" ng-model="duty.DutyNote" ng-disabled="editInfo"
+                                   style="width:500px"></th>
+                        <th><label> </label>
+                            <button class="btn btn-success" ng-click=CreateDuty()" ng-disabled="editInfo">Create
+                            </button>
+                        </th>
+                    </tr>
+                </table>
+            </form>
+            <br>
+            <h6 style="text-align: left;">Current Duties</h6>
+            <!--displays all duty instances-->
+            <div class="well container infoContainer text-center" style="border: 1px solid white">
+                <table>
+                    <tr>
+                        <th>Duties:</th>
+                        <th>Failed:</th>
+                        <th>Start Date:</th>
+                        <th>End Date:</th>
+                        <th>Note:</th>
+                    </tr>
+                    <tr ng-repeat="duty in duties">
+                        <td>{{duty.JobPosition}}</td>
+                        <td><input name="DutyDidFail" type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="duty.DutyDidFail" ng-disabled="editInfo"></td>
+                        <td><input name="DutyStartDate" type="date" placeholder="MM/DD/YYYY"
+                                   ng-model="duty.DutyStartDate" ng-disabled="editInfo"></td>
+                        <td><input name="DutyEndDate" type="date" placeholder="MM/DD/YYYY" ng-model="duty.DutyEndDate"
+                                   ng-disabled="editInfo"></td>
+                        <td><input name="DutyNote" type="text" ng-model="duty.DutyNote" ng-disabled="editInfo"
+                                   style="width:500px"></td>
+                        <td>
+                            <button id=deleteButton" class="btn btn-danger" ng-disabled="editInfo"
+                                    ng-click="deleteDuty($index)">delete
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="updateButtons">
+                <button class="btn btn-outline-primary" ng-click="updateDuty()" ng-disabled="editInfo">Update</button>
+                <button class="btn btn-outline-danger" ng-click="cancelUpdate()" ng-disabled="editInfo">Cancel Update
+                </button>
+            </div>
+        </div>
+
+
+        <br>
+
+        <table>
+            <tr>
+                <th><h3>Inspections</h3></th>
+            </tr>
+        </table>
+        <!--Inspections-->
+        Edit:
+        <label class="switch">
+            <input type="checkbox" ng-model="editMode" ng-init="editMode=false">
+            <span class="slider round"></span>
+        </label>
+        <span ng-if="editMode" class="well container infoContainer text-center" style="border: 1px solid white">
+        	<form>
+        		<table>
+            		<tr>
+		        		<th><label>Date: </label>
+		    	        	<input name="InspectionDate" type="date" placeholder="MM/DD/YYYY"
+                                   ng-model="inspect.InspectionDate"></th>
+			        	<th><label>Inspection Type: </label>
+                            <!--dropdown options from tlkpJBInspectionType-->
+			            	<select ng-model="inspect.JBInspectionType" name="JBInspectionType"
+                                    ng-options="option.InspectionType for option in InspectionTypeOptions track by option.id"
+                                    ng-change="changeInspectionType(inspect.JBInspectionType)"></select></th>
+			    	    <th><label>Note:  </label>
+				            <input name="InspectionNote" type="text" ng-model="inspect.InspectionNote"></th>
+				        <th><label>Passed: </label>
+			    	        <input name="DidPassInspection" type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="inspect.DidPassInspection"></th>
+			        	<th><label>Merit Adj: </label>
+		            		<input name="InspMeritAdj" type="text" ng-model="inspect.InspMeritAdj"></th>
+		    		</tr>
+				</table>
+				<button type="reset" value="Cancel">Reset</button>
+				<button ng-click="updateInspect()">Save</button>
+				<br>
+				<br>
+				<br>
+		    </form>
+			<div class="well container infoContainer text-center" style="border: 1px solid white">
+			<table>
+				<tr>
+					<th>Date</th>
+					<th>Inspection Type</th>
+					<th>Passed</th>
+					<th>Note</th>
+					<th>Merit Adj</th>
+				</tr>
+				<tr ng-repeat="inspect in inspections">
+					<td><input name=InspectionDate type="date" ng-model="inspect.InspectionDate"></td>
+					<td>{{inspect.JBInspectionType}}</td>
+					<td><input name="InspectionNote" type="text" ng-model="inspect.InspectionNote"></td>
+					<td><input name="DidPassInspection" type="checkbox" ng-true-value="1" ng-false-value="0"
+                               ng-model="inspect.DidPassInspection"></td>
+					<td>{{inspect.InspMeritAdj}}</td>
+				</tr>
+			</table>
+
+			<button ng-click="updateInspect()">Update</button>
+			<button ng-click="cancelUpdate()">Cancel</button>
+		</div>
+    	</span>
+        <span ng-if="!editMode" class="well container infoContainer text-center" style="border: 1px solid white">
+        <form>
+            <table>
+                <tr>
+		            <th><label>Date: </label>
+		                <input name="InspectionDate" type="date" placeholder="MM/DD/YYYY"
+                               ng-model="inspect.InspectionDate" disabled></th>
+		            <th><label>Inspection Type: </label>
+                        <!--dropdown options from tlkpJBInspectionType-->
+		                <select ng-model="inspect.JBInspectionType" name="JBInspectionType"
+                                ng-options="option.InspectionType for option in InspectionTypeOptions track by option.id"
+                                ng-change="changeInspectionType(inspect.JBInspectionType)" disabled></select></th>
+	    	        <th><label>Note:  </label>
+		                <input name="InspectionNote" type="text" ng-model="inspect.InspectionNote" disabled></th>
+		            <th><label>Passed: </label>
+		                <input name="DidPassInspection" type="checkbox" ng-true-value="1" ng-false-value="0"
+                               ng-model="inspect.DidPassInspection" disabled></th>
+		            <th><label>Merit Adj: </label>
+		                <input name="InspMeritAdj" type="text" ng-model="inspect.InspMeritAdj" disabled></th>
+		        </tr>
+		    </table>
+	    </form>
+		<br>
+			<br>
+			<br>
+		<div class="well container infoContainer text-center" style="border: 1px solid white">
+			<table>
+				<tr>
+					<th>Date</th>
+					<th>Inspection Type</th>
+					<th>Passed</th>
+					<th>Note</th>
+					<th>Merit Adj</th>
+				</tr>
+				<tr ng-repeat="inspect in inspections">
+					<td><input name=InspectionDate type="date" placeholder="MM/DD/YYYY"
+                               ng-model="inspect.InspectionDate" disabled></td>
+					<td>{{inspect.JBInspectionType}}</td>
+					<td><input name="InspectionNote" type="text" ng-model="inspect.InspectionNote" disabled></td>
+					<td><input name="DidPassInspection" type="checkbox" ng-true-value="1" ng-false-value="0"
+                               ng-model="inspect.DidPassInspection" disabled></td>
+					<td>{{inspect.InspMeritAdj}}</td>
+				</tr>
+			</table>
+
+			<button ng-click="updateInspect()">Update</button>
+			<button ng-click="cancelUpdate()">Cancel</button>
+		</div>
+    </span>
+        <div class="well container infoContainer text-center" style="border: 1px solid white">
+            <button ng-click="editMode= false; CreateInspect()">Create</button>
+        </div>
+        <hr/>
+
+        <br>
+        <!--dispalys all inspection instances-->
+
+        <br>
+
+        <table>
+            <tr>
+                <th><h3>Positions</h3></th>
+            </tr>
+        </table>
+        <!--Positions-->
+        <div class="well container infoContainer text-center" style="border: 1px solid white">
+            <!--creates new Position entry-->
+            <form>
+                <table>
+                    <tr>
+                        <th><label>Position: </label>
+                            <!--dropdown options from tlkpJBPosition-->
+                            <select ng-model="posit.JBPosition" name="JBPosition"
+                                    ng-options="option.JBPosition for option in JBPositionOptions track by option.id"
+                                    ng-change="changeJBPosition(posit.JBPosition)"></select></th>
+                        <th><label>Start Date: </label>
+                            <input name="DutyStartDate" type="text" ng-disabled="readOnly"
+                                   ng-model="posit.PosStartDate"></th>
+                        <th><label>End Date: </label>
+                            <input name="DutyEndDate" type="text" ng-disabled="readOnly" ng-model="posit.PosEndDate">
+                        </th>
+                        <th><label>Note: </label>
+                            <input name="DutyNote" type="text" ng-disabled="readOnly" ng-model="posit.PosNote"></th>
+                        <th><label>Failed: </label>
+                            <input name="DutyDidFail: " type="checkbox" ng-disabled="readOnly" ng-true-value="1"
+                                   ng-false-value="0" ng-model="posit.PosDidFail"></th>
+                    </tr>
+                </table>
+            </form>
+            <button ng-click="CreatePos()">Create</button>
+            <button ng-click="editButton()">Edit</button>
+            <!--dispalys all position instances-->
+            <div class="well container infoContainer text-center" style="border: 1px solid white">
+                <table>
+                    <tr>
+                        <th>Position</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Note</th>
+                        <th>Failed</th>
+                    </tr>
+                    <tr ng-repeat="posit in pos">
+                        <td>{{posit.JBPosition}}</td>
+                        <td><input name=PosStartDate type="text" ng-disabled="readOnly" ng-model="posit.PosStartDate">
+                        </td>
+                        <td><input name=PosEndDate type="text" ng-disabled="readOnly" ng-model="posit.PosEndDate"></td>
+                        <td><input name="PosNote" type="text" ng-disabled="readOnly" ng-model="posit.PosNote"></td>
+                        <td><input name="PosDidFail" type="checkbox" ng-disabled="readOnly" ng-true-value="1"
+                                   ng-false-value="0" ng-model="posit.PosDidFail"></td>
+                    </tr>
+                </table>
+            </div>
+            <div ng-if="!readOnly">
+                <button ng-click="updatePos()">Update</button>
+                <button ng-click="cancelUpdate()">Cancel</button>
+            </div>
+        </div>
+
+        <br>
+
+        <table>
+            <tr>
+                <th><h3>Ranks</h3></th>
+            </tr>
+        </table>
+        <!--Ranks-->
+        <div class="well container infoContainer text-center" style="border: 1px solid white">
+            <!--creates new rank entry-->
+            <form>
+                <table>
+                    <tr>
+                        <th><label>Rank: </label>
+                            <!--dropdown options from tlkpJBRank-->
+                            <select ng-disabled="Uneditable" ng-model="rEvent.JBRank" name="JBRank"
+                                    ng-options="option.RankObtained for option in RankOptions track by option.id"
+                                    ng-change="changeRank(rEvent.JBRank)"></select></th>
+                        <th><label>Date Obtained: </label>
+                            <input name="RankObtainedDate" type="text" ng-disabled="Uneditable"
+                                   ng-model="rEvent.RankObtainedDate"></th>
+                        <th><label>Note: </label>
+                            <input name="RankPromotionNote" type="text" ng-disabled="Uneditable"
+                                   ng-model="rEvent.RankPromotionNote"></th>
+                        <th><label>Failed: </label>
+                            <input name="RankDidFail: " type="checkbox" ng-disabled="Uneditable" ng-true-value="1"
+                                   ng-false-value="0" ng-model="rEvent.RankDidFail"></th>
+                    </tr>
+                </table>
+            </form>
+
+            <button ng-click="CreateRank()">Create</button>
+            <button ng-click="edit()">Edit</button>            <!-- edit the button-->
+
+
+            <!--dispalys all rank instances-->
+            <div class="well container infoContainer text-center" style="border: 1px solid white">
+                <table>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Date Obtained</th>
+                        <th>Note</th>
+                        <th>Failed</th>
+                    </tr>
+                    <tr ng-repeat="rEvent in rank">
+                        <td>{{rEvent.JBRank}}</td>
+                        <td><input name="RankObtainedDate" type="text" ng-disabled="Uneditable"
+                                   ng-model="rEvent.RankObtainedDate"></td>
+                        <td><input name="RankPromotionNote" type="text" ng-disabled="Uneditable"
+                                   ng-model="rEvent.RankPromotionNote"></td>
+                        <td><input name="RankDidFail" type="checkbox" ng-disabled="Uneditable" ng-true-value="1"
+                                   ng-false-value="0" ng-model="rEvent.RankDidFail"></td>
+                    </tr>
+                </table>
+            </div>
+            <div ng-if="!Uneditable">
+                <button ng-click="updateRank()">Update</button>
+                <button ng-click="cancelUpdate()">Cancel</button>
+            </div>
+        </div>
+        <br>
+    </div>
+</div>

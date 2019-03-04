@@ -1,0 +1,55 @@
+<!--healthHyg.html-->
+<!--view page for Health/Hygiene tab-->
+<!--fields that can be updated are autoloaded with current values-->
+
+<div class="well container text-center infoContainer" id="healthContainer">
+	<h3>Health Hygiene Tasks</h3>
+	<!--load app.controller from healthHygCtrl.js-->
+	<div ng-controller="healthController">
+		<!--name form for two way binding-->
+		<form name ="HealthForm">
+			<table id="HealthEvents">
+				<tr>
+					<th>Task</th>
+					<th>Description</th>
+					<th>Last Activity</th>
+					<th>Pass/Fail</th>
+					<th>Note</th>
+				</tr>
+				<!--iterate through each instance in scope from controller??-->
+				<div ng-hide="editable">
+					<tr ng-repeat="task in tasks">
+						<td>{{task.TaskNumber}}</td>
+						<td style="text-align: left">{{task.Task}}</td>
+
+						<td ng-hide="editable">{{task.dateNoTime}}</td>
+						<td ng-hide="editable">{{task.PF}}</td>
+						<td ng-hide="editable">{{task.EventNote}}</td>
+
+						<button class="minervaButton bouton-image monBouton" ng-click="edit()"ng-hide="editable">Edit</button>
+						<button button class="minervaButton" ng-click="update(tasks)"ng-show="editable">Save</button>
+						<button button class="minervaButton" ng-click="cancelUpdate()"ng-show="editable">Cancel</button>
+
+				</div>
+
+
+				<td><input name="EventDate" type="date" ng-model="task.EventDate"ng-show="editable" ></td><!--added date ng-model="task.EventNote"-->
+				<td><input name="DidPass" type="checkbox" ng-model="task.DidPass" ng-true-value="'1'" ng-false-value="'0'" ng-show="editable"></td><!--Was made a string. Needed to test '1' not 1-->
+				<!--Made a resizeable text area-->
+				<td><textarea style="resize: both; overflow: auto;" name="EventNote" type="text" ng-model="task.EventNote" data-ng-bind="note"ng-show="editable"></textarea></td>
+
+				</tr>
+
+
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td style="color: #1c7430" ng-show="show==true"><b>ALL PASSED</b></td>
+				</tr>
+
+			</table>
+		</form>
+		{{msg}}
+	</div>
+</div>

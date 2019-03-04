@@ -1,0 +1,150 @@
+
+.ziptable{
+    max-height:300px;
+    height: 300px;
+    overflow-y: scroll;
+}
+
+
+/* Fields in the tlkpSite table will replace these values
+ PrimaryColor, InputTextColor, LabelTextColor*/
+
+/*Changes background color to mainContainer*/
+.primaryColor{
+    background-color: white;
+}
+/*Changes background color and text color to all input and textarea fields*/
+.inputTextColor{
+    background-color: #000 !important;
+    color: #fff !important;
+}
+
+/*Changes all text color on every page*/
+.labelTextColor{
+    color: white;
+}
+.inputBackgroundColor
+{
+    background-color: #000;
+}
+
+.headshot{
+    text-align: center;
+    display: block;
+    margin: auto;
+}
+
+/* Displays the crest on the sign in page. */
+.logoURL:after{ /*this for firefox browser*/
+    content:url('../images/logos/logo.jpg');
+    height: 300px;
+    width: 300px;
+}
+.logoURL {
+    content:url('../images/logos/logo.jpg');
+    height: 300px;
+    width: 300px;
+}
+
+
+/*
+ * Boostrap checkboxes do not center in table cells since their sizes do not
+ * originate in the center of the checkbox. This class fixes these issues.
+ */
+.td-center-checkbox {
+    margin-left: -0.3em;
+    margin-top: 0.3em;
+    vertical-align: middle;
+}
+
+#cadet-select-btn {
+    position: fixed;
+    bottom: 1em;
+    right: 1em;
+}
+
+/*added to control sidebar -- will collapse when button is pressed */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 50px; /* Does not overlap top bar */
+    left: 0;
+    background-color: #efefef; /* Silver*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav p {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    /*color: #818181;*/
+    display: block;
+    transition: 0.3s;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .close {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+#main {
+    transition: margin-left .5s;
+    padding: 20px;
+}
+
+/* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+@media screen and (max-height: 450px) {
+    .sidenav {
+        padding-top: 15px;
+    }
+
+    .sidenav a {
+        font-size: 18px;
+    }
+}
+
+/* standard buttons for save, edit and cancel*/
+.minervaButton{
+    background-color:#29508e;
+    color: white;
+    font-size: 16px;
+    padding: 7px 28px;
+    border-radius:8px;
+   /* background-image: url('../images/button_icons/SAVE.jpg');
+    width:15px;
+    height:15px;
+    background-repeat: no-repeat;*/
+}
+.minervaButton:hover {
+    background-color:#aaa972; /* Dark Blue */
+    cursor:pointer;
+}
+/*TODO add icons for save, cancel edit
+  reference-- https://codepen.io/jfgilbert/pen/LppbLz
+*/
+
+.bouton-image:before {
+    content: "";
+    width: 16px;
+    height: 16px;
+    display: inline-block;
+    margin-right: 5px;
+    vertical-align: text-top;
+    background-color: transparent;
+    background-position : center center;
+    background-repeat:no-repeat;
+}
+
+.monBouton:before{
+    background-image : url('../images/button_icons/SAVE.jpg');
+}

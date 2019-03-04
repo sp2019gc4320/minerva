@@ -1,0 +1,27 @@
+<!-- Nav tabs -->
+<ul class="nav nav-tabs">
+    <li class="nav-item">
+        <a class="nav-link active" data-toggle="tab" href="#menuSearch">Select Existing Person</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link " data-toggle="tab" href="#menuAdd">Add New Person </a>
+    </li>
+
+</ul>
+
+<!-- Tab panes -->
+<div class="tab-content">
+    <div class="tab-pane container active" id="menuSearch">
+        <p></p>
+        <p></p>
+        Select a mentor in the database.
+        <ng-include  src="'./searchMentorView.html'"></ng-include>
+    </div>
+    <div class="tab-pane container fade" id="menuAdd">
+        <em>Demo:  Initially this screen will be blank and in edit mode.  Only after you save a new person
+            will the screen change to uneditable and you will press the Associate With Cadet Button</em>
+        <ng-include  src="'./addMentorView.html'"></ng-include>
+    </div>
+
+
+</div>

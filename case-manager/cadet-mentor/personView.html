@@ -1,0 +1,379 @@
+<div class="container  infoContainer " id="peopleViewContainer" ng-controller="peopleViewCtrl">
+    <!-- 	<form> -->
+    <H1>PERSONVIEW.HTML  </H1>
+    <fieldset class="form-group">
+        <div class="card bg-transparent">
+            <div class="card-title"> Name and Vital Statistics</div>
+            <div class="form-row">
+                <div class="col-xs-1"></div>
+                <div class="col-xs-10">
+                    <div ng-if="!isEdit(editName)">
+                        <table class="table">
+                            <tbody>
+                            <tr>
+                                <td>
+                                    {{person.PSalutation}} {{person.PersonFN}} {{person.PersonMN}} {{person.PersonLN}}
+                                    {{person.PersonGenQual}} ( <span ng-if="person.PGender=='F'">Female</span>
+                                    <span ng-if="person.PGender=='M'">Male</span>)<br/>DOB: {{person.PDOB}}
+                                    <span ng-if="person.PDOB!=''">({{calculate.age}})</span>
+                                </td>
+                                <td>
+                                    <div ng-if="!isEdit(editDemographics)">
+                                        <div>
+                                            County: {{person.PCounty}} Urbanization: {{person.PUrbanization}} <br/>
+                                            Race: <span ng-repeat="racialGroup in racesSelected track by $index ">
+                                {{racialGroup.Race}} -</span>
+                                            <span ng-if="person.PEthinicityIsHispanic==1"><em>(Ethinicity is Hispanic)</em></span>
+                                            <span ng-if="person.PEthinicityIsHispanic!=1"><em>(Ethinicity is NOT Hispanic)</em></span>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div ng-if="isEdit(editName)">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th>Salutation</th>
+                                <th style="width: 25%">First</th>
+                                <th style="width: 25%">Middle</th>
+                                <th style="width: 25%">Last</th>
+                                <th style="width: 8%">Gen Qual</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td>
+                                    <select ng-model="person.PSalutation">
+                                        <option></option>
+                                        <option value="Mr.">Mr.</option>
+                                        <option value="Mrs.">Mrs.</option>
+                                        <option value="Ms.">Ms.</option>
+                                        <option value="Rev.">Rev.</option>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text"  ng-model="person.PersonFN">
+                                </td>
+                                <td>
+                                    <input type="text"  ng-model="person.PersonMN">
+                                </td>
+                                <td>
+                                    <input type="text"  ng-model="person.PersonLN">
+                                </td>
+                                <td style=" padding-left:10px;">
+                                    <select ng-model="person.PersonGenQual">
+                                        <option></option>
+                                        <option value="Jr">Jr.</option>
+                                        <option value="II.">II.</option>
+                                        <option value="III.">III.</option>
+                                        <option value="IV.">IV.</option>
+                                        <option value="Sr.">Sr.</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div> <!--Name etc -->
+                <div class="form-row m-1" ng-if="isEdit(editName)">
+                    <table ng-if="isEdit(editName)">
+                        <thead>
+                        <th>SSN</th>
+                        <th>Birth Date</th>
+                        <th style="width: 5%">AGE</th>
+                        <th>Gender</th>
+                        </thead>
+                        <tbody>
+
+                        <td style="padding-left:10px; padding-right:20px;">
+                            <input type="text"  ng-model="person.PSSN">
+                        </td>
+
+                        <td style=" padding-right:10px;">
+                            <input type="text" ng-model="person.PDOB">
+                        </td>
+                        <td>
+                            <input type="text" " ng-model="calculate.age">
+                        </td>
+                        <td style=" padding-right:10px;">
+                            <select ng-model="person.PGender">
+                                <option value=""></option>
+                                <option value="M">M</option>
+                                <option value="F">F</option>
+                                >
+                            </select>
+                        </td>
+                        </tbody>
+                    </table>
+                </div> <!-- SSN, PDOB, -->
+            </div>
+        </div> <!--card-->
+
+        <div class="card bg-transparent">
+            <div class="card-title ">Addresses</div>
+            <div class="form-row">
+                <div class="col-xs-1"></div>
+                <div class="col-md-11">
+                    <table ng-if="!isEdit(editAddress)" class="table ">
+                        <tbody>
+                        <tr>
+                            <td ng-repeat="address in addresses track by $index">
+                                <div>{{address.AddressType}}: <br/>
+                                    {{address.AddressLine1}}<br/>
+                                    <span ng-if="address.AddressLine2!=''"> {{address.AddressLine2}}<br/></span>
+                                    {{address.City}}, {{address.State}} {{address.Zip}}
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="isEdit(editAddress)">
+                        <table>
+                            <thead>
+                            <th style="width: 9%">Address Type</th>
+                            <th style="width: 26%">Address Line1</th>
+                            <th style="width: 26%">Address Line2</th>
+                            <th style="width: 19%">City</th>
+                            <th style="width: 5%">ST</th>
+                            <th style="width: 8%">Zip</th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="address in addresses track by $index"
+                                ng-init="addressParentIndex=$index">
+                                <td style=" padding-right:10px;"><select ng-model="address.AddressType">
+                                    <option></option>
+                                    <option value="Physical">Physical</option>
+                                    <option value="Mailing">Mailing</option>
+                                    <option value="Parents">Parents</option>
+                                </select></td>
+                                <td><input type="text" class=" "
+                                           ng-model="address.AddressLine1">
+                                </td>
+                                <td><input type="text" class=" "
+                                           ng-model="address.AddressLine2">
+                                </td>
+                                <td><input type="text" class=" " ng-model="address.City">
+                                </td>
+                                <td><input type="text" class=" " ng-model="address.State">
+                                </td>
+                                <td><input type="text" class=" " ng-model="address.Zip">
+                                </td>
+                                <td style=" padding:10px;">
+								<span>
+
+									<span ng-if="address.AddressType != 'Physical'">
+									<button class=" btn-primary" ng-click="copyPhysicalAddress(addressParentIndex);">Copy Physical Address</button>
+									</span>
+									<button class=" btn-danger"
+                                            ng-click="deleteAddress(addressParentIndex);">Delete</button>
+								</span>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-row justify-content-center m-3">
+                            <button class="col-xs-12 btn-success " ng-click="addAddress();">Add Address</button>
+                        </div>
+                    </div>
+                </div><!-- col-->
+            </div> <!--row -->
+        </div> <!-- Card -->
+
+        <div class="card bg-transparent ">
+            <div class="card-title">Contact Information</div>
+            <div class="form-row">
+                <div class="col-xs-1"></div>
+                <div class="col-md-11">
+                    <table ng-if="!isEdit(editContacts)" class="table">
+                        <tbody>
+                        <tr>
+                            <td ng-repeat="contact in contacts track by $index">
+                                <div>{{contact.ContactType}}: <span
+                                        ng-if="contact.IsPreferred==1"><em>(preferred)</em></span><br/>
+                                    <span ng-if="isTelephone(contact.ContactType)"> {{formatPhoneNumber(contact.Value)}}</span>
+                                    <span ng-if="!isTelephone(contact.ContactType)">{{contact.Value}}</span>
+                                    <span ng-if="contact.Ext != ''">(ext: {{contact.Ext}})</span><br/>
+                                    <span ng-if="contact.Description!=''">Note: {{contact.Description}}</span>
+                                </div>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div ng-if="isEdit(editContacts)">
+                        <table>
+                            <thead>
+                            <th style="width: 9%">Contact Type</th>
+                            <th style="width: 35%">Phone/Email/UserName</th>
+                            <th style="width: 9%">Ext</th>
+                            <th style="width: 35%">Description</th>
+                            <th style="width: 5%">Is Preferred</th>
+                            </thead>
+                            <tbody>
+                            <tr ng-repeat="contact in contacts track by $index"
+                                ng-switch on="getContactType(contact.ContactType)"
+                                ng-init="contactParentIndex=$index">
+                                <td>
+                                    <select ng-model="contact.ContactType">
+                                        <option></option>
+                                        <option value="Phone-">Phone-Other</option>
+                                        <option value="Email">Email</option>
+                                        <option value="Phone-Home">Phone-Home</option>
+                                        <option value="Phone-Cell">Phone-Cell</option>
+                                        <option value="Phone-Work">Phone-Work</option>
+                                        <option value="Email-Home">Email-Home</option>
+                                        <option value="Email-Work">Email-Work</option>
+                                        <option value="Social Media">Social Media</option>
+                                    </select>
+                                </td>
+                                <td ng-switch-when="PHONE"><input type="tel" class=" "
+                                                                  ng-model="contact.Value"></td>
+                                <td ng-switch-when="PHONE"><input type="text" class=" "
+                                                                  ng-model="contact.Ext"></td>
+                                <td ng-switch-when="EMAIL"><input type="email" class=" "
+                                                                  ng-model="contact.Value"></td>
+                                <td ng-switch-when="EMAIL"></td>
+                                <td ng-switch-default><input type="text" class=" "
+                                                             ng-model="contact.Value"></td>
+                                <td ng-switch-default></td>
+
+                                <td><input type="text" class=" "
+                                           ng-model="contact.Description"/>
+                                </td>
+                                <td><input type="checkbox" class=" " checked
+                                           name="IsPreferred"
+                                           ng-model="contact.IsPreferred" ng-true-value="1" ng-false-value="0"/>
+                                </td>
+                                <td>
+                                    <button class=" btn-danger" ng-click="deleteContact(contactParentIndex);">
+                                        Delete
+                                    </button>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-row justify-content-center">
+                            <button class="col-xs-12 btn-success" ng-click="addContact();">Add Contact</button>
+                        </div>
+                    </div>
+                </div><!--col-->
+            </div> <!--row-->
+        </div> <!-- card -->
+
+        <div class="card bg-transparent" ng-if="(!isEdit(editDemographics) && isEdit(editName))|| (isEdit(editDemographics))">
+            <div class="card-title">Demograpahics</div>
+            <div class="form-row">
+                <div class="col-xs-1"></div>
+                <div class="form-group col-md-11">
+                    <div ng-if="!isEdit(editDemographics) && isEdit(editName)">
+                        <div>
+                            County: {{person.PCounty}} Urbanization: {{person.PUrbanization}} <br/>
+                            Race: <span ng-repeat="racialGroup in racesSelected track by $index ">
+                                {{racialGroup.Race}} - </span>
+
+                            <span ng-if="person.PEthinicityIsHispanic==1"><em>(Ethinicity is Hispanic)</em></span>
+                            <span ng-if="person.PEthinicityIsHispanic!=1"><em>(Ethinicity is NOT Hispanic)</em></span>
+                        </div>
+                        <div class="form-row ">
+                            <div class="form-group col-md-12">
+                                <label>Person Notes or Additional Information (not tied to a given
+                                    class)</label>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-10">
+									<textarea style="width:100%; height:150px;" disabled class="">{{person.PersonNotes}}
+									</textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="isEdit(editDemographics)">
+                        <table>
+                            <thead>
+                            <tr>
+                                <th style="width: 9%">County</th>
+                                <th style="width: 20%">Urbanzation</th>
+                                <th style="width: 9%">Is Hispanic?</th>
+                                <th style="width: 25%">Race Identity</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <td style="vertical-align:top">
+                                    <select ng-model="person.PCounty">
+                                        <option></option>
+                                        <option value="Baldwin">Baldwin</option>
+                                        <option value="Bibb">Bibb</option>
+                                        <option value="Fulton">Fulton</option>
+                                        <option value="Peach">Peach</option>
+                                    </select>
+                                </td>
+                                <td style="vertical-align:top">
+                                    <select ng-model="person.PUrbanization">
+                                        <option></option>
+                                        <option value="Rural">Rural</option>
+                                        <option value="City">City</option>
+                                        <option value="Metro">Metro</option>
+                                    </select>
+                                </td>
+                                <td style="vertical-align:top">
+                                    <input type="checkbox" class="form-control" name="PEthinicityIsHispanic"
+                                           ng-model="person.PEthnicityIsHispanic"
+                                           ng-true-value="1" ng-false-value="0"/>
+                                </td>
+                                <td>
+                                    <table>
+                                        <tbody>
+                                        <tr ng-repeat="racialGroup in races track by $index "
+                                            ng-init="raceParentIndex=$index">
+                                            <td>
+                                                <select ng-model="racesSelected[raceParentIndex]"
+                                                        ng-options="option.Race for option in raceOptions track by option.RaceID"
+                                                        ng-value=option.RaceID
+                                                        ng-change="changeRace(raceParentIndex)">
+                                                </select>
+                                            </td>
+                                            <td>
+												<span ng-if="raceParentIndex>0">
+													<button class=" btn-danger" ng-click="deleteRace(raceParentIndex);">Delete</button>
+												</span>
+                                            </td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
+                                    <div>
+                                        <button class="col-xs-12 btn-success" ng-click="addRace();">Add Race
+                                            Identification
+                                        </button>
+                                    </div>
+                                </td>
+                            </tr>
+                            </tbody>
+                        </table>
+                        <div class="form-row ">
+                            <div class="form-group col-md-12">
+                                <label>Person Notes or Additional Information (not tied to a given
+                                    class)</label>
+                            </div>
+                        </div>
+                        <div class="form-row justify-content-center">
+                            <div class="form-group col-md-10">
+									<textarea style="width:100%; height:150px;" class=""
+                                              name="PersonNotes" ng-model="person.PersonNotes">
+									</textarea>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </fieldset>
+    <!-- </form> -->
+</div>
+
+
+

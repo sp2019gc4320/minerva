@@ -1,0 +1,234 @@
+
+<style>
+    #siteForm label
+    {
+    .form-inline;
+    }
+
+
+</style>
+<div>
+    <ng-include src="'./views/pagination.html'"></ng-include>
+
+    <h2>Site Specifics</h2>
+
+    <form name="siteForm" class="form-inline" id="siteForm" novalidate>
+
+        <div class="well">
+            <strong>Site Name and Code</strong> <br>
+            <div class="form-group"><label>SiteID </label>
+                <input name="SiteID" class ="form-control m-2" ng-model="site.SiteID.value"
+                       maxlength={{site.SiteID.length}} size={{site.SiteID.length}} ng-disabled="true" />
+
+                <label >Name</label>
+                <input name="SiteName"  class="form-control m-2" ng-model="site.SiteName.value"
+                       maxlength={{site.SiteName.length}} size= {{site.SiteName.length}} required />
+                <span class="error" ng-show="siteForm.SiteName.$error.required">
+                 Please enter site name
+                </span>
+
+                <label  class=" mb-2 mr-sm-2">Code</label>
+                <input name="SiteCode" class="form-control m-2"  ng-model="site.SiteCode.value"
+                       maxlength={{site.SiteCode.length}} size={{site.SiteCode.length}} required/>
+                <span class="error" ng-show="siteForm.SiteCode.$error.required">
+                 Please enter a code
+                 </span>
+            </div>
+            <hr>
+            <h3>Contact Information</h3>
+            <div class="form-group">
+                <label> Address
+                    <input name="SiteAddress" class="form-control m-2" ng-model="site.SiteAddress.value"
+                           maxlength={{site.SiteAddress.length}} size={{site.SiteAddress.length}}>
+                </label>
+
+                <label>City
+                    <input name="SiteCity" class="form-control  m-2" ng-model="site.SiteCity.value"
+                           maxlength={{site.SiteCity.length}} size={{site.SiteCity.length}}
+                           ng-disabled="true">
+                </label>
+
+                <label>State
+                    <input name="SiteState" class="form-control m-2" ng-model="site.SiteState.value"
+                           maxlength={{site.SiteState.length}} size={{site.SiteState.length}}
+                           ng-disabled="true">
+                </label>
+
+                <label>Zip
+                    <input name="SiteZip" class="form-control m-2" ng-model="site.SiteZip.value"
+                           maxlength={{site.SiteZip.length}} size={{site.SiteZip.length}}>
+                </label>
+            </div>
+            <!--
+                        <table class="ziptable" >
+                            <tr><th>Zip</th><th>City</th><th>State</th></tr>
+                            <tr ng-repeat="item in zipcodes"  ng-click="setZip(item)" id="tr-{{$index}}">
+                                <td>{{item.ZIPCode}}</td>
+                                <td>{{item.CityName}}</td>
+                                <td>{{item.StateAbbr}}</td>
+                            </tr>
+                        </table>
+
+                    -->
+            <div class="form-group">
+                <label>Phone
+                    <input type="tel" name="SitePhone" class="form-control m-2" ng-model="site.SitePhone.value"
+                           maxlength={{site.SitePhone.length}} size={{site.SitePhone.length+2}}>
+                </label>
+
+                <label>Fax
+                    <input type="tel" name="SiteFax" class="form-control m-2" ng-model="site.SiteFax.value"
+                           maxlength={{site.SiteFax.length}} size={{site.SiteFax.length+2}}>
+                </label>
+            </div>
+
+            <hr>
+            <h3>Site Specifics</h3>
+            <div class="form-group">
+                <label>School Type
+                    <!--<input name="SchoolType" class="form-control" ng-model="site.SchoolType"> -->
+                    <select  ng-model="schoolTypeSelected" name="SchoolType"
+                             ng-options="option.SchoolType for option in schoolTypeOptions track by option.id"
+                             ng-change="changeSchoolType(schoolTypeSelected)">
+                    </select>
+                </label>
+
+                <label>Starting NGB
+                    <input name="StartingNGB" class="form-control m-2" ng-model="site.StartingNGB.value"
+                           maxlength={{site.StartingNGB.length}} size={{site.StartingNGB.length}}>
+                </label>
+
+                <label>Background Check Source
+                    <input name="BackgroundChkSrc" class="form-control m-2" ng-model="site.BackgroundChkSrc.value"
+                           maxlength={{site.BackgroundChkSrc.length}} size={{site.BackgroundChkSrc.length}}>
+                </label>
+            </div>
+            <div class="form-group">
+                <label>Default TABE Version</label>
+                <!--<input name="DefaultTABEVers" class="form-control" ng-model="site.DefaultTABEVers">-->
+                <select  ng-model="defaultTABEVersSelected" name="DefaultTABEVers"
+                         ng-options="option.TABEVersion for option in defaultTABEVersOptions track by option.id"
+                         ng-change="changeDefaultTABEVers(changeDefaultTABEVersSelected)">
+                </select>
+
+
+                <label>Unions Count
+                    <input name="UnionsCount" class="form-control m-2" ng-model="site.UnionsCount.value"
+                           maxlength={{site.UnionsCount.length}} size={{site.UnionsCount.length}}>
+                </label>
+            </div>
+
+            Color Scheme
+            <div>
+                <label class="form-control m-2">PrimaryColor
+                    <input type="color"  name="PrimaryColor" value="{{site.PrimaryColor.value}}" ng-model="site.PrimaryColor.value"
+                           maxlength={{site.PrimaryColor.length}} size={{site.PrimaryColor.length}}
+
+                    />
+                </label>
+
+
+                <label class="form-control m-2" >SecondaryColor
+                    <input type="color" ng-model="site.SecondaryColor.value" name="SecondaryColor"
+                           value="{{site.SecondaryColor.value}}"  maxlength={{site.SecondaryColor.length}} size={{site.SecondaryColor.length}}
+                    />
+                </label>
+
+
+                <label class="form-control m-2">TertiaryColor
+                    <input type="color" ng-model="site.TertiaryColor.value" name="TertiaryColor"  value="{{site.TertiaryColor.value}}"
+                           maxlength={{site.TertiaryColor.length}} size={{site.TertiaryColor.length}}"/>
+                </label>
+
+
+                <label class="form-control m-2">InputTextColor
+                    <input type="color" ng-model="site.InputTextColor.value" name="InputTextColor"
+                           value="{{site.InputTextColor.value}}"
+                           maxlength={{site.InputTextColor.length}} size={{site.InputTextColor.length}}/>
+                </label>
+
+
+                <label class="form-control m-2">LabelTextColor
+                    <input type="color" ng-model="site.LabelTextColor.value" name="LabelTextColor"
+                           value="{{site.LabelTextColor.value}}"
+                           maxlength={{site.LabelTextColor.length}} size={{site.LabelTextColor.length}}" />
+                </label>
+
+                <label class="form-control m-2">InputBackgroundColor
+                    <input type="color" ng-model="site.InputBackgroundColor.value" name="InputBackgroundColor"
+                           value="{{site.InputBackgroundColor.value}}"
+                           maxlength={{site.InputBackgroundColor.length}} size={{site.InputBackgroundColor.length}}" />
+                </label>
+            </div>
+
+
+            <div class="form-group">
+                <label>Site Logo</label>
+                <input name="SiteLogo" class="form-control m-2" ng-model="site.SiteLogo.value" ng-disabled="true"
+                       maxlength={{site.SiteLogo.length}} size="15">
+
+                <br/> Select an image from the images/logos folder:<br/>
+                <select ng-model="logoSelected"
+                        ng-options="logo as logo.filename for logo in logoOptions track by logo.id"
+                        ng-change="changeLogo(logoSelected)">
+                    <option value="">Select Logo: </option>
+                </select>
+
+                <img src="{{site.SiteLogoImage}}"  style="width:128px;height:128px;"/>
+            </div>
+            <div class="well">
+                <div class="checkbox-incline">
+                    <input type="checkbox" name="USDASchoolLunch"  ng-model="site.USDASchoolLunch.value"
+                           ng-true-value="'1'" />
+                    USDA School Lunch
+                </div>
+                <div class="checkbox-incline">
+
+                    <input type="checkbox" name="StudentGovt"  ng-model="site.StudentGovt.value"
+                           ng-true-value="'1'"/>
+                    Student Government
+
+                </div>
+                <div class="checkbox-incline">
+
+                    <input type="checkbox" name="Sec501c3AltFunding"  ng-model="site.Sec501c3AltFunding.value"
+                           ng-true-value="'1'"/>
+                    Sec 501c3 Alt Funding
+
+                </div>
+                <div class="checkbox-incline">
+
+                    <input type="checkbox" name="Sec501c3Foundation" ng-model="site.Sec501c3Foundation.value"
+                           ng-true-value="'1'"/>
+                    Sec 501c3 Foundataion
+
+                </div>
+                <div class="checkbox-incline">
+                    <input type="checkbox" name="RequireSSN"  ng-model="site.RequireSSN.value"
+                           ng-true-value="'1'"  />
+                    Require SSN
+                </div>
+
+
+
+            </div>
+            <hr>
+            <!-- <div class="text-center"> -->
+            <div>
+                <button type="button"
+                        ng-click="startEdit()"
+                        class="btn btn-primary">Edit</button>
+                <button type="button"
+                        ng-click="saveChanges()"
+                        class="btn btn-success">Save</button>
+                <button
+                        type ="button"
+                        ng-click="cancelUpdate()"
+                        class="btn btn-warning">Cancel</button>
+
+            </div>
+        </div> <!--Well-->
+    </form>
+
+
+</div>

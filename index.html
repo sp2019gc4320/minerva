@@ -1,0 +1,174 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Minerva</title>
+
+    <!-- Used with Bootstrap 4 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=yes">
+
+    <!--Donwloaded files and stored in resource folder -->
+    <!--    jQuery first, then Popper.js, then Bootstrap JS -->
+
+    <!-- JQuery needed for  Bootstrap 4 and Angular -->
+    <script src="lib/jquery/dist/jquery.js"></script>
+
+    <!-- Popper needed for Bootstrap 4 - Bootstrap 4 requires UMD version of popper.js -->
+    <script src="lib/popper.js/dist/umd/popper.js"></script>
+
+    <!-- Bootstrap 4 -->
+    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
+    <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
+
+    <!-- Angular 1.7.5 -->
+    <!--
+     Routes in Angular 1.6+ need to add ! when redirecting to state: $window.location = '#!/homeOptions';
+    -->
+    <script type="text/javascript" src="lib/angular/angular.js"></script>
+    <script type="text/javascript" src="lib/angular-route/angular-route.min.js"></script>
+
+    <!-- iconic icons -->
+    <link href="lib/open-iconic/font/css/open-iconic-bootstrap.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/site.css">
+
+    <link rel="shortcut icon" href="#">  <!-- create icon for minerva project and link to it here -->
+    <!-- The angular controller javascript files are in the controllers directory -->
+    <!--<script src="controllers/minerva_Ctrl.js"></script> -->
+
+    <script>
+        loadSettings = function()
+        {
+            var colorScheme = {};
+
+            colorScheme.PrimaryColor = window.sessionStorage.getItem('minerva_PrimaryColor');
+            colorScheme.SecondaryColor = window.sessionStorage.getItem('minerva_SecondaryColor');
+            colorScheme.TiertiarColor = window.sessionStorage.getItem('minerva_TertiaryColor');
+            colorScheme.InputTextColor = window.sessionStorage.getItem('minerva_InputTextColor');
+            colorScheme.LabelTextColor = window.sessionStorage.getItem('minerva_LabelTextColor');
+            colorScheme.SiteLogo = window.sessionStorage.getItem('minerva_SiteLogo');
+
+            //if values in sessionSettings add them the head
+            if(colorScheme.PrimaryColor) {
+                $("<style/>", {text: ".primaryColor   { background-color: " + colorScheme.PrimaryColor + " !important;}"}).appendTo('head');
+                $("<style/>", {text: ".secondaryColor { background-color: " + colorScheme.SecondaryColor + ";}"}).appendTo('head');
+                $("<style/>", {text: ".tertiaryColor  { background-color:" + colorScheme.TertiaryColor + ";}"}).appendTo('head');
+                $("<style/>", {text: ".inputTextColor { color:" + colorScheme.InputTextColor + ";}"}).appendTo('head');
+                $("<style/>", {text: ".labelTextColor { color:" + colorScheme.LabelTextColor + ";}"}).appendTo('head');
+                $("<style/>", {text: ".logoURL        { content:url('./images/logos/" + colorScheme.SiteLogo + "')             ;}"}).appendTo('head');
+            }
+
+        };
+        Object.toparams = function ObjecttoParams(obj) {
+            var p = [];
+            for (var key in obj) {
+                p.push(key + '=' + encodeURIComponent(obj[key]));
+            }
+            return p.join('&');
+        };
+
+        $(document).ready(function(){ loadSettings(); });
+
+
+        function openNav() {
+            document.getElementById("mySidenav").style.width = "250px";
+        }
+
+        /* Set the width of the side navigation to 0 */
+        function closeNav() {
+            document.getElementById("mySidenav").style.width = "0";
+        }
+
+
+    </script>
+
+    <script src="app.module.js"> </script>
+    <script src="app.config.js"></script>
+
+    <script src="main/main.module.js"></script>
+
+ <!--   <script src="main/login/login.module.js"></script>
+    <script src="main/login/login.component.js"></script> -->
+
+
+
+    <script src="utility/utility.module.js"></script>
+    <script src="utility/attachments/attachments.module.js"></script>
+    <script src="utility/attachments/attachments.controller.js"></script>
+    <script src="utility/login/login.module.js"></script>
+    <script src="utility/login/login.component.js"></script>
+
+
+    <script src="notes/notes.module.js"></script>
+    <script src="notes/prap/prap.module.js"></script>
+    <script src="notes/prap/prap.controller.js"></script>
+    <script src="notes/postres/postres.module.js"></script>
+    <script src="notes/postres/postres.controller.js"></script>
+
+    <script src="core-components/core-components.module.js"></script>
+    <script src="core-components/citizenship/citizenship.module.js"></script>
+    <script src="core-components/citizenship/citizenship.controller.js"></script>
+    <script src="core-components/health/health.module.js"></script>
+    <script src="core-components/health/health.controller.js"></script>
+    <script src="core-components/job-skills/job-skills.module.js"></script>
+    <script src="core-components/job-skills/job-skills.controller.js"></script>
+    <script src="core-components/lead-follow/lead-follow.module.js"></script>
+    <script src="core-components/lead-follow/lead-follow.controller.js"></script>
+    <script src="core-components/s2c/s2c.module.js"></script>
+    <script src="core-components/s2c/s2c.controller.js"></script>
+    <!-- local ADMIN features -->
+    <script src="admin/admin.module.js"></script>
+    <script src="admin/admin.controller.js"></script>
+    <script src="admin/site-setup/site-setup.module.js"></script>
+    <script src="admin/site-setup/site-setup.component.js"></script>
+
+    <script src="site/site.module.js"></script>
+    <script src="site/lookups/lookups.module.js"></script>
+    <script src="site/lookups/lookups.component.js"></script>
+    <script src="site/lookups/lookup-details.controller.js"></script>
+    <!--
+    <script src="admin/site-dropdown/site-dropdown.module.js"></script>
+    <script src="admin/site-dropdown/site-dropdown.component.js"></script>
+    <script src="admin/site-dropdown/dropdown-helper.controller.js"></script>
+    -->
+
+
+    <script src="website/website.module.js"></script>
+    <script src="website/web-dropdown/web-dropdown.module.js"></script>
+    <script src="website/web-dropdown/web-dropdown.component.js"></script>
+    <script src="website/web-dropdown/web-dropdown-helper.controller.js"></script>
+
+
+   <!-- <script src="case-manager/case-manager.controller.js"></script>
+    -->
+
+    <script src="homescreen/homescreen.module.js"></script>
+    <script src="homescreen/case-manager/case-manager.module.js"></script>
+    <script src="homescreen/case-manager/case-manager.controller.js"></script>
+
+    <script src="case-manager/case-manager.module.js"></script> <!-- needed to add Mentor now -->
+    <script src="case-manager/cadet-mentor/cadet-mentor.module.js"></script>
+    <script src="case-manager/cadet-mentor/updateMentorCtrl.js"></script>
+
+    <script src="controllers/header_Ctrl.js"></script>
+    <script src="controllers/headerVisible_Ctrl.js"></script>
+
+
+
+</head>
+<body>
+
+<div ng-app="myApp">
+    <span ng-controller="ctrl_headerVisible">
+        <ng-include src="headerDisplay"></ng-include>
+    </span>
+    <hr>
+    <div class="container-fluid" style="margin-top:80px">
+    <ng-view ></ng-view>
+    </div>
+</div>
+
+
+</body>
+</html>

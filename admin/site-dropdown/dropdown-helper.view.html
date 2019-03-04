@@ -1,0 +1,87 @@
+
+<style>
+    #lookupTable
+    {
+        width: auto;
+    }
+    #lookupTable td
+    {
+        /*   max-width: 150px;*/
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+    #lookupTable td input
+    {
+        /*max-width: 125px;*/
+    }
+
+</style>
+
+<div ng-controller="siteDropdownCtrl">
+
+    <h1>{{TableDescription}}</h1>
+    <div class="alert alert-danger" ng-show="lookupError">
+        Lookup Options  failed to load ({{lookupError.status}}).
+    </div>
+
+    <table id="lookupTable" class="table table-striped table-bordered" >
+        <tr> <th ng-repeat="(fieldName,value) in lookupTable[0]" ng-if="(fieldName !='fkSiteID' && fieldName !='AutoID')">
+            {{fieldName}}</th>
+            <th></th>
+        </tr>
+
+
+        <tr ng-repeat="row in lookupTable track by $index" ng-init="parentIndex = $index"
+            ng-class="{danger:editOption && editOption.id==($index+1)}">
+
+            <td ng-repeat="(fieldName, value) in row" ng-if="(fieldName !='fkSiteID' && fieldName !='AutoID')">
+                <span ng-if="!(editOption.id && editOption.id== (parentIndex+1))">
+                    {{value}}
+                </span>
+                <span ng-if="(editOption.id==(parentIndex+1))">
+                     <input ng-model="editFields[fieldName]"  required />
+                </span>
+            </td>
+
+            <td>
+                <button ng-click="startEdit($index+1)" class="btn btn-xs btn-primary"
+                        ng-hide="editOption.id">
+                    Edit
+                </button>
+                <button ng-click="deleteOption($index+1)" class="btn btn-xs btn-danger"
+                        ng-hide="editOption.id">
+                    Delete
+                </button>
+
+                <button ng-show="editOption.id && editOption.id== ($index+1)"
+                        ng-click="saveChanges()"
+                        class="btn btn-xs btn-success">
+                    Save
+                </button>
+                <button ng-show="editOption.id && editOption.id== ($index+1)"
+                        ng-click="cancelEdit()" class="btn btn-xs btn-warning">
+                    Cancel
+                </button>
+            </td>
+
+        </tr>
+        <tr ng-class="{danger: editOption}" ng-hide="editOption.id">
+            <td ng-repeat="(fieldName, value) in editFields"  ng-if="(fieldName !='fkSiteID' && fieldName !='AutoID')">
+                <input  ng-model="editFields[fieldName]"  required />
+            </td>
+
+            <td>
+                <button ng-hide="editOption.id"
+                        ng-click="createOption()"
+                        class="btn btn-xs btn-primary">
+                    Create
+                </button>
+
+            </td>
+        </tr>
+    </table>
+
+
+
+</div>

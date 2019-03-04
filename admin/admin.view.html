@@ -1,0 +1,34 @@
+<div ng-controller="ctrl_homeOptions">
+    <ng-include src="'./views/pagination.html'"></ng-include>
+
+        <h1> Admin Services</h1>
+        <ul>
+            <li> Manage Users </li>
+            <ul>
+                 <li> <a href="#!/adminUsers" onclick="return false" class=" alert-danger">Manage Users Only On This Site</a></li>
+                <li>Usernames must be selected to be global for the entire website -- add some idfor site.  There cannot be just vbrown.  Add site vbrownmvyca -- perhas email address.</li>
+            </ul>
+
+            <li> Manage Cadet Information </li>
+            <ul>
+                <li> <a href="#!/adminCadet" onclick="return false" class=" alert-danger"> Modify Cadet Information</a> (Name, Address, SSN) </li>
+                <li> <a href="#!/adminCadet" onclick="return false"class=" alert-danger"> Remove A Cadet From A Class </a></li>
+            </ul>
+
+            <li> Campus Set-up</li>
+            <ul>
+                <li> <a href="#!/adminSite">Update Site Information</a> (address,logo, color scheme)</li>
+                <li> <a href="#!/adminDropDown">Update Site DropDown Menu Options</a> (S2C Options, Company, Platoon, Squad, Team, Building, Rooom, JobSills, Job Activity)</li>
+
+            </ul>
+
+            <li> Class Set-up</li>
+            <ul>
+                <li> <a href="#!/adminClassSetup"onclick="return false"class=" alert-danger">Class Set-up</a></li>
+            </ul>
+        </ul>
+
+</div>
+
+
+

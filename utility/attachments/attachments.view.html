@@ -1,0 +1,41 @@
+<!-- File: attachments.view.html
+     Used with attachments.controller.js
+     Used by  notes/prap/prap.view.html, updateMentor.view.html & controller
+-->
+
+<style>
+    .table-scroll tbody {
+        max-height: 150px;
+        overflow-y: auto;
+        display: block;
+        width: 100%;
+        border-width: thick;
+        border-color: black;
+        table-layout: fixed;
+    }
+</style>
+
+<div class="card "  ng-controller="attachmentController" >
+	Attachments
+	 <form action ="" method="POST" enctype="multipart/form-data">
+		<fieldset>
+            <input id="myFile" name="file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn-success" ng-click="uploadFile()"> Upload New File</button>
+		</fieldset>
+	</form>
+    <div style="">
+        <table id="attachmentTable" class=" bg-transparent table table-condensed table-hover table-bordered  table-scroll">
+            <tbody>
+            <tr ng-repeat="file in files  track by $index">
+                <th>{{$index+1}}</th>
+                <td> <button class="btn-primary btn-sm" ng-click="downloadFile(file.File)"> <span class="oi oi-data-transfer-download"></span></button></td>
+
+                <td>{{file.File}} <span><em>({{file.Size}})</em> </span></td>
+                <td>{{file.DateAdded}}</td>
+                <td><button class="btn-danger btn-sm" ng-click="deleteFile(file.File)">
+                    <span class="oi oi-x"></span></button></td>
+            </tr>
+            </tbody>
+        </table> <strong>{{files.length}} files.</strong>
+   </div>
+</div>

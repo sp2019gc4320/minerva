@@ -1,0 +1,257 @@
+<!--lead-follow.view.html-->
+<!--view page for Lead/Follow Residental tab-->
+<!--fields that can be updated are autoloaded with current values,-->
+<!--past values for duty,inspection,position,and rank are also displayed-->
+
+<!--load app.controller from leadFollowCtrl.js-->
+<div class="well container infoContainer" id="lfContainer">
+    <div ng-controller="leadFollowController">
+        <h3>Lead/Follow</h3>
+
+        <!--Tasks-->
+        <div class="well text-center">
+            <form>
+                <!--table to edit&display tasks from coreComponentTasks&cadetClassEvents-->
+                <table>
+                    <tr>
+                        <th>Task</th>
+                        <th>Description</th>
+                        <th>Last Activity</th>
+                        <th>Pass/Fail</th>
+                        <th>Note</th>
+                    </tr>
+                    <!--iterate through each instance in scope from controller-->
+                    <tr ng-repeat="task in tasks">
+                        <td>{{task.TaskNumber}}</td>
+                        <td>{{task.Task}}</td>
+                        <!--editable fields for cadetClassEvents-->
+                        <td><input name="EventDate" type="text" ng-model="task.EventDate"></td>
+                        <td><input name="DidPass" type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="task.DidPass"></td>
+                        <td><input name="EventNote" type="text" ng-model="task.EventNote"></td>
+                    </tr>
+                </table>
+                <button ng-click="update()">Update</button>
+                <button ng-click="cancelUpdate()">Cancel Update</button>
+            </form>
+        </div>
+
+        <table>
+            <tr>
+                <th><h3>Duties</h3></th>
+            </tr>
+        </table>
+        <!--Duties-->
+        <div class="well container infoContainer text-center" style="border: 1px solid white">
+            <!--creates new duty entry-->
+            <form>
+                <table>
+                    <tr>
+                        <th><label>Duties: </label>
+                            <!--dropdown options from tlkpJBDutyPosition-->
+                            <select ng-model="duty.JobPosition" name="JobPosition"
+                                    ng-options="option.DutyPosition for option in DutyPositionOptions track by option.id"
+                                    ng-change="changeJobPosition(duty.JobPosition)"></select></th>
+                        <th><label>Failed: </label>
+                            <input name="DutyDidFail: " type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="duty.DutyDidFail"></th>
+                        <th><label>Start Date: </label>
+                            <input name="DutyStartDate" type="text" ng-model="duty.DutyStartDate"></th>
+                        <th><label>End Date: </label>
+                            <input name="DutyEndDate" type="text" ng-model="duty.DutyEndDate"></th>
+                        <th><label>Note: </label>
+                            <input name="DutyNote" type="text" ng-model="duty.DutyNote"></th>
+                    </tr>
+                </table>
+                <button ng-click="createDuty()">Create</button>
+            </form>
+            <!--dispalys all duty instances-->
+            <div class="well container infoContainer text-center" style="border: 1px solid white">
+                <table>
+                    <tr>
+                        <th>Duties</th>
+                        <th>Failed</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Note</th>
+                    </tr>
+                    <tr ng-repeat="duty in duties">
+                        <td>{{duty.JobPosition}}</td>
+                        <td><input name="DutyDidFail" type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="duty.DutyDidFail"></td>
+                        <td><input name=DutyStartDate type="text" ng-model="duty.DutyStartDate"></td>
+                        <td><input name=DutyEndDate type="text" ng-model="duty.DutyEndDate"></td>
+                        <td><input name="DutyNote" type="text" ng-model="duty.DutyNote"></td>
+                    </tr>
+                </table>
+            </div>
+            <button ng-click="updateDuty()">Update</button>
+            <button ng-click="cancelUpdate()">Cancel</button>
+        </div>
+
+        <br>
+
+        <table>
+            <tr>
+                <th><h3>Inspections</h3></th>
+            </tr>
+        </table>
+        <!--Inspections-->
+        <div class="well container infoContainer text-center" style="border: 1px solid white">
+            <!--creates new Inspection entry-->
+            <form>
+                <table>
+                    <tr>
+                        <th><label>Date: </label>
+                            <input name="InspectionDate" type="text" ng-model="inspect.InspectionDate"></th>
+                        <th><label>Inspection Type: </label>
+                            <!--dropdown options from tlkpJBInspectionType-->
+                            <select ng-model="inspect.JBInspectionType" name="JBInspectionType"
+                                    ng-options="option.InspectionType for option in InspectionTypeOptions track by option.id"
+                                    ng-change="changeInspectionType(inspect.JBInspectionType)"></select></th>
+                        <th><label>Note: </label>
+                            <input name="InspectionNote" type="text" ng-model="inspect.InspectionNote"></th>
+                        <th><label>Passed: </label>
+                            <input name="DidPassInspection" type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="inspect.DidPassInspection"></th>
+                        <th><label>Merit Adj: </label>
+                            <input name="InspMeritAdj" type="text" ng-model="inspect.InspMeritAdj"></th>
+                    </tr>
+                </table>
+            </form>
+            <button ng-click="CreateInspect()">Create</button>
+            <br>
+            <!--dispalys all inspection instances-->
+            <div class="well container infoContainer text-center" style="border: 1px solid white">
+                <table>
+                    <tr>
+                        <th>Date</th>
+                        <th>Inspection Type</th>
+                        <th>Passed</th>
+                        <th>Note</th>
+                        <th>Merit Adj</th>
+                    </tr>
+                    <tr ng-repeat="inspect in inspections">
+                        <td><input name=InspectionDate type="text" ng-model="inspect.InspectionDate"></td>
+                        <td>{{inspect.JBInspectionType}}</td>
+                        <td><input name="InspectionNote" type="text" ng-model="inspect.InspectionNote"></td>
+                        <td><input name="DidPassInspection" type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="inspect.DidPassInspection"></td>
+                        <td>{{inspect.InspMeritAdj}}</td>
+                    </tr>
+                </table>
+            </div>
+            <button ng-click="updateInspect()">Update</button>
+            <button ng-click="cancelUpdate()">Cancel</button>
+        </div>
+
+        <br>
+
+        <table>
+            <tr>
+                <th><h3>Positions</h3></th>
+            </tr>
+        </table>
+        <!--Positions-->
+        <div class="well container infoContainer text-center" style="border: 1px solid white">
+            <!--creates new Position entry-->
+            <form>
+                <table>
+                    <tr>
+                        <th><label>Position: </label>
+                            <!--dropdown options from tlkpJBPosition-->
+                            <select ng-model="posit.JBPosition" name="JBPosition"
+                                    ng-options="option.JBPosition for option in JBPositionOptions track by option.id"
+                                    ng-change="changeJBPosition(posit.JBPosition)"></select></th>
+                        <th><label>Start Date: </label>
+                            <input name="DutyStartDate" type="text" ng-model="posit.PosStartDate"></th>
+                        <th><label>End Date: </label>
+                            <input name="DutyEndDate" type="text" ng-model="posit.PosEndDate"></th>
+                        <th><label>Note: </label>
+                            <input name="DutyNote" type="text" ng-model="posit.PosNote"></th>
+                        <th><label>Failed: </label>
+                            <input name="DutyDidFail: " type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="posit.PosDidFail"></th>
+                    </tr>
+                </table>
+            </form>
+            <button ng-click="CreatePos()">Create</button>
+
+            <!--dispalys all position instances-->
+            <div class="well container infoContainer text-center" style="border: 1px solid white">
+                <table>
+                    <tr>
+                        <th>Position</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Note</th>
+                        <th>Failed</th>
+                    </tr>
+                    <tr ng-repeat="posit in pos">
+                        <td>{{posit.JBPosition}}</td>
+                        <td><input name="PosStartDate" type="text" ng-model="posit.PosStartDate"></td>
+                        <td><input name="PosEndDate" type="text" ng-model="posit.PosEndDate"></td>
+                        <td><input name="PosNote" type="text" ng-model="posit.PosNote"></td>
+                        <td><input name="PosDidFail" type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="posit.PosDidFail"></td>
+                    </tr>
+                </table>
+            </div>
+            <button ng-click="updatePos()">Update</button>
+            <button ng-click="cancelUpdate()">Cancel</button>
+        </div>
+
+        <br>
+
+        <table>
+            <tr>
+                <th><h3>Ranks</h3></th>
+            </tr>
+        </table>
+        <!--Ranks-->
+        <div class="well container infoContainer text-center" style="border: 1px solid white">
+            <!--creates new rank entry-->
+            <form>
+                <table>
+                    <tr>
+                        <th><label>Rank: </label>
+                            <!--dropdown options from tlkpJBRank-->
+                            <select ng-model="rEvent.JBRank" name="JBRank"
+                                    ng-options="option.RankObtained for option in RankOptions track by option.id"
+                                    ng-change="changeRank(rEvent.JBRank)"></select></th>
+                        <th><label>Date Obtained: </label>
+                            <input name="RankObtainedDate" type="text" ng-model="rEvent.RankObtainedDate"></th>
+                        <th><label>Note: </label>
+                            <input name="RankPromotionNote" type="text" ng-model="rEvent.RankPromotionNote"></th>
+                        <th><label>Failed: </label>
+                            <input name="RankDidFail: " type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="rEvent.RankDidFail"></th>
+                    </tr>
+                </table>
+            </form>
+            <button ng-click="CreateRank()">Create</button>
+
+            <!--dispalys all rank instances-->
+            <div class="well container infoContainer text-center" style="border: 1px solid white">
+                <table>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Date Obtained</th>
+                        <th>Note</th>
+                        <th>Failed</th>
+                    </tr>
+                    <tr ng-repeat="rEvent in rank">
+                        <td>{{rEvent.JBRank}}</td>
+                        <td><input name="RankObtainedDate" type="text" ng-model="rEvent.RankObtainedDate"></td>
+                        <td><input name="RankPromotionNote" type="text" ng-model="rEvent.RankPromotionNote"></td>
+                        <td><input name="RankDidFail" type="checkbox" ng-true-value="1" ng-false-value="0"
+                                   ng-model="rEvent.RankDidFail"></td>
+                    </tr>
+                </table>
+            </div>
+            <button ng-click="updateRank()">Update</button>
+            <button ng-click="cancelUpdate()">Cancel</button>
+        </div>
+        <br>
+    </div>
+</div>

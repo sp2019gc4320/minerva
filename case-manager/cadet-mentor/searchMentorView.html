@@ -1,0 +1,88 @@
+<style xmlns="http://www.w3.org/1999/html">
+    #scrollable-area {
+        margin: auto;
+        /*width: 80%;*/
+        height: 400px;
+        border: 2px solid #ccc;
+        overflow-y: scroll; /* <-- here is what is important*/
+    }
+</style>
+<H1>SEARCH MENTOR VIEW.HTML</H1>
+<div class="container " id="searchMentorViewCtrl" ng-controller="searchMentorViewCtrl">
+    <div class="card bg-transparent">
+        <div class="form-row">
+            <div class="col-md-3">
+
+                <form>
+                    <!--<button ng-click="searchForMentors()"> Search For Existing Mentor</button> -->
+                    <div>
+                        <ul>
+                            <li>
+                        <label>Filter Mentor's Name: </label><input class="" type="text"
+                                                                  ng-model="search.Name"/>
+                            </li>
+                            <li>
+                                Restrict Search: <br/>
+                        <label><input type="radio" ng-model="search.IsPooled" value="1">In Pool</label><br/>
+                        <label><input type="radio" ng-model="search.IsPooled" value="0">All Mentors
+                        </label><br/>
+                            </li>
+                            <li>
+
+                        <label>County</label><br>
+                                <em class="text-info">Separate multiple counties with a comma</em><br/>
+                                <input
+                            class="" type="text" ng-model="search.Counties">
+                            </li>
+
+                            <li>
+                        Gender:<br>
+                        <label> <input type="radio" ng-model="search.PGender" value="M"> Male </label><br/>
+                        <label> <input type="radio" ng-model="search.PGender" value="F"> Female</label><br/>
+                        <label> <input type="radio" ng-model="search.PGender" value="B">Both </label><br/>
+                            </li>
+                        </ul>
+                    </div>
+                </form>
+            </div>
+            <div class="col-md-8">
+                <div id="scrollable-area">
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <th></th>
+                            <th> Name</th>
+                            <th> County</th>
+                            <th> Gender</th>
+                            <th> In Pool?</th>
+                            <th> Last Training Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <!--<tr ng-repeat="potential in potentials | orderBy:'PersonLN+PersonFN' | filter:search.Name   track by $index">-->
+                        <!--<tr ng-repeat="potential in potentials | filter:{PersonLN:search.Name, IsPooled:search.IsPooled} | orderBy:'PersonLN+PersonFN'  track by $index">
+                       -->
+                        <tr ng-repeat="potential in potentials | filter:selectItems | orderBy:'PersonLN+PersonFN'  track by $index">
+                            <td>
+                                <button ng-click="loadPotential(potential)">View </button>
+                            </td>
+                            <td>{{potential.PersonLN + ", " + potential.PersonFN + " " +potential.PersonGenQual}}</td>
+                            <td>{{potential.PCounty}}</td>
+                            <td>{{potential.PGender}}</td>
+                            <td ng-if="potential.IsPooled=='1'"> P</td>
+                            <td ng-if="potential.IsPooled!='1'"></td>
+                            <td>{{potential.LastTrainedDate}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="alert-info col-12">
+            <ng-include src="searchUpdateDisplay"></ng-include>
+            </div>
+        </div>
+    </div>
+
+</div>
