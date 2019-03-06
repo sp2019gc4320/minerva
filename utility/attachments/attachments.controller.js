@@ -126,9 +126,10 @@ angular.module('utility.attachments').
             url: './php/files_download.php',
             params: { file: name ,directory:'mentorFiles' },
             responseType: 'arraybuffer'
-        }).success(function (data, status, headers) {
-            headers = headers();
-
+        }).then(function (data) {
+            // SUCCESS
+            console.log(data);
+            var headers = data.headers();
             var filename = headers['x-filename'];
 
             //There is no x-filename field in the value returned.  I was able to use content-disposition
@@ -154,7 +155,8 @@ angular.module('utility.attachments').
             } catch (ex) {
                 console.log(ex);
             }
-        }).error(function (data) {
+        }).then(function (data) {
+            // ERROR
             console.log(data);
         });
     };

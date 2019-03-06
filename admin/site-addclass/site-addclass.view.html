@@ -1,0 +1,90 @@
+<div>
+    <h2>Adding A New Class</h2></h2>
+    <form name="addClassForm" class="form-inline" id="adminClassForm" novalidate>
+        <h1 style="background-color:lightgreen; font-family:Impact; text-align:center;">Create A Class</h1>
+        <div class="jumbotron table-responsive ">
+        <h4 style="font-family:sans-serif; color:darkslateblue;">General Information</h4>
+        <table style="width:100%">
+            <tr>
+                <th>Class Year</th>
+                <th>ChalleNGe Start Date</th>
+                <th>Class Start Date</th>
+            </tr>
+            <tr>
+                <td><select ng-model="classYear">
+                    <option selected>2019</option>
+                    <option>2020</option>
+                    <option>2021</option>
+                    <option>2022</option>
+                    <option>2023</option>
+                    <option>2024</option>
+                    <option>2025</option>
+                    <option>2026</option>
+                    <option>2027</option>
+                    <option>2028</option>
+                    <option>2029</option>
+                </select></td>
+                <td><input type="date" ng-model="challengeStartDate"></td>
+                <td><input type="date" ng-model="classStartDate" value="2019-01-01"></td>
+                </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <th>Graduation Date</th>
+                <th>Pr Completion Start Date</th>
+                <th>Target Graduates</th>
+            </tr>
+            <tr>
+                <td><input type="date" value="2019-01-01" ng-model="graduationDate"></td>
+                <td><input type="date" value="2019-01-01" ng-model="prCompletionDate"></td>
+                <td><input type="text" ng-model="targetGraduates"></td>
+                </tr>
+        </table>
+        <br>
+        <hr>
+        <br>
+        <h4 style="font-family:sans-serif; color:darkslateblue;">Weekly Information</h4>
+        <table style="width:100%">
+            <tr>
+                <th>Class Week</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+            <tr>
+                <td><select name="Addr" class="custom-select" ng-model="classWeek">
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                    <option>11</option>
+                    <option>12</option>
+                    <option>13</option>
+                    <option>14</option>
+                    <option>15</option>
+                    <option>16</option>
+                    <option>17</option>
+                    <option>18</option>
+                    <option>19</option>
+                    <option>20</option>
+                    <option>21</option>
+                    <option>22</option>
+                </select>
+                </td>
+                <td><input type="date" value="2019-01-01" ng-model="weeklyStart"></td>
+                <td><input type="date" value="2019-01-01" ng-model="weeklyEnd"></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <p style="text-align:center">
+        <button ng-click="createClass()" type="button" class="btn btn-lg btn-success" style="text-align: center">Submit Class</button>
+    </p>
+    </form>
+</div>

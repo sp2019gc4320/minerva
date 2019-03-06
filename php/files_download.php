@@ -33,7 +33,7 @@ if(!empty($filename)){
     // Check file is exists on given path.
     if(file_exists($download_file))
     { // echo "YAY File hass been found at: $download_file";
-      header('Content-Disposition: attachment; filename=' . $filename);
+      header('content-disposition: attachment; filename=' . $filename);
       readfile($download_file);
       exit;
     }
