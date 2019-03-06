@@ -10,8 +10,13 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
-$fkClassDetailID = $_POST['fkClassDetailID']; 
-$InspectionDate= $_POST['InspectionDate'];
+$fkClassDetailID = $_POST['fkClassDetailID'];
+
+//Date Validation added 2/27
+$validInspec = strtotime($_POST['InspectionDate']);
+$validInspec = date('Y-m-d', $validInspec);//off by one (gets fixed when retrieving in the js)
+$InspectionDate = $validInspec;
+
 $JBInspectionType= $_POST['JBInspectionType'];
 $InspectionNote= $_POST['InspectionNote'];
 $DidPassInspection= $_POST['DidPassInspection'];
