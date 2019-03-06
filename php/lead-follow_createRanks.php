@@ -10,13 +10,9 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
-$fkClassDetailID = $_POST['fkClassDetailID'];
+$fkClassDetailID = $_POST['fkClassDetailID']; 
 $JBRank= $_POST['JBRank'];
-//Date Validation added 2/27
-$validRankDate = strtotime($_POST['RankObtainedDate']);
-$validRankDate = date('Y-m-d', $validRankDate);//off by one (gets fixed when retrieving in the js)
-$RankObtainedDate = $validRankDate;
-
+$RankObtainedDate= $_POST['RankObtainedDate'];
 $RankPromotionNote= $_POST['RankPromotionNote'];
 $RankDidFail= $_POST['RankDidFail'];
 
