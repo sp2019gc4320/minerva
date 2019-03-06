@@ -2,6 +2,7 @@
 <!-- file: postres.view.html
  -->
 <!--<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">-->
+<link rel="stylesheet" type="text/css" href="site.css">
 <div class="container text-center infoContainer" id="postResContainer" ng-controller="postresController">
 	<form>
 		<div class="row justify-content-center">
@@ -66,7 +67,7 @@
 			    
 			</div>
 			<div class="form-row justify-content-center">
-				<button class="col-xs-12 btn-danger">Copy Placement Details from Previous Month (Education, Military, Employment, Misc)</button>
+				<button class=".minervaButton">Copy Placement Details from Previous Month (Education, Military, Employment, Misc)</button>
 			</div>
 		</fieldset>
 		<fieldset class="form-group">
@@ -122,9 +123,9 @@
 			    <div class="form-group col-md-10">
 			        <label >Note</label>
 					<div style="text-align: center;">
-						<button ng-click="enableEdit1()" class="btn btn-success">Edit</button>
-						<button ng-click="disableEdit1()" class="btn btn-success">Cancel</button>
-						<button ng-click="saveNote()" class="btn btn-success">Save</button>
+						<button ng-click="enableEdit1()" class=".minervaButton">Edit</button>
+						<button ng-click="disableEdit1()" class=".minervaButton">Cancel</button>
+						<button ng-click="saveNote()" class=".minervaButton">Save</button>
 					</div>
 					<div id="notes1">
 					<textarea style="resize:vertical;" class="form-control" ng-model="reports.PRReportNote" disabled=true></textarea>							<!--NOTE 1-->
@@ -132,9 +133,9 @@
 					<div ng-app="module" ng-controller="postresController">
 						<div ng-repeat="input in inputList">
 							<textarea style="resize:vertical;" class="form-control" ng-model="reports.PRReportNote"></textarea>
-							<button ng-click="remove(input)" class="btn btn-danger">Remove Note</button>
+							<button ng-click="removeNote(input)" class=".minervaButton">Remove Note</button>
 						</div>
-						<button ng-click="add()" class="btn btn-success">Add Note</button>
+						<button ng-click="addNote()" class=".minervaButton">Add Note</button>
 					</div>
 					</div>
 			    </div>
@@ -143,7 +144,7 @@
 			</div>
 			</div>
 			<div class="form-row justify-content-center">
-				<button class="col-xs-12 btn-danger" >Add Another Report</button>
+				<button ng-click="addReport()" class=".minervaButton" >Add Another Report</button>
 			</div>
 		</fieldset>
 		<fieldset class="form-group">
@@ -207,15 +208,16 @@
 		    </div>
 			</div> 
 			<div class="form-row justify-content-center">
-				<button class="col-xs-12 btn-danger">Add Mentor Contact Report</button>
+				<button ng-click="addMentor()" class=".minervaButton">Add Mentor Contact Report</button>
 			</div>
 		</fieldset>		
 		<fieldset class="form-group">
+
 			<div class="row">
 				<legend class="col-form-label col-xs-12">Education</legend>
 			</div>
 			<div ng-repeat="education in alleducation track by $index" >
-			<div ng-if="isCurrentEducation($index)">
+			<!--<div ng-if="isCurrentEducation($index)">-->
 			<div class="form-row">
 				<div class="col-md-1 d-none d-md-block"></div>
 				<div class="form-group col-md-2">
@@ -271,12 +273,12 @@
 			    <div class="col-md-1 d-none d-md-block"></div>
 			</div>
 			<div class="form-row justify-content-center">
-				<button class="col-xs-12 btn-danger" ng-click="updateEducation($index)">Update</button>
+				<button class=".minervaButton" ng-click="updateEducation($index)">Update</button>
 			</div>
-			</div>
+			<!--</div>-->
 			</div>
 			<div class="form-row justify-content-center">
-				<button class="col-xs-12 btn-danger">Add Education Report</button>
+				<button ng-click="addEducation()" class=".minervaButton">Add Education Report</button>
 			</div>
 		</fieldset>
 		<fieldset class="form-group">
@@ -341,9 +343,9 @@
 					<div ng-app="module" ng-controller="postresController">
 						<div ng-repeat="input in inputList">
 							<textarea style="resize:vertical;" class="form-control" ng-model="military.PRMilNote"></textarea>				<!-- NOTE 2-->
-							<button ng-click="remove(input)" class="btn btn-danger">Remove Note</button>
+							<button ng-click="removeNote(input)" class=".minervaButton">Remove Note</button>
 						</div>
-						<button ng-click="add()" class="btn btn-success">Add Note</button>
+						<button ng-click="addNote()" class=".minervaButton">Add Note</button>
 					</div>
 					</div>
 			    </div>
@@ -355,7 +357,7 @@
 			</div>
 			</div>
 			<div class="form-row justify-content-center">
-				<button class="col-xs-12 btn-danger">Add Military Report</button>
+				<button ng-click="addMilitary()" class=".minervaButton">Add Military Report</button>
 			</div>
 		</fieldset>
 		<fieldset class="form-group">
@@ -452,7 +454,7 @@
 			</div>
 			</div>
 			<div class="form-row justify-content-center">
-				<button class="col-xs-12 btn-danger">Add Employment Report</button>
+				<button class=".minervaButton">Add Employment Report</button>
 			</div>
 		</fieldset>
 		<fieldset class="form-group">
@@ -511,9 +513,9 @@
                     <div ng-app="module" ng-controller="postresController">
                         <div ng-repeat="input in inputList">
 							<textarea style="resize:vertical;" class="form-control" ng-model="misc.PRMiscNote"></textarea>
-							<button ng-click="remove(input)" class="btn btn-danger">Remove Note</button>
+							<button ng-click="removeNote(input)" class=".minervaButton">Remove Note</button>
                         </div>
-						<button ng-click="add()" class="btn btn-success">Add Note</button>
+						<button ng-click="addNote()" class=".minervaButton">Add Note</button>
                     </div>
 					</div>
 
@@ -527,7 +529,7 @@
 			</div>
 
 			<div class="form-row justify-content-center">
-				<button class="col-xs-12 btn-danger">Add Misc Report</button>
+				<button class=".minervaButton">Add Misc Report</button>
 			</div>
 		</fieldset>
 	</form>
