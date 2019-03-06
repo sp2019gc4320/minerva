@@ -7,13 +7,11 @@ controller("caseManagerController", function($scope, $http, $window){
 
     $scope.CadetID = $window.localStorage.getItem("CadetID");
     $scope.CadetName = $window.localStorage.getItem("CadetName");
-
-
-    //cadets selected using find-cadet feature
-    $scope.cadets =[];
-    if($window.localStorage.getItem("cadets"))
-      $scope.cadets = JSON.parse($window.localStorage.getItem("cadets"));
-
+    //EDIT
+    $scope.CadetGender = $window.localStorage.getItem("CadetGender");
+    $scope.CadetDOB = $window.localStorage.getItem("CadetDOB");
+    //$scope.CadetDOB = $window.localStorage.getItem("CadetDOB");
+    //alert("DOB: " + $window.localStorage.getItem("CadetDOB"));
 
     if($scope.CadetID === null) {
         alert("You must select a cadet!");
@@ -22,10 +20,10 @@ controller("caseManagerController", function($scope, $http, $window){
     $scope.cadet = {
         CadetID: $scope.CadetID,
         CadetName: $scope.CadetName,
-        Photo1: "workInProgress.jpeg",
-        Photo: "../../images/workInProgress.jpeg"
+        //EDIT
+        CadetGender: $scope.CadetGender
+        //CadetDOB: $scope.CadetDOB
     };
-
 
     $scope.caseManagerViews = [
         {view:'Mentor', url:'./case-manager/cadet-mentor/updateMentor.view.html'},

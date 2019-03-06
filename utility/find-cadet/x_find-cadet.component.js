@@ -1,11 +1,15 @@
-//find-cadet.controller.js
+//find-cadet.component.js
 'use strict';
 
-angular.module('findApp').
-    controller( "FindCadetController", function ($scope, $http, $window) {
+angular.module('utility.findCadet'). component('findCadet', {
+    //the url is relative to the index.html,
+    templateUrl: 'utility/find-cadet/find-cadet.view.html',
+    controller:
+        ['$scope','$http','$window',
+            function FindCadetController ($scope, $http, $window) {
                 $http({
                     method: 'POST',
-                    url: '../../php/findCadets.php',
+                    url: './php/findCadets.php',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(function (response) {
                     $scope.cadets = response.data.data;
@@ -19,26 +23,25 @@ angular.module('findApp').
                     $window.sessionStorage.setItem("CadetID", cadet.fkCadetID);
                     $window.sessionStorage.setItem("theCadet", cadet.fkCadetID);
                     $window.localStorage.setItem("theCadet", cadet.fkCadetID);
-
-
-
                     $window.localStorage.setItem("CadetID", cadet.fkCadetID);
                     $window.localStorage.setItem("CadetName", cadet.PersonFN + " " + cadet.PersonLN);
-                    //EDIT set items were added for PGender and PDOB in order to set the gender and the dob of the cadet
+                    //EDIT
                     $window.localStorage.setItem("CadetGender",cadet.PGender);
                     $window.localStorage.setItem("CadetDOB",cadet.PDOB);
 
                     $scope.myCadet = {fkCadetID: cadet.fkCadetID};
                     $http({
                         method: 'POST',
-                        url: '../../php/getCadetViewData.php',
+                        url: './php/getCadetViewData.php',
                         data: Object.toparams($scope.myCadet),
                         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     }).then(function (response) {
                             var cadet = response.data.data;
 
-                            $scope.updateDisplay = "./cadet-helper.view.html" + "?updated=" + Date.now();
+                            $scope.updateDisplay = "./main/find-cadet/cadet-helper.view.html" + "?updated=" + Date.now();
                         }
                     );
                 }
-            });
+            }
+    ]
+});
