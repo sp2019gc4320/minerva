@@ -6,7 +6,9 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
 
     //$scope.cadetID = "12"; //with data
     //alert("setting cadetID to for testing " +$scope.cadetID);
-
+    //Create Local Storage for catagory of file to forward to database
+    $window.localStorage.setItem("PRAP","PRAP");
+    $scope.fileTypes=$window.localStorage.getItem("PRAP");
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
     alert("Test  with Cadet 12 -  Da'jour\tCalloway to see sample dates");
 
@@ -44,7 +46,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
 		//SUCCESS
 		function(result) {
 		    alert(JSON.stringify(result));
-			$scope.prapNotes = result.data.data;
+			$scope.prapNotes = result.data.data[0];
 
 			//Add Created By Name to each Note
 			for (var i=0; i< $scope.prapNotes.length; i++) {
