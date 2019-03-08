@@ -1,11 +1,11 @@
 // File:  postres.controller.js
 // Used by postres.view.html
-//Edits made 2/28/2019: names of functions have been changed for clarity. add is now addNote and remove is now removeNote. Be sure to update these in the html file.
-//Edits made 2/28/2019: addReport, addEducation, addMilitary, addEmployemnet, addMisc $scope functions have been created to provide button functionality.
+
 angular.module('notes.postres').controller('postresController', function($scope, $http, $window) {
     //$scope.cadetID = "12"; //with data
 
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
+
     var cadet = {CadetID: $scope.cadetID};
 
 
@@ -61,32 +61,46 @@ angular.module('notes.postres').controller('postresController', function($scope,
     );
 
     //function to update education section
-    $scope.updateEducation = function (index) {
-        //creates an array to update each attribute in table
-        alert("Index: " +index);
-        var sendData = {};
-        sendData.PREdSchoolType = $scope.alleducation[index].PREdSchoolType;
-        sendData.PREdStatus = $scope.alleducation[index].PREdStatus;
-        sendData.PREdStartDate = $scope.alleducation[index].PREdStartDate;
-        sendData.PREdEndDate = $scope.alleducation[index].PREdEndDate;
-        sendData.IsPREdFullTime = $scope.alleducation[index].IsPREdFullTime;
-        sendData.PREdNote = $scope.alleducation[index].PREdNote;
-        sendData.PREdID = $scope.alleducation[index].PREdID;
-        //Links to php file
-        sendData.TableName = 'tblPREducation';
-        var taskUpdateEducation = $http({
+    $scope.updateEducation = function () {
+      //creates an array to update each attribute in table
+      //THIS IS OLD CODE
+      /*var sendData = {};
+      sendData.PREdSchoolType = $scope.alleducation[index].PREdSchoolType;  //old code - didn't work
+      sendData.PREdStatus = $scope.alleducation[index].PREdStatus;
+      sendData.PREdStartDate = $scope.alleducation[index].PREdStartDate;
+      sendData.PREdEndDate = $scope.alleducation[index].PREdEndDate;
+      sendData.IsPREdFullTime = $scope.alleducation[index].IsPREdFullTime;
+      sendData.PREdNote = $scope.alleducation[index].PREdNote;
+      sendData.PREdID = $scope.alleducation[index].PREdID; */
+      //Links to php file
+      //sendData.TableName = 'tblPREducation';
+        //THIS IS NEW CODE
+        var sendData = angular.copy($scope.alleducation);
+        alert(JSON.stringify(sendData));
+
+        //update using postres_updateEducation.php
+        //var taskUpdateEducation = $http({
+        $http({
             method: 'POST',
             url: './php/postres_updateEducation.php',
             data: Object.toparams(sendData),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        });
+        }).then( //<--- beginning of new code
+            function(response){
+                alert("updated: postres_updateEducation.php" + JSON.stringify(response));
+            }, function (result) {
+                alert("update education failed");
+            }
+        )//end of new code
+
+        //old code below
         //alerts page whether or not the update to the database was successful.
-        taskUpdateEducation.then(function (result) {
-                alert("Education update succesful.");
+        /*taskUpdateEducation.then(function (result) {
+                alert("Education update successful.");
             },
             function (result) {
                 alert("Education update error.");
-            });
+            });*/
 
     };
     //function for updating military, same concept as education section
@@ -146,6 +160,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
 
     };
     $scope.updateMisc = function (index) {
+        alert("called");
         var sendData = {};
         sendData.PRMiscPlacementType = $scope.allmisc[index].PRMiscPlacementType;
         sendData.PRMiscStartDate = $scope.allmisc[index].PRMiscStartDate;
@@ -200,10 +215,10 @@ angular.module('notes.postres').controller('postresController', function($scope,
 
 
     $scope.inputList = [];
-    $scope.addNote = function () {
+    $scope.add = function () {
         $scope.inputList.push({content: ""});
     };
-    $scope.removeNote = function (input) {
+    $scope.remove = function (input) {
         var idx = $scope.inputList.indexOf(input);
         $scope.inputList.splice(idx, 1)
     };
@@ -248,88 +263,10 @@ angular.module('notes.postres').controller('postresController', function($scope,
         }
     };
     $scope.saveNote = function () {
+        //save/push to db
+
     };
-    //This function gives the add report button functionality.
-    $scope.addReport = function()
-    {
-       var report = {
-            MeetsRequiredContact:"",
-            MeetsPlacementCriteria:"",
-            PlacementMonth:"",
-            PRReportType:"",
-            PRReporterCategory:"",
-            PRReporterID:"",
-            PRReportDate:"",
-            WasContactMade:""
-       };
-       var nextIndex = $scope.allreports.length;
-       $scope.allreports[nextIndex] = angular.copy(report);
-    };
-    //This function gives the add mentor contact button functionality.
-    $scope.addMentor = function() {
-        var mentorContact = {
-            ContactDate:"",
-            MentorContactType:"",
-            fkMentorID:"",
-            ContactPlacementMonth:"",
-            MentorContactNote:""
-        };
-        var nextIndex = $scope.allcontacts.length;
-        $scope.allcontacts[nextIndex] = angular.copy(mentorContact);
-    };
-    //This function gives the add education button functionality.
-    $scope.addEducation = function() {
-        var education = {
-            PREdStartDate: "",
-            PREdEndDate:"",
-            IsPREdFullTime:"",
-            PREdNote:""
-        };
-        var nextIndex = $scope.alleducation.length;
-        $scope.alleducation[nextIndex] = angular.copy(education);
-    };
-    //This function gives the add military button functionality.
-    $scope.addMilitary = function(){
-        var military = {
-            PRMilAffiliation:"",
-            PRMilStatus:"",
-            PRMilEnlistDate:"",
-            PRMilDelayedEntryDate:"",
-            PRMilDischargeDate:"",
-            isAGR:"",
-            PRMilNote:""
-        };
-        var nextIndex = $scope.allmilitary.length;
-        $scope.allmilitary[nextIndex] = angular.copy(military);
-    };
-    //This function gives the add employment button functionality.
-    $scope.addEmployment = function(){
-        var employment = {
-            PREmployer:"",
-            PREmpHireDate:"",
-            PREmpTermDate:"",
-            PREmpWorkStatus:"",
-            IsPREmpSelfEmployed:"",
-            PREmpHrsPerWeek:"",
-            PREmpWageRate:"",
-            PREmpPOCName:"",
-            PREmpPOCPhone:"",
-            PREmpTermNote:"",
-            PREmpNotes:""
-        };
-        var nextIndex = $scope.allemployment.length;
-        $scope.allemployment[nextIndex] = angular.copy(employment);
-    };
-    //This function gives the add misc button functionality.
-    $scope.addMisc = function() {
-        var misc = {
-            PRMiscPlacementType:"",
-            PRMiscHrs:"",
-            PRMiscStartDate:"",
-            PRMiscEndDate:""
-        };
-        var nextIndex = $scope.allmisc.length;
-        $scope.allmisc[nextIndex] = angular.copy(misc);
-    };
+
+
 
 });

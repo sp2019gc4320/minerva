@@ -2,7 +2,8 @@
 // File: files_listAll.php
 // echos a JSON  array with all logo images
 //
-
+require_once 'dbcontroller.php';
+$conn = new DBController();
 
 $directory= "datas";
 if(isset($_POST['directory'])){

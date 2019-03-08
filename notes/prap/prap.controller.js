@@ -83,6 +83,12 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
         $scope.cadetClassBackup=angular.copy($scope.cadetClass);
     };
 
+=======
+    //$scope.cadetID = "12"; //with data
+    //alert("setting cadetID to for testing " +$scope.cadetID);
+    //Create Local Storage for catagory of file to forward to database
+    $window.localStorage.setItem("PRAP","PRAP");
+    $scope.fileTypes=$window.localStorage.getItem("PRAP");
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
     alert("Test  with Cadet 12 -  Da'jour\tCalloway to see sample dates");
 
@@ -270,6 +276,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
             alert(JSON.stringify(result));
             $scope.prapNotes = result.data.data;
 
+
             //Add Created By Name to each Note
             for (var i=0; i< $scope.prapNotes.length; i++) {
                 if($scope.prapNotes[i].NoteCreatorID.length > 0)
@@ -287,6 +294,31 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
                         function (result) {
                             var obj =result.data.data[0];
                             var myIndex = result.data.index;
+=======
+	taskGetPrapNotes.then(
+		//SUCCESS
+		function(result) {
+		    alert(JSON.stringify(result));
+			$scope.prapNotes = result.data.data[0];
+
+			//Add Created By Name to each Note
+			for (var i=0; i< $scope.prapNotes.length; i++) {
+				if($scope.prapNotes[i].NoteCreatorID.length > 0)
+				{
+				var index = i;
+				var nameRequest = {PersonID: $scope.prapNotes[i].NoteCreatorID, index: index};
+                //Get NoteCreatedByName
+                $http({
+                    method: 'POST',
+                    url: './php/prap_getPersonName.php',
+                    data: Object.toparams(nameRequest),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(
+                    //SUCCESS
+                    function (result) {
+                    	var obj =result.data.data[0];
+                        var myIndex = result.data.index;
+
 
                             if(obj)
                                 $scope.prapNotes[myIndex].NoteCreatedByName = obj.PersonLN+", "+obj.PersonFN;
@@ -562,4 +594,15 @@ angular.module('notes.prap').filter('seedate', function($filter)
         return _date.toUpperCase();
 
     };
+=======
+ return function(input)
+ {
+  if(input == null){ return ""; } 
+    alert(input);
+  var _date = $filter('date')(new Date(input), 'MMM dd yyyy');
+ 
+  return _date.toUpperCase();
+
+ };
+
 });

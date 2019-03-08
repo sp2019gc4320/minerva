@@ -10,17 +10,29 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
+$op = 'UPDATE';
 $JBInspectionID = $_POST['JBInspectionID'];
 
-$validInspec= strtotime($_POST['DutyEndDate']);
-$validInspec = date('Y-m-d', $validInspec);//off by one (gets fixed when retrieving in the js)
-$InspectionDate= $validInspec;
+if (isset($_POST['JBInspectionID'])) {
+    $JBInspectionID = filter_input(INPUT_POST, "JBInspectionID");
+    unset($_POST['JBInspectionID']);
+}
 
-$InspectionNote= $_POST['InspectionNote'];
-$DidPassInspection= $_POST['DidPassInspection'];
-$InspMeritAdj= $_POST['InspMeritAdj'];
+if (isset($_POST['op'])) {
+    $op = filter_input(INPUT_POST, "op");
+    unset($_POST['op']);
+}
 
-$sql = "UPDATE tblJBInspections
+if($op=='UPDATE') {
+    $validInspec = strtotime($_POST['InspectionDate']);
+    $validInspec = date('Y-m-d', $validInspec);//off by one (gets fixed when retrieving in the js)
+    $InspectionDate = $validInspec;
+
+    $InspectionNote = $_POST['InspectionNote'];
+    $DidPassInspection = $_POST['DidPassInspection'];
+    $InspMeritAdj = $_POST['InspMeritAdj'];
+
+    $sql = "UPDATE tblJBInspections
 SET
   InspectionDate = '$InspectionDate',
   InspectionNote = '$InspectionNote',
@@ -29,11 +41,28 @@ SET
 WHERE
   JBInspectionID = '$JBInspectionID'";
 
-$result = $conn->runQuery($sql);
-if ($result === TRUE) {
-    echo "Record updated successfully";
-} else {
-    echo "Error updating record: $sql";
+
+    $result = $conn->runQuery($sql);
+    if ($result === TRUE) {
+        echo "Record updated successfully";
+    } else {
+        echo "Error updating record: $sql";
+    }
+}
+else if($op == 'DELETE')
+{
+    $sql = " DELETE FROM tblJBInspections
+               WHERE  JBInspectionID=$JBInspectionID
+             ";
+    $result = $conn->runDeleteQuery($sql);
+
+    print_r($sql);
+
+    if ($result === TRUE) {
+        echo "Record deleted successfully";
+    } else {
+        echo "Error deleting record: $sql";
+    }
 }
 //$connection->close();
 ?>

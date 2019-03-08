@@ -1,7 +1,9 @@
 <?php
 
 //files_delete.php
-
+//connect to database
+require_once 'dbcontroller.php';
+$conn = new DBController();
 $filename = 'gita000.jpg';
 
 if(isset($_POST['file'])){
@@ -28,13 +30,16 @@ if(isset($_POST['directory'])){
 // Specify file path.
 $path =  "..//". $directory.'/';
 $myFile =  $path.$filename;
-
+//SQL to remove file from databse.
+$sql="DELETE FROM tblAttachments WHERE UploadedFileName= $filename";
 
 if(!empty($filename)){
     // Check file is exists on given path.
+
     if(file_exists($myFile))
     {
-    unlink($myFile);
+      $result = $conn->runQuery($sql);    
+      unlink($myFile);
     }
     else{
       echo 'File does not exists on given path';
