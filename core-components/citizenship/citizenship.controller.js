@@ -20,15 +20,14 @@ angular.module('core-components.citizenship').controller('citizenshipController'
     $scope.editSection = function() {
         $scope.edit = true;
         $scope.tasksBeforeEdit = angular.copy($scope.tasks);
-    };
-
-    $scope.cancelSection = function() {
-        $scope.edit = false;
+        $scope.testsBeforeEdit = angular.copy($scope.tests);
     };
 
     $scope.cancelUpdate = function() {
         $scope.edit = false;
         $scope.tasks = angular.copy($scope.tasksBeforeEdit);
+            $scope.testsBeforeEdit = angular.copy($scope.tests);
+    
 
 
     };
@@ -94,6 +93,56 @@ angular.module('core-components.citizenship').controller('citizenshipController'
             delete sendData.Task;
             delete sendData.TaskNumber;
 
+            alert(sendData.EventDate);
+            if(sendData.EventDate=='0000-00-00' || null==sendData.EventDate)
+            {
+                alert("Hoh");
+                sendData.EventDate = tasksBeforeEdit.EventDate;
+
+            }
+            else
+            {
+                alert("hey");
+                var dateString = angular.copy(sendData.EventDate).split(" ");
+                alert("yeh");
+                alert(dateString[0]);
+                var dateStrings = dateString.split(" ");
+                alert("yuh");
+                var month;
+                if(dateStrings[1]==='Jan')
+                    month="01";
+                else if(dateStrings[1]==='Feb')
+                    month="02";
+                else if(dateStrings[1]==='Mar')
+                    month="03";
+                else if(dateStrings[1]==='Apr')
+                    month="04";
+                else if(dateStrings[1]==='May')
+                    month="05";
+                else if(dateStrings[1]==='Jun')
+                    month="06";
+                else if(dateStrings[1]==='Jul')
+                    month="07";
+                else if(dateStrings[1]==='Aug')
+                    month="08";
+                else if(dateStrings[1]==='Sep')
+                    month="09";
+                else if(dateStrings[1]==='Oct')
+                    month="10";
+                else if(dateStrings[1]==='Nov')
+                    month="11";
+                else
+                    month="12";
+
+
+                sendData.EventDate=dateStrings[3]+'-'+month+'-'+dateStrings[2]+' 00:00:00';
+                
+            };
+            alert(sendData.EventDate)
+
+
+
+
             $http ({
                 method: 'POST',
                 url: "./php/citizenship_updateCitizenship.php",
@@ -104,7 +153,7 @@ angular.module('core-components.citizenship').controller('citizenshipController'
                 {
                     if(response.data)
                     //$scope.msg="data updated";
-                        alert("data updated")
+                        alert("data updated");
                     //location.reload(true);
                 },function(result){
 
@@ -129,7 +178,7 @@ angular.module('core-components.citizenship').controller('citizenshipController'
                     if(response.data)
                     //$scope.msg="data updated";
                     {
-                        alert("data updated")
+                       // alert("data updated") // for debug
                     }
                     //location.reload(true);
                 },function(result){
