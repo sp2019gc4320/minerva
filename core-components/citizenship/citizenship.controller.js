@@ -26,7 +26,7 @@ angular.module('core-components.citizenship').controller('citizenshipController'
     $scope.cancelUpdate = function() {
         $scope.edit = false;
         $scope.tasks = angular.copy($scope.tasksBeforeEdit);
-            $scope.testsBeforeEdit = angular.copy($scope.tests);
+        $scope.tests = angular.copy($scope.testsBeforeEdit);
     
 
 
