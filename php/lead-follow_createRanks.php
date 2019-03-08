@@ -10,22 +10,32 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
-$fkClassDetailID = $_POST['fkClassDetailID'];
-$JBRank= $_POST['JBRank'];
-//Date Validation added 2/27
-$validRankDate = strtotime($_POST['RankObtainedDate']);
-$validRankDate = date('Y-m-d', $validRankDate);//off by one (gets fixed when retrieving in the js)
-$RankObtainedDate = $validRankDate;
+//set everything to empty string
+$RankPromotionNote= "";
+$RankDidFail="0";
+$fkClassDetailID="";
+$JBRank="";
+$RankObtainedDateDate="";
 
-$RankPromotionNote= $_POST['RankPromotionNote'];
-$RankDidFail= $_POST['RankDidFail'];
-
-
+//then if isset to something, reset to the value passed in
+if (isset($_POST['RankPromotionNote'])) {
+    $RankPromotionNote= $_POST['RankPromotionNote'];
+}
+if (isset($_POST['RankDidFail'])) {
+    $RankDidFail= $_POST['RankDidFail'];
+}
+if (isset($_POST['fkClassDetailID'])) {
+    $fkClassDetailID= $_POST['fkClassDetailID'];
+}
+if (isset($_POST['JBRank'])) {
+    $JBRank= $_POST['JBRank'];
+}
+if (isset($_POST['RankObtainedDate'])) {
+    $RankObtainedDate= $_POST['RankObtainedDate'];
+}
 
 $sql = "INSERT INTO tblJBRanks(fkClassDetailID,JBRank,RankObtainedDate,RankPromotionNote,RankDidFail)
 values('$fkClassDetailID', '$JBRank', '$RankObtainedDate', '$RankPromotionNote', '$RankDidFail')";
 
 $result = $conn->createRecord($sql);
-
-//$connection->close();
 ?>

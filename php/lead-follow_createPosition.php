@@ -10,25 +10,37 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
-$fkClassDetailID = $_POST['fkClassDetailID']; 
-$JBPosition= $_POST['JBPosition'];
-//Date Validation added 2/27
-$validStartDate = strtotime($_POST['PosStartDate']);
-$validStartDate = date('Y-m-d', $validStartDate);//off by one (gets fixed when retrieving in the js)
-$PosStartDate = $validStartDate;
+//set everything to empty string
+$JBPosition= "";
+$PosDidFail="0";
+$fkClassDetailID="";
+$PosNote="";
+$PosStartDate="";
+$PosEndDate="";
 
-$validEndDate = strtotime($_POST['PosEndDate']);
-$validEndDate = date('Y-m-d', $validEndDate);//off by one (gets fixed when retrieving in the js)
-$PosEndDate = $validEndDate;
+//then if isset to something, reset to the value passed in
 
-$PosNote= $_POST['PosNote'];
-$PosDidFail= $_POST['PosDidFail'];
-
+if (isset($_POST['JBPosition'])) {
+    $JBPosition= $_POST['JBPosition'];
+}
+if (isset($_POST['PosDidFail'])) {
+    $PosDidFail= $_POST['PosDidFail'];
+}
+if (isset($_POST['fkClassDetailID'])) {
+    $fkClassDetailID= $_POST['fkClassDetailID'];
+}
+if (isset($_POST['PosNote'])) {
+    $PosNote= $_POST['PosNote'];
+}
+if (isset($_POST['PosStartDate'])) {
+    $PosStartDate= $_POST['PosStartDate'];
+}
+if (isset($_POST['PosEndDate'])) {
+    $PosEndDate= $_POST['PosEndDate'];
+}
 
 $sql = "INSERT INTO tblJBPositions(fkClassDetailID,JBPosition,PosStartDate,PosEndDate,PosNote,PosDidFail) 
 values('$fkClassDetailID', '$JBPosition', '$PosStartDate', '$PosEndDate', '$PosNote', '$PosDidFail')";
 
 $result = $conn->createRecord($sql);
-
-//$connection->close();
 ?>

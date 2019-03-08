@@ -10,23 +10,36 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
-$fkClassDetailID = $_POST['fkClassDetailID'];
+//set everything to empty string
+$InspectionDate= "";
+$DidPassInspection="0";
+$fkClassDetailID="";
+$JBInspectionType="";
+$InspectionNote="";
+$InspMeritAdj="";
 
-//Date Validation added 2/27
-$validInspec = strtotime($_POST['InspectionDate']);
-$validInspec = date('Y-m-d', $validInspec);//off by one (gets fixed when retrieving in the js)
-$InspectionDate = $validInspec;
-
-$JBInspectionType= $_POST['JBInspectionType'];
-$InspectionNote= $_POST['InspectionNote'];
-$DidPassInspection= $_POST['DidPassInspection'];
-$InspMeritAdj= $_POST['InspMeritAdj'];
-
+//then if isset to something, reset to the value passed in
+if (isset($_POST['InspectionDate'])) {
+    $InspectionDate= $_POST['InspectionDate'];
+}
+if (isset($_POST['DidPassInspection'])) {
+    $DidPassInspection= $_POST['DidPassInspection'];
+}
+if (isset($_POST['fkClassDetailID'])) {
+    $fkClassDetailID= $_POST['fkClassDetailID'];
+}
+if (isset($_POST['JBInspectionType'])) {
+    $JBInspectionType= $_POST['JBInspectionType'];
+}
+if (isset($_POST['InspectionNote'])) {
+    $InspectionNote= $_POST['InspectionNote'];
+}
+if (isset($_POST['InspMeritAdj'])) {
+    $InspMeritAdj = $_POST['InspMeritAdj'];
+}
 
 $sql = "INSERT INTO tblJBInspections(fkClassDetailID,InspectionDate,JBInspectionType,InspectionNote,DidPassInspection,InspMeritAdj)
 values('$fkClassDetailID','$InspectionDate', '$JBInspectionType', '$InspectionNote', '$DidPassInspection', '$InspMeritAdj')";
 
 $result = $conn->createRecord($sql);
-
-//$connection->close();
 ?>
