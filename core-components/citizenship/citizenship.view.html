@@ -70,7 +70,7 @@
 							<!--iterate through each instance in scope from controller-->
 							<tr ng-repeat="test in tests track by $index" class="error">
 								<td>{{test.TaskTest}}</td>
-								<td><input name="EventDate" type="date" id="start" value="2019-00-00" min="2019-01-01" max="2019-12-31" ng-model="test.EventDate"></td>
+								<td><input name="EventDate" type="date" id="testStart"  ng-model="test.EventDate"></td>
 
 								<td><input name="DidPass" ng-model="test.DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"></td>
 
