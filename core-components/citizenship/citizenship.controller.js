@@ -32,6 +32,37 @@ angular.module('core-components.citizenship').controller('citizenshipController'
 
     };
 
+    $scope.formatDate = function(dateArray)
+    {
+        var month;
+        if(dateArray[1]==='Jan')
+            month="01";
+        else if(dateArray[1]==='Feb')
+            month="02";
+        else if(dateArray[1]==='Mar')
+            month="03";
+        else if(dateArray[1]==='Apr')
+            month="04";
+        else if(dateArray[1]==='May')
+            month="05";
+        else if(dateArray[1]==='Jun')
+            month="06";
+        else if(dateArray[1]==='Jul')
+            month="07";
+        else if(dateArray[1]==='Aug')
+            month="08";
+        else if(dateArray[1]==='Sep')
+            month="09";
+        else if(dateArray[1]==='Oct')
+            month="10";
+        else if(dateArray[1]==='Nov')
+            month="11";
+        else
+            month="12";
+        var dateString=dateArray[3]+'-'+month+'-'+dateArray[2]+' 00:00:00';
+        return dateString;
+    }
+
     var cadetGender = $scope.cadetGender;
     var cadet = {CadetID: $scope.cadetID};
     var cadetDOB = $scope.cadetDOB;
@@ -93,52 +124,22 @@ angular.module('core-components.citizenship').controller('citizenshipController'
             delete sendData.Task;
             delete sendData.TaskNumber;
 
-            alert(sendData.EventDate);
-            if(sendData.EventDate=='0000-00-00' || null==sendData.EventDate)
-            {
-                alert("Hoh");
-                sendData.EventDate = tasksBeforeEdit.EventDate;
+            sendData.fkCadetID=angular.copy($scope.cadetID);
 
+            if((sendData.EventDate === "0000-00-00" || null == sendData.EventDate || sendData.EventDate === $scope.tasksBeforeEdit[j].EventDate))
+            {
+                sendData.EventDate= angular.copy($scope.tasksBeforeEdit[j].EventDate);
+                //alert(sendData.EventDate+" Did not change");// Great for DateTime Debugging
             }
             else
             {
-                alert("hey");
-                var dateString = angular.copy(sendData.EventDate).split(" ");
-                alert("yeh");
-                alert(dateString[0]);
-                var dateStrings = dateString.split(" ");
-                alert("yuh");
-                var month;
-                if(dateStrings[1]==='Jan')
-                    month="01";
-                else if(dateStrings[1]==='Feb')
-                    month="02";
-                else if(dateStrings[1]==='Mar')
-                    month="03";
-                else if(dateStrings[1]==='Apr')
-                    month="04";
-                else if(dateStrings[1]==='May')
-                    month="05";
-                else if(dateStrings[1]==='Jun')
-                    month="06";
-                else if(dateStrings[1]==='Jul')
-                    month="07";
-                else if(dateStrings[1]==='Aug')
-                    month="08";
-                else if(dateStrings[1]==='Sep')
-                    month="09";
-                else if(dateStrings[1]==='Oct')
-                    month="10";
-                else if(dateStrings[1]==='Nov')
-                    month="11";
-                else
-                    month="12";
+                var DateArray = sendData.EventDate.toString().split(" ");
+                var DateString = $scope.formatDate(DateArray);
 
+                //alert(sendData.EventDate+" became "+DateString); // Great for DateTime Debugging
+                sendData.EventDate = DateString;
 
-                sendData.EventDate=dateStrings[3]+'-'+month+'-'+dateStrings[2]+' 00:00:00';
-                
-            };
-            alert(sendData.EventDate)
+            }
 
 
 
@@ -164,21 +165,38 @@ angular.module('core-components.citizenship').controller('citizenshipController'
         {
             var sendDataTwo=angular.copy($scope.tests[j]);
 
-            delete sendDataTwo.TaskTestID;
+             sendDataTwo.TaskTestID;
             delete sendDataTwo.TaskTest;
+            sendDataTwo.fkCadetID=angular.copy($scope.cadetID);
+            alert(sendDataTwo.fkCadetID);
+
+
+            if((sendDataTwo.EventDate === "0000-00-00" || null == sendDataTwo.EventDate || sendDataTwo.EventDate === $scope.testsBeforeEdit[j].EventDate))
+            {
+                sendDataTwo.EventDate= angular.copy($scope.testsBeforeEdit[j].EventDate);
+                //alert(sendDataTwo.EventDate+" Did not change");// Great for DateTime Debugging
+            }
+            else
+            {
+                var DateArrayTwo = sendDataTwo.EventDate.toString().split(" ");
+                var DateStringTwo = $scope.formatDate(DateArrayTwo);
+
+                alert(sendDataTwo.EventDate+" became "+DateStringTwo); // Great for DateTime Debugging
+                sendDataTwo.EventDate = DateStringTwo;
+
+            }
 
             $http ({
                 method: 'POST',
-                url: "./php/citizenship_updateCitizenship.php",
+                url: "./php/citizenship_updateCitizenship_2.php",
                 data: Object.toparams(sendDataTwo),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(
                 function(response)
                 {
                     if(response.data)
-                    //$scope.msg="data updated";
                     {
-                       // alert("data updated") // for debug
+                       alert(response.data); // for debug
                     }
                     //location.reload(true);
                 },function(result){
@@ -186,27 +204,11 @@ angular.module('core-components.citizenship').controller('citizenshipController'
                 });
         }
     };
-//EDIT to get gender from database
 
-    /*
-        var myOtherRequest = {cadetGender: '361'}
-        $http ({
-            method: 'POST',
-            url:"./php/citizenship_retrieveGender.php",
-            data: Object.toparams(myRequest),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(
-            function(result)
-            {
-                $scope.gender=result.data.peopleTbl;
-                for(var i=0; i<$scope.tasks.length; i++)
-                {
-                    $scope.cadetGender[i].Ineligible=$scope.cadetGender[i].Ineligible.split(" ")[0];
-                }
-            },function(error){
-                alert(error);
-            });
-    */
+
+    // Block Commented code Deleted
+    // TODO - Ask about what geting the cated gender was supposed to be used for since it was commented out
+
     var myRequest= {cadet: $scope.cadetID};
 
     $http ({
@@ -219,12 +221,15 @@ angular.module('core-components.citizenship').controller('citizenshipController'
         {
             $scope.tasks=result.data.taskTbl;
             $scope.tests=result.data.testTbl;
+
+
             for(var i=0; i<$scope.tasks.length; i++)
             {
                 $scope.tasks[i].EventDate=$scope.tasks[i].EventDate.split(" ")[0];
             }
             for(var i=0; i<$scope.tests.length; i++)
             {
+                alert($scope.tests[i].EventDate.split(" ")[0]);
                 $scope.tests[i].EventDate=$scope.tests[i].EventDate.split(" ")[0];
             }
         },function(error){
