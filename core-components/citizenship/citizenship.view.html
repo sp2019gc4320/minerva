@@ -6,29 +6,21 @@
 	<div class="well container infoContainer" 
 	id = "jscontainer"
 	ng-controller="citizenshipController">
-		<script>
-
-	  $(document).ready(function() {
-	    $("#start").datepicker();
-	  });
-
-	  </script>
 	<!--load app.controller from citizenship.controller.js-->
-		<div class="card alert-warning" ng-if="edit">
+		<div class="bg-transparent" ng-if="edit">
 			<form name ="CitzForm">	
 				<fieldset class="form-group">
 					<div>
-						<button class="btn-warning" ng-click="cancelSection()">save</button>
 						<button class="btn-warning" ng-click="cancelUpdate()">cancel</button>
+						<button ng-click="update(tasks, tests)">Update</button>
 					</div>
 					<div class="form-row m-2">
-						<table>
+						<table class="table table-responsive">
 							<thead>
 								<tr>
 			                        <th>Task</th>
 			                        <th>Description</th>
 			                        <th>Last Activity</th>
-			                        <th>Eligibility</th>
 			                        <th>Pass/Fail</th>
 			                        <th>Note</th>
 								</tr>
@@ -40,15 +32,11 @@
 
 								<td>
 									<span ng-if="task.TaskNumber!='5'">
-										<input name="EventDate" type="text" id="start" ng-model="task.EventDate">
+										<input name="EventDate" type="date" id="start" ng-model="task.EventDate">
 									</span>
 									<span ng-if="task.TaskNumber=='5'">
-										<input name="EventDate" type="text" id="start" ng-model="task.EventDate" ng-readonly="true">
+										<input name="EventDate" type="date" id="start" ng-model="task.EventDate" ng-readonly="true">
 									</span>
-								</td>
-
-								<td ng-class="draftAndVoteStyle(cadetGender, task.TaskNumber, cadetDOB)" name="Ineligible" ng-model="task.Ineligible" ng-true-value="'1'" ng-false-value="'0'" ng-readonly="true">
-									
 								</td>
 
 								<td>
@@ -69,6 +57,9 @@
 									</span>
 								</td>
 							</tr>
+						</table>
+
+						<table class="table table-responsive">
 							<tr>
 								<th>Test</th>
 								<th>Last Activity</th>
@@ -89,7 +80,6 @@
 							</tr>
 		    			</table>
 					</div>
-					<button ng-click="update(tasks, tests)">Update</button>
 
 				</fieldset>	
 			</form>
@@ -104,20 +94,30 @@
 						<tr>
 							<th>Task</th>
 							<th>Description</th>
-							<th>Eligibility</th>
 							<th>Last Activity</th>
 							<th>Pass/Fail</th>
 							<th>Note</th>
 						</tr>
-						<!--iterate through each instance in scope from controller-->
-						<tr ng-repeat="task in tasks" class="error">
-							<td>{{task.TaskNumber}}</td>
-							<td>{{task.Task}}</td>
-							<td ng-class="draftAndVoteStyle(cadetGender, task.TaskNumber, cadetDOB)"></td>
-							<td>{{task.EventDate}}</td>
-							<td>{{task.DidPass}}</td>
-							<td>{{task.EventNote}}</td>
-						</tr>
+
+				</thead>
+					<!--iterate through each instance in scope from controller-->
+					<tr ng-repeat="task in tasks" class="error">
+						<td>{{task.TaskNumber}}</td>
+						<td>{{task.Task}}</td>
+						<td>{{task.EventDate}}</td>
+						
+						<td ng-if="task.DidPass == 1" class="bg-success text-center">
+							<input type="checkbox" value="" checked disabled>
+						</td>
+						<td ng-if="task.DidPass == 0" class="bg-danger text-center">
+							<input type="checkbox" value="" disabled>
+						</td>
+					
+						<td>{{task.EventNote}}</td>
+					</tr>
+				</table>
+				<table class="table table-bordered">
+					<thead>
 
 						<tr>
 							<th>Test</th>
@@ -126,15 +126,25 @@
 							<th>Score</th>
 							<th>Note</th>
 						</tr>
-						<!--iterate through each instance in scope from controller-->
-						<tr ng-repeat="test in tests" class="error">
-							<td>{{test.TaskTest}}</td>
-							<td>{{test.EventDate}}</td>
-							<td>{{test.DidPass}}</td>
-							<td>{{test.TestScore}}</td>
-							<td>{{test.EventNote}}</td>
-						</tr>
 					</thead>
+					<!--iterate through each instance in scope from controller-->
+					<tr ng-repeat="test in tests" class="error">
+						<td>{{test.TaskTest}}</td>
+						<td>{{test.EventDate}}</td>
+						<td ng-if="test.DidPass == 1" class="bg-success text-center">
+							<input type="checkbox" value="" checked disabled>
+						</td>
+						<td ng-if="test.DidPass == 0" class="bg-danger text-center">
+							<input type="checkbox" value="" disabled>
+						</td>
+					<td>
+						<span ng-if="test.TaskTest!='Voted'">{{test.TestScore}}</span>
+
+						<span ng-if="test.TaskTest=='Voted'">N/A</span></td>
+						</td>
+						<td>{{test.EventNote}}</td>
+					</tr>
+				
 				</table>
 			</div> <!--form-row-->
 		</div ng-if-end><!--card-->
