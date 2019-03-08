@@ -1,10 +1,10 @@
 <?php
 /**
  * This file is used for the creation of a cadet via the admin panel. The
- * actual form being used is at /admin/add-cadet/add-cadet.view.html
+ * actual form being used is at /admin/site-addcadet/site-addcadet.view.html
  *
  * Created by: Zachary Ross
- */
+ */ 
 
 // TODO: Sanitize POST data
 
@@ -20,16 +20,17 @@ $postdata = file_get_contents("php://input");
 // Convert to associative array so key/value pairs can be accessed
 $decoded_postdata = (array)json_decode($postdata);
 $people_data = (array)$decoded_postdata["peopleData"];
+$contact_info_data = (array)$decoded_postdata["contactInformationData"];
 
+/**
+ * Creates the insertion string given column names, data values, and a table. 
+ *
+ * - Parameters:
+ *   - $table_name: The name of the table the data is being inserted in
+ *   - $data: The associative array containing the key value pairs for the
+ *   new record being inserted
+ */ 
 function create_insertion_string($table_name, $data) {
-    /**
-     * Creates the insertion string given column names, data values, and a table. 
-     *
-     * - Parameters:
-     *   - $table_name: The name of the table the data is being inserted in
-     *   - $data: The associative array containing the key value pairs for the
-     *   new record being inserted
-     */ 
     $keys = array_keys($data);
     $values = array_values($data);
     $keys_str = implode(", ", $keys);
@@ -38,9 +39,18 @@ function create_insertion_string($table_name, $data) {
 }
 
 
+// Queries are being chained together since each sequential database
+// query relies on the response of the last one. 
+//
+// MARK: - Add the person to the database
+//
+
 $people_insert_query = create_insertion_string("tblPeople", $people_data);
-echo $people_insert_query;
 if($conn->query($people_insert_query) == TRUE) {
+
+    // 
+    // MARK: - Add the person as a cadet
+    //
 
     // Data for inserting into tblCadets
     $people_id = $conn->insert_id;
@@ -49,6 +59,10 @@ if($conn->query($people_insert_query) == TRUE) {
     );
     $cadet_insert_query = create_insertion_string("tblCadets", $cadets_data);
     if($conn->query($cadet_insert_query) == TRUE) {
+
+        // 
+        // MARK: - Add a person to the class
+        //
 
         // Data for inserting into tblClassDetails
         $cadet_id = $conn->insert_id;
@@ -68,10 +82,26 @@ if($conn->query($people_insert_query) == TRUE) {
         echo "Failed insertion to cadet ";
         echo $conn->error;
     }
+
+    // 
+    // MARK: - Add all the cadets contact information
+    //
+
+    // Data for inserting into tblPersonContacts
+    foreach($contact_info_data as $value) {
+        $value->fkPersonID = $people_id;
+        $contact_info_insert_query = create_insertion_string("tblPersonContacts", (array)$value);
+        if($conn->query($contact_info_insert_query) == TRUE) {
+            echo "Success";
+        } else {
+            echo "Failed to insert contact info ";
+            echo $conn->error;
+        }
+    }
+
 } else {
     echo "Failed insertion to people ";
     echo $conn->error;
 };
-
 
 ?>

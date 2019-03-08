@@ -16,7 +16,7 @@
         //https://www.youtube.com/watch?v=DB-kVs76XZ4
 */
 
-angular.module('utility.attachments').
+ angular.module('utility.attachments').
     controller('attachmentController', function($scope, $http, $window) {
 
     //Mock Data used for testing ----------------------
@@ -40,15 +40,22 @@ angular.module('utility.attachments').
     $scope.files = [];
     $scope.files[0] = $scope.file;
     $scope.files[1] = angular.copy($scope.fileData2);
-
-
+    //Set Cadet ID to value stored in local storage
+    $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
+    var currDirectory='mentorFiles';
+    var currCadetID= $scope.cadetID;
+    var fileType= $scope.fileTypes;
     //Upload File - Specify CadetID, PATH and File
     $scope.uploadFile =  function() {
-        var myFile = document.querySelector('#myFile');
 
+        var myFile = document.querySelector('#myFile');
+        
+        //Set file type based on what is stored in local storage.
+        
         var formData = new FormData();
-        formData.append('CadetID','Cadet11-');
-        formData.append('directory','mentorFiles');
+        formData.append('CadetID',currCadetID);
+        formData.append('directory',currDirectory);
+        formData.append('fileType',fileType);
         formData.append('file', myFile.files[0]);
         for (var key of formData.keys()) {
             console.log(key);
@@ -88,7 +95,9 @@ angular.module('utility.attachments').
         var taskShowDirectory = $http({
             method: 'GET',
             url: './php/files_listAll.php',
-            params: { directory:'mentorFiles' }
+            params: {   directory:currDirectory,
+                        selectCadetID:currCadetID,
+                        selectFileType:fileType}
         });
         taskShowDirectory.then(function (response) {
 
