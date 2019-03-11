@@ -8,7 +8,7 @@ angular.module('admin.addClass').component('addClass',{
 
 
             $scope.classNumber;
-            $scope.classYear=2019;
+            $scope.classYear;
             $scope.NGB;
             $scope.cycle;
             $scope.graduationDate=new Date();
@@ -21,7 +21,7 @@ angular.module('admin.addClass').component('addClass',{
 
 
             $scope.weeklyStart=new Date();
-            $scope.weeklyEnd=new  Date();
+            $scope.weeklyEnd;
 
             $scope.currentYear=new Date().getFullYear();
 
@@ -29,7 +29,9 @@ angular.module('admin.addClass').component('addClass',{
 
             $scope.createClass =function () {
                 var startdate =getCorrectDate($scope.weeklyStart)//convert startWeek to correct string then assign weeks
-                assignClassWeeks(startdate);
+                var weeks=assignClassWeeks(startdate);
+                $scope.weeklyEnd=new Date(weeks[weeks.length-1]);
+
                 var sendData=
                     {
                         classNumber:$scope.classNumber,
@@ -43,9 +45,7 @@ angular.module('admin.addClass').component('addClass',{
                         classStartDate:getCorrectDate($scope.classStartDate),
                         meritBase:$scope.meritBase,
                         servAge:$scope.servAge,
-
-                        weeklyStart:getCorrectDate($scope.weeklyStart),
-                        weeklyEnd:getCorrectDate($scope.weeklyEnd)
+                        weeks:weeks,
                     };
 
                 $http ({
@@ -102,6 +102,11 @@ angular.module('admin.addClass').component('addClass',{
                 return dateString;
             };
 
+            /**
+             *Including the start date, the function returns 22 weeks. This accounts for monthly changes as well as the year being passed.
+             * One thing that still needs to be implemented is putting leading zeroes, so that they are of the right format.
+             * @param dateStr
+             */
              var assignClassWeeks= function(dateStr){
                  //need to think of a way for leap years
 
@@ -118,7 +123,7 @@ angular.module('admin.addClass').component('addClass',{
                  {
                      day+=7;
                      if(day<=daysPerMonth[month-1])//general case(-1 of indexing)
-                        weeks.push(year+"-"+month+"-"+day);
+                            weeks.push(year + "-" + month + "-" + day);
                      else if(month==12&&day>31)//if the year is exceeded
                      {
                          day=day-daysPerMonth[0];
@@ -132,7 +137,33 @@ angular.module('admin.addClass').component('addClass',{
                          weeks.push(year+"-"+month+"-"+day);
                      }
                  }
-             }
+
+                 //Format all the dates so that they are yyyy-mm-dd
+                 for(var i=1;i<weeks.length;i++)//Don't worry about the 1st. It's automatically in correct format
+                 {
+                     var aWeek=weeks[i].split("-");//get each piece of info stored as number
+                     var aYear=parseInt(aWeek[0]);
+                     var aMonth=parseInt(aWeek[1]);
+                     var aDay=parseInt(aWeek[2]);
+
+                     if(aMonth<=9) {
+                         aMonth = "0" + aMonth;
+                         weeks[i]=aYear+"-"+aMonth+"-"+aDay;
+                     }
+                     if(aDay<=9) {
+                         aDay = "0" + aDay;
+                         weeks[i]=aYear+"-"+aMonth+"-"+aDay;
+                     }
+                 }
+                 return weeks
+            }
+
+                 //Could have done this inside the for loop, but I feel that ut is simler to get dates then update them.
+
+
+
+
+
 
 
         }
