@@ -11,12 +11,19 @@ class DBController {
 	private $database = "minerva";
 	private $conn; 
 
+    /*
+	private $host = "localhost";
+	private $user = "s93gccodec";
+	private $password = "CSCI4320_A";
+	private $database = "s93gccodec_minerva_sp2019";
+     */
+
 	/*
 		///Needs to be changed based on hosting conditions.
     	private $host = "localhost";
-    	private $user = "s93gccodec";
-    	private $password = "CSCI4320_A";
-    	private $database = "s93gccodec_minerva_sp2019";
+    	private $user = "s92gccodec";
+    	private $password = "CSCI4320";
+    	private $database = "s92gccodec_minerva3";
     	private $conn;
 	*/
 	function __construct() {

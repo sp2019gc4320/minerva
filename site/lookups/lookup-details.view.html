@@ -46,22 +46,22 @@
             </td>
 
             <td>
-                <button ng-click="startEdit($index+1)" class="btn btn-xs btn-primary"
+                <button ng-click="startEdit($index+1)" class="btn btnEdit"
                         ng-hide="editOption.id">
                     Edit
                 </button>
-                <button ng-click="deleteOption($index+1)" class="btn btn-xs btn-danger"
+                <button ng-click="deleteOption($index+1)" class="btn btnDelete"
                         ng-hide="editOption.id">
                     Delete
                 </button>
 
                 <button ng-show="editOption.id && editOption.id== ($index+1)"
                         ng-click="saveChanges()"
-                        class="btn btn-xs btn-success">
+                        class="btn btnSave">
                     Save
                 </button>
                 <button ng-show="editOption.id && editOption.id== ($index+1)"
-                        ng-click="cancelEdit()" class="btn btn-xs btn-warning">
+                        ng-click="cancelEdit()" class="btn btnCancel">
                     Cancel
                 </button>
             </td>
@@ -75,7 +75,7 @@
             <td>
                 <button ng-hide="editOption.id"
                         ng-click="createOption()"
-                        class="btn btn-xs btn-primary">
+                        class="btn btnCreate">
                     Create
                 </button>
 

@@ -64,7 +64,7 @@
                        -->
                         <tr ng-repeat="potential in potentials | filter:selectItems | orderBy:'PersonLN+PersonFN'  track by $index">
                             <td>
-                                <button ng-click="loadPotential(potential)">View </button>
+                                <button class="btn btnView" ng-click="loadPotential(potential)"> View </button>
                             </td>
                             <td>{{potential.PersonLN + ", " + potential.PersonFN + " " +potential.PersonGenQual}}</td>
                             <td>{{potential.PCounty}}</td>

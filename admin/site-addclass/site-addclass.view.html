@@ -1,0 +1,79 @@
+<div>
+    <h2>Adding A New Class</h2></h2>
+    <form name="addClassForm" class="form-inline" id="adminClassForm" novalidate>
+        <h1 style="background-color:lightgreen; font-family:Impact; text-align:center;">Create A Class</h1>
+        <div class="jumbotron table-responsive ">
+        <h4 style="font-family:sans-serif; color:darkslateblue;">General Information</h4>
+        <table style="width:100%">
+            <tr>
+                <th>Class Number</th>
+                <th>Class Year</th>
+                <th>NGB</th>
+                <th>Cycle</th>
+                <th>ChalleNGe Start Date</th>
+            </tr>
+            <tr>
+                <td><input type="text" ng-model="classNumber" ></td>
+                <td><select ng-model="classYear">
+                    <option ng-bind="currentYear" selected></option>
+                    <option ng-bind="currentYear+1"></option>
+                    <option ng-bind="currentYear+2"></option>
+                    <option ng-bind="currentYear+3"></option>
+                    <option ng-bind="currentYear+4"></option>
+                    <option ng-bind="currentYear+5"></option>
+                    <option ng-bind="currentYear+6"></option>
+                    <option ng-bind="currentYear+7"></option>
+                    <option ng-bind="currentYear+8"></option>
+                    <option ng-bind="currentYear+9"></option>
+                    <option ng-bind="currentYear+10"></option>
+                </select></td>
+                <td><input type="text" ng-model="NGB" ></td>
+                <td><input type="text" ng-model="cycle" ></td>
+                <td><input type="date" ng-model="challengeStartDate"></td>
+            </tr>
+        </table>
+        <table style="width:100%">
+            <tr>
+                <th>Graduation Date</th>
+                <th>Pr Completion Start Date</th>
+                <th>Target Graduates</th>
+                <th>Class Start Date</th>
+                <th>Merit Base</th>
+                <th>Sel Serv Age</th>
+            </tr>
+            <tr>
+                <td><input type="date"  ng-model="graduationDate"></td>
+                <td><input type="date" ng-model="prCompletionDate"></td>
+                <td><input type="text" ng-model="targetGraduates"></td>
+                <td><input type="date" ng-model="classStartDate"></td>
+                <td><input type="text" ng-model="meritBase" ></td>
+                <td><select ng-model="servAge" >
+                    <option selected>17</option>
+                    <option>18</option>
+                    <option>19</option>
+                    <option>20</option>
+                </select></td>
+            </tr>
+        </table>
+        <br>
+        <hr>
+        <br>
+        <h4 style="font-family:sans-serif; color:darkslateblue;">Weekly Information</h4>
+        <table style="width:100%">
+            <tr>
+                <th>Start Date</th>
+                <th>End Date</th>
+            </tr>
+            <tr>
+                <td><input type="date" ng-model="weeklyStart"></td>
+                <td><input type="date" ng-model="weeklyEnd"></td>
+            </tr>
+        </table>
+
+    </div>
+
+    <p style="text-align:center">
+        <button ng-click="createClass()" type="button" class="btn btnCreate" style="text-align: center"> Add Class</button>
+    </p>
+    </form>
+</div>

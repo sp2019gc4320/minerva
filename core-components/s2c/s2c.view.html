@@ -2,11 +2,16 @@
    used with s2c.controller
  -->
 
-<div class="well container text-center infoContainer " id="stcContainer">
-	<h3>Service to Community</h3>
+ <div class="well container infoContainer " id="stcContainer">
+	<h1>Service to Community</h1>
 	<!--load app.controller from healthHygCtrl.js-->
 	<div ng-controller="s2cController">
-	<table>
+	<table class="table minerva-table">
+		<thead>
+			<tr>
+				<th colspan="5">TASKS </th>
+			</tr>
+		</thead>
 		<tr>
 			<th>Task</th>
 			<th>Description</th>
@@ -22,6 +27,13 @@
 			<td>{{task.DidPass}}</td>
 			<td>{{task.EventNote}}</td>
 		</tr>
+	</table>
+	<table class="table minerva-table">
+		<thead>
+			<tr>
+				<th colspan="5">TESTS </th>
+			</tr>
+		</thead>
 		<tr>
 			<th>Test</th>
 			<th>Last Activity</th>

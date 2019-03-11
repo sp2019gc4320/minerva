@@ -2,9 +2,12 @@
 // File: files_listAll.php
 // echos a JSON  array with all logo images
 //
-
+require_once 'dbcontroller.php';
+$conn = new DBController();
 
 $directory= "datas";
+$cadetID=1;
+$fileType=NULL;
 if(isset($_POST['directory'])){
      $directory = filter_input(INPUT_POST, 'directory');
  }
@@ -12,48 +15,30 @@ if(isset($_POST['directory'])){
            $directory =  basename(filter_input(INPUT_GET, "directory"));
          //  echo "$_GET:  $_GET";
  }
+ if(isset($_GET['selectCadetID'])){
+          $cadetID=filter_input(INPUT_GET,"selectCadetID");
+ }
+  if(isset($_GET['selectFileType'])){
+          $fileType=filter_input(INPUT_GET,"selectFileType");
+ }
 
-
-
-$dir    = '..//'. $directory;
-$files = scandir($dir);
-
+$sql= "SELECT UploadedFileName FROM tblAttachments WHERE fkClassDetailID = '$cadetID' AND fkAttachmentType ='$fileType'"; 
+$result = $conn->runSelectQuery($sql);
 echo '{ "data":[';
-
-$length = count($files);
-
-
-// output data on each row
-$index = 0;
-
-while($index < $length)
+//print_r($result);
+if ($result->num_rows > 0) 
 {
-    //display comma
-     if ($index >0 )
+  $count=0;
+
+    // output data on each row
+    while($row = $result->fetch_assoc()) {
+      
+      //display comma
+        if ($count >0 )
           echo ",";
-
-      //format output as an object -- specify each field along with its value
-     //Field names are case sensitive -- make sure they are the same as in the database
-     //echo '"' .$files[$index]. '"';
-
-     $filename = $files[$index];
-
-    // $size= round(filesize("../datas/$filename")/1024,1);
-      $size = round(filesize("$dir/$filename")/1024,1);
-
-     if ($size > 1000)
-       $sizeString = round($size/1024,1) . ' MB';
-     else
-       $sizeString = $size. ' KB';
-     $date = date("Y-m-d", filectime("$dir/$filename"));
-
-     echo '{ '. '"File": "'. $filename.  '", "Size":"'. $sizeString. '",  "DateAdded": "'. $date. '" }';
-
-     //echo=  '{'. '"' .$field. '": "'.  $row[$field]. '" '. '"' .$field. '": "'.  $row[$field]. '" '. '"' .$field. '": "'.  $row[$field]. '"} ';
-
-    ++$index;
+      
+        echo '{"File": "' . $row["UploadedFileName"].'"}';
+        $count=$count+1;
+    }
+    echo '] }';
 }
-
-echo '] }';
-
-?>

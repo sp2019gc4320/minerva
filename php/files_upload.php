@@ -2,7 +2,9 @@
 //files_upload.php
 //Remember to change the permissions on the directory chmod 777 to allow read and write
 //----------------------------------------------
-
+//Connect to Database
+require_once 'dbcontroller.php';
+$conn = new DBController();
 $directory= "datas";
 if(isset($_POST['directory'])){
      $directory = filter_input(INPUT_POST, 'directory');
@@ -28,20 +30,26 @@ if(isset($_POST['CadetID'])){
  //echo ' --------------------RESULT:';
 if(isset($_FILES['file'])){
 
- //echo 'Yay! File was received by server!';
+ //echo 'Yay! File was received by server!';0
   $fileName = $_FILES['file']['name'];
   $fileSize = $_FILES['file']['size'];
   $fileTmpName  = $_FILES['file']['tmp_name'];
-  $fileType = $_FILES['file']['type'];
+  $fileType = $_POST['fileType'];
   $fileExtension = strtolower(end(explode('.', $_FILES['file']['name'])));
 
  // print_r($_FILES);
-
+  $nameForDatabase=$CadetID.$fileName;
   //now move file to new location
  // move_uploaded_file($fileTmpName, "../datas/gita".$fileName);
-   move_uploaded_file($fileTmpName,  "../". $directory. "/". $CadetID .$fileName);
 
+  
+  
+   move_uploaded_file($fileTmpName,  "../". $directory. "/". $CadetID .$fileName);
+   $aPath="../". $directory. "/". $CadetID .$fileName;
    echo "$CadetID$fileName";
+   //SQL for inserting new file into the database.
+  $sql= "INSERT INTO tblAttachments (fkClassDetailID,fkAttachmentType,UploadedFileName, AttachmentPath, FileType) VALUES ('$CadetID','$fileType','$CadetID$fileName','$aPath','$fileExtension')";
+  $result = $conn->runQuery($sql);
 
 }
 else
