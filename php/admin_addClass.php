@@ -14,28 +14,26 @@ $classStartDate=getRightFormat($_POST["classStartDate"]);
 $graduationDate=getRightFormat($_POST["graduationDate"]);
 $prCompletionDate= getRightFormat($_POST["prCompletionDate"]);
 $targetGraduates= $_POST['targetGraduates'];
-
-
 $NGB=$_POST['NGB'];
 $classNumber=$_POST['classNumber'];
 $cycle=$_POST['cycle'];
 $meritBase=$_POST['meritBase'];
 $servAge=$_POST['servAge'];
 
+$fkSiteID=$_POST['fkSiteID'];
+
 
 
 //Incomplete functionality
-$weeks=$_POST['weeks'];
+$weeks=json_decode($_POST['weeks']);
 //$weeks=["2019-03-01","2019-03-02","2019-03-03"];
-
-for($i=0;$i<count($weeks)-1;$i++)
+$counter=1;
+for($i=0;$i<(count($weeks)-1);$i+=2,$counter++)
 {
-    $classWeek=($i+1);
-    echo $classWeek."\n";
+    $classWeek=$counter;
     $weeklyStart=getRightFormat($weeks[$i]);
-    echo  $weeklyStart."\n";
     $weeklyEnd=getRightFormat($weeks[$i+1]);
-    echo $weeklyEnd."\n";
+
     //tlkpclassweek
     $sql= "INSERT INTO
         tlkpclassweek
@@ -48,8 +46,8 @@ for($i=0;$i<count($weeks)-1;$i++)
 //tblclasses
 $sql = "INSERT INTO
         tblclasses
-        (ClassYear,ChalleNGeStartDate,ClassStartDate,GraduationDate,PRCompletionDate,TargetGraduates,SiteClassNumber,NGB,Cycle,MeritBase,SelServAge) 
- VALUES ($classYear,'$challengeStartDate','$classStartDate','$graduationDate','$prCompletionDate','$targetGraduates','$classNumber','$NGB','$cycle','$meritBase','$servAge');";
+        (ClassYear,ChalleNGeStartDate,ClassStartDate,GraduationDate,PRCompletionDate,TargetGraduates,SiteClassNumber,NGB,Cycle,MeritBase,SelServAge,fkSiteID) 
+ VALUES ($classYear,'$challengeStartDate','$classStartDate','$graduationDate','$prCompletionDate','$targetGraduates','$classNumber','$NGB','$cycle','$meritBase','$servAge','$fkSiteID');";
 
 /*
 //tblclasses
