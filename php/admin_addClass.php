@@ -46,8 +46,8 @@ for($i=0;$i<(count($weeks)-1);$i+=2,$counter++)
 //tblclasses
 $sql = "INSERT INTO
         tblclasses
-        (ClassYear,ChalleNGeStartDate,ClassStartDate,GraduationDate,PRCompletionDate,TargetGraduates,SiteClassNumber,NGB,Cycle,MeritBase,SelServAge,fkSiteID) 
- VALUES ($classYear,'$challengeStartDate','$classStartDate','$graduationDate','$prCompletionDate','$targetGraduates','$classNumber','$NGB','$cycle','$meritBase','$servAge','$fkSiteID');";
+        (ClassYear,ChalleNGeStartDate,ClassStartDate,GraduationDate,PRCompletionDate,TargetGraduates,SiteClassNumber,NGB,Cycle,MeritBase,SelServAge,fkSiteID,fkClassPhaseID) 
+ VALUES ($classYear,'$challengeStartDate','$classStartDate','$graduationDate','$prCompletionDate','$targetGraduates','$classNumber','$NGB','$cycle','$meritBase','$servAge','$fkSiteID','1');";
 
 /*
 //tblclasses

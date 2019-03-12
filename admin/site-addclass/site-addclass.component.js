@@ -24,7 +24,7 @@ angular.module('admin.addClass').component('addClass',{
             $scope.weeklyStart=new Date();
             $scope.currentYear=new Date().getFullYear();
 
-            $scope.weeklyEnd
+            $scope.weeklyEnd;
             $scope.fkSiteID=sessionStorage.getItem('SiteID');
 
 
@@ -32,7 +32,7 @@ angular.module('admin.addClass').component('addClass',{
 
                 var startdate =getCorrectDate($scope.weeklyStart)//convert startWeek to correct string then assign weeks
                 var weeks=assignClassWeeks(startdate);
-                $scope.weeklyEnd=new Date(weeks[weeks.length-1]+= "T00:00:00");
+                $scope.weeklyEnd=new Date(weeks[weeks.length-1]);
 
                 var sendData=
                     {
@@ -181,15 +181,13 @@ angular.module('admin.addClass').component('addClass',{
             };
 
                  //Could have done this inside the for loop, but I feel that ut is simler to get dates then update them.
-            
             $scope.updateEndDate=function () {
                 var startdate =getCorrectDate($scope.weeklyStart)//convert startWeek to correct string then assign weeks
                 var weeks=assignClassWeeks(startdate);
+                $scope.weeklyEnd=new Date(weeks[weeks.length-1]);
+            };
 
-                $scope.weeklyEnd=new Date(weeks[weeks.length-1]+= "T00:00:00");
-            }
-            
+            $scope.updateEndDate();
         }
-
     ]
     });
