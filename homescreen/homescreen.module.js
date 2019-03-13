@@ -4,5 +4,5 @@
 
 angular.module('homescreen', [
     'homescreen.caseManager',
-    'homescreen.cadre'
+    //'homescreen.cadre'
 ]);
