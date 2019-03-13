@@ -8,7 +8,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 $op = 'UPDATE';
 $JBInspectionID = $_POST['JBInspectionID'];
@@ -42,7 +42,7 @@ WHERE
   JBInspectionID = '$JBInspectionID'";
 
 
-    $result = $conn->runQuery($sql);
+    $result = $connection->runQuery($sql);
     if ($result === TRUE) {
         echo "Record updated successfully";
     } else {
@@ -54,7 +54,7 @@ else if($op == 'DELETE')
     $sql = " DELETE FROM tblJBInspections
                WHERE  JBInspectionID=$JBInspectionID
              ";
-    $result = $conn->runDeleteQuery($sql);
+    $result = $connection->runDeleteQuery($sql);
 
     print_r($sql);
 
@@ -64,5 +64,5 @@ else if($op == 'DELETE')
         echo "Error deleting record: $sql";
     }
 }
-//$connection->close();
+//$connectionection->close();
 ?>

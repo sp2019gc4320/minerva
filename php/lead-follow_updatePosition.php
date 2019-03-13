@@ -7,7 +7,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 //default for testing
 $op = 'UPDATE';
@@ -46,19 +46,19 @@ SET
 WHERE
   PositionID = '$PositionID'";
 
-    $result = $conn->runQuery($sql);
+    $result = $connection->runQuery($sql);
     if ($result === TRUE) {
         echo "Record updated successfully";
     } else {
         echo "Error updating record: $sql";
     }
-//$connection->close();
+//$connectionection->close();
 }
 else if($op == 'DELETE') {
     $sql = " DELETE FROM tblJBPositions
                WHERE  PositionID=$PositionID
              ";
-    $result = $conn->runDeleteQuery($sql);
+    $result = $connection->runDeleteQuery($sql);
 
     print_r($sql);
 

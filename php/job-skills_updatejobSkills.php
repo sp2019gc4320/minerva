@@ -9,7 +9,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 //these values should be sent when calling this php file -- store this value in $valueName = $_POST['valueName'];
 $fkCadetID = $_POST['fkCadetID']; 
@@ -35,6 +35,6 @@ WHERE
   AND tblClassDetails.fkCadetID = '$fkCadetID'
   AND tlkpCoreComponentTasks.TaskID = '$fkTaskID'";
 
-$result = $conn->runQuery($sql);
+$result = $connection->runQuery($sql);
 
 ?>

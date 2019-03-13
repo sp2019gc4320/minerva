@@ -8,7 +8,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 $DutyPositionID = filter_input(INPUT_POST, "DutyPositionID");
 
@@ -32,7 +32,7 @@ $sql = "INSERT INTO tblJBDuties(DutyPositionID, fkClassDetailID,JobPosition,Duty
 
 //echo($sql);
 
-$result = $conn->createRecord($sql);
+$result = $connection->createRecord($sql);
 
-//$connection->close();
+//$connectionection->close();
 ?>

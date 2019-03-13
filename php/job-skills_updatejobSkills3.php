@@ -10,7 +10,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 
 //these values should be sent when calling this php file -- store this value in $valueName = $_POST['valueName'];
@@ -37,6 +37,6 @@ WHERE
   
  
 //sending the prepared sql statement
-$result = $conn->runQuery($sql);
+$result = $connection->runQuery($sql);
 
 ?>

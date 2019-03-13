@@ -8,7 +8,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 $fkClassDetailID = $_POST['fkClassDetailID'];
 
@@ -26,7 +26,7 @@ $InspMeritAdj= $_POST['InspMeritAdj'];
 $sql = "INSERT INTO tblJBInspections(fkClassDetailID,InspectionDate,JBInspectionType,InspectionNote,DidPassInspection,InspMeritAdj)
 values('$fkClassDetailID','$InspectionDate', '$JBInspectionType', '$InspectionNote', '$DidPassInspection', '$InspMeritAdj')";
 
-$result = $conn->createRecord($sql);
+$result = $connection->createRecord($sql);
 
-//$connection->close();
+//$connectionection->close();
 ?>

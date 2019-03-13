@@ -8,34 +8,6 @@
 
 require_once 'dbcontroller.php';
 
-
-function makeObject($row, $fieldNames)
-{
-   //Create array of field names
-   $fieldArray = explode(", ", $fieldNames);
-   $length = count($fieldArray);
-   $count = 0;
-   $str = "{";
-
-   while($count < $length)
-   {
-       $field = $fieldArray[$count];
-
-        //display comma
-         if ($count >0 )
-             $str = $str .  ",";
-
-             //format output as an object -- specify each field along with its value
-         $str=  $str . '"' .$field. '": "'.  $row[$field]. '" ';
-
-       ++$count;
-   }
-   $str = $str .  '}';
-
-   return $str;
-
-}
-
 //Create connection
 $connection = new DBController();
 
@@ -61,7 +33,7 @@ if ($result->num_rows > 0)
             echo ",";
 
            // echo  makeObject($row, "SiteCode|SiteAddress|SiteName|SiteCity|SiteState|SiteZip|SitePhone|SiteFax");
-            echo  makeObject($row, $fields);
+            echo  $connection->makeObject($row, $fields);
 
          $count = $count+1;
     }

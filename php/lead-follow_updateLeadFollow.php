@@ -8,7 +8,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 //A "cadetID" should be sent when calling this php file
 $fkCadetID = $_POST['fkCadetID']; 
@@ -32,11 +32,11 @@ WHERE
   AND tblClassDetails.fkCadetID = '$fkCadetID'
   AND tlkpCoreComponentTasks.TaskID = $fkTaskID";
 
-$result = $conn->runQuery($sql);
+$result = $connection->runQuery($sql);
 if ($result === TRUE) {
     echo "Record updated successfully";
 } else {
     echo "Error updating record: $sql";
 }
-//$connection->close();
+//$connectionection->close();
 ?>

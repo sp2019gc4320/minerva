@@ -3,7 +3,7 @@
 // echos a JSON  array with all logo images
 //
 require_once 'dbcontroller.php';
-$conn = new DBController();
+$connection = new DBController();
 
 $directory= "datas";
 if(isset($_POST['directory'])){

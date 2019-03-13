@@ -8,7 +8,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 $fkClassDetailID = $_POST['fkClassDetailID'];
 $ASVABDate = $_POST['ASVABDate']; 
@@ -36,8 +36,8 @@ $sql = "INSERT INTO tblASVAB
 
 //echo($sql);
 
-$result = $conn->createRecord($sql);
+$result = $connection->createRecord($sql);
 
-//$connection->close();
+//$connectionection->close();
 
 ?>

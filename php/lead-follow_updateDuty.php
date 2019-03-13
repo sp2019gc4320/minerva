@@ -8,7 +8,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 //default for testing
 $op = 'UPDATE';
@@ -49,7 +49,7 @@ SET
 WHERE
   DutyPositionID = '$DutyPositionID'";
 
-    $result = $conn->runQuery($sql);
+    $result = $connection->runQuery($sql);
 
     print_r($sql);
 
@@ -64,7 +64,7 @@ else if($op == 'DELETE')
     $sql = " DELETE FROM tblJBDuties
                WHERE  DutyPositionID=$DutyPositionID
              ";
-    $result = $conn->runDeleteQuery($sql);
+    $result = $connection->runDeleteQuery($sql);
 
     print_r($sql);
 

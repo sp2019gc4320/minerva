@@ -4,7 +4,7 @@
 //----------------------------------------------
 //Connect to Database
 require_once 'dbcontroller.php';
-$conn = new DBController();
+$connection = new DBController();
 $directory= "datas";
 if(isset($_POST['directory'])){
      $directory = filter_input(INPUT_POST, 'directory');
@@ -49,7 +49,7 @@ if(isset($_FILES['file'])){
    echo "$CadetID$fileName";
    //SQL for inserting new file into the database.
   $sql= "INSERT INTO tblAttachments (fkClassDetailID,fkAttachmentType,UploadedFileName, AttachmentPath, FileType) VALUES ('$CadetID','$fileType','$CadetID$fileName','$aPath','$fileExtension')";
-  $result = $conn->runQuery($sql);
+  $result = $connection->runQuery($sql);
 
 }
 else

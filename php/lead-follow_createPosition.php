@@ -8,7 +8,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 $fkClassDetailID = $_POST['fkClassDetailID']; 
 $JBPosition= $_POST['JBPosition'];
@@ -28,7 +28,7 @@ $PosDidFail= $_POST['PosDidFail'];
 $sql = "INSERT INTO tblJBPositions(fkClassDetailID,JBPosition,PosStartDate,PosEndDate,PosNote,PosDidFail) 
 values('$fkClassDetailID', '$JBPosition', '$PosStartDate', '$PosEndDate', '$PosNote', '$PosDidFail')";
 
-$result = $conn->createRecord($sql);
+$result = $connection->createRecord($sql);
 
-//$connection->close();
+//$connectionection->close();
 ?>

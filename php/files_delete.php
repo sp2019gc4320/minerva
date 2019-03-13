@@ -3,7 +3,7 @@
 //files_delete.php
 //connect to database
 require_once 'dbcontroller.php';
-$conn = new DBController();
+$connection = new DBController();
 $filename = 'gita000.jpg';
 
 if(isset($_POST['file'])){
@@ -38,7 +38,7 @@ if(!empty($filename)){
 
     if(file_exists($myFile))
     {
-      $result = $conn->runQuery($sql);    
+      $result = $connection->runQuery($sql);    
       unlink($myFile);
     }
     else{

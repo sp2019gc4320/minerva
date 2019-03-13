@@ -76,7 +76,7 @@ if ($result->num_rows > 0){
         if ($count >0 )
             echo ",";
 
-            echo  makeObject($row, $fields);
+            echo  $connection->makeObject($row, $fields);
 
          $count = $count+1;
     }

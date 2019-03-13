@@ -7,7 +7,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 
 $op = 'UPDATE';
@@ -42,7 +42,7 @@ SET
 WHERE
   JBRankID = '$JBRankID'";
 
-    $result = $conn->runQuery($sql);
+    $result = $connection->runQuery($sql);
     if ($result === TRUE) {
         echo "Record updated successfully";
     } else {
@@ -54,7 +54,7 @@ else if($op == 'DELETE')
     $sql = " DELETE FROM tblJBRanks
                WHERE  JBRankID=$JBRankID
              ";
-    $result = $conn->runDeleteQuery($sql);
+    $result = $connection->runDeleteQuery($sql);
 
     print_r($sql);
 
@@ -65,5 +65,5 @@ else if($op == 'DELETE')
     }
 }
 
-//$connection->close();
+//$connectionection->close();
 ?>

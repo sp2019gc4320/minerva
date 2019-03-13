@@ -8,7 +8,7 @@
 require_once 'dbcontroller.php';
 
 //create connection
-$conn = new DBController();
+$connection = new DBController();
 
 $fkClassDetailID = $_POST['fkClassDetailID'];
 $JBRank= $_POST['JBRank'];
@@ -25,7 +25,7 @@ $RankDidFail= $_POST['RankDidFail'];
 $sql = "INSERT INTO tblJBRanks(fkClassDetailID,JBRank,RankObtainedDate,RankPromotionNote,RankDidFail)
 values('$fkClassDetailID', '$JBRank', '$RankObtainedDate', '$RankPromotionNote', '$RankDidFail')";
 
-$result = $conn->createRecord($sql);
+$result = $connection->createRecord($sql);
 
-//$connection->close();
+//$connectionection->close();
 ?>
