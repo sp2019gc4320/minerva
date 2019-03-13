@@ -4,42 +4,79 @@
 // Prints JSON array
 // Needs CadetID
 
-//connect to db controller
 require_once 'dbcontroller.php';
 
-// cadet id to test with
-$CadetID = "12";
+//Create connection
+$connection = new DBController();
 
-//create connection
-$conn = new DBController();
+$op ='UPDATE';
+$genNoteID = 2;
 
-// assign variables to content sent to server in prap.view.html
-$GenNote= $_POST['GenNote'];
-$GenNoteID= $_POST['GenNoteID'];
-$NoteEditorID= $_POST['NoteEditorID'];
-$NoteCreatorID= $_POST['NoteCreatorID'];
-$NoteCreatedDate = $_POST['NoteCreatedDate'];
-$NoteEditedDate = $_POST['NoteEditedDate'];
 
-// query to update tblGenNotes
-$sql1 = "UPDATE tblGenNotes
-         INNER JOIN tblClassDetails 
-         ON tblClassDetails.ClassDetailID = tblGenNotes.fkClassDetailID 
-         SET GenNote='$GenNote', 
-             GenNoteID='$GenNoteID',
-             NoteEditorID='$NoteEditorID',
-             NoteCreatedDate='$NoteCreatedDate',
-             NoteCreatorID='$NoteCreatorID',
-             NoteEditedDate='$NoteEditedDate'
-         WHERE tblClassDetails.fkCadetID= '$CadetID' AND GenNoteID='$GenNoteID'";
-
-// send first query
-$result = $conn->runQuery($sql1);
-if ($result === TRUE) {
-    echo "Record updated successfully";
-} else {
-    echo "Error updating record: $sql1";
+if(isset($_POST['GenNoteID'])){
+    $genNoteID = filter_input(INPUT_POST, "GenNoteID");
+    unset($_POST['GenNoteID']);
 }
 
-//$connection->close();
+if(isset($_POST['op'])){
+    $op = filter_input(INPUT_POST, "op");
+    unset($_POST['op']);
+}
+
+if($op == 'UPDATE')
+{
+    $sql = "SELECT tblgennotes.*
+          FROM tblgennotes
+          WHERE
+          GenNoteID= $genNoteID
+          ";
+    $result = $connection->runSelectQuery($sql);
+    if ($result){
+        $fieldInfo=mysqli_fetch_fields($result);
+        $row = $result->fetch_assoc();
+
+        foreach ($fieldInfo as $val) {
+            $fieldName = $val->name;
+
+
+            // check to see if there is a post value
+            if(isset($_POST[$fieldName])){
+                $fieldValue = filter_input(INPUT_POST, $fieldName);
+                $sql = "UPDATE tblgennotes set $fieldName = '$fieldValue' WHERE  GenNoteID=$genNoteID";
+                $connection->runQuery($sql);
+            }
+
+        }
+    }
+
+
+    echo '{ "status": "finsihed updating "}';
+}
+else if ($op=='ADD')
+{
+    $fkClassDetailID = filter_input(INPUT_POST, "fkClassDetailID");
+    $genNoteTopic = filter_input(INPUT_POST, "GenNoteTopic");
+    $noteCreatorID =filter_input(INPUT_POST, "NoteCreatorID");
+    $noteEditorID = filter_input(INPUT_POST, "NoteEditorID");
+    $noteCreatedDate = filter_input(INPUT_POST, "NoteCreatedDate");
+    $noteEditedDate = filter_input(INPUT_POST, "NoteEditedDate");
+    $genNote = filter_input(INPUT_POST, "GenNote");
+
+    $sql = "INSERT INTO tblgennotes ( fkClassDetailID, GenNoteTopic, NoteCreatorID, NoteEditorID, NoteCreatedDate, NoteEditedDate, GenNote)
+             VALUES ('$fkClassDetailID',  '$genNoteTopic',  '$noteCreatorID',  '$noteEditorID', '$noteCreatedDate', '$noteEditedDate', '$genNote')";
+
+
+    $connection->createRecord($sql);
+
+
+}
+else if ($op =='DELETE')
+{
+    $sql = " DELETE FROM tblgennotes
+               WHERE  GenNoteID=$genNoteID
+             ";
+    $connection->runDeleteQuery($sql);
+
+}
+
 ?>
