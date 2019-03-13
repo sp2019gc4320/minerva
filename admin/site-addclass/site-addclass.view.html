@@ -13,9 +13,11 @@
                 <th>ChalleNGe Start Date</th>
             </tr>
             <tr>
-                <td><input type="text" ng-model="classNumber" ></td>
-                <td><select ng-model="classYear">
-                    <option ng-bind="currentYear" selected></option>
+                <td><input type="number" ng-model="classNumber" required></td>
+
+                <td><select ng-model="classYear" required>
+                    <!--Tried to make it 'dynamic', but binding is giving issues. Will come back when other tasks are completed.
+                    <option ng-bind="currentYear"></option>
                     <option ng-bind="currentYear+1"></option>
                     <option ng-bind="currentYear+2"></option>
                     <option ng-bind="currentYear+3"></option>
@@ -25,10 +27,21 @@
                     <option ng-bind="currentYear+7"></option>
                     <option ng-bind="currentYear+8"></option>
                     <option ng-bind="currentYear+9"></option>
-                    <option ng-bind="currentYear+10"></option>
+                    <option ng-bind="currentYear+10"></option>-->
+                    <option selected>2019</option>
+                    <option>2020</option>
+                    <option>2021</option>
+                    <option>2022</option>
+                    <option>2023</option>
+                    <option>2024</option>
+                    <option>2025</option>
+                    <option>2026</option>
+                    <option>2027</option>
+                    <option>2028</option>
+
                 </select></td>
-                <td><input type="text" ng-model="NGB" ></td>
-                <td><input type="text" ng-model="cycle" ></td>
+                <td><input type="number" ng-model="NGB" ></td>
+                <td><input type="number" ng-model="cycle" ></td>
                 <td><input type="date" ng-model="challengeStartDate"></td>
             </tr>
         </table>
@@ -44,9 +57,9 @@
             <tr>
                 <td><input type="date"  ng-model="graduationDate"></td>
                 <td><input type="date" ng-model="prCompletionDate"></td>
-                <td><input type="text" ng-model="targetGraduates"></td>
+                <td><input type="number" ng-model="targetGraduates"></td>
                 <td><input type="date" ng-model="classStartDate"></td>
-                <td><input type="text" ng-model="meritBase" ></td>
+                <td><input type="number" ng-model="meritBase" ></td>
                 <td><select ng-model="servAge" >
                     <option selected>17</option>
                     <option>18</option>
@@ -66,14 +79,13 @@
             </tr>
             <tr>
                 <td><input type="date" ng-model="weeklyStart"></td>
-                <td><input type="date" ng-model="weeklyEnd"></td>
+                <td><input type="date" ng-model="weeklyEnd" disabled></td>
             </tr>
         </table>
 
     </div>
-
     <p style="text-align:center">
-        <button ng-click="createClass()" type="button" class="btn btnCreate" style="text-align: center"> Add Class</button>
+        <button ng-click="createClass()" type="submit" class="btn btn-lg btn-success" style="text-align: center">Submit Class</button>
     </p>
     </form>
 </div>

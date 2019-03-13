@@ -103,6 +103,7 @@
 
             $scope.files =[];
             var i=0;
+            console.log(response);
             var max = response.data.data.length;
             while (i < max) {
 

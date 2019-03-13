@@ -83,7 +83,6 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
         $scope.cadetClassBackup=angular.copy($scope.cadetClass);
     };
 
-=======
     //$scope.cadetID = "12"; //with data
     //alert("setting cadetID to for testing " +$scope.cadetID);
     //Create Local Storage for catagory of file to forward to database
@@ -191,61 +190,6 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
             //  SUCESS
           function (result) {
 
-                contactNote.fkMentorPotentialID = result.data.id;
-                var nextIndex = $scope.mentorContacts.length;
-                delete  contactNote.op;
-
-                $scope.mentorContacts[nextIndex] = angular.copy(contactNote);
-                $scope.mentorContactsBackup.push(angular.copy(contactNote));
-            },
-
-            //  ERROR
-            function (result) {
-                alert("Error updating record" + JSON.stringify(result));
-            });
-
-    };
-
-    // called when save in Action Plan function is clicked
-    $scope.savePlan = function () {
-        var sendData = angular.copy($scope.cadetClass);
-        alert(JSON.stringify(sendData));
-        //update using prap_updatePlan.php
-        $http({
-            method: 'POST',
-            url: "./php/prap_updatePlan.php",
-            data: Object.toparams(sendData),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(
-            function (response) {
-                alert("updated: [prap_updatePlan.php" + JSON.stringify(response));
-                //alert("data updated");
-            }, function (result) {
-                alert("Failed");
-            });
-        alert("plan updated");
-    };
-
-    // called when save button in Goals section is clicked
-    $scope.saveGoals = function () {
-        var update = angular.copy($scope.cadetClass);
-        alert(JSON.stringify(update));
-        //update using prap_updateGoals.php
-        $http({
-            method: 'POST',
-            url: "./php/prap_updateGoals.php",
-            data: Object.toparams(update),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(
-            function (response) {
-                alert("updated: [prap_updateGoals.php" + JSON.stringify(response));
-                //alert("data updated");
-            }, function (result) {
-                alert("Failed");
-            });
-        alert("goals updated");
-    };
-
     //1. Get Cadet's PRAP Notes
     var taskGetPrapNotes = $http({
         method: 'POST',
@@ -276,6 +220,11 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
             alert(JSON.stringify(result));
             $scope.prapNotes = result.data.data;
 
+    taskGetPrapNotes.then(
+        //SUCCESS
+        function(result) {
+            alert(JSON.stringify(result));
+            $scope.prapNotes = result.data.data[0];
 
             //Add Created By Name to each Note
             for (var i=0; i< $scope.prapNotes.length; i++) {
@@ -294,7 +243,6 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
                         function (result) {
                             var obj =result.data.data[0];
                             var myIndex = result.data.index;
-=======
 	taskGetPrapNotes.then(
 		//SUCCESS
 		function(result) {
@@ -319,11 +267,9 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
                     	var obj =result.data.data[0];
                         var myIndex = result.data.index;
 
-
                             if(obj)
                                 $scope.prapNotes[myIndex].NoteCreatedByName = obj.PersonLN+", "+obj.PersonFN;
                         }
-
                     )};
 
                 //Add NoteEditedByName to each Note
@@ -391,6 +337,14 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
         }
     );
 
+            //send updates to php file:
+            for (let index = 0; index < updates.length; index++) {
+                var taskSaveAppts = $http({
+                    method: 'POST',
+                    url: './php/mentor_updateAppts.php',
+                    data: Object.toparams(updates[index]),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                });
 
     taskGetCadetClassDetails.then(
         //SUCESS
@@ -403,127 +357,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
         function(result){
             alert("Error reading Cadet Class Details." + JSON.stringify(result));
         }
-    );
-
-//});
-angular.module('notes.prap').filter('seedate', function($filter)
-{
-    return function(input)
-    {
-        if(input == null){ return ""; }
-        alert(input);
-        var _date = $filter('date')(new Date(input), 'MMM dd yyyy');
-
-        return _date.toUpperCase();
-
-    };
-});
-
-
-    //add and remove note functions
-    $scope.inputList = [];
-    $scope.remove = function (input) {
-        var idx = $scope.inputList.indexOf(input);
-        $scope.inputList.splice(idx, 1)
-    };
-
-    $scope.addNote = function()
-    {
-        alert("hi");
-        var Note={
-            NoteCreatedByName: "",
-            NoteCreatedDate: "",
-            NoteEditedByName: "",
-            NoteEditedDate: "",
-            op: "ADD"
-        };
-
-        $http({
-            method: 'POST',
-            url: './php/prap_updateNotes.php',
-            data: Object.toparams(Note),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(
-            //  SUCESS
-            function (result) {
-
-                Note.CadetID = result.data.id;
-                var nextIndex = $scope.prapNotes.length;
-                delete Note.op;
-
-                $scope.prapNotes[nextIndex] = angular.copy(Note);
-                $scope.prapNotesBackup.push(angular.copy(Note));
-            },
-
-            //  ERROR
-            function (result) {
-                alert("Error updating record" + JSON.stringify(result));
-            });
-    };
-
-
-    $scope.mentorIndex = 0;
-
-
-    $scope.saveSection = function (section) {
-        var update = {};
-        var updates = [];
-
-
-        //UPDATE appts
-        if (section == "mentorContacts") {
-            $scope.editAppts = false;
-
-            //Find new and updated appts
-            for(let i=0; i< $scope.mentorContacts.length; i++) {
-                update = angular.copy($scope.mentorContacts[i]);
-                let id = $scope.mentorContacts[i].AppointmentID;
-
-                if (id=="") {
-                    update.op = "ADD";
-                }
-                else {
-                    update.op = "UPDATE";
-                }
-                updates.push(update);
-            }
-            //Find deleted appts
-            for (let i =0; i< $scope.backup_appts.length; i++) {
-                let id = $scope.backup_appts[i].AppointmentID;
-
-                let found = false;
-                for(let j =0; j< $scope.mentorContacts.length; j++) {
-                    if (id == $scope.mentorContacts[j].AppointmentID)
-                        found = true;
-                }
-                if (!found){
-                    update = angular.copy($scope.backup_appts[i]);
-                    update.op = "DELETE";
-                    updates.push(update);
-                }
-            }
-
-            //send updates to php file:
-            for (let index = 0; index < updates.length; index++) {
-                var taskSaveAppts = $http({
-                    method: 'POST',
-                    url: './php/mentor_updateAppts.php',
-                    data: Object.toparams(updates[index]),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                });
-
-                taskSaveAppts.then(
-                    //SUCESS
-                    function (result) {
-                        //appts updated!
-                    },
-                    //ERROR
-                    function (result) {
-                        alert("Error updating record" + JSON.stringify(result));
-                    });
-            };
-
-        }
+    )
 
         //all other updates besides appts
         else {
@@ -584,17 +418,6 @@ angular.module('notes.prap').filter('seedate', function($filter)
 
 });
 angular.module('notes.prap').filter('seedate', function($filter)
-{
-    return function(input)
-    {
-        if(input == null){ return ""; }
-        alert(input);
-        var _date = $filter('date')(new Date(input), 'MMM dd yyyy');
-
-        return _date.toUpperCase();
-
-    };
-=======
  return function(input)
  {
   if(input == null){ return ""; } 
@@ -606,3 +429,14 @@ angular.module('notes.prap').filter('seedate', function($filter)
  };
 
 });
+    {
+        return function(input)
+        {
+            if(input == null){ return ""; } 
+            alert(input);
+            var _date = $filter('date')(new Date(input), 'MMM dd yyyy');
+
+            return _date.toUpperCase();
+
+        };
+    });
