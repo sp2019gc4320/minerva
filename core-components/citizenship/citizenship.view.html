@@ -41,10 +41,10 @@
 
 								<td>
 									<span ng-if="task.TaskNumber!='5'">
-										<input name="DidPass" ng-model="task.DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'">
+										<input name="DidPass" style="width:20px; height:20px;" ng-model="task.DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'">
 									</span>
 									<span ng-if="task.TaskNumber=='5'">
-										<input name="DidPass" ng-model="task.DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'" ng-readonly="true">
+										<input name="DidPass" style="width:20px; height:20px;" ng-model="task.DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'" ng-readonly="true">
 									</span>
 								</td>
 							
@@ -72,7 +72,7 @@
 								<td>{{test.TaskTest}}</td>
 								<td><input name="EventDate" type="date" id="testStart"  ng-model="test.EventDate"></td>
 
-								<td><input name="DidPass" ng-model="test.DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"></td>
+								<td><input name="DidPass" style="width:20px; height:20px;" ng-model="test.DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"></td>
 
 								<td><input name="TestScore" type="text" ng-model="test.TestScore" data-ng-bind="score"></td>
 
@@ -107,10 +107,10 @@
 						<td>{{task.EventDate}}</td>
 						
 						<td ng-if="task.DidPass == 1" class="bg-success text-center">
-							<input type="checkbox" value="" checked disabled>
+							<input type="checkbox" style="width:20px; height:20px;" value="" checked disabled>
 						</td>
 						<td ng-if="task.DidPass == 0" class="bg-danger text-center">
-							<input type="checkbox" value="" disabled>
+							<input type="checkbox" style="width:20px; height:20px;" value="" disabled>
 						</td>
 					
 						<td>{{task.EventNote}}</td>
@@ -132,10 +132,10 @@
 						<td>{{test.TaskTest}}</td>
 						<td>{{test.EventDate}}</td>
 						<td ng-if="test.DidPass == 1" class="bg-success text-center">
-							<input type="checkbox" value="" checked disabled>
+							<input type="checkbox" style="width:20px; height:20px;" value="" checked disabled>
 						</td>
 						<td ng-if="test.DidPass == 0" class="bg-danger text-center">
-							<input type="checkbox" value="" disabled>
+							<input type="checkbox" style="width:20px; height:20px;" value="" disabled>
 						</td>
 					<td>
 						<span ng-if="test.TaskTest!='Voted'">{{test.TestScore}}</span>
