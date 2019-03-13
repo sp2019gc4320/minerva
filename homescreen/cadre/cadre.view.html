@@ -1,5 +1,4 @@
-
-
+<!-- having to use caseManagerController instead of cadreController for now due to issues 3/11-->
 <div class="panel panel-default " ng-controller="caseManagerController" >
 
     <div class="row">
@@ -28,6 +27,7 @@
     <div class="row">
         <div class="col-md-2">
             <nav class="nav flex-column">
+                <!-- having to use caseManagerViews instead of cadreViews for now due to issues 3/11-->
                 <button ng-repeat="item in caseManagerViews"
                         type="button"
                         ng-click="showView(item)"

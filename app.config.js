@@ -24,6 +24,9 @@ angular.
 
             .when('/caseModule',   { templateUrl: './homescreen/case-manager/case-manager.view.html'})
             .when('/prap',   { templateUrl: './notes/prap/prap.view.html'})
+
+            .when('/cadreModule',   { templateUrl: './homescreen/cadre/cadre.view.html'})
+
             .otherwise({redirectTo: '/login'})
     });
 

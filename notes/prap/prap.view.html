@@ -7,24 +7,24 @@ Usesprap.controller.js
 <div class="container" id="prapContainer" ng-app="myApp" ng-controller="prapController"
 	 xmlns="http://www.w3.org/1999/html">
 	<form>
-		<div class="row justify-content-center">
+		<div>
 			<div class="col-xs-12">
 				<h1>PRAP</h1>
 			</div>
 		</div>
 		<div>
 			<!--When this button is clicked, the page becomes editable-->
-			<button class=".minervaButton" ng-click="editSection('contactNote')">Edit</button><!--check this-->
+			<button class="btn btnEdit" ng-click="editSection('contactNote')"> Edit</button><!--check this-->
 		</div>
 
 			<!-- this div is only viewable after the user clicks on edit -->
 			<div ng-if="!NotEditable">
 				<!-- the cancel button calls the cancelUpdate function to cancel the current input -->
-				<button class=".minervaButton" ng-click="cancelNotes()">Cancel</button>
+				<button class="btn btnCancel" ng-click="cancelNotes()"> Cancel</button>
 				<!-- the save button calls the saveContacts function when clicked to save the current
                 input to the database -->
-				<button class=".minervaButton" ng-click="saveNotes()">Save</button>
-				<button class=".minervaButton" ng-click="addNote()">Add Note</button>
+				<button class="btn btnSave" ng-click="saveNotes()"> Save</button>
+				<button class="btn btnCreate" ng-click="addNote()"> Add Note</button>
 			</div>
 
 		<table id="notesTable">
@@ -61,10 +61,10 @@ Usesprap.controller.js
                     <!-- this div is only viewable after the user clicks on edit -->
 			<div ng-if="!NotEditable">
 				<!-- the cancel button calls the cancelUpdate function to cancel the current input -->
-				<button class=".minervaButton" ng-click="cancelMentorContacts()">Cancel</button>
+				<button class="btn btnCancel" ng-click="cancelMentorContacts()"> Cancel</button>
 				<!-- the save button calls the saveContacts function when clicked to save the current
                 input to the database -->
-				<button class=".minervaButton" ng-click="saveContacts()">Save</button>
+				<button class="btn btnSave" ng-click="saveContacts()"> Save</button>
 			</div>
 			<div ng-repeat="contact in mentorContacts track by $index">
 				<div class="form-inline">
@@ -88,7 +88,7 @@ Usesprap.controller.js
 						<label>Note</label>
 						<textarea rows="1" style="min-width: 100%"  class="form-control"  ng-disabled="NotEditable" ng-model="contact.MentorContactNote"></textarea>
 					</div>
-					<button ng-click="deleteContact($index)" class="btn-danger">Delete</button>
+					<button ng-click="deleteContact($index)" class="btn btnDelete"> Delete</button>
 
 
 				</div>
@@ -100,7 +100,7 @@ Usesprap.controller.js
 				<div class="form-rowjustify-content-centercol-md-2">
 					<!-- the AddNote button is not visible until the user clicks the edit button -->
 					<div ng-if="!NotEditable">
-						<button class=".minervaButton" ng-click="addMentorContactNote()" class="col-xs-12btn-danger">AddNote</button>
+						<button class="btn btnCreate" ng-click="addMentorContactNote()" class="col-xs-12btn-danger"> Add Note</button>
 					</div>
 					<div class="col-md-5d-noned-md-block"></div>
 				</div>
@@ -114,8 +114,8 @@ Usesprap.controller.js
 			</div>
 			<!-- the save and cancel buttons are not visible until the user clicks edit -->
 			<div ng-if="!NotEditable">
-				<button class=".minervaButton" ng-click="cancelActionPlanAndGoals()">Cancel</button>
-				<button class=".minervaButton" ng-click="savePlan()">save</button>
+				<button class="btn btnCancel" ng-click="cancelActionPlanAndGoals()"> Cancel</button>
+				<button class="btn btnSave" ng-click="savePlan()"> Save</button>
 			</div>
 
 			<div class="form-row">
@@ -155,8 +155,8 @@ Usesprap.controller.js
 			</div>
 			<!-- the cancel and save buttons are only visible after the user clicks the edit button-->
 			<div ng-if="!NotEditable">
-				<button class=".minervaButton" ng-click="cancelActionPlanAndGoals()">Cancel</button>
-				<button class=".minervaButton" ng-click="saveGoals()">Save</button>
+				<button class="btn btnCancel" ng-click="cancelActionPlanAndGoals()"> Cancel</button>
+				<button class="btn btnSave" ng-click="saveGoals()"> Save</button>
 			</div>
 			<div class="form-row">
 				<div class="col-md-1d-noned-md-block"></div>
