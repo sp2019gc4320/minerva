@@ -1,3 +1,3 @@
 'use strict';
 //Define the addClass module
-angular.module('admin.siteAddClass',[]);
+angular.module('admin.addClass',[]);

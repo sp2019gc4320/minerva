@@ -15,34 +15,24 @@
             <tr>
                 <td><input type="number" ng-model="classNumber" required></td>
 
-                <td><select ng-model="classYear" required>
-                    <!--Tried to make it 'dynamic', but binding is giving issues. Will come back when other tasks are completed.
-                    <option ng-bind="currentYear"></option>
-                    <option ng-bind="currentYear+1"></option>
-                    <option ng-bind="currentYear+2"></option>
-                    <option ng-bind="currentYear+3"></option>
-                    <option ng-bind="currentYear+4"></option>
-                    <option ng-bind="currentYear+5"></option>
-                    <option ng-bind="currentYear+6"></option>
-                    <option ng-bind="currentYear+7"></option>
-                    <option ng-bind="currentYear+8"></option>
-                    <option ng-bind="currentYear+9"></option>
-                    <option ng-bind="currentYear+10"></option>-->
-                    <option selected>2019</option>
-                    <option>2020</option>
-                    <option>2021</option>
-                    <option>2022</option>
-                    <option>2023</option>
-                    <option>2024</option>
-                    <option>2025</option>
-                    <option>2026</option>
-                    <option>2027</option>
-                    <option>2028</option>
-
+                <td><select ng-model="classYear" required >
+                    <!--Tried to make it 'dynamic', but binding is giving issues. Will come back when other tasks are completed.-->
+                    <option disabled selected value> -- select a year -- </option>
+                    <option ng-bind="currentYear" ng-value="currentYear" ></option>
+                    <option ng-bind="currentYear+1" ng-value="currentYear+1"></option>
+                    <option ng-bind="currentYear+2" ng-value="currentYear+2"></option>
+                    <option ng-bind="currentYear+3" ng-value="currentYear+3"></option>
+                    <option ng-bind="currentYear+4" ng-value="currentYear+4"></option>
+                    <option ng-bind="currentYear+5" ng-value="currentYear+5"></option>
+                    <option ng-bind="currentYear+6" ng-value="currentYear+6"></option>
+                    <option ng-bind="currentYear+7" ng-value="currentYear+7"></option>
+                    <option ng-bind="currentYear+8" ng-value="currentYear+8"></option>
+                    <option ng-bind="currentYear+9" ng-value="currentYear+9"></option>
+                    <option ng-bind="currentYear+10" ng-value="currentYear+10"></option>
                 </select></td>
-                <td><input type="number" ng-model="NGB" ></td>
-                <td><input type="number" ng-model="cycle" ></td>
-                <td><input type="date" ng-model="challengeStartDate"></td>
+                <td><input type="number" ng-model="NGB" required></td>
+                <td><input type="number" ng-model="cycle" required></td>
+                <td><input type="date" ng-model="challengeStartDate"required></td>
             </tr>
         </table>
         <table style="width:100%">
@@ -55,16 +45,17 @@
                 <th>Sel Serv Age</th>
             </tr>
             <tr>
-                <td><input type="date"  ng-model="graduationDate"></td>
-                <td><input type="date" ng-model="prCompletionDate"></td>
-                <td><input type="number" ng-model="targetGraduates"></td>
-                <td><input type="date" ng-model="classStartDate"></td>
-                <td><input type="number" ng-model="meritBase" ></td>
-                <td><select ng-model="servAge" >
-                    <option selected>17</option>
-                    <option>18</option>
-                    <option>19</option>
-                    <option>20</option>
+                <td><input type="date"  ng-model="graduationDate" required></td>
+                <td><input type="date" ng-model="prCompletionDate" required></td>
+                <td><input type="number" ng-model="targetGraduates"required></td>
+                <td><input type="date" ng-model="classStartDate"required></td>
+                <td><input type="number" ng-model="meritBase"required></td>
+                <td><select ng-model="servAge" required>
+                    <option disabled selected value> -- select an age -- </option>
+                    <option value="17">17</option>
+                    <option value="18">18</option>
+                    <option value="19">19</option>
+                    <option value="20">20</option>
                 </select></td>
             </tr>
         </table>
@@ -78,7 +69,8 @@
                 <th>End Date</th>
             </tr>
             <tr>
-                <td><input type="date" ng-model="weeklyStart"></td>
+                <td><input type="date" ng-model="weeklyStart" ng-change="updateEndDate()"></td>
+                <p>{{testVal}}</p>
                 <td><input type="date" ng-model="weeklyEnd" disabled></td>
             </tr>
         </table>

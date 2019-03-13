@@ -224,75 +224,55 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
         //SUCCESS
         function(result) {
             alert(JSON.stringify(result));
-            $scope.prapNotes = result.data.data[0];
+            if (result.data.data.length > 0) {
+                $scope.prapNotes = result.data.data[0];
 
-            //Add Created By Name to each Note
-            for (var i=0; i< $scope.prapNotes.length; i++) {
-                if($scope.prapNotes[i].NoteCreatorID.length > 0)
-                {
-                    var index = i;
-                    var nameRequest = {PersonID: $scope.prapNotes[i].NoteCreatorID, index: index};
-                    //Get NoteCreatedByName
-                    $http({
-                        method: 'POST',
-                        url: './php/prap_getPersonName.php',
-                        data: Object.toparams(nameRequest),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    }).then(
-                        //SUCCESS
-                        function (result) {
-                            var obj =result.data.data[0];
-                            var myIndex = result.data.index;
-	taskGetPrapNotes.then(
-		//SUCCESS
-		function(result) {
-		    alert(JSON.stringify(result));
-			$scope.prapNotes = result.data.data[0];
+                //Add Created By Name to each Note
+                for (var i=0; i< $scope.prapNotes.length; i++) {
+                    if($scope.prapNotes[i].NoteCreatorID.length > 0)
+                    {
+                        var index = i;
+                        var nameRequest = {PersonID: $scope.prapNotes[i].NoteCreatorID, index: index};
+                        //Get NoteCreatedByName
+                        $http({
+                            method: 'POST',
+                            url: './php/prap_getPersonName.php',
+                            data: Object.toparams(nameRequest),
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }).then(
+                            //SUCCESS
+                            function (result) {
+                                var obj =result.data.data[0];
+                                var myIndex = result.data.index;
 
-			//Add Created By Name to each Note
-			for (var i=0; i< $scope.prapNotes.length; i++) {
-				if($scope.prapNotes[i].NoteCreatorID.length > 0)
-				{
-				var index = i;
-				var nameRequest = {PersonID: $scope.prapNotes[i].NoteCreatorID, index: index};
-                //Get NoteCreatedByName
-                $http({
-                    method: 'POST',
-                    url: './php/prap_getPersonName.php',
-                    data: Object.toparams(nameRequest),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).then(
-                    //SUCCESS
-                    function (result) {
-                    	var obj =result.data.data[0];
-                        var myIndex = result.data.index;
+                                if(obj)
+                                    $scope.prapNotes[myIndex].NoteCreatedByName = obj.PersonLN+", "+obj.PersonFN;
+                            }
+                        )};
 
-                            if(obj)
-                                $scope.prapNotes[myIndex].NoteCreatedByName = obj.PersonLN+", "+obj.PersonFN;
-                        }
-                    )};
+                    //Add NoteEditedByName to each Note
+                    if($scope.prapNotes[i].NoteEditorID.length > 0)
+                    {
+                        var index = i;
+                        var nameRequest = {PersonID: $scope.prapNotes[i].NoteEditorID, index:index};
+                        //Get NoteCreatedByName
+                        $http({
+                            method: 'POST',
+                            url: './php/prap_getPersonName.php',
+                            data: Object.toparams(nameRequest),
+                            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                        }).then(
+                            //SUCCESS
+                            function (result) {
+                                var obj =result.data.data[0];
+                                var myIndex = result.data.index;
 
-                //Add NoteEditedByName to each Note
-                if($scope.prapNotes[i].NoteEditorID.length > 0)
-                {
-                    var index = i;
-                    var nameRequest = {PersonID: $scope.prapNotes[i].NoteEditorID, index:index};
-                    //Get NoteCreatedByName
-                    $http({
-                        method: 'POST',
-                        url: './php/prap_getPersonName.php',
-                        data: Object.toparams(nameRequest),
-                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                    }).then(
-                        //SUCCESS
-                        function (result) {
-                            var obj =result.data.data[0];
-                            var myIndex = result.data.index;
+                                if(obj)
+                                    $scope.prapNotes[myIndex].NoteEditedByName = obj.PersonLN+", "+obj.PersonFN;
+                            }
+                        )}
+                }
 
-                            if(obj)
-                                $scope.prapNotes[myIndex].NoteEditedByName = obj.PersonLN+", "+obj.PersonFN;
-                        }
-                    )}
             }
         },
         //ERROR
