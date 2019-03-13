@@ -16,11 +16,7 @@ $EventDate= $_POST['EventDate'];
 $DidPass= $_POST['DidPass'];
 $EventNote= $_POST['EventNote'];
 $fkTaskID= $_POST['fkTaskID'];
-//$fkCadetID = '361';
-//$EventDate = '1234-12-12 00:12:00'; //'01-02-0234'
-//$DidPass = '1'; //'1'
-//$EventNote = 'hello'; //'note'
-//$fkTaskID = 17;
+
 
 $sql = "UPDATE
     tblCadetClassEvents
@@ -36,16 +32,8 @@ SET
 WHERE
   tlkpCoreComponent.CoreComponentID = 6
   AND tblClassDetails.fkCadetID = '$fkCadetID'
-  AND tlkpCoreComponentTasks.TaskID = $fkTaskID";
+  AND tlkpCoreComponentTasks.TaskID = '$fkTaskID'";
 
 $result = $connection->runQuery($sql);
-//print_r($result);
-/*
-if ($result === TRUE) {
-    echo "Record updated successfully";
-} else {
-    echo "Error updating record: $sql";
-}
-*/
-//$connectionection->close();
+if(!$result) die ("Update_Citizenship SQL Fatal Error");
 ?>

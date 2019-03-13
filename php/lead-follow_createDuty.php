@@ -10,29 +10,38 @@ require_once 'dbcontroller.php';
 //create connection
 $connection = new DBController();
 
-$DutyPositionID = filter_input(INPUT_POST, "DutyPositionID");
+//set everything to empty string
 
-$fkClassDetailID = $_POST['fkClassDetailID']; 
-$JobPosition= $_POST['JobPosition'];
+$DutyNote= "";
+$DutyDidFail="0";
+$fkClassDetailID="";
+$JobPosition="";
+$DutyStartDate="";
+$DutyEndDate="";
 
-//Date Validation added 2/27
-$validStartDate = strtotime($_POST['DutyStartDate']);
-$validStartDate = date('Y-m-d', $validStartDate);//off by one (gets fixed when retrieving in the js)
-$DutyStartDate = $validStartDate;
+//then if isset to something, reset to the value passed in
 
-$validEndDate = strtotime($_POST['DutyEndDate']);
-$validEndDate = date('Y-m-d', $validEndDate);//off by one (gets fixed when retrieving in the js)
-$DutyEndDate = $validEndDate;
+if (isset($_POST['DutyNote'])) {
+    $DutyNote= $_POST['DutyNote'];
+}
+if (isset($_POST['DutyDidFail'])) {
+    $DutyDidFail= $_POST['DutyDidFail'];
+}
+if (isset($_POST['fkClassDetailID'])) {
+    $fkClassDetailID= $_POST['fkClassDetailID'];
+}
+if (isset($_POST['JobPosition'])) {
+    $JobPosition= $_POST['JobPosition'];
+}
+if (isset($_POST['DutyStartDate'])) {
+    $DutyStartDate= $_POST['DutyStartDate'];
+}
+if (isset($_POST['DutyEndDate'])) {
+    $DutyEndDate= $_POST['DutyEndDate'];
+}
 
-$DutyNote= $_POST['DutyNote'];
-$DutyDidFail= $_POST['DutyDidFail'];
+$sql = "INSERT INTO tblJBDuties(fkClassDetailID,JobPosition,DutyStartDate,DutyEndDate,DutyNote,DutyDidFail) values('$fkClassDetailID','$JobPosition','$DutyStartDate', '$DutyEndDate', '$DutyNote', '$DutyDidFail')";
 
-
-$sql = "INSERT INTO tblJBDuties(DutyPositionID, fkClassDetailID,JobPosition,DutyStartDate,DutyEndDate,DutyNote,DutyDidFail) values('$DutyPositionID','$fkClassDetailID','$JobPosition','$DutyStartDate', '$DutyEndDate', '$DutyNote', '$DutyDidFail')";
-
-//echo($sql);
 
 $result = $connection->createRecord($sql);
-
-//$connectionection->close();
 ?>

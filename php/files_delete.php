@@ -31,7 +31,7 @@ if(isset($_POST['directory'])){
 $path =  "..//". $directory.'/';
 $myFile =  $path.$filename;
 //SQL to remove file from databse.
-$sql="DELETE FROM tblAttachments WHERE UploadedFileName= $filename";
+$sql="DELETE FROM tblAttachments WHERE UploadedFileName= '$filename'";
 
 if(!empty($filename)){
     // Check file is exists on given path.
