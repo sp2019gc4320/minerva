@@ -52,23 +52,27 @@
                 </div>
             </div>
             <div class="form-row">
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label for="birthdate">Birthdate</label>
                     <input type="text" 
                            class="form-control"
                            id="birthdate"
+                           placeholder="MM/DD/YYYY"
                            ng-model="person.PDOB">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-1">
+                    <label>Age</label>
+                    <div>{{ getAge(person.PDOB) }}</div>
+                </div>
+                <div class="form-group col-md-3">
                     <label for="ssn">Social Security #</label>
                     <input type="text" 
                            class="form-control" 
                            id="ssn"
                            ng-model="person.PSSN">
                 </div>
-                <div class="form-group col-md-4">
+                <div class="form-group col-md-3">
                     <label class="mr-sm-2" for="ethnicity">Ethnicity</label><br>
-                    <!-- TODO: Add ethniticy to person model -->
                     <select class="custom-select mr-sm-2" 
                             id="ethnicity">
                         <option selected></option>
@@ -77,6 +81,13 @@
                         {{ option.Race }}
                         </option>
                     </select>
+                </div>
+                <div class="form-group col-md-2 text-center">
+                    <label class="mr-sm-2" for="ethnicity">Is
+                        Hispanic?</label><br>
+                    <input type="checkbox" 
+                           class="form-check-input td-center-checkbox"
+                           ng-model="person.PEthnicityIsHispanic">
                 </div>
             </div>
             <div class="form-row">
@@ -219,35 +230,69 @@
 
         <div id="contact-container">
             <h5>Contact Information</h5>
-            <div class="form-group">
-                <label for="email">Email</label>
-                <input type="email" 
-                       class="form-control"
-                       id="email"
-                       ng-model="person.PEmail">
-            </div>
             <div class="form-row">
-                <div class="form-group col-md-6">
-                    <!-- TODO: Add phone numbers to person model -->
-                    <label for="phone-number">Phone Numbers</label>
-                    <input type="phone" 
-                           class="form-control"
-                           id="phone-number">
-                    <small class="form-text text-muted">Primary</small>
+                <label class="col-md-2">Type</label>
+                <label class="col-md-3 offset-md-3">Value</label>
+                <label class="col-md-2">Description</label>
+                <label class="col-md-1">Preferred?</label>
+            </div>
+            <div class="form-row" ng-repeat="ci in contactInformation">
+                <div class="form-group col-md-2">
+                    <select class="custom-select mr-sm-2" 
+                            ng-model="ci.ContactType">
+                        <option ng-value="'phone'" selected>Phone</option>
+                        <option ng-value="'email'">Email</option>
+                        <option ng-value="'social media'">Social Media</option>
+                    </select>
                 </div>
-                <div class="form-group col-md-6">
-                    <label for="secondary-phone-number">&nbsp;</label>
-                    <input type="phone" 
-                           class="form-control"
-                           id="secondary-phone-number">
-                    <small class="form-text text-muted">Secondary</small>
+                <div class="form-group col-md-2">
+                    <select class="custom-select mr-sm-2" 
+                            ng-disabled="ci.ContactType!='phone'"
+                            ng-model="ci.ContactTypeExt">
+                        <option ng-value="'home'" selected>Home</option>
+                        <option ng-value="'cell'">Cell</option>
+                        <option ng-value="'work'">Work</option>
+                        <option ng-value="'other'">Other</option>
+                    </select>
                 </div>
+                <div  class="form-group col-md-1">
+                    <input type="text" 
+                           ng-disabled="ci.ContactType!='phone'"
+                           class="form-control"
+                           placeholder="Ext"
+                           ng-model="ci.Ext">
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" 
+                           class="form-control"
+                           ng-model="ci.Value">
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" 
+                           class="form-control"
+                           ng-model="ci.Description">
+                </div>
+                <div class="form-group col-md-1 text-center">
+                    <input type="checkbox" 
+                           class="form-check-input td-center-checkbox "
+                           ng-model="ci.IsPreferred">
+                </div>
+                <div class="form-group col-md-1">
+                    <button type="button" 
+                            class="btn btn-danger"
+                            ng-click="removeContactInformation(ci)">Delete</button>
+                </div>
+            </div>
+            <div class="form-row" id="add-contact-btn">
+                <button type="button" 
+                        class="btn btn-link"
+                        ng-click="addContactInformation()" >+ Add Contact Information</button>
             </div>
         </div>
         <div id="location-container">
             <h5>Location</h5>
             <div class="form-row">
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-6">
                     <label for="county">County</label>
                     <select id="county"
                             class="custom-select form-control"
@@ -255,25 +300,7 @@
                         <option selected></option>
                     </select>
                 </div>
-                <div class="form-group col-md-3">
-                    <label for="zone">Zone</label>
-                    <input type="text" 
-                           id="zone" 
-                           class="form-control"
-                           ng-model="person.PZone">
-                </div>
-                <div class="form-group col-md-3">
-                    <label for="region">Region</label>
-                    <select id="region"
-                            class="custom-select form-control"
-                            ng-model="person.PRegion">
-                        <option selected></option>
-                        <option ng-repeat="option in regionOptions">
-                        {{ option }}
-                        </option>
-                    </select>
-                </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-6">
                     <label for="urbanization">Urbanization</label>
                     <select id="urbanization"
                             class="custom-select form-control"
