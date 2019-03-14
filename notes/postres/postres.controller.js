@@ -293,18 +293,30 @@ angular.module('notes.postres').controller('postresController', function($scope,
         var nextIndex = $scope.allreports.length;
         $scope.allreports[nextIndex] = angular.copy(report);
     };
+
+    $scope.removeReport = function (reports) {
+        var idx = $scope.allreports.indexOf(reports);
+        $scope.allreports.splice(idx, 1);
+    };
     //This function gives the add mentor contact button functionality.
     $scope.addMentor = function() {
         var mentorContact = {
             ContactDate:"",
             MentorContactType:"",
             fkMentorID:"",
-            ContactPlacementMonth:"",
+            ContactPlacementMonth: $scope.reports.PlacementMonth,
             MentorContactNote:""
         };
         var nextIndex = $scope.allcontacts.length;
         $scope.allcontacts[nextIndex] = angular.copy(mentorContact);
     };
+
+    //This function gives the remove mentor contact button its functionality.
+    $scope.removeMentor = function (contacts) {
+        var idx = $scope.allcontacts.indexOf(contacts);
+        $scope.allcontacts.splice(idx, 1);
+    };
+
     //This function gives the add education button functionality.
     $scope.addEducation = function() {
         var education = {
@@ -315,6 +327,11 @@ angular.module('notes.postres').controller('postresController', function($scope,
         };
         var nextIndex = $scope.alleducation.length;
         $scope.alleducation[nextIndex] = angular.copy(education);
+    };
+    //This function gives the remove education button its functionality.
+    $scope.removeEducation = function(education){
+        var idx = $scope.alleducation.indexOf(education);
+        $scope.alleducation.splice(idx, 1);
     };
     //This function gives the add military button functionality.
     $scope.addMilitary = function(){
@@ -329,6 +346,11 @@ angular.module('notes.postres').controller('postresController', function($scope,
         };
         var nextIndex = $scope.allmilitary.length;
         $scope.allmilitary[nextIndex] = angular.copy(military);
+    };
+    //This function gives the remove military  button its functionality.
+    $scope.removeMilitary = function(military){
+        var idx = $scope.allmilitary.indexOf(military);
+        $scope.allmilitary.splice(idx, 1);
     };
     //This function gives the add employment button functionality.
     $scope.addEmployment = function(){
@@ -348,6 +370,11 @@ angular.module('notes.postres').controller('postresController', function($scope,
         var nextIndex = $scope.allemployment.length;
         $scope.allemployment[nextIndex] = angular.copy(employment);
     };
+    //This function gives the remove employment button its functionality.
+    $scope.removeEmployment = function(employment){
+        var idx = $scope.allemployment.indexOf(employment);
+        $scope.allemployment.splice(idx, 1);
+    };
     //This function gives the add misc button functionality.
     $scope.addMisc = function() {
         var misc = {
@@ -358,6 +385,11 @@ angular.module('notes.postres').controller('postresController', function($scope,
         };
         var nextIndex = $scope.allmisc.length;
         $scope.allmisc[nextIndex] = angular.copy(misc);
+    };
+    //This function gives the remove misc button its functionality.
+    $scope.removeMisc = function(misc){
+        var idx = $scope.allmisc.indexOf(misc);
+        $scope.allmisc.splice(idx, 1);
     };
 
 });
