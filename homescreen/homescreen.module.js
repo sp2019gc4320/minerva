@@ -3,5 +3,6 @@
 'use strict';
 
 angular.module('homescreen', [
-    'homescreen.caseManager'
+    'homescreen.caseManager',
+    //'homescreen.cadre'
 ]);

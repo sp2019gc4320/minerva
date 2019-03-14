@@ -20,14 +20,16 @@ angular.module('admin.addClass').component('addClass',{
             $scope.servAge;
 
 
-            $scope.weeklyStart=new Date();
-            $scope.weeklyEnd;
 
+            $scope.weeklyStart=new Date();
             $scope.currentYear=new Date().getFullYear();
 
+            $scope.weeklyEnd;
+            $scope.fkSiteID=sessionStorage.getItem('SiteID');
 
 
             $scope.createClass =function () {
+
                 var startdate =getCorrectDate($scope.weeklyStart)//convert startWeek to correct string then assign weeks
                 var weeks=assignClassWeeks(startdate);
                 $scope.weeklyEnd=new Date(weeks[weeks.length-1]);
@@ -45,7 +47,8 @@ angular.module('admin.addClass').component('addClass',{
                         classStartDate:getCorrectDate($scope.classStartDate),
                         meritBase:$scope.meritBase,
                         servAge:$scope.servAge,
-                        weeks:weeks,
+                        weeks:JSON.stringify(weeks),
+                        fkSiteID:$scope.fkSiteID
                     };
 
                 $http ({
@@ -65,7 +68,6 @@ angular.module('admin.addClass').component('addClass',{
                         alert("Failed");
                     });
             };
-
 
             var getCorrectDate=function (date) {
                 date += "";//make the whole thing a string
@@ -104,7 +106,6 @@ angular.module('admin.addClass').component('addClass',{
 
             /**
              *Including the start date, the function returns 22 weeks. This accounts for monthly changes as well as the year being passed.
-             * One thing that still needs to be implemented is putting leading zeroes, so that they are of the right format.
              * @param dateStr
              */
              var assignClassWeeks= function(dateStr){
@@ -121,9 +122,30 @@ angular.module('admin.addClass').component('addClass',{
 
                  for(var i=0;i<21;i++)//week i to 22(21 index)
                  {
-                     day+=7;
+                     day+=6;//Since we don't want weeks to overlap
                      if(day<=daysPerMonth[month-1])//general case(-1 of indexing)
-                            weeks.push(year + "-" + month + "-" + day);
+                     {
+                         weeks.push(year + "-" + month + "-" + day);
+                     }
+                     else if(month==12&&day>31)//if the year is exceeded
+                     {
+                         day=day-daysPerMonth[0];
+                         month=1;
+                         year++;
+                         weeks.push(year+"-"+month+"-"+day);
+                     }
+                     else{//day exceeds the date for that month
+                         day=day-daysPerMonth[month-1];//Needs to be done for indexing (one off)
+                         month++;
+                         weeks.push(year+"-"+month+"-"+day);
+                     }
+
+                     day++;//to get the start of the next week
+
+                     if(day<=daysPerMonth[month-1])//general case(-1 of indexing)
+                     {
+                         weeks.push(year + "-" + month + "-" + day);
+                     }
                      else if(month==12&&day>31)//if the year is exceeded
                      {
                          day=day-daysPerMonth[0];
@@ -156,17 +178,16 @@ angular.module('admin.addClass').component('addClass',{
                      }
                  }
                  return weeks
-            }
+            };
 
                  //Could have done this inside the for loop, but I feel that ut is simler to get dates then update them.
+            $scope.updateEndDate=function () {
+                var startdate =getCorrectDate($scope.weeklyStart)//convert startWeek to correct string then assign weeks
+                var weeks=assignClassWeeks(startdate);
+                $scope.weeklyEnd=new Date(weeks[weeks.length-1]);
+            };
 
-
-
-
-
-
-
+            $scope.updateEndDate();
         }
-
     ]
     });

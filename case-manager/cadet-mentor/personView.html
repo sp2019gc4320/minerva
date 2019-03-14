@@ -165,17 +165,17 @@
 								<span>
 
 									<span ng-if="address.AddressType != 'Physical'">
-									<button class=" btn-primary" ng-click="copyPhysicalAddress(addressParentIndex);">Copy Physical Address</button>
+									<button class=" btn" ng-click="copyPhysicalAddress(addressParentIndex);">Copy Physical Address</button>
 									</span>
-									<button class=" btn-danger"
-                                            ng-click="deleteAddress(addressParentIndex);">Delete</button>
+									<button class=" btn btnDelete"
+                                            ng-click="deleteAddress(addressParentIndex);"> Delete</button>
 								</span>
                                 </td>
                             </tr>
                             </tbody>
                         </table>
                         <div class="form-row justify-content-center m-3">
-                            <button class="col-xs-12 btn-success " ng-click="addAddress();">Add Address</button>
+                            <button class="col-xs-12 btn btnCreate " ng-click="addAddress();"> Add Address</button>
                         </div>
                     </div>
                 </div><!-- col-->
@@ -247,7 +247,7 @@
                                            ng-model="contact.IsPreferred" ng-true-value="1" ng-false-value="0"/>
                                 </td>
                                 <td>
-                                    <button class=" btn-danger" ng-click="deleteContact(contactParentIndex);">
+                                    <button class=" btn btnDelete" ng-click="deleteContact(contactParentIndex);">
                                         Delete
                                     </button>
                                 </td>
@@ -255,7 +255,7 @@
                             </tbody>
                         </table>
                         <div class="form-row justify-content-center">
-                            <button class="col-xs-12 btn-success" ng-click="addContact();">Add Contact</button>
+                            <button class="col-xs-12 btn btnCreate" ng-click="addContact();"> Add Contact</button>
                         </div>
                     </div>
                 </div><!--col-->
@@ -344,7 +344,7 @@
                                         </tbody>
                                     </table>
                                     <div>
-                                        <button class="col-xs-12 btn-success" ng-click="addRace();">Add Race
+                                        <button class="col-xs-12 btn btnCreate" ng-click="addRace();"> Add Race
                                             Identification
                                         </button>
                                     </div>

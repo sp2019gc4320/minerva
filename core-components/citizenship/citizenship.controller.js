@@ -165,10 +165,8 @@ angular.module('core-components.citizenship').controller('citizenshipController'
         {
             var sendDataTwo=angular.copy($scope.tests[j]);
 
-             sendDataTwo.TaskTestID;
             delete sendDataTwo.TaskTest;
             sendDataTwo.fkCadetID=angular.copy($scope.cadetID);
-            alert(sendDataTwo.fkCadetID);
 
 
             if((sendDataTwo.EventDate === "0000-00-00" || null == sendDataTwo.EventDate || sendDataTwo.EventDate === $scope.testsBeforeEdit[j].EventDate))
@@ -181,8 +179,10 @@ angular.module('core-components.citizenship').controller('citizenshipController'
                 var DateArrayTwo = sendDataTwo.EventDate.toString().split(" ");
                 var DateStringTwo = $scope.formatDate(DateArrayTwo);
 
-                alert(sendDataTwo.EventDate+" became "+DateStringTwo); // Great for DateTime Debugging
+                //alert(sendDataTwo.EventDate+" became "+DateStringTwo); // Great for DateTime Debugging
                 sendDataTwo.EventDate = DateStringTwo;
+
+                alert(sendDataTwo.DidPass.toString());
 
             }
 
@@ -196,13 +196,16 @@ angular.module('core-components.citizenship').controller('citizenshipController'
                 {
                     if(response.data)
                     {
-                       alert(response.data); // for debug
+                       alert(response.data);
                     }
-                    //location.reload(true);
+
+                   // location.reload(true);
                 },function(result){
 
                 });
         }
+
+        alert("Update Complete");
     };
 
 
@@ -222,6 +225,38 @@ angular.module('core-components.citizenship').controller('citizenshipController'
             $scope.tasks=result.data.taskTbl;
             $scope.tests=result.data.testTbl;
 
+            //CAUTION - this block is HARDCODED specifically because task 5 is exclusively determined by comparing the elements
+            //          from $scope.tests and has 2 separate entries in taskTbl. If other $scope.tasks are later determined by
+            //          other factors and produce multiple entries, you will have to alter this code.
+
+            if($scope.tasks[4].TaskNumber === $scope.tasks[5].TaskNumber ) // checks if task 5 has 2 entries in taskTbl
+            {
+                var retEventDate;
+                if($scope.tasks[4].EventDate > $scope.tasks[5].EventDate)
+                {
+                    retEventDate = angular.copy($scope.tasks[4].EventDate);
+                }
+                else
+                {
+                    retEventDate = angular.copy($scope.tasks[5].EventDate);
+                }
+
+                $scope.tasks[4].EventDate = angular.copy(retEventDate); // chooses most recent date of the two tests
+
+                if($scope.tasks[4].DidPass == 1 && $scope.tasks[5].DidPass==1) // sets the value to 1 if both tests have been passed
+                {
+                    $scope.tasks[4].DidPass=1;
+                }
+                else
+                {
+                    $scope.tasks[4].DidPass=0;
+                }
+
+                $scope.tasks[4].EventNote = $scope.tasks[4].EventNote + " " + $scope.tasks[5].EventNote; // combines both tests' notes
+                $scope.tasks[5]=$scope.tasks[6];    // overwrites redundant extra 5th task
+                $scope.tasks.pop(); // removes last element from task array, since it is now unnecessary
+                }
+
 
             for(var i=0; i<$scope.tasks.length; i++)
             {
@@ -229,7 +264,7 @@ angular.module('core-components.citizenship').controller('citizenshipController'
             }
             for(var i=0; i<$scope.tests.length; i++)
             {
-                alert($scope.tests[i].EventDate.split(" ")[0]);
+                //alert($scope.tests[i].EventDate.split(" ")[0]);
                 $scope.tests[i].EventDate=$scope.tests[i].EventDate.split(" ")[0];
             }
         },function(error){

@@ -16,16 +16,16 @@
     <h4>Tasks
         <button
                 ng-show="!isUpdatingTasks"
-                class="btn btn-secondary btn-sm"
-                ng-click="startEdits()">Edit</button>
+                class="btn btnEdit"
+                ng-click="startEdits()"> Edit</button>
         <button
                 ng-show="isUpdatingTasks"
-                class="btn btn-secondary btn-sm"
-                ng-click="cancelEdits()">Cancel</button>
+                class="btn btnCancel"
+                ng-click="cancelEdits()"> Cancel</button>
         <button
                 ng-show="isUpdatingTasks"
-                class="btn btn-primary btn-sm"
-                ng-click="saveEdits()">Save</button>
+                class="btn btnSave"
+                ng-click="saveEdits()"> Save</button>
     </h4>
     <div id="datepicker" class="input-group date" data-date-format="yyyy/mm/dd">
         <!--name form for two way binding-->
@@ -133,7 +133,7 @@
             <h4>ASVAB Scores</h4>
 
 
-            <button class="btn btn-secondary btn-sm" onclick="toggleEdit()"> edit </button>
+            <button class="btn btnEdit" onclick="toggleEdit()"> Edit</button>
 
             <div id="ASVABTests_View" >
                 <table id="ASVABTest_viewtable">
@@ -192,8 +192,8 @@
                         </tr>
 
                     </table>
-                    <button class="btn btn-secondary btn-sm" ng-click="update(tasks,tests,asvabs)">Update</button>
-                    <button class="btn btn-secondary btn-sm" ng-click="cancelUpdate()">Cancel Update</button>
+                    <button class="btn btnSave" ng-click="update(tasks,tests,asvabs)"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelUpdate()"> Cancel</button>
 
                 </form>
             </div>

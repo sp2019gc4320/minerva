@@ -6,13 +6,18 @@
 <!-- The page takes no input other than a cadetID in local session storage. It can update the associated database.-->
 
     <div class="well container infoContainer" id="jscontainer">
-	<h3>JobSkills Tasks</h3>
+	<h3>Job Skills</h3>
 	<!--load app.controller from JobSkillsCtrl.js-->
 	
 	<div ng-controller="jobSkillsController">
 	<!--name form for two way binding-->
 	<form name ="JobSkillsForm">
-	<table id="JobSkillsEvents">
+	<table id="JobSkillsEvents" class = "table minerva-table">
+		<thead>
+			<tr>
+				<th colspan="5">TASKS </th>
+			</tr>
+		</thead>
 		<tr>
 			<th>Task</th>
 			<th>Description</th>
@@ -45,9 +50,14 @@
 		</tr>
 	</table>
 	<!-- Second table containing the subtests 2(a) -->
-	<table id="JobSkillsTests">
+	<table id="JobSkillsTests" class="table minerva-table">
+		<thead>
+			<tr>
+				<th colspan="5">2(A) TESTS </th>
+			</tr>
+		</thead>
 		<tr>
-			<th>2(a) Tests</th>
+			<th>Test Name</th>
 			<th>Date</th>
 			<th>Score</th>
 			<th>Pass/Fail</th>
@@ -65,16 +75,20 @@
 	</table>
 	<br>
 	<!-- The thirds table, containing asvab scores -->
-	<h4>ASVAB Scores</h4>
 	</form>
 	<form>
-	    <table>
+	    <table class = "table minerva-table">
+			<thead>
+				<tr>
+					<th colspan="5">ASVAB SCORES </th>
+				</tr>
+			</thead>
 	        <tr> 
 			<td><input name="ASVABDate" type="text" ng-model="asvab.ASVABDate"></td>
 			<td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"></td>
 			<td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore"></td>
 			<td><input name="ASVABTestNotes" type="text" ng-model="asvab.ASVABTestNotes" data-ng-bind="note"></td>
-			<td><button ng-click="createASVAB()">Add New Record</button></td>
+			<td><button class="btn btnCreate" ng-click="createASVAB()"> Add New Record</button></td>
 		</tr>
 	    </table>
 	</form>
@@ -97,8 +111,8 @@
 		
 		
 	</table>
-	<button ng-click="update(tasks,tests,asvabs)">Update</button>
-	<button ng-click="cancelUpdate()">Cancel Update</button>
+	<button class="btn btnSave" ng-click="update(tasks,tests,asvabs)"> Save</button>
+	<button class="btn btnCancel" ng-click="cancelUpdate()"> Cancel</button>
 	
 	
 	</div>
