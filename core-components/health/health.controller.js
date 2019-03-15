@@ -86,14 +86,6 @@ angular.module('core-components.health').controller('healthController', function
             {
                 if($scope.tasks[i].EventDate!=="0000-00-00 00:00:00") {//IF DATE IS NOT NULL
 
-                    /*
-                    $scope.tasks[i].EventDate = $scope.tasks[i].EventDate.split(" ")[0];
-                    var noTimeary = $scope.tasks[i].EventDate.split("-");
-                    $scope.tasks[i].dateNoTime = noTimeary[1] + "-" + noTimeary[2] + "-" + noTimeary[0];
-                    $scope.tasks[i].EventDate += "T00:00:00";//added to fix the incorrect date that is returned from php
-                    $scope.tasks[i].EventDate = new Date($scope.tasks[i].EventDate);//need to be a date to display
-
-                    */
                     $scope.tasks[i].EventDate = convertToHtmlDate($scope.tasks[i].EventDate);
                     if($scope.tasks[i].DidPass==="1")
                     {
@@ -119,7 +111,6 @@ angular.module('core-components.health').controller('healthController', function
 
 
     $scope.cancelUpdate = function() {
-       // location.reload(true);
         $scope.editable = false;
         $scope.tasks = angular.copy($scope.tasksBackup);
     };
@@ -131,13 +122,7 @@ angular.module('core-components.health').controller('healthController', function
         $scope.tasksBackup = angular.copy($scope.tasks);
 
     };
-    $scope.stylePass = function stylePass(didpass)
-    {
-         if (didpass ==="1")
-              return "bg-danger text-center";
-       else  return "bg-success text-center";
 
-    }
 
 
 });

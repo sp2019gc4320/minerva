@@ -30,33 +30,11 @@
 
 				<!--iterate through each instance in scope from controller??-->
 
-				<!--
-				<div ng-hide="editable">
-					<tr ng-repeat="task in tasks">
-						<td>{{task.TaskNumber}}</td>
-						<td style="text-align: left">{{task.Task}}</td>
-
-						<td ng-hide="editable">{{task.dateNoTime}}</td>
-						<td ng-hide="editable">{{task.PF}}</td>
-						<td ng-hide="editable">{{task.EventNote}}</td>
-				</div>
-
-				<td><input name="EventDate" type="date" ng-model="task.EventDate"ng-show="editable" ></td>
-				<td><input name="DidPass" type="checkbox" ng-model="task.DidPass" ng-true-value="'1'" ng-false-value="'0'" ng-show="editable"></td><
-				<td><textarea style="resize: both; overflow: auto;" name="EventNote" type="text" ng-model="task.EventNote" data-ng-bind="note"ng-show="editable"></textarea></td>
-				</tr>
-
-				-->
-
 
 					<tr ng-repeat="task in tasks">
 						<td>{{task.TaskNumber}}</td>
 						<td style="text-align: left">{{task.Task}}</td>
 
-						<!--<td ng-hide="editable">{{task.dateNoTime}}</td>
-						<td ng-hide="editable">{{task.PF}}</td>
-						<td ng-hide="editable">{{task.EventNote}}</td>
-				-->
 
 				<td><input name="EventDate" type="date" ng-model="task.EventDate"ng-disabled="!editable" ></td>
 
@@ -68,7 +46,7 @@
 							<input  style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable">
 						</td>
 
-					
+
 				<td><textarea style="resize: both; overflow: auto;" name="EventNote" type="text" ng-model="task.EventNote" data-ng-bind="note"ng-disabled="!editable"></textarea></td>
 				</tr>
 
