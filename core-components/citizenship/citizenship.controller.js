@@ -3,8 +3,6 @@ File: citizenship.controller.js
  Use: citizenship.view.html
  */
 
-
-
 angular.module('core-components.citizenship').controller('citizenshipController', function($scope, $http, $window,) {
 
 
