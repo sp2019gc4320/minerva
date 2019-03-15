@@ -23,40 +23,7 @@ angular.module('core-components.health').controller('healthController', function
             var sendData=angular.copy($scope.tasks[j]);//date comes in as date w time
 
             if(sendData.EventDate!==null) {//IF A DATE IS ENTERED
-                    sendData.EventDate += "";//make the whole thing a string
-
-                    var dateArray = sendData.EventDate.split(" ");//split by space to get rid of time
-                    var month;
-                    if (dateArray[1] === 'Jan')
-                        month = "01";
-                    else if (dateArray[1] === 'Feb')
-                        month = "02";
-                    else if (dateArray[1] === 'Mar')
-                        month = "03";
-                    else if (dateArray[1] === 'Apr')
-                        month = "04";
-                    else if (dateArray[1] === 'May')
-                        month = "05";
-                    else if (dateArray[1] === 'Jun')
-                        month = "06";
-                    else if (dateArray[1] === 'Jul')
-                        month = "07";
-                    else if (dateArray[1] === 'Aug')
-                        month = "08";
-                    else if (dateArray[1] === 'Sep')
-                        month = "09";
-                    else if (dateArray[1] === 'Oct')
-                        month = "10";
-                    else if (dateArray[1] === 'Nov')
-                        month = "11";
-                    else if (dateArray[1] === 'Dec')
-                        month = "12";
-
-                    var dateString = dateArray[3] + '-' + month + '-' + dateArray[2];//off by one YMD
-                    var am = month + '-' + dateArray[2] + '-' + dateArray[3];//MDY
-
-                    $scope.tasks[j].dateNoTime = am;
-                    sendData.EventDate = dateString;
+                    sendData.EventDate = convertToSqlDate(sendData.EventDate);
 
                 if($scope.tasks[j].DidPass==="1")
                 {
@@ -118,12 +85,16 @@ angular.module('core-components.health').controller('healthController', function
             for(var i=0; i<$scope.tasks.length; i++)
             {
                 if($scope.tasks[i].EventDate!=="0000-00-00 00:00:00") {//IF DATE IS NOT NULL
+
+                    /*
                     $scope.tasks[i].EventDate = $scope.tasks[i].EventDate.split(" ")[0];
                     var noTimeary = $scope.tasks[i].EventDate.split("-");
                     $scope.tasks[i].dateNoTime = noTimeary[1] + "-" + noTimeary[2] + "-" + noTimeary[0];
                     $scope.tasks[i].EventDate += "T00:00:00";//added to fix the incorrect date that is returned from php
                     $scope.tasks[i].EventDate = new Date($scope.tasks[i].EventDate);//need to be a date to display
 
+                    */
+                    $scope.tasks[i].EventDate = convertToHtmlDate($scope.tasks[i].EventDate);
                     if($scope.tasks[i].DidPass==="1")
                     {
                         $scope.tasks[i].PF="Pass";
