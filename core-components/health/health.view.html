@@ -59,7 +59,16 @@
 				-->
 
 				<td><input name="EventDate" type="date" ng-model="task.EventDate"ng-disabled="!editable" ></td>
-				<td><input name="DidPass" type="checkbox" ng-model="task.DidPass" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable"></td><
+
+						<td ng-if="task.DidPass == '1'" class="bg-success text-center">
+				<input  style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable">
+					</td>
+
+						<td ng-if="task.DidPass == '0'" class="bg-danger text-center">
+							<input  style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable">
+						</td>
+
+					
 				<td><textarea style="resize: both; overflow: auto;" name="EventNote" type="text" ng-model="task.EventNote" data-ng-bind="note"ng-disabled="!editable"></textarea></td>
 				</tr>
 

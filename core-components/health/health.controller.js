@@ -131,6 +131,13 @@ angular.module('core-components.health').controller('healthController', function
         $scope.tasksBackup = angular.copy($scope.tasks);
 
     };
+    $scope.stylePass = function stylePass(didpass)
+    {
+         if (didpass ==="1")
+              return "bg-danger text-center";
+       else  return "bg-success text-center";
+
+    }
 
 
 });
