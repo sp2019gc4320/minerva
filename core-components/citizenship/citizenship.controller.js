@@ -30,43 +30,11 @@ angular.module('core-components.citizenship').controller('citizenshipController'
 
     };
 
-    $scope.formatDate = function(dateArray)
-    {
-        var month;
-        if(dateArray[1]==='Jan')
-            month="01";
-        else if(dateArray[1]==='Feb')
-            month="02";
-        else if(dateArray[1]==='Mar')
-            month="03";
-        else if(dateArray[1]==='Apr')
-            month="04";
-        else if(dateArray[1]==='May')
-            month="05";
-        else if(dateArray[1]==='Jun')
-            month="06";
-        else if(dateArray[1]==='Jul')
-            month="07";
-        else if(dateArray[1]==='Aug')
-            month="08";
-        else if(dateArray[1]==='Sep')
-            month="09";
-        else if(dateArray[1]==='Oct')
-            month="10";
-        else if(dateArray[1]==='Nov')
-            month="11";
-        else
-            month="12";
-        var dateString=dateArray[3]+'-'+month+'-'+dateArray[2]+' 00:00:00';
-        return dateString;
-    }
 
     var cadetGender = $scope.cadetGender;
     var cadet = {CadetID: $scope.cadetID};
     var cadetDOB = $scope.cadetDOB;
-    //alert("Gender: "+ cadetGender);
-    //alert("DOB: " + cadetDOB);
-    //alert("The date of birth is: " + cadetDOB);
+
     function calculateAge(cadetDOB)
     {
         var age = 0;
@@ -113,7 +81,8 @@ angular.module('core-components.citizenship').controller('citizenshipController'
 
     $scope.update = function()
     {
-        $scope.show = true;
+        //$scope.show = true;
+        $scope.edit = !$scope.edit;
         //copy first row of table
         for (var j=0; j<$scope.tasks.length; j++)
         {
@@ -131,11 +100,7 @@ angular.module('core-components.citizenship').controller('citizenshipController'
             }
             else
             {
-                var DateArray = sendData.EventDate.toString().split(" ");
-                var DateString = $scope.formatDate(DateArray);
-
-                //alert(sendData.EventDate+" became "+DateString); // Great for DateTime Debugging
-                sendData.EventDate = DateString;
+                sendData.EventDate = convertToSqlDate(sendData.EventDate);
 
             }
 
@@ -174,13 +139,7 @@ angular.module('core-components.citizenship').controller('citizenshipController'
             }
             else
             {
-                var DateArrayTwo = sendDataTwo.EventDate.toString().split(" ");
-                var DateStringTwo = $scope.formatDate(DateArrayTwo);
-
-                //alert(sendDataTwo.EventDate+" became "+DateStringTwo); // Great for DateTime Debugging
-                sendDataTwo.EventDate = DateStringTwo;
-
-                alert(sendDataTwo.DidPass.toString());
+                sendDataTwo.EventDate = convertToSqlDate(sendDataTwo.EventDate);
 
             }
 
@@ -258,12 +217,11 @@ angular.module('core-components.citizenship').controller('citizenshipController'
 
             for(var i=0; i<$scope.tasks.length; i++)
             {
-                $scope.tasks[i].EventDate=$scope.tasks[i].EventDate.split(" ")[0];
+                $scope.tasks[i].EventDate= convertToHtmlDate($scope.tasks[i].EventDate);
             }
             for(var i=0; i<$scope.tests.length; i++)
             {
-                //alert($scope.tests[i].EventDate.split(" ")[0]);
-                $scope.tests[i].EventDate=$scope.tests[i].EventDate.split(" ")[0];
+                $scope.tests[i].EventDate= convertToHtmlDate($scope.tests[i].EventDate);
             }
         },function(error){
             alert(error);

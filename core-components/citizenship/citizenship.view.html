@@ -104,7 +104,7 @@
 					<tr ng-repeat="task in tasks" class="error">
 						<td>{{task.TaskNumber}}</td>
 						<td>{{task.Task}}</td>
-						<td>{{task.EventDate}}</td>
+						<td><input disabled name="EventDate" type="date"  ng-model="task.EventDate"></td>
 						
 						<td ng-if="task.DidPass == 1" class="bg-success text-center">
 							<input type="checkbox" style="width:20px; height:20px;" value="" checked disabled>
@@ -133,7 +133,7 @@
 					<!--iterate through each instance in scope from controller-->
 					<tr ng-repeat="test in tests" class="error">
 						<td>{{test.TaskTest}}</td>
-						<td>{{test.EventDate}}</td>
+						<td>  <input disabled name="EventDate" type="date"  ng-model="test.EventDate"></td>
 						<td ng-if="test.DidPass == 1" class="bg-success text-center">
 							<input type="checkbox" style="width:20px; height:20px;" value="" checked disabled>
 						</td>
