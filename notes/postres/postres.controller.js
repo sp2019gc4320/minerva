@@ -17,6 +17,8 @@ angular.module('notes.postres').controller('postresController', function($scope,
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     });
 
+
+
     taskGetPostResReports.then(
         //SUCCESS
         //Creates an array of objects that contain data
@@ -71,16 +73,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
             sendData.op = "UPDATE";
             updates.push(sendData);
         }
-        /*sendData.PREdSchoolType = $scope.alleducation[index].PREdSchoolType;
-        sendData.PREdStatus = $scope.alleducation[index].PREdStatus;
-        sendData.PREdStartDate = $scope.alleducation[index].PREdStartDate;
-        sendData.PREdEndDate = $scope.alleducation[index].PREdEndDate;
-        sendData.IsPREdFullTime = $scope.alleducation[index].IsPREdFullTime;
-        sendData.PREdNote = $scope.alleducation[index].PREdNote;
-        sendData.PREdID = $scope.alleducation[index].PREdID;
-        */
-        //Links to php file
-        //sendData.TableName = 'tblPREducation';
+
 
         for (let index = 0; index < updates.length; index++) {
             var test = Object.toparams(updates[index]);
@@ -100,14 +93,8 @@ angular.module('notes.postres').controller('postresController', function($scope,
         }
     };
 
-        //alerts page whether or not the update to the database was successful.
-        /*taskUpdateEducation.then(function (result) {
-                alert("Education update successful.");
-            },
-            function (result) {
-                alert("Education update error.");
-            });
-    };*/
+    //open note in education note in new window
+
 
     //function for updating military, same concept as education section
     $scope.updateMilitary = function (index) {
@@ -269,14 +256,19 @@ angular.module('notes.postres').controller('postresController', function($scope,
         }
     };
 
-    $scope.viewNote = function(){
-        window.open('notes/postres/noteView.html', 'height=250', 'width=250');
+
+    //---------------------------------------------------REPORTS-------------------------------------------------
+
+    $scope.openReportsNote = function(){
+        window.open('notes/postres/view/reportsNoteView.html', "_blank",
+            "toolbar = yes, scrollbars=yes, resizable=yes, top=500,left=500,height=400");
+    };
+
+    $scope.saveReportsNote = function () {
+        //TODO save the note from the reports page to the database
     };
 
 
-    $scope.saveNote = function () {
-        //TODO give functionality
-    };
     //This function gives the add report button functionality.
     $scope.addReport = function()
     {
@@ -298,6 +290,18 @@ angular.module('notes.postres').controller('postresController', function($scope,
         var idx = $scope.allreports.indexOf(reports);
         $scope.allreports.splice(idx, 1);
     };
+
+//----------------------------------------------------MENTOR-------------------------------------------------------
+
+    $scope.openMentorNote = function(){
+        window.open('notes/postres/view/mentorNoteView.html', "_blank",
+            "toolbar = yes, scrollbars=yes, resizable=yes, top=500,left=500,height=400");
+    };
+
+    $scope.saveMentorNote = function(){
+        //TODO save mentor note to database
+    };
+
     //This function gives the add mentor contact button functionality.
     $scope.addMentor = function() {
         var mentorContact = {
@@ -311,10 +315,24 @@ angular.module('notes.postres').controller('postresController', function($scope,
         $scope.allcontacts[nextIndex] = angular.copy(mentorContact);
     };
 
+
     //This function gives the remove mentor contact button its functionality.
     $scope.removeMentor = function (contacts) {
         var idx = $scope.allcontacts.indexOf(contacts);
         $scope.allcontacts.splice(idx, 1);
+    };
+
+
+    //-------------------------------------------------------------EDUCATION---------------------------------------
+
+
+    $scope.openEducationNote = function(){
+        window.open('notes/postres/view/educationNotesView.html', "_blank",
+            "toolbar = yes, scrollbars=yes, resizable=yes, top=500,left=500,height=400");
+    };
+
+    $scope.saveEducationNote = function(){
+        //TODO save education note to database
     };
 
     //This function gives the add education button functionality.
@@ -333,6 +351,20 @@ angular.module('notes.postres').controller('postresController', function($scope,
         var idx = $scope.alleducation.indexOf(education);
         $scope.alleducation.splice(idx, 1);
     };
+
+    //------------------------------------------------MILITARY-----------------------------------------------------
+
+
+    $scope.openMilitaryNote = function(){
+        window.open('notes/postres/view/militaryNotesView.html', "_blank",
+            "toolbar = yes, scrollbars=yes, resizable=yes, top=500,left=500,height=400");
+    };
+
+    $scope.saveMilitaryNote = function(){
+        //TODO save military note to database
+    };
+
+
     //This function gives the add military button functionality.
     $scope.addMilitary = function(){
         var military = {
@@ -352,6 +384,19 @@ angular.module('notes.postres').controller('postresController', function($scope,
         var idx = $scope.allmilitary.indexOf(military);
         $scope.allmilitary.splice(idx, 1);
     };
+
+    //---------------------------------------------------EMPLOYMENT----------------------------------------------------
+
+
+    $scope.openEmploymentNote = function(){
+        window.open('notes/postres/view/employmentNoteView.html', "_blank",
+            "toolbar = yes, scrollbars=yes, resizable=yes, top=500,left=500,height=400");
+    };
+
+    $scope.saveEmploymentNote = function(){
+        //TODO save employment note to database
+    };
+
     //This function gives the add employment button functionality.
     $scope.addEmployment = function(){
         var employment = {
@@ -375,6 +420,18 @@ angular.module('notes.postres').controller('postresController', function($scope,
         var idx = $scope.allemployment.indexOf(employment);
         $scope.allemployment.splice(idx, 1);
     };
+
+    //----------------------------------------------------MISC-------------------------------------------
+
+    $scope.openMiscNote = function(){
+        window.open('notes/postres/view/miscNotesView.html', "_blank",
+            "toolbar = yes, scrollbars=yes, resizable=yes, top=500,left=500,height=400");
+    };
+
+    $scope.saveMiscNote = function(){
+        //todo save misc note to database
+    };
+
     //This function gives the add misc button functionality.
     $scope.addMisc = function() {
         var misc = {

@@ -126,7 +126,7 @@
 						<button ng-click="enableEdit1()" class=".minervaButton">Edit</button>
 						<button ng-click="disableEdit1()" class=".minervaButton">Cancel</button>
 						<button ng-click="saveNote()" class=".minervaButton">Save</button>
-						<button ng-click="viewNote()" class=".minervaButton">View</button>
+						<button ng-click="openReportsNote()" class=".minervaButton">View</button>
 					</div>
 					<div id="notes1">
 					<textarea style="resize:vertical;" class="form-control" ng-model="reports.PRReportNote" disabled=true></textarea>							<!--NOTE 1-->
@@ -275,6 +275,7 @@
 			</div>
 			<div class="form-row justify-content-center">
 				<button class=".minervaButton" ng-click="updateEducation($index)">Update</button>
+				<button class=".minervaButton" ng-click="openEducationNote()">View</button>
 			</div>
 			<!--</div>-->
 			</div>
@@ -334,9 +335,10 @@
 			    <div class="form-group col-md-10">
 			        <label >Note</label>
 					<div style="text-align: center;">
-						<button ng-click="enableEdit2()" class="btn btn-success">Edit</button>
-						<button ng-click="disableEdit2()" class="btn btn-success">Cancel</button>
-						<button ng-click="saveNote()" class="btn btn-success">Save</button>
+						<button ng-click="enableEdit2()" class=".minervaButton">Edit</button>
+						<button ng-click="disableEdit2()" class=".minervaButton">Cancel</button>
+						<button ng-click="saveNote()" class=".minervaButton">Save</button>
+						<button ng-click="openMilitaryNote()" class=".minervaButton">View</button>
 					</div>
 					<div id="notes2">
 					<textarea style="resize:vertical;" class="form-control" ng-model="military.PRMilNote" disabled=true></textarea>
@@ -451,6 +453,7 @@
 			</div>
 			<div class="form-row justify-content-center">
 				<button class="col-xs-12 btn-danger" ng-click="updateEmployment($index)">Update</button>
+				<button class=".minervaButton" ng-click="openEmploymentNote()">View</button>
 			</div>
 			</div>
 			</div>
@@ -503,9 +506,10 @@
 			    <div class="form-group col-md-10">
 			        <label>Note</label>
 					<div style="text-align: center;">
-						<button ng-click="enableEdit3()" class="btn btn-success">Edit</button>
-						<button ng-click="disableEdit3()" class="btn btn-success">Cancel</button>
-						<button ng-click="saveNote()" class="btn btn-success">Save</button>
+						<button ng-click="enableEdit3()" class=".minervaButton">Edit</button>
+						<button ng-click="disableEdit3()" class=".minervaButton">Cancel</button>
+						<button ng-click="saveNote()" class=".minervaButton">Save</button>
+						<button ng-click="openMiscNote()" class=".minervaButton">View</button>
 					</div>
 						<div id="notes3">
 					<textarea style="resize:vertical;" class="form-control" ng-model="misc.PRMiscNote" disabled=true></textarea>						<!--NOTE 3-->
@@ -524,7 +528,8 @@
 			    <div class="col-md-1 d-none d-md-block"></div>
 			</div>
 			<div class="form-row justify-content-center">
-				<button class="col-xs-12 btn-danger" ng-click="updateMisc($index)">Update</button>
+				<button class=".minervaButton" ng-click="updateMisc($index)">Update</button>
+				<button class=".minervaButton" ng-click="openMiscNote()">View</button>
 			</div>
 			</div>
 			</div>
