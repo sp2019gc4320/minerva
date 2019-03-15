@@ -251,7 +251,7 @@
                         </tr>
                         <tr>
                             <td valign="top"><label>Agreement Date:
-                                <input  type="text" name="MAgreementDate"  ng-model="mentor.MAgreementDate" ng-class="taskComplete(mentor.MAgreementDate)"> </label>
+                                <input  type="date" name="MAgreementDate"  ng-model="mentor.MAgreementDate" ng-class="taskComplete(mentor.MAgreementDate)"> </label>
                                 <hr>
                                 <div><input type="checkbox" checked name="IsLiabReleaseSigned"
                                             ng-model="mentor.IsLiabReleaseSigned" ng-true-value="1"  ng-false-value="0" />
@@ -267,40 +267,40 @@
                             </td>
                             <td  valign="top"><label for="MInterviewDate">Interviewed:</label>
 
-                                <input  type="text" name="MInterviewDate" id="MInterviewDate" ng-model="mentor.MInterviewDate" ng-class="taskComplete(mentor.MInterviewDate)" >
+                                <input  type="date" name="MInterviewDate" id="MInterviewDate" ng-model="mentor.MInterviewDate" ng-class="taskComplete(mentor.MInterviewDate)" >
 
                                 <hr>
                                 <div>
                                     <label>Ref Check Date(1/2):</label> <div>
-                                    <input  type="text" name="MRefCheck1Date" ng-model="mentor.MRefCheck1Date" ng-class="taskComplete(mentor.MRefCheck1Date)" >
-                                    <input  type="text" name="MRefCheck2Date" ng-model="mentor.MRefCheck2Date" ng-class="taskComplete(mentor.MRefCheck2Date)"></div>
+                                    <input  type="date" name="MRefCheck1Date" ng-model="mentor.MRefCheck1Date" ng-class="taskComplete(mentor.MRefCheck1Date)" >
+                                    <input  type="date" name="MRefCheck2Date" ng-model="mentor.MRefCheck2Date" ng-class="taskComplete(mentor.MRefCheck2Date)"></div>
                                 </div>
                                 <hr>
                                 <div>
                                     <label>Backgnd Check(Start/End):</label>
                                     <div>
-                                        <input   type="text" name="MBackgroundCheckStartDate" ng-model="mentor.MBackgroundCheckStartDate" ng-class="taskComplete(mentor.MBackgroundCheckStartDate)">
-                                        <input   type="text" name="MBackgroundCheckEndDate" ng-model="mentor.MBackgroundCheckEndDate" ng-class="taskComplete(mentor.MBackgroundCheckEndDate)">
+                                        <input   type="date" name="MBackgroundCheckStartDate" ng-model="mentor.MBackgroundCheckStartDate" ng-class="taskComplete(mentor.MBackgroundCheckStartDate)">
+                                        <input   type="date" name="MBackgroundCheckEndDate" ng-model="mentor.MBackgroundCheckEndDate" ng-class="taskComplete(mentor.MBackgroundCheckEndDate)">
                                     </div>
                                 </div>
                                 <hr>
                                 <div> <input   type="checkbox" ng-true-value="0"  ng-false-value="1" ng-model="mentor.HasPhysAbuseHistory"> NO Physical Abuse History!</div>
                                 <div> <input class=""  type="checkbox" ng-true-value="0"  ng-false-value="1" ng-model="mentor.IsLegallyDQd"> NOT Legally Disqualified</div>
                             </td>
-                            <td  valign="top"><label>Training:</label> <input ng-class="taskComplete(mentor.MTrainedDate1)" type="text" name="MTrainedDate1" ng-model="mentor.MTrainedDate1"></td>
+                            <td  valign="top"><label>Training:</label> <input ng-class="taskComplete(mentor.MTrainedDate1)" type="date" name="MTrainedDate1" ng-model="mentor.MTrainedDate1"></td>
                             <td  valign="top"><label>Match Note:</label><div>
                                 <textarea class="" name="MMatchNote" ng-model="mentor.MMatchNote" rows = "5" cols="20"></textarea></div>
                                 <div> Match Week: <input name="MatchWeek" class="" ng-model="mentor.MatchWeek" readonly /></div>
                                 <hr>
                                 <div><label>Mentee Trained:</label>
-                                    <input ng-class="taskComplete(mentor.MenteeTrainingDate)" type="text" name="MenteeTrainingDate" ng-model="mentor.MenteeTrainingDate" > </div>
+                                    <input ng-class="taskComplete(mentor.MenteeTrainingDate)" type="date" name="MenteeTrainingDate" ng-model="mentor.MenteeTrainingDate" > </div>
                             </td>
                         </tr>
                         <tr>
-                            <td> <input readonly class="form-control" type="text" name="MPRecruitedDate" ng-model="mentor.MPRecruitedDate"  ng-class="recruitTaskStatus()"></td>
-                            <td> <input readonly class="form-control" type="text" name="MScreenedDate" ng-model="mentor.MScreenedDate"  ng-class="screenTaskStatus()"></td>
-                            <td> <input readonly class="form-control" type="text" name="MTrainedDate" ng-model="mentor.MTrainedDate"  ng-class="trainTaskStatus()"></td>
-                            <td> <input readonly class="form-control" type="text" name="MMatchDate" ng-model="mentor.MMatchDate"  ng-class="matchTaskStatus()"></td>
+                            <td> <input readonly class="form-control" type="date" name="MPRecruitedDate" ng-model="mentor.MPRecruitedDate"  ng-class="recruitTaskStatus()"></td>
+                            <td> <input readonly class="form-control" type="date" name="MScreenedDate" ng-model="mentor.MScreenedDate"  ng-class="screenTaskStatus()"></td>
+                            <td> <input readonly class="form-control" type="date" name="MTrainedDate" ng-model="mentor.MTrainedDate"  ng-class="trainTaskStatus()"></td>
+                            <td> <input readonly class="form-control" type="date" name="MMatchDate" ng-model="mentor.MMatchDate"  ng-class="matchTaskStatus()"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -325,7 +325,7 @@
 
                         <tr>
                             <td valign="top"><label>Agreement Date:
-                                <input readonly  type="text" name="MAgreementDate"  ng-model="mentor.MAgreementDate" ng-class="taskComplete(mentor.MAgreementDate)"> </label>
+                                <input readonly  type="date" name="MAgreementDate"  ng-model="mentor.MAgreementDate" ng-class="taskComplete(mentor.MAgreementDate)"> </label>
                                 <hr>
                                 <div><input  disabled="disabled" type="checkbox" checked name="IsLiabReleaseSigned"
                                             ng-model="mentor.IsLiabReleaseSigned" ng-true-value="1"  ng-false-value="0" />
@@ -342,41 +342,41 @@
                             </td>
                             <td  valign="top"><label for="MInterviewDate">Interviewed:</label>
 
-                                <input  readonly type="text" name="MInterviewDate"  ng-model="mentor.MInterviewDate" ng-class="taskComplete(mentor.MInterviewDate)" >
+                                <input  readonly type="date" name="MInterviewDate"  ng-model="mentor.MInterviewDate" ng-class="taskComplete(mentor.MInterviewDate)" >
 
                                 <hr>
                                 <div>
                                     <label>Ref Check Date(1/2):</label> <div>
-                                    <input  readonly type="text" name="MRefCheck1Date" ng-model="mentor.MRefCheck1Date" ng-class="taskComplete(mentor.MRefCheck1Date)" >
-                                    <input readonly type="text" name="MRefCheck2Date" ng-model="mentor.MRefCheck2Date" ng-class="taskComplete(mentor.MRefCheck2Date)"></div>
+                                    <input  readonly type="date" name="MRefCheck1Date" ng-model="mentor.MRefCheck1Date" ng-class="taskComplete(mentor.MRefCheck1Date)" >
+                                    <input readonly type="date" name="MRefCheck2Date" ng-model="mentor.MRefCheck2Date" ng-class="taskComplete(mentor.MRefCheck2Date)"></div>
                                 </div>
                                 <hr>
                                 <div>
                                     <label>Backgnd Check(Start/End):</label>
                                     <div>
-                                        <input readonly  type="text" name="MBackgroundCheckStartDate" ng-model="mentor.MBackgroundCheckStartDate" ng-class="taskComplete(mentor.MBackgroundCheckStartDate)">
-                                        <input readonly  type="text" name="MBackgroundCheckEndDate" ng-model="mentor.MBackgroundCheckEndDate" ng-class="taskComplete(mentor.MBackgroundCheckEndDate)">
+                                        <input readonly  type="date" name="MBackgroundCheckStartDate" ng-model="mentor.MBackgroundCheckStartDate" ng-class="taskComplete(mentor.MBackgroundCheckStartDate)">
+                                        <input readonly  type="date" name="MBackgroundCheckEndDate" ng-model="mentor.MBackgroundCheckEndDate" ng-class="taskComplete(mentor.MBackgroundCheckEndDate)">
                                     </div>
                                 </div>
                                 <hr>
                                 <div> <input   disabled="disabled" type="checkbox" ng-true-value="0"  ng-false-value="1" ng-model="mentor.HasPhysAbuseHistory"> NO Physical Abuse History!</div>
                                 <div> <input   disabled="disabled" class=""  type="checkbox" ng-true-value="0"  ng-false-value="1" ng-model="mentor.IsLegallyDQd"> Is NOT Legally Disqualified.</div>
                             </td>
-                            <td  valign="top"><label>Training:</label> <input  readonly ng-class="taskComplete(mentor.MTrainedDate1)" type="text" name="MTrainedDate1" ng-model="mentor.MTrainedDate1"></td>
+                            <td  valign="top"><label>Training:</label> <input  readonly ng-class="taskComplete(mentor.MTrainedDate1)" type="date" name="MTrainedDate1" ng-model="mentor.MTrainedDate1"></td>
                             <td  valign="top"><label>Match Note:</label><div>
                                 <textarea  disabled class="" name="MMatchNote" ng-model="mentor.MMatchNote" rows = "5" cols="20"></textarea></div>
                                 <div> Match Week: <input  readonly name="MatchWeek" class="" ng-model="mentor.MatchWeek" readonly /></div>
                                 <hr>
                                 <div><label>Mentee Trained:</label>
-                                    <input readonly ng-class="taskComplete(mentor.MenteeTrainingDate)" type="text" name="MenteeTrainingDate" ng-model="mentor.MenteeTrainingDate" > </div>
+                                    <input readonly ng-class="taskComplete(mentor.MenteeTrainingDate)" type="date" name="MenteeTrainingDate" ng-model="mentor.MenteeTrainingDate" > </div>
 
                             </td>
                         </tr>
                         <tr>
-                            <td> <input readonly type="text" name="MPRecruitedDate" ng-model="mentor.MPRecruitedDate"  ng-class="recruitTaskStatus()"></td>
-                            <td> <input readonly type="text" name="MScreenedDate" ng-model="mentor.MScreenedDate"  ng-class="screenTaskStatus()"></td>
-                            <td> <input readonly type="text" name="MTrainedDate" ng-model="mentor.MTrainedDate"  ng-class="trainTaskStatus()"></td>
-                            <td> <input readonly type="text" name="MMatchDate" ng-model="mentor.MMatchDate"  ng-class="matchTaskStatus()"></td>
+                            <td> <input readonly type="date" name="MPRecruitedDate" ng-model="mentor.MPRecruitedDate"  ng-class="recruitTaskStatus()"></td>
+                            <td> <input readonly type="date" name="MScreenedDate" ng-model="mentor.MScreenedDate"  ng-class="screenTaskStatus()"></td>
+                            <td> <input readonly type="date" name="MTrainedDate" ng-model="mentor.MTrainedDate"  ng-class="trainTaskStatus()"></td>
+                            <td> <input readonly type="date" name="MMatchDate" ng-model="mentor.MMatchDate"  ng-class="matchTaskStatus()"></td>
                         </tr>
                         </tbody>
                     </table>
@@ -404,7 +404,7 @@
                         <tbody>
                         <tr ng-repeat="appt in appts track by appt.AppointmentID">
                             <td>
-                                <input  type="text" class="" size="15" ng-model="appt.ApptDate">
+                                <input  type="date"  size="15" ng-model="appt.ApptDate">
                             </td>
                             <td>
                             <select ng-model="appt.ApptType">
@@ -418,7 +418,7 @@
                             <td>  <textarea class="" name="ApptNote" ng-model="appt.ApptNote" rows = "3" cols="100"></textarea>
                             </td>
                             <td>
-                            <button class=" btn-danger" ng-click="deleteAppt($index)">Delete</button></td>
+                            <button class=" btn btnDelete" ng-click="deleteAppt($index)">Delete</button></td>
                         </tr>
                         </tbody>
                     </table>
@@ -440,7 +440,7 @@
                             <th>Note</th>
                         </tr>
                         <tr ng-repeat="appt in appts track by appt.AppointmentID">
-                            <td> <input  readonly   class="" type="text" name="ApptDate"  ng-model="appt.ApptDate"> </label>
+                            <td> <input  readonly   class="" type="date" name="ApptDate"  ng-model="appt.ApptDate"> </label>
                             </td>
 
                             <td> {{appt.ApptType}} </td>
@@ -474,17 +474,17 @@
                         <tbody>
                         <tr>
                             <td> TERMINATED </td>
-                            <td> <input type="text" class=" form-inline" name="MPTermDate" ng-model="mentor.MPTermDate"> </td>
+                            <td> <input type="date"  name="MPTermDate" ng-model="mentor.MPTermDate"> </td>
                             <td> <textarea type="text" class="" name="MPTermNote" rows="2" cols="100" ng-model="mentor.MPTermNote"> </textarea></td>
                         </tr>
                         <tr>
                             <td> FAILED MATCH </td>
-                            <td> <input type="text" class=" form-inline" name="FailedDate" ng-model="mentor.FailedDate"> </td>
+                            <td> <input type="date"  name="FailedDate" ng-model="mentor.FailedDate"> </td>
                             <td> <textarea type="text" class="" rows="2" cols="100" name="FailedReason"ng-model="mentor.FailedReason"> </textarea></td>
                         </tr>
                         <tr>
                             <td> COMPLETED </td>
-                            <td> <input type="text" class=" form-inline" name="MExitMeetingDate" ng-model="mentor.MExitMeetingDate"> </td>
+                            <td> <input type="date"  name="MExitMeetingDate" ng-model="mentor.MExitMeetingDate"> </td>
                         </tr>
                         </tbody>
                     </table>
@@ -508,17 +508,17 @@
                             </tr>
                             <tr>
                                 <td> TERMINATED </td>
-                                <td> {{mentor.MPTermDate}}</td>
+                                <td> <input disabled type="date" name="MPTermDate" ng-model="mentor.MPTermDate"> </td>
                                 <td> <textarea disabled type="text" class="" name="MPTermNote" rows="2" cols="100" ng-model="mentor.MPTermNote"> </textarea></td>
                             </tr>
                             <tr>
                                 <td> FAILED MATCH </td>
-                                <td> {{mentor.FailedDate}} </td>
+                                <td> <input  disabled type="date"  name="FailedDate" ng-model="mentor.FailedDate"></td>
                                 <td> <textarea disabled type="text" class="" rows="2" cols="100" name="FailedReason"ng-model="mentor.FailedReason"> </textarea></td>
                             </tr>
                             <tr>
                                 <td> COMPLETED </td>
-                                <td> {{mentor.MExitMeetingDate}}</td>
+                                <td> <input disabled  type="date"  name="MExitMeetingDate" ng-model="mentor.MExitMeetingDate"></td>
                             </tr>
                             </tbody>
                         </table>
