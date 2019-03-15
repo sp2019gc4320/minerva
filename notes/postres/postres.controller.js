@@ -62,6 +62,32 @@ angular.module('notes.postres').controller('postresController', function($scope,
         }
     );
 
+    $scope.updateMentor = function(index){
+        var updates= [];
+        var sendData = {};
+        for(let i = 0; i< $scope.allcontacts.length; i++){
+            sendData = angular.copy($scope.allcontacts[i]);
+            sendData.op = "UPDATE";
+            updates.push(sendData);
+        }
+
+        for(let index = 0; index < updates.length; index++){
+            var test = Object.toparams(updates[index]);
+            var taskUpdateContacts = $http({
+                method: 'POST',
+                url: '.php/postres_updateContacts.php',
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(
+                function (result){
+                    alert("saving: " + JSON.stringify(result));
+                },
+                function (result){
+                    alert("Error updating record" + JSON.stringify(result));
+                }
+            )
+        }
+    };
+
     //function to update education section
     $scope.updateEducation = function (index) {
         //creates an array to update each attribute in table
@@ -92,9 +118,6 @@ angular.module('notes.postres').controller('postresController', function($scope,
 
         }
     };
-
-    //open note in education note in new window
-
 
     //function for updating military, same concept as education section
     $scope.updateMilitary = function (index) {
@@ -294,7 +317,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
 //----------------------------------------------------MENTOR-------------------------------------------------------
 
     $scope.openMentorNote = function(){
-        window.open('notes/postres/view/mentorNoteView.html', "_blank",
+        window.open('notes/postres/view/mentorNotesView.html', "_blank",
             "toolbar = yes, scrollbars=yes, resizable=yes, top=500,left=500,height=400");
     };
 
