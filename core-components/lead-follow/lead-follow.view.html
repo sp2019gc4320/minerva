@@ -38,8 +38,18 @@
                         <td class="text-left">{{task.Task}}</td>
                         <!--editable fields for cadetClassEvents-->
                         <td><input id="date" type="date" placeholder="MM/DD/YYYY" ng-model="task.EventDate"  ng-disabled="editTasks"></td>
-                        <td><input name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                   ng-model="task.DidPass"  ng-disabled="editTasks"></td>
+
+
+                        <td ng-if="task.DidPass == '1'" class="bg-success text-center">
+                             <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                    ng-model="task.DidPass"  ng-disabled="editTasks">
+                        </td>
+
+                        <td ng-if="task.DidPass == '0'" class="bg-danger text-center">
+                            <input  type="checkbox" ng-model="task.DidPass"
+                                    ng-true-value="'1'" ng-false-value="'0'" ng-disabled="editTasks">
+                        </td>
+
                         <td><textarea name="EventNote" rows="1" c wrap="off" ng-model="task.EventNote"  ng-disabled="editTasks"></textarea></td>
                     </tr>
                 </table>
@@ -82,8 +92,18 @@
                     </tr>
                     <tr ng-repeat="duty in duties">
                         <td>{{duty.JobPosition}}</td>
-                        <td><input name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                   ng-model="duty.DutyDidFail" ng-disabled="editDuty"></td>
+
+                        <td ng-if="duty.DutyDidFail == '1'" class="bg-success text-center">
+                            <input
+                                   name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="duty.DutyDidFail" ng-disabled="editDuty">
+                        </td>
+                        <td ng-if="duty.DutyDidFail == '0'" class="bg-danger text-center">
+                            <input
+                                   name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="duty.DutyDidFail" ng-disabled="editDuty">
+                        </td>
+
                         <td><input name="DutyStartDate" type="date" placeholder="MM/DD/YYYY"
                                    ng-model="duty.DutyStartDate" ng-disabled="editDuty"></td>
                         <td><input name="DutyEndDate" type="date" placeholder="MM/DD/YYYY" ng-model="duty.DutyEndDate"
@@ -240,9 +260,21 @@
                         </td>
                         <td><input name=PosEndDate type="date" ng-disabled="editPosit" ng-model="posit.PosEndDate"></td>
                         <td><input name="PosNote" type="text" ng-disabled="editPosit" ng-model="posit.PosNote"></td>
-                        <td><input name="PosDidFail" type="checkbox" ng-disabled="editPosit" ng-true-value="'1'"
+
+
+
+                        <td ng-if="posit.PosDidFail == '1'" class="bg-success text-center">
+                            <input
+                                   name="PosDidFail" type="checkbox" ng-disabled="editPosit" ng-true-value="'1'"
                                    ng-false-value="'0'" ng-model="posit.PosDidFail"></td>
-                        <td>
+                        </td>
+                        <td ng-if="posit.PosDidFail == '0'" class="bg-danger text-center">
+                            <input
+                                   name="PosDidFail" type="checkbox" ng-disabled="editPosit" ng-true-value="'1'"
+                                   ng-false-value="'0'" ng-model="posit.PosDidFail"></td>
+                        </td>
+
+
                             <button id=deletePositbtn" class="btn btnDelete" ng-disabled="editPosit"
                                     ng-click="deletePosit($index)"> Delete
                             </button>
@@ -346,6 +378,8 @@
                             <input id= "r3" name="RankPromotionNote" type="text" ng-disabled="addRank"
                                 ng-model="rEvent.RankPromotionNote"></th>
                         <th><label>Failed </label>
+
+                            
                             <input id= "r4" name="RankDidFail: " type="checkbox" ng-disabled="addRank" ng-true-value="'1'"
                                 ng-false-value="'0'" ng-model="rEvent.RankDidFail">
                     </tr>
