@@ -7,10 +7,10 @@ angular.module('findApp').
         // List of cadets picked on the Find Cadet View. This is instead of a
         // dictionary so that an order on when things are picked can be
         // maintained.
-        $scope.pickedCadets = []
+        $scope.pickedCadets = [];
 
         // Keeps track of which of the cadets have been checked
-        $scope.checkedCadets = {}
+        $scope.checkedCadets = {};
 
 
         $http({
@@ -41,7 +41,7 @@ angular.module('findApp').
             } else {
                 $scope.pickedCadets.push(cadet);
             }
-        }
+        };
 
         $scope.saveAndClose = function() {
             var cadetJSON = JSON.stringify($scope.pickedCadets);
@@ -50,7 +50,7 @@ angular.module('findApp').
             $window.opener.location.reload();
             $window.close();
 
-        }
+        };
 
         $scope.pickCadet = function (cadet) {
             //Storing fkCadetID to be used by another view

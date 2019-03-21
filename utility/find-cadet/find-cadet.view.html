@@ -3,10 +3,10 @@
         <!-- Filters -->
         <div class="col-md-3">
             <div id="name-filters">
-                <h5>Name</h5>
+
                 <div class="form-group row">
                     <label for="first-name" class="col-md-4 col-form-label
-                        col-form-label-sm">First</label>
+                        col-form-label-sm">First Name</label>
                     <div class="col-md-8">
                         <input type="text"
                                class="form-control form-control-sm"
@@ -19,7 +19,7 @@
                 </div>
                 <div class="form-group row">
                     <label for="last-name" class="col-md-4 col-form-label
-                        col-form-label-sm">Last</label>
+                        col-form-label-sm">Last Name</label>
                     <div class="col-md-8">
                         <input type="text"
                                class="form-control form-control-sm"
@@ -31,18 +31,16 @@
                 </div>
             </div>
             <div id="id-filters">
-
-                <h5>ID</h5>
                 <div class="form-group row">
                     <label for="class-id" class="col-md-4 col-form-label
-                        col-form-label-sm">Class</label>
+                        col-form-label-sm">Class #</label>
                     <div class="col-md-8">
                         <input type="text"
                                class="form-control form-control-sm"
                                name="class-id"
                                id="class-id"
                                value=""
-                               ng-model="cadetSearch.fkClassID"> <!-- ng-model specified for fkClassID-->
+                               ng-model="cadetSearch.fkClassID">
                     </div>
                 </div>
                 <div class="form-group row">
@@ -60,7 +58,7 @@
                 </div>
                 <div class="form-group row">
                     <label for="cadet-id" class="col-md-4 col-form-label
-                        col-form-label-sm">Cadet</label>
+                        col-form-label-sm">Cadet ID</label>
                     <div class="col-md-8">
                         <input type="text"
                                class="form-control form-control-sm"
@@ -72,7 +70,7 @@
                 </div>
                 <div class="form-group row">
                     <label for="mentor-id" class="col-md-4 col-form-label
-                        col-form-label-sm">Mentor</label>
+                        col-form-label-sm">Mentor ID</label>
                     <div class="col-md-8">
                         <input type="text"
                                class="form-control form-control-sm"
@@ -84,6 +82,10 @@
                 </div>
             </div>
             <button class="btn btn-primary">Search</button>
+            <button class="btn btn-primary"
+                    ng-click="saveAndClose()">Select Cadets
+                ({{pickedCadets.length}})
+            </button>
         </div>
         <div class="col-md-6" style="margin-top: 20px; overflow:auto;">
             <div>
@@ -116,17 +118,14 @@
                         <td class="text-center">{{x.fkMentorID}}</td>
                     </tr>
                 </table>
+
             </div>
+
+
         </div> <!-- col-->
 
         <div class="col-md-3">
             <ng-include src="updateDisplay"></ng-include>
-        </div>
-        <div>
-            <button id="cadet-select-btn" class="btn btn-primary position-fixed"
-                    ng-click="saveAndClose()"> Select Cadets
-                ({{pickedCadets.length}})
-            </button>
         </div>
     </div> <!--row-->
 </div>
