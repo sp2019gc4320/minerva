@@ -2,9 +2,22 @@
 'use strict';
 
 angular.module('findApp').
-    controller( "FindCadetController", function ($scope, $http, $window) {
+    controller( "FindCadetController", function FindCadetController($scope, $http, $window) {
 
-        // List of cadets picked on the Find Cadet View. This is instead of a
+        //Search Criteria
+        $scope.cadetSearch={};
+
+    //TODO: set the fkSiteID to be the same as the user's login Site.
+        $scope.cadetSearch.fkSiteID = 1;
+
+        //TODO: add needed search fields -- tblClasses has SiteClassNumber, NGB
+
+    // TODO: add options to quickly choose cadets for Mentor, CaseManager, Cadre etc.
+
+
+
+
+    // List of cadets picked on the Find Cadet View. This is instead of a
         // dictionary so that an order on when things are picked can be
         // maintained.
         $scope.pickedCadets = [];
@@ -13,13 +26,23 @@ angular.module('findApp').
         $scope.checkedCadets = {};
 
 
-        $http({
-            method: 'POST',
-            url: '../../php/findCadets.php',
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function (response) {
-            $scope.cadets = response.data.data;
-        });
+    /**
+     * Retrieve only records from server that match the given search criteria. This will reduce the data
+     * returned from server.
+     */
+    $scope.search = function search() {
+
+            var cadetSearch = angular.copy($scope.cadetSearch);
+
+            $http({
+                method: 'POST',
+                url: '../../php/findCadets.php',
+                data: Object.toparams(cadetSearch),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (response) {
+                $scope.cadets = response.data.data;
+            });
+        };
 
 
         /**
@@ -39,8 +62,7 @@ angular.module('findApp').
                 //ensure the checkbox is selected.
                 $scope.checkedCadets[cadet.fkCadetID]= true;
             }
-            else
-            {
+            else {
                 var index = $scope.pickedCadets.indexOf(cadet);
                 if(index >= 0) {
                     $scope.pickedCadets.splice(index, 1);
