@@ -10,8 +10,6 @@ controller("caseManagerController", function($scope, $http, $window){
     //EDIT
     $scope.CadetGender = $window.localStorage.getItem("CadetGender");
     $scope.CadetDOB = $window.localStorage.getItem("CadetDOB");
-    //$scope.CadetDOB = $window.localStorage.getItem("CadetDOB");
-    //alert("DOB: " + $window.localStorage.getItem("CadetDOB"));
 
     if($scope.CadetID === null) {
         alert("You must select a cadet!");

@@ -23,9 +23,9 @@ angular.module('findApp').
 
 
         /**
-         * Serves as a toggle for the checkboxes on the Find Cadet View. When
-         * the checkbox for a cadet is checked, the respective cadet is added to
-         * the list of `pickedCadets`. When the checkbox is unchecked, the cadet
+         * Serves as a toggle for the cadets selected on the Find Cadet View. When
+         * the checkbox for a cadet is checked or row is selected, the respective cadet is added to
+         * the list of `pickedCadets`. When the checkbox is unchecked or the row is selected again, the cadet
          * is removed.
          *
          * - Parameters:
@@ -34,19 +34,50 @@ angular.module('findApp').
          */
         $scope.selectCadet = function(cadet) {
             if(!$scope.checkedCadets[cadet.fkCadetID]) {
+                $scope.pickedCadets.push(cadet);
+
+                //ensure the checkbox is selected.
+                $scope.checkedCadets[cadet.fkCadetID]= true;
+            }
+            else
+            {
                 var index = $scope.pickedCadets.indexOf(cadet);
                 if(index >= 0) {
                     $scope.pickedCadets.splice(index, 1);
+
+                    //deselect the checkbox
+                    $scope.checkedCadets[cadet.fkCadetID]= false;
                 }
-            } else {
-                $scope.pickedCadets.push(cadet);
+                else {
+                    alert("index is not found -- adding to list");
+                    $scope.pickedCadets.push(cadet);
+                    $scope.checkedCadets[cadet.fkCadetID]= true;
+
+                }
             }
+
         };
 
         $scope.saveAndClose = function() {
             var cadetJSON = JSON.stringify($scope.pickedCadets);
             $window.sessionStorage.setItem("cadets", cadetJSON);
             $window.localStorage.setItem("cadets", cadetJSON);
+
+            //Set the cadet for the first item in the list
+            if($scope.pickedCadets.length > 0) {
+                var firstChosen = $scope.pickedCadets[0];
+                $window.localStorage.setItem("CadetID", firstChosen.fkCadetID);
+                $window.localStorage.setItem("CadetName", firstChosen.PersonFN + " " +firstChosen.PersonLN);
+                $window.localStorage.setItem("CadetGender", firstChosen.PGender);
+                $window.localStorage.setItem("CadetDOB", firstChosen.PDOB);
+            }
+            else {
+                $window.localStorage.removeItem("CadetID");
+                $window.localStorage.removeItem("CadetName");
+                $window.localStorage.removeItem("CadetGender");
+                $window.localStorage.removeItem("CadetDOB");
+            }
+
             $window.opener.location.reload();
             $window.close();
 
@@ -78,6 +109,8 @@ angular.module('findApp').
                 $scope.updateDisplay = "./cadet-helper.view.html" + "?updated=" + Date.now();
             }
             );
+
+            $scope.selectCadet(cadet);
         }
     });
 
