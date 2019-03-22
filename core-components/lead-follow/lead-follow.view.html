@@ -29,7 +29,7 @@
                         <th>Tasks</th>
                         <th>Description</th>
                         <th>Last Activity</th>
-                        <th>Pass/Fail</th>
+                        <th>Pass?</th>
                         <th>Note</th>
                     </tr>
                     <!--iterate through each instance in scope from controller-->
@@ -85,29 +85,28 @@
                     </thead>
                     <tr>
                         <th>Duties</th>
-                        <th>Failed</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Pass?</th>
                         <th>Note</th>
                     </tr>
                     <tr ng-repeat="duty in duties">
                         <td>{{duty.JobPosition}}</td>
-
-                        <td ng-if="duty.DutyDidFail == '1'" class="bg-success text-center">
-                            <input
-                                   name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                   ng-model="duty.DutyDidFail" ng-disabled="editDuty">
-                        </td>
-                        <td ng-if="duty.DutyDidFail == '0'" class="bg-danger text-center">
-                            <input
-                                   name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                   ng-model="duty.DutyDidFail" ng-disabled="editDuty">
-                        </td>
-
                         <td><input name="DutyStartDate" type="date" placeholder="MM/DD/YYYY"
                                    ng-model="duty.DutyStartDate" ng-disabled="editDuty"></td>
                         <td><input name="DutyEndDate" type="date" placeholder="MM/DD/YYYY" ng-model="duty.DutyEndDate"
                                    ng-disabled="editDuty"></td>
+                        <td ng-if="duty.DutyDidFail == '1'" class="bg-success text-center">
+                            <input
+                                    name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                    ng-model="duty.DutyDidFail" ng-disabled="editDuty">
+                        </td>
+                        <td ng-if="duty.DutyDidFail == '0'" class="bg-danger text-center">
+                            <input
+                                    name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                    ng-model="duty.DutyDidFail" ng-disabled="editDuty">
+                        </td>
+
                         <td><input name="DutyNote" type="text" ng-model="duty.DutyNote" ng-disabled="editDuty"
                                    style="width:500px"></td>
                         <td>
@@ -173,17 +172,17 @@
                     <tr>
 					    <th>Date</th>
 					    <th>Inspection Type</th>
-					    <th>Passed</th>
 					    <th>Merit Adj</th>
+                        <th>Pass?</th>
 					    <th>Note</th>
 				    </tr>
 				    <tr ng-repeat="inspect in inspections">
 					    <td><input name=InspectionDate type="date" placeholder="MM/DD/YYYY"
                                ng-model="inspect.InspectionDate" ng-disabled="editInspect"></td>
 					    <td>{{inspect.JBInspectionType}}</td>
-					    <td><input name="DidPassInspection" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                               ng-model="inspect.DidPassInspection" ng-disabled="editInspect"></td>
 					    <td>{{inspect.InspMeritAdj}}</td>
+                        <td><input name="DidPassInspection" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="inspect.DidPassInspection" ng-disabled="editInspect"></td>
                         <td><input name="InspectionNote" type="text" ng-model="inspect.InspectionNote" ng-disabled="editInspect"></td>
                         <td>
                             <button id=deleteInspectBtn" class="btn btnDelete" ng-disabled="editInspect"
@@ -251,17 +250,15 @@
                         <th>Position</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Pass?</th>
                         <th>Note</th>
-                        <th>Failed</th>
+
                     </tr>
                     <tr ng-repeat="posit in pos">
                         <td>{{posit.JBPosition}}</td>
                         <td><input name=PosStartDate type="date" ng-disabled="editPosit" ng-model="posit.PosStartDate">
                         </td>
                         <td><input name=PosEndDate type="date" ng-disabled="editPosit" ng-model="posit.PosEndDate"></td>
-                        <td><input name="PosNote" type="text" ng-disabled="editPosit" ng-model="posit.PosNote"></td>
-
-
 
                         <td ng-if="posit.PosDidFail == '1'" class="bg-success text-center">
                             <input
@@ -273,9 +270,9 @@
                                    name="PosDidFail" type="checkbox" ng-disabled="editPosit" ng-true-value="'1'"
                                    ng-false-value="'0'" ng-model="posit.PosDidFail"></td>
                         </td>
+                        <td><input name="PosNote" type="text" ng-disabled="editPosit" ng-model="posit.PosNote"></td>
 
-
-                            <button id=deletePositbtn" class="btn btnDelete" ng-disabled="editPosit"
+                        <button id=deletePositbtn" class="btn btnDelete" ng-disabled="editPosit"
                                     ng-click="deletePosit($index)"> Delete
                             </button>
                         </td>
@@ -304,11 +301,12 @@
                         <th><label>End Date: </label>
                             <input class="LF-Date" id= "p3" name="PosEndDate" type="date" ng-disabled="addPosit" ng-model="posit.PosEndDate">
                         </th>
-                        <th><label>Note: </label>
-                            <input id= "p4" name="PosNote" type="text" ng-disabled="addPosit" ng-model="posit.PosNote"></th>
-                        <th><label>Failed: </label>
+                        <th><label>Pass? </label>
                             <input id= "p5" name="PosDidFail: " type="checkbox" ng-disabled="addPosit" ng-true-value="'1'"
                                    ng-false-value="'0'" ng-model="posit.PosDidFail"></th>
+                        <th><label>Note: </label>
+                            <input id= "p4" name="PosNote" type="text" ng-disabled="addPosit" ng-model="posit.PosNote"></th>
+
                     </tr>
                 </table>
             </form>
@@ -341,17 +339,17 @@
                     <tr>
                         <th>Rank</th>
                         <th>Date Obtained</th>
+                        <th>Pass?</th>
                         <th>Note</th>
-                        <th>Failed</th>
                     </tr>
                     <tr ng-repeat="rEvent in rank">
                         <td>{{rEvent.JBRank}}</td>
                         <td><input name="RankObtainedDate" type="date" ng-disabled="editRank"
                                    ng-model="rEvent.RankObtainedDate"></td>
-                        <td><input name="RankPromotionNote" type="text" ng-disabled="editRank"
-                                   ng-model="rEvent.RankPromotionNote"></td>
                         <td><input name="RankDidFail" type="checkbox" ng-disabled="editRank" ng-true-value="'1'"
                                    ng-false-value="'0'" ng-model="rEvent.RankDidFail"></td>
+                        <td><input name="RankPromotionNote" type="text" ng-disabled="editRank"
+                                   ng-model="rEvent.RankPromotionNote"></td>
                         <td>
                             <button id=deleteRankbtn class="btn btnDelete" ng-disabled="editRank"
                                 ng-click="deleteRank($index)"> Delete
@@ -374,14 +372,13 @@
                         <th><label>Date Obtained </label>
                             <input class="LF-Date" id= "r2" name="RankObtainedDate" type="date" ng-disabled="addRank"
                                    ng-model="rEvent.RankObtainedDate"></th>
+                        <th><label>Pass? </label>
+                            <input id= "r4" name="RankDidFail: " type="checkbox" ng-disabled="addRank" ng-true-value="'1'"
+                                   ng-false-value="'0'" ng-model="rEvent.RankDidFail">
                         <th><label>Note </label>
                             <input id= "r3" name="RankPromotionNote" type="text" ng-disabled="addRank"
                                 ng-model="rEvent.RankPromotionNote"></th>
-                        <th><label>Failed </label>
 
-                            
-                            <input id= "r4" name="RankDidFail: " type="checkbox" ng-disabled="addRank" ng-true-value="'1'"
-                                ng-false-value="'0'" ng-model="rEvent.RankDidFail">
                     </tr>
                 </table>
             </form>
