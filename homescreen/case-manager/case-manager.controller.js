@@ -3,8 +3,7 @@
 
 angular.module('homescreen.caseManager').
 controller("caseManagerController", function($scope, $http, $window){
-
-
+    $scope.cadets = JSON.parse($window.localStorage.getItem("cadets"));
     $scope.CadetID = $window.localStorage.getItem("CadetID");
     $scope.CadetName = $window.localStorage.getItem("CadetName");
     //EDIT
@@ -19,8 +18,8 @@ controller("caseManagerController", function($scope, $http, $window){
         CadetID: $scope.CadetID,
         CadetName: $scope.CadetName,
         //EDIT
-        CadetGender: $scope.CadetGender
-        //CadetDOB: $scope.CadetDOB
+        CadetGender: $scope.CadetGender,
+        CadetDOB: $scope.CadetDOB
     };
 
     $scope.caseManagerViews = [
@@ -40,12 +39,19 @@ controller("caseManagerController", function($scope, $http, $window){
 
     $scope.openFindCadetView = function()
     {
-
         $window.open('./utility/find-cadet/find-cadet-index.view.html', "_blank",
             "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=300,height=300");
 
     };
 
-
+    $scope.localStorageUpdate = function localStorageUpdate(item)
+    {
+        $window.localStorage.setItem("CadetID", item.fkCadetID);
+        $window.localStorage.setItem("CadetGender", item.PGender);
+        $window.localStorage.setItem("CadetDOB", item.PDOB);
+        $window.localStorage.setItem("fkCadetID", item.fkCadetID);
+        $window.localStorage.setItem("CadetName", item.PersonFN + " " + item.PersonLN);
+        location.reload(true);
+    }
 
 });
