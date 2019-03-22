@@ -181,8 +181,18 @@
                                ng-model="inspect.InspectionDate" ng-disabled="editInspect"></td>
 					    <td>{{inspect.JBInspectionType}}</td>
 					    <td>{{inspect.InspMeritAdj}}</td>
-                        <td><input name="DidPassInspection" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                   ng-model="inspect.DidPassInspection" ng-disabled="editInspect"></td>
+
+                        <td ng-if="inspect.DidPassInspection == '1'" class="bg-success text-center">
+                            <input
+                                    name="DidPassInspection" type="checkbox" ng-disabled="editInspect" ng-true-value="'1'"
+                                    ng-false-value="'0'" ng-model="inspect.DidPassInspection"></td>
+                        </td>
+                        <td ng-if="inspect.DidPassInspection == '0'" class="bg-danger text-center">
+                            <input
+                                    name="DidPassInspection" type="checkbox" ng-disabled="editInspect" ng-true-value="'1'"
+                                    ng-false-value="'0'" ng-model="inspect.DidPassInspection"></td>
+                        </td>
+
                         <td><input name="InspectionNote" type="text" ng-model="inspect.InspectionNote" ng-disabled="editInspect"></td>
                         <td>
                             <button id=deleteInspectBtn" class="btn btnDelete" ng-disabled="editInspect"
@@ -347,8 +357,20 @@
                         <td>{{rEvent.JBRank}}</td>
                         <td><input name="RankObtainedDate" type="date" ng-disabled="editRank"
                                    ng-model="rEvent.RankObtainedDate"></td>
-                        <td><input name="RankDidFail" type="checkbox" ng-disabled="editRank" ng-true-value="'1'"
-                                   ng-false-value="'0'" ng-model="rEvent.RankDidFail"></td>
+
+                        <td ng-if="rEvent.RankDidFail== '1'" class="bg-success text-center">
+                            <input
+                                    name="RankDidFail" type="checkbox" ng-disabled="editRank" ng-true-value="'1'"
+                                    ng-false-value="'0'" ng-model="rEvent.RankDidFail"></td>
+                        </td>
+                        <td ng-if="rEvent.RankDidFail == '0'" class="bg-danger text-center">
+                            <input
+                                    name="RankDidFail" type="checkbox" ng-disabled="editRank" ng-true-value="'1'"
+                                    ng-false-value="'0'" ng-model="rEvent.RankDidFail"></td>
+                        </td>
+
+
+
                         <td><input name="RankPromotionNote" type="text" ng-disabled="editRank"
                                    ng-model="rEvent.RankPromotionNote"></td>
                         <td>
