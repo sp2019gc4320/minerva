@@ -129,15 +129,15 @@
                                     ng-options="option.DutyPosition for option in DutyPositionOptions track by option.id"
                                     ng-change="changeJobPosition(duty.JobPosition)" ng-disabled="addDuty"></select>
                         </th>
-                        <th><label>Failed </label>
-                            <input id="2" name="DutyDidFail: " type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                   ng-model="duty.DutyDidFail" ng-disabled="addDuty"></th>
-                        <th><label>Start Date </label>
+                           <th><label>Start Date </label>
                             <input class="LF-Date" id="3" name="DutyStartDate" type="date" placeholder="MM/DD/YYYY"
                                    ng-model="duty.DutyStartDate" ng-disabled="addDuty"></th>
                         <th><label>End Date </label>
                             <input class="LF-Date" id="4" name="DutyEndDate" type="date" placeholder="MM/DD/YYYY"
                                    ng-model="duty.DutyEndDate" ng-disabled="addDuty"></th>
+                        <th><label>Pass? </label>
+                            <input id="2" name="DutyDidFail: " type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="duty.DutyDidFail" ng-disabled="addDuty"></th>
                         <th><label>Note </label>
                             <input id="5" name="DutyNote" type="text" ng-model="duty.DutyNote" ng-disabled="addDuty"
                                    style="width:500px"></th>
@@ -206,11 +206,11 @@
                         <select id="i2" ng-model="inspect.JBInspectionType" name="JBInspectionType"
                                 ng-options="option.InspectionType for option in InspectionTypeOptions track by option.id"
                                 ng-change="changeInspectionType(inspect.JBInspectionType)" ng-disabled="addInspect"></select></th>
-                        <th><label>Passed: </label>
-                            <input id="i3" name="DidPassInspection" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                ng-model="inspect.DidPassInspection" ng-disabled="addInspect"></th>
                         <th><label>Merit Adj: </label>
                             <input id="i4" name="InspMeritAdj" type="text" ng-model="inspect.InspMeritAdj" ng-disabled="addInspect"></th>
+                        <th><label>Pass? </label>
+                            <input id="i3" name="DidPassInspection" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="inspect.DidPassInspection" ng-disabled="addInspect"></th>
                         <th><label>Note:  </label>
                             <input id="i5" name="InspectionNote" type="text" ng-model="inspect.InspectionNote" ng-disabled="addInspect"></th>
                     </tr>
