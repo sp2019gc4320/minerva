@@ -18,6 +18,10 @@
                                     <button id = "editButtonTasks" class="btn btnEdit" ng-disabled="!editTasks"
                                             ng-click="editSection('tasks')"> Edit
                                     </button>
+                                <span id="taskSaveCancelButtons">
+                                    <button class="btn btnSave" ng-click="saveSection('tasks')" ng-disabled="editTasks"> Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelUpdate('tasks')" ng-disabled="editTasks"> Cancel</button>
+                                </span>
                                 </th>
                         </tr>
                     </thead>
@@ -25,7 +29,7 @@
                         <th>Tasks</th>
                         <th>Description</th>
                         <th>Last Activity</th>
-                        <th>Pass/Fail</th>
+                        <th>Pass?</th>
                         <th>Note</th>
                     </tr>
                     <!--iterate through each instance in scope from controller-->
@@ -34,15 +38,22 @@
                         <td class="text-left">{{task.Task}}</td>
                         <!--editable fields for cadetClassEvents-->
                         <td><input id="date" type="date" placeholder="MM/DD/YYYY" ng-model="task.EventDate"  ng-disabled="editTasks"></td>
-                        <td><input name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                   ng-model="task.DidPass"  ng-disabled="editTasks"></td>
+
+
+                        <td ng-if="task.DidPass == '1'" class="bg-success text-center">
+                             <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                    ng-model="task.DidPass"  ng-disabled="editTasks">
+                        </td>
+
+                        <td ng-if="task.DidPass == '0'" class="bg-danger text-center">
+                            <input  type="checkbox" ng-model="task.DidPass"
+                                    ng-true-value="'1'" ng-false-value="'0'" ng-disabled="editTasks">
+                        </td>
+
                         <td><textarea name="EventNote" rows="1" c wrap="off" ng-model="task.EventNote"  ng-disabled="editTasks"></textarea></td>
                     </tr>
                 </table>
-                <div id="taskSaveCancelButtons">
-                    <button class="btn btnSave" ng-click="saveSection('tasks')" ng-disabled="editTasks"> Save</button>
-                    <button class="btn btnCancel" ng-click="cancelUpdate('tasks')" ng-disabled="editTasks"> Cancel</button>
-                </div>
+
             </form>
         </div>
         <!--Duties-->
@@ -56,26 +67,46 @@
                 <table class="table minerva-table">
                     <thead>
                         <tr>
-                            <th colspan="6">DUTIES <button id="editButtonDuties" class="btn btnEdit" ng-disabled="!editDuty"
+                            <th colspan="6">DUTIES
+                                <button id="editButtonDuties" class="btn btnEdit" ng-disabled="!editDuty"
                                 ng-click="editSection('duties')"> Edit
-                        </button></th>
+                        </button>
+                                <span id="dutySaveCancelButtons"><!--2/26 - changed updateDuty() to saveSection('duties')-->
+                                    <button class="btn btnSave" ng-click="saveSection('duties')" ng-disabled="editDuty"> Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelUpdate('duties')" ng-disabled="editDuty"> Cancel</button>
+                                </span>
+
+                                <span id="saveCancelAddDutyButtons">
+                                    <button class="btn btnSave" ng-click="CreateDuty()" style="margin: 0 auto" > Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelAddElement('duties')" style="margin: 0 auto"> Cancel</button>
+                                </span>
+                            </th>
                         </tr>
                     </thead>
                     <tr>
                         <th>Duties</th>
-                        <th>Failed</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Pass?</th>
                         <th>Note</th>
                     </tr>
                     <tr ng-repeat="duty in duties">
                         <td>{{duty.JobPosition}}</td>
-                        <td><input name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                   ng-model="duty.DutyDidFail" ng-disabled="editDuty"></td>
                         <td><input name="DutyStartDate" type="date" placeholder="MM/DD/YYYY"
                                    ng-model="duty.DutyStartDate" ng-disabled="editDuty"></td>
                         <td><input name="DutyEndDate" type="date" placeholder="MM/DD/YYYY" ng-model="duty.DutyEndDate"
                                    ng-disabled="editDuty"></td>
+                        <td ng-if="duty.DutyDidFail == '1'" class="bg-success text-center">
+                            <input
+                                    name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                    ng-model="duty.DutyDidFail" ng-disabled="editDuty">
+                        </td>
+                        <td ng-if="duty.DutyDidFail == '0'" class="bg-danger text-center">
+                            <input
+                                    name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                    ng-model="duty.DutyDidFail" ng-disabled="editDuty">
+                        </td>
+
                         <td><input name="DutyNote" type="text" ng-model="duty.DutyNote" ng-disabled="editDuty"
                                    style="width:500px"></td>
                         <td>
@@ -98,29 +129,23 @@
                                     ng-options="option.DutyPosition for option in DutyPositionOptions track by option.id"
                                     ng-change="changeJobPosition(duty.JobPosition)" ng-disabled="addDuty"></select>
                         </th>
-                        <th><label>Failed </label>
-                            <input id="2" name="DutyDidFail: " type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                   ng-model="duty.DutyDidFail" ng-disabled="addDuty"></th>
-                        <th><label>Start Date </label>
+                           <th><label>Start Date </label>
                             <input class="LF-Date" id="3" name="DutyStartDate" type="date" placeholder="MM/DD/YYYY"
                                    ng-model="duty.DutyStartDate" ng-disabled="addDuty"></th>
                         <th><label>End Date </label>
                             <input class="LF-Date" id="4" name="DutyEndDate" type="date" placeholder="MM/DD/YYYY"
                                    ng-model="duty.DutyEndDate" ng-disabled="addDuty"></th>
+                        <th><label>Pass? </label>
+                            <input id="2" name="DutyDidFail: " type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="duty.DutyDidFail" ng-disabled="addDuty"></th>
                         <th><label>Note </label>
                             <input id="5" name="DutyNote" type="text" ng-model="duty.DutyNote" ng-disabled="addDuty"
                                    style="width:500px"></th>
                     </tr>
                 </table>
             </form>
-            <div id="saveCancelAddDutyButtons">
-                <button class="btn btnSave" ng-click="CreateDuty()" style="margin: 0 auto" > Save</button>
-                <button class="btn btnCancel" ng-click="cancelAddElement('duties')" style="margin: 0 auto"> Cancel</button>
-            </div>
-            <div id="dutySaveCancelButtons"><!--2/26 - changed updateDuty() to saveSection('duties')-->
-                <button class="btn btnSave" ng-click="saveSection('duties')" ng-disabled="editDuty"> Save</button>
-                <button class="btn btnCancel" ng-click="cancelUpdate('duties')" ng-disabled="editDuty"> Cancel</button>
-            </div>
+
+
         </div>
 
         <br>
@@ -132,23 +157,32 @@
                         <tr>
                             <th colspan="6">INSPECTIONS <button id="editButtonInspections" class="btn btnEdit"   ng-disabled="!editInspect"
                                 ng-click="editSection('inspections')"> Edit
-                        </button></th>
+                        </button>
+                                <span id="saveCancelAddInspectButtons">
+                                    <button class="btn btnSave" ng-click="CreateInspect()" style="margin: 0 auto" > Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelAddElement('inspections')" style="margin: 0 auto"> Cancel</button>
+                                </span>
+                                <span id="inspectSaveCancelButtons"><!--2/26 - changed updateInspect() to saveSection('inspection')-->
+                                    <button class="btn btnSave" ng-click="saveSection('inspections')" ng-disabled="editInspect"> Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelUpdate('inspections')" ng-disabled="editInspect"> Cancel</button>
+                                </span>
+                            </th>
                         </tr>
                     </thead>
                     <tr>
 					    <th>Date</th>
 					    <th>Inspection Type</th>
-					    <th>Passed</th>
 					    <th>Merit Adj</th>
+                        <th>Pass?</th>
 					    <th>Note</th>
 				    </tr>
 				    <tr ng-repeat="inspect in inspections">
 					    <td><input name=InspectionDate type="date" placeholder="MM/DD/YYYY"
                                ng-model="inspect.InspectionDate" ng-disabled="editInspect"></td>
 					    <td>{{inspect.JBInspectionType}}</td>
-					    <td><input name="DidPassInspection" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                               ng-model="inspect.DidPassInspection" ng-disabled="editInspect"></td>
 					    <td>{{inspect.InspMeritAdj}}</td>
+                        <td><input name="DidPassInspection" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="inspect.DidPassInspection" ng-disabled="editInspect"></td>
                         <td><input name="InspectionNote" type="text" ng-model="inspect.InspectionNote" ng-disabled="editInspect"></td>
                         <td>
                             <button id=deleteInspectBtn" class="btn btnDelete" ng-disabled="editInspect"
@@ -172,24 +206,17 @@
                         <select id="i2" ng-model="inspect.JBInspectionType" name="JBInspectionType"
                                 ng-options="option.InspectionType for option in InspectionTypeOptions track by option.id"
                                 ng-change="changeInspectionType(inspect.JBInspectionType)" ng-disabled="addInspect"></select></th>
-                        <th><label>Passed: </label>
-                            <input id="i3" name="DidPassInspection" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                ng-model="inspect.DidPassInspection" ng-disabled="addInspect"></th>
                         <th><label>Merit Adj: </label>
                             <input id="i4" name="InspMeritAdj" type="text" ng-model="inspect.InspMeritAdj" ng-disabled="addInspect"></th>
+                        <th><label>Pass? </label>
+                            <input id="i3" name="DidPassInspection" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="inspect.DidPassInspection" ng-disabled="addInspect"></th>
                         <th><label>Note:  </label>
                             <input id="i5" name="InspectionNote" type="text" ng-model="inspect.InspectionNote" ng-disabled="addInspect"></th>
                     </tr>
                 </table>
             </form>
-            <div id="saveCancelAddInspectButtons">
-                <button class="btn btnSave" ng-click="CreateInspect()" style="margin: 0 auto" > Save</button>
-                <button class="btn btnCancel" ng-click="cancelAddElement('inspections')" style="margin: 0 auto"> Cancel</button>
-            </div>
-			<div id="inspectSaveCancelButtons"><!--2/26 - changed updateInspect() to saveSection('inspection')-->
-                <button class="btn btnSave" ng-click="saveSection('inspections')" ng-disabled="editInspect"> Save</button>
-                <button class="btn btnCancel" ng-click="cancelUpdate('inspections')" ng-disabled="editInspect"> Cancel</button>
-            </div>
+
 		</div>
     </span>
         <hr/>
@@ -204,38 +231,60 @@
                 <table class="table minerva-table">
                     <thead>
                         <tr>
-                            <th colspan="5">POSITIONS <button id="editButtonPositions" class="btn btnEdit" ng-disabled="!editPosit"
+                            <th colspan="6">POSITIONS <button id="editButtonPositions" class="btn btnEdit" ng-disabled="!editPosit"
                                 ng-click="editSection('positions')"> Edit
-                        </button></th>
+                        </button>
+                                <div id="saveCancelAddPositButtons">
+                                    <button class="btn btnSave" ng-click="CreatePosit()" style="margin: 0 auto" > Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelAddElement('positions')" style="margin: 0 auto"> Cancel</button>
+                                </div>
+                                <div id="positionSaveCancelButtons">
+                                    <button class="btn btnSave" ng-click="saveSection('positions')" ng-disabled="editPosit"> Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelUpdate('positions')" ng-disabled="editPosit"> Cancel</button>
+                                </div>
+
+                            </th>
                         </tr>
                     </thead>
                     <tr>
                         <th>Position</th>
                         <th>Start Date</th>
                         <th>End Date</th>
+                        <th>Pass?</th>
                         <th>Note</th>
-                        <th>Failed</th>
+
                     </tr>
                     <tr ng-repeat="posit in pos">
                         <td>{{posit.JBPosition}}</td>
                         <td><input name=PosStartDate type="date" ng-disabled="editPosit" ng-model="posit.PosStartDate">
                         </td>
                         <td><input name=PosEndDate type="date" ng-disabled="editPosit" ng-model="posit.PosEndDate"></td>
-                        <td><input name="PosNote" type="text" ng-disabled="editPosit" ng-model="posit.PosNote"></td>
-                        <td><input name="PosDidFail" type="checkbox" ng-disabled="editPosit" ng-true-value="'1'"
+
+                        <td ng-if="posit.PosDidFail == '1'" class="bg-success text-center">
+                            <input
+                                   name="PosDidFail" type="checkbox" ng-disabled="editPosit" ng-true-value="'1'"
                                    ng-false-value="'0'" ng-model="posit.PosDidFail"></td>
+                        </td>
+                        <td ng-if="posit.PosDidFail == '0'" class="bg-danger text-center">
+                            <input
+                                   name="PosDidFail" type="checkbox" ng-disabled="editPosit" ng-true-value="'1'"
+                                   ng-false-value="'0'" ng-model="posit.PosDidFail"></td>
+                        </td>
+                        <td><input name="PosNote" type="text" ng-disabled="editPosit" ng-model="posit.PosNote"></td>
+
                         <td>
-                            <button id=deletePositbtn" class="btn btnDelete" ng-disabled="editPosit"
+                        <button id=deletePositbtn" class="btn btnDelete" ng-disabled="editPosit"
                                     ng-click="deletePosit($index)"> Delete
                             </button>
                         </td>
                     </tr>
                 </table>
             </form>
+            <!--
             <div id="saveCancelAddPositButtons">
                 <button class="btn btn-outline-primary" ng-click="CreatePosit()" style="margin: 0 auto" >Save</button>
                 <button class="btn btn-outline-danger" ng-click="cancelAddElement('positions')" style="margin: 0 auto">Cancel</button>
-            </div>
+            </div>-->
             <div class="text-center">
             <button id="addPositButton" class="btn btnCreate" ng-click="addElement('positions')" style="margin: 0 auto"> Add Position</button>
             </div>
@@ -253,23 +302,16 @@
                         <th><label>End Date: </label>
                             <input class="LF-Date" id= "p3" name="PosEndDate" type="date" ng-disabled="addPosit" ng-model="posit.PosEndDate">
                         </th>
-                        <th><label>Note: </label>
-                            <input id= "p4" name="PosNote" type="text" ng-disabled="addPosit" ng-model="posit.PosNote"></th>
-                        <th><label>Failed: </label>
+                        <th><label>Pass? </label>
                             <input id= "p5" name="PosDidFail: " type="checkbox" ng-disabled="addPosit" ng-true-value="'1'"
                                    ng-false-value="'0'" ng-model="posit.PosDidFail"></th>
+                        <th><label>Note: </label>
+                            <input id= "p4" name="PosNote" type="text" ng-disabled="addPosit" ng-model="posit.PosNote"></th>
+
                     </tr>
                 </table>
             </form>
-            <div id="saveCancelAddPositButtons">
-                <button class="btn btnSave" ng-click="CreatePosit()" style="margin: 0 auto" > Save</button>
-                <button class="btn btnCancel" ng-click="cancelAddElement('positions')" style="margin: 0 auto"> Cancel</button>
             </div>
-            <div id="positionSaveCancelButtons">
-                <button class="btn btnSave" ng-click="saveSection('positions')" ng-disabled="editPosit"> Save</button>
-                <button class="btn btnCancel" ng-click="cancelUpdate('positions')" ng-disabled="editPosit"> Cancel</button>
-            </div>
-        </div>
         <br>
         <hr>
         <br>
@@ -281,25 +323,34 @@
                 <table class="table minerva-table">
                     <thead>
                         <tr>
-                            <th colspan="4">RANKS <button id="editButtonRanks" class="btn btnEdit" ng-disabled="!editRank"
+                            <th colspan="5">RANKS <button id="editButtonRanks" class="btn btnEdit" ng-disabled="!editRank"
                                 ng-click="editSection('ranks')"> Edit
-                        </button></th>
+                        </button>
+                                <span id="saveCancelAddRankButtons">
+                                    <button class="btn btnSave" ng-click="CreateRank()" style="margin: 0 auto" > Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelAddElement('ranks')" style="margin: 0 auto"> Cancel</button>
+                                </span>
+                                <span id="rankSaveCancelButtons">
+                                    <button class="btn btnSave" ng-click="saveSection('ranks')" ng-disabled="editRank"> Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelUpdate('ranks')" ng-disabled="editRank"> Cancel</button>
+                                </span>
+                            </th>
                         </tr>
                     </thead>
                     <tr>
                         <th>Rank</th>
                         <th>Date Obtained</th>
+                        <th>Pass?</th>
                         <th>Note</th>
-                        <th>Failed</th>
                     </tr>
                     <tr ng-repeat="rEvent in rank">
                         <td>{{rEvent.JBRank}}</td>
                         <td><input name="RankObtainedDate" type="date" ng-disabled="editRank"
                                    ng-model="rEvent.RankObtainedDate"></td>
-                        <td><input name="RankPromotionNote" type="text" ng-disabled="editRank"
-                                   ng-model="rEvent.RankPromotionNote"></td>
                         <td><input name="RankDidFail" type="checkbox" ng-disabled="editRank" ng-true-value="'1'"
                                    ng-false-value="'0'" ng-model="rEvent.RankDidFail"></td>
+                        <td><input name="RankPromotionNote" type="text" ng-disabled="editRank"
+                                   ng-model="rEvent.RankPromotionNote"></td>
                         <td>
                             <button id=deleteRankbtn class="btn btnDelete" ng-disabled="editRank"
                                 ng-click="deleteRank($index)"> Delete
@@ -322,23 +373,17 @@
                         <th><label>Date Obtained </label>
                             <input class="LF-Date" id= "r2" name="RankObtainedDate" type="date" ng-disabled="addRank"
                                    ng-model="rEvent.RankObtainedDate"></th>
+                        <th><label>Pass? </label>
+                            <input id= "r4" name="RankDidFail: " type="checkbox" ng-disabled="addRank" ng-true-value="'1'"
+                                   ng-false-value="'0'" ng-model="rEvent.RankDidFail">
                         <th><label>Note </label>
                             <input id= "r3" name="RankPromotionNote" type="text" ng-disabled="addRank"
                                 ng-model="rEvent.RankPromotionNote"></th>
-                        <th><label>Failed </label>
-                            <input id= "r4" name="RankDidFail: " type="checkbox" ng-disabled="addRank" ng-true-value="'1'"
-                                ng-false-value="'0'" ng-model="rEvent.RankDidFail">
+
                     </tr>
                 </table>
             </form>
-            <div id="saveCancelAddRankButtons">
-                <button class="btn btnSave" ng-click="CreateRank()" style="margin: 0 auto" > Save</button>
-                <button class="btn btnCancel" ng-click="cancelAddElement('ranks')" style="margin: 0 auto"> Cancel</button>
-            </div>
-            <div id="rankSaveCancelButtons">
-                <button class="btn btnSave" ng-click="saveSection('ranks')" ng-disabled="editRank"> Save</button>
-                <button class="btn btnCancel" ng-click="cancelUpdate('ranks')" ng-disabled="editRank"> Cancel</button>
-            </div>
+
         </div>
         <br>
     </div>

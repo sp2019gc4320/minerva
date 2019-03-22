@@ -50,7 +50,6 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
     document.getElementById("rankAdd").style.display="none";
     document.getElementById("saveCancelAddRankButtons").style.display = "none";
 
-
     $scope.addElement = function (section){
         if(section=="duties"){
             $scope.addDuty = false;

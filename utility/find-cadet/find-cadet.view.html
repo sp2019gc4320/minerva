@@ -2,11 +2,39 @@
     <div class="row">
         <!-- Filters -->
         <div class="col-md-3">
-            <div id="name-filters">
-                <h5>Name</h5>
+            <div class="form-group row">
+                <label for="site-id" class="col-md-4 col-form-label
+                        col-form-label-sm">SiteID</label>
+                <div class="col-md-8">
+                    <input type="text"
+                           class="form-control form-control-sm"
+                           name="site-id"
+                           id="site-id"
+                           value="1"
+                           ng-model="cadetSearch.fkSiteID"
+                           ng-disabled="true"
+                          >
+                 </div>
+            </div>
+            <!--TODO choose the correct ClassID -- is it SiteClassNumber or NGB number ?? -->
+            <div class="form-group row">
+                <label for="class-id" class="col-md-4 col-form-label
+                        col-form-label-sm">Site Class #</label>
+                <div class="col-md-8">
+                    <input type="text"
+                           class="form-control form-control-sm"
+                           name="class-id"
+                           id="class-id"
+                           value=""
+                           ng-model="cadetSearch.fkClassID"
+                           ng-disabled="true"
+                    >
+                </div>
+            </div>
+            <hr>
                 <div class="form-group row">
                     <label for="first-name" class="col-md-4 col-form-label
-                        col-form-label-sm">First</label>
+                        col-form-label-sm">First Name</label>
                     <div class="col-md-8">
                         <input type="text"
                                class="form-control form-control-sm"
@@ -19,7 +47,7 @@
                 </div>
                 <div class="form-group row">
                     <label for="last-name" class="col-md-4 col-form-label
-                        col-form-label-sm">Last</label>
+                        col-form-label-sm">Last Name</label>
                     <div class="col-md-8">
                         <input type="text"
                                class="form-control form-control-sm"
@@ -29,38 +57,11 @@
                                ng-model="cadetSearch.PersonLN"> <!-- ng-model specified for PersonLN-->
                     </div>
                 </div>
-            </div>
-            <div id="id-filters">
 
-                <h5>ID</h5>
-                <div class="form-group row">
-                    <label for="class-id" class="col-md-4 col-form-label
-                        col-form-label-sm">Class</label>
-                    <div class="col-md-8">
-                        <input type="text"
-                               class="form-control form-control-sm"
-                               name="class-id"
-                               id="class-id"
-                               value=""
-                               ng-model="cadetSearch.fkClassID"> <!-- ng-model specified for fkClassID-->
-                    </div>
-                </div>
-                <div class="form-group row">
-                    <label for="roster-number" class="col-md-4 col-form-label
-                        col-form-label-sm">Roster #</label>
-                    <div class="col-md-8">
-                        <input type="text"
-                               class="form-control form-control-sm"
-                               name="roster-number"
-                               id="roster-number"
-                               value=""
-                               ng-model="cadetSearch.CadetRosterNumber">
-                        <!-- ng-model specified for fkCadetRosterNumber-->
-                    </div>
-                </div>
+
                 <div class="form-group row">
                     <label for="cadet-id" class="col-md-4 col-form-label
-                        col-form-label-sm">Cadet</label>
+                        col-form-label-sm">Cadet ID</label>
                     <div class="col-md-8">
                         <input type="text"
                                class="form-control form-control-sm"
@@ -70,9 +71,23 @@
                                ng-model="cadetSearch.fkCadetID"> <!-- ng-model specified for fkCadetID-->
                     </div>
                 </div>
+            <hr>
+            <div class="form-group row">
+                <label for="roster-number" class="col-md-4 col-form-label
+                        col-form-label-sm">Roster #</label>
+                <div class="col-md-8">
+                    <input type="text"
+                           class="form-control form-control-sm"
+                           name="roster-number"
+                           id="roster-number"
+                           value=""
+                           ng-model="cadetSearch.CadetRosterNumber">
+                    <!-- ng-model specified for fkCadetRosterNumber-->
+                </div>
+            </div>
                 <div class="form-group row">
                     <label for="mentor-id" class="col-md-4 col-form-label
-                        col-form-label-sm">Mentor</label>
+                        col-form-label-sm">Mentor ID</label>
                     <div class="col-md-8">
                         <input type="text"
                                class="form-control form-control-sm"
@@ -82,20 +97,24 @@
                                ng-model="cadetSearch.fkMentorID"> <!-- ng-model specified for fkMentorID-->
                     </div>
                 </div>
-            </div>
-            <button class="btn btn-primary">Search</button>
+            <button class="btn btn-primary" ng-click="search()">Search</button>
+            <button class="btn btn-primary"
+                    ng-click="saveAndClose()">Select Cadets
+                ({{pickedCadets.length}})
+            </button>
         </div>
         <div class="col-md-6" style="margin-top: 20px; overflow:auto;">
             <div>
                 <table class="table table-striped table-bordered">
                     <tr>
-                        <th>Select</th>
+                        <th>Select <input type="checkbox" ng-model="selectAll" ng-change="selectGroup()"></th>
                         <th>PersonFN</th>
                         <th>PersonLN</th>
                         <th class="text-center">fkClassID</th>
                         <th class="text-center">fkCadetRosterNumber</th>
                         <th class="text-center">fkCadetID</th>
                         <th class="text-center">fkMentorID</th>
+                        <th class="text-center">fkSiteID</th>
                     </tr>
                     <!--  Use a filter to only show certain fields without call to the server -->
                     <!--  Make the filter strict to restrict the searches to the specified attribute -->
@@ -105,8 +124,7 @@
                             class="text-center">
                             <input type="checkbox"
                                    class="checkbox form-check-input td-center-checkbox"
-                                   ng-model="checkedCadets[x.fkCadetID]"
-                                   ng-change="selectCadet(x);">
+                                   ng-model="checkedCadets[x.fkCadetID]">
                         </td>
                         <td>{{x.PersonFN}}</td>
                         <td>{{x.PersonLN}}</td>
@@ -114,19 +132,17 @@
                         <td class="text-center">{{x.CadetRosterNumber}}</td>
                         <td class="text-center">{{x.fkCadetID}}</td>
                         <td class="text-center">{{x.fkMentorID}}</td>
+                        <td class="text-center">{{x.fkSiteID}}</td>
                     </tr>
                 </table>
+
             </div>
+
+
         </div> <!-- col-->
 
         <div class="col-md-3">
             <ng-include src="updateDisplay"></ng-include>
-        </div>
-        <div>
-            <button id="cadet-select-btn" class="btn btn-primary position-fixed"
-                    ng-click="saveAndClose()"> Select Cadets
-                ({{pickedCadets.length}})
-            </button>
         </div>
     </div> <!--row-->
 </div>

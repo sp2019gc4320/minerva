@@ -1,24 +1,28 @@
-<!-- having to use caseManagerController instead of cadreController for now due to issues 3/11-->
-<div class="panel panel-default " ng-controller="caseManagerController" >
-
+<!-- cadre.view.html is similar to caseMangerController-->
+<div class="panel panel-default " ng-controller="cadreController" >
+    CADRE
     <div class="row">
         <!-- <button data-toggle="collapse" data-target="#sidebar">Toggle CadetInfo</button> -->
         <span onclick="openNav()"><button type="button" class="btn">Cadet Info</button></span>
         Cadet: {{cadet.CadetName}}  ({{cadet.CadetID}})
-        <button class="btn btnSearch" ng-click="openFindCadetView()"> Find Cadet</button>
+        <button class="btn btnSearch" ng-click="openFindCadetView()">Find Cadet</button>
     </div>
 
     <div id="mySidenav" class="sidenav">
         <a href="javascript:void(0)" class="close" onclick="closeNav()">&times;</a>
         <img src={{cadet.Photo}} height="100" width="100">
-        <div> {{cadet.CadetName}}</div>
-        <div> {{cadet.CadetID}}</div>
-        <div>Gender</div>
-        <div>DOB</div>
+        <div>{{cadet.CadetName}}</div>
+        <div>{{cadet.CadetID}}</div>
+        <div>{{cadet.CadetGender}}</div>
+        <div>{{cadet.CadetDOB}}</div>
         <hr>
         <ul>
-            <li ng-repeat="item in cadets">{{item.PersonLN}}, {{item.PersonFN}}</li>
+            <li ng-repeat="item in cadets"><a href ng-click= "localStorageUpdate(item)">{{item.PersonLN}}, {{item.PersonFN}}</a></li>
         </ul>
+        <!-- add buffer to end of list for scrolling -->
+        <br/>
+        <br/>
+        <p> </p>
     </div>
     <br><br><br>
 
@@ -27,8 +31,7 @@
     <div class="row">
         <div class="col-md-2">
             <nav class="nav flex-column">
-                <!-- having to use caseManagerViews instead of cadreViews for now due to issues 3/11-->
-                <button ng-repeat="item in caseManagerViews"
+                <button ng-repeat="item in cadreViews"
                         type="button"
                         ng-click="showView(item)"
                         class="btn btn-outline-primary"

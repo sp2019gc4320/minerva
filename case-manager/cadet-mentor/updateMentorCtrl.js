@@ -21,39 +21,39 @@ angular.module('caseManager.cadetMentor').
         MOrganization: "USG",
 		InPool: "1",
 
-		MAgreementDate:"2018-01-02",// January 11 2018  -yyyy-mm-dd  used dashes!
+		MAgreementDate: new Date("2018-01-02"),// January 11 2018  -yyyy-mm-dd  used dashes!
 		IsLiabReleaseSigned:"0",
 		IsPosDescSigned:"0",
 		HasAutoIns:"1",
 		HasDriversLic:"1",
-		MPRecruitedDate:"2018-07-03",
+		MPRecruitedDate: new Date("2018-07-03"),
 
-		MInterviewDate:"",
-		MRefCheck1Date:"2018-01-04",
-		MRefCheck2Date:"2018-01-05",
-		MBackgroundCheckStartDate:"",
-        MBackgroundCheckEndDate:"2018-01-08",
+		MInterviewDate: new Date(),
+		MRefCheck1Date: new Date("2018-01-04"),
+		MRefCheck2Date: new Date("2018-01-05"),
+		MBackgroundCheckStartDate: new Date(),
+        MBackgroundCheckEndDate: new Date("2018-01-08"),
 		IsLegallyDQd:"1",
         HasPhysAbuseHistory:"0",
-		MScreenedDate:"",
+		MScreenedDate:new Date(),
 
-		MTrainedDate1:"2018-01-09",
-		MTrainedDate:"2018-01-10",
+		MTrainedDate1:new Date("2018-01-09"),
+		MTrainedDate: new Date("2018-01-10"),
 
 		MMatchNote:"Hello World!",
-		MMatchDate:"2018-01-11",
+		MMatchDate: new Date("2018-01-11"),
 
-		MPTermDate:"2018-01-11",
+		MPTermDate: new Date("2018-01-11"),
 		MPTermNote:"This is the termination note",
 
-		FailedDate:"2018-02-11",
+		FailedDate: new Date("2018-02-11"),
         FailedReason:"This is the failed note",
 
-		MExitMeetingDate:"2018-03-13",
+		MExitMeetingDate: new Date("2018-03-13"),
 
 		//These fields are from ClassDetails
 		EnrollmentZip: "31061",
-        MenteeTrainingDate:"2018-04-05",  //april 5 2018
+        MenteeTrainingDate: new Date("2018-04-05"),  //april 5 2018
 
 
 		//These field are from People
@@ -88,7 +88,7 @@ angular.module('caseManager.cadetMentor').
 	    AppointmentID:"4",
 		fkMentorPotentialID:"7",
 		ApptType:"OFF-SITE",
-		ApptDate:"2018-01-11",
+		ApptDate: new Date("2018-01-11"),
 		ApptNote: "Appointment Note"
 	};
 
@@ -232,6 +232,13 @@ angular.module('caseManager.cadetMentor').
 
             //send updates to php file:
             for (let index = 0; index < updates.length; index++) {
+
+                for (var fieldName in updates[index]) {
+                    //Check to see if property name contains Date
+                    if (fieldName.includes("Date")) {
+                        updates[index][fieldName] = convertToSqlDate(updates[index][fieldName]);
+                    }
+                }
                 var taskSaveAppts = $http({
                     method: 'POST',
                     url: './php/mentor_updateAppts.php',
@@ -288,6 +295,14 @@ angular.module('caseManager.cadetMentor').
             //send  tblMentorPotenial updates to php file:
             for (let index = 0; index < updates.length; index++) {
                 updates[index].MentorPotentialID = $scope.mentors[index].MentorPotentialID;
+
+                //If update has Datein property name then store that as date
+                for (var fieldName in updates[index]) {
+                    //Check to see if property name contains Date
+                    if (fieldName.includes("Date")) {
+                        updates[index][fieldName] = convertToSqlDate(updates[index][fieldName]);
+                    }
+                }
 
                 var taskSaveUpdates = $http({
                         method: 'POST',
@@ -402,16 +417,7 @@ angular.module('caseManager.cadetMentor').
                     for (var propertyName in $scope.mentor) {
                         //Check to see if property name contains Date
                         if (propertyName.includes("Date")) {
-                            //store 1st half of timedate stamp
-                            if($scope.mentor[propertyName])
-                               $scope.mentor[propertyName] =  $scope.mentor[propertyName].split(" ")[0];
-
-                            if ($scope.mentor[propertyName] == "0000-00-00")
-                                $scope.mentor[propertyName] =  "";
-
-                            /* else
-                             $scope.mentor[propertyName] =  new Date( $scope.mentor[propertyName]);
-                             */
+                            $scope.mentor[propertyName] = convertToHtmlDate($scope.mentor[propertyName]);
                         }
                     }
                     $scope.searchByZip = "distance between " + $scope.mentor.EnrollmentZip + " and " + $scope.mentor.PZip;
@@ -541,13 +547,11 @@ angular.module('caseManager.cadetMentor').
 			{
 				$scope.appts = result.data.data;
 
-
 				for(var i=0; i< $scope.appts.length; i++) {
                     for (var propertyName in $scope.appts[i]) {
                         //Check to see if property name contains Date
                         if (propertyName.includes("Date")) {
-                            //store 1st half of timedate stamp
-                            $scope.appts[i][propertyName] = $scope.appts[i][propertyName].split(" ")[0];
+                            $scope.appts[i][propertyName] = convertToHtmlDate($scope.appts[i][propertyName]);
                         }
                     }
                 }
@@ -659,7 +663,7 @@ angular.module('caseManager.cadetMentor').
                 ($scope.mentors[mentorIndex].HasDriversLic != $scope.backup_dates.HasDriversLic) ||
                 ($scope.mentors[mentorIndex].HasAutoIns != $scope.backup_dates.HasAutoIns)) {
                 //change date to todays date
-                $scope.mentors[mentorIndex].MPRecruitedDate = new Date().toISOString().split('T')[0];
+                $scope.mentors[mentorIndex].MPRecruitedDate = new Date();
             }
             else {
                     //change date to MAgreementDate
@@ -674,7 +678,7 @@ angular.module('caseManager.cadetMentor').
                 ($scope.mentors[mentorIndex].IsLegallyDQd != $scope.backup_dates.IsLegallyDQd)) {
 
                 //change date to todays date
-                $scope.mentors[mentorIndex].MScreenedDate= new Date().toISOString().split('T')[0];
+                $scope.mentors[mentorIndex].MScreenedDate= new Date();
             }
 
             else {

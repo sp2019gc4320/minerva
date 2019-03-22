@@ -250,6 +250,10 @@ angular.module('notes.postres').controller('postresController', function($scope,
             nodes[i].disabled = true;
         }
     };
+    $scope.viewNote = function(){
+        window.open('notes/postres/noteView.html', 'height=250', 'width=250');
+    };
+
     $scope.saveNote = function () {
     };
     //This function gives the add report button functionality.
