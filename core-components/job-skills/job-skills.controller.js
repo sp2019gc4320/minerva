@@ -16,10 +16,12 @@ angular.module('core-components.job-skills').controller('jobSkillsController', f
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
 
     alert("Testing  with Cadet 7 - William Bowles to see sample data");
-    $scope.cadetID = "7"; //with data
+    //$scope.cadetID = "7"; //with data
     //alert("setting cadetID  for testing: " +$scope.cadetID);
 
 $scope.asvab ={};
+    $scope.editTasks = false;
+    $scope.editTests = false;
 
 
     $scope.makeTasksEditable = function()
@@ -89,7 +91,7 @@ $scope.cancelTasksUpdate = function()
         //copy rows of Task table
         for (var j=0; j<$scope.tests.length; j++)
         {
-                var sendData = angular.copy($scope.tasks[j]);
+                var sendData = angular.copy($scope.tests[j]);
 
                 delete sendData.Task;
                 delete sendData.TaskNumber;
@@ -105,7 +107,7 @@ $scope.cancelTasksUpdate = function()
                     function (response) {
                         //only show saved message after last task saved.
                         numSaved++;
-                        if (numSaved === $scope.tasks.length)
+                        if (numSaved === $scope.tests.length)
                             alert("Job Skill Tests Updated");
                     }, function (result) {
                         alert("Error saving tests.");
@@ -254,8 +256,9 @@ $http ({
 };
 
 //request data for jsView.html when it is opened
-var myRequest= {cadet: $scope.cadetID};
+var myRequest= {cadetID: $scope.cadetID};
 
+alert("myRequest: " + JSON.stringify(myRequest));
 //request the daata
         $http ({
             method: 'POST',
@@ -277,6 +280,8 @@ var myRequest= {cadet: $scope.cadetID};
                     $scope.tasks[i].EventDate = convertToHtmlDate($scope.tasks[i].EventDate);
 
                 }
+                else
+                    $scope.tasks[i].EventDate = new Date("");
             }
             for(let i=0; i<$scope.tests.length; i++) {
                 if ($scope.tests[i].EventDate !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
@@ -284,6 +289,8 @@ var myRequest= {cadet: $scope.cadetID};
                     $scope.tests[i].EventDate = convertToHtmlDate($scope.tests[i].EventDate);
 
                 }
+                else
+                    $scope.tests[i].EventDate = new Date("");
             }
             for(let i=0; i<$scope.asvabs.length; i++) {
                 if ($scope.asvabs[i].ASVABDate !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
@@ -291,6 +298,8 @@ var myRequest= {cadet: $scope.cadetID};
                     $scope.asvabs[i].ASVABDate = convertToHtmlDate($scope.asvabs[i].ASVABDate);
 
                 }
+                else
+                    $scope.asvabs[i].ASVABDate = new Date("");
             }
             /*
         //put data into a scope to be accessed elsewhere

@@ -12,10 +12,9 @@ $connection = new DBController();
 
 //A "cadetID" should be sent when calling this php file -- store this value in $curCadetID
 
-$cadetID = '7';
 
-if (isset($_POST['CadetID'])) {
-    $cadetID = filter_input(INPUT_POST, 'CadetID');
+if (isset($_POST['cadetID'])) {
+    $cadetID = filter_input(INPUT_POST, 'cadetID');
 }
 
 //sql statement to get the first table of jobskills tasks
@@ -54,6 +53,7 @@ if ($result->num_rows > 0)
     // output data on each row
     while($row = $result->fetch_assoc()) {
 
+        $fkClassDetailID = $row['fkClassDetailID'];
         //if fkTaskTestEventID is null, this task does NOT have tests associated with it.
        if (strlen($row['fkTaskTestEventID'])==0)
             $tasks[] = $row;
@@ -70,14 +70,29 @@ if ($result->num_rows > 0)
     }
 }
 
-$sql = "SELECT tlkpCoreComponentTasks.CoreComponentID, tlkpCoreComponentTasks.TaskID, tlkpCoreComponentTasks.TaskNumber,
+$sql =
+    "SELECT tlkpCoreComponentTasks.CoreComponentID,
+ tlkpCoreComponentTasks.TaskID, tlkpCoreComponentTasks.TaskNumber,
  tlkpCoreComponentTasks.Task,tlkpTaskTests.TaskTestID, tlkpTaskTests.TaskTest, tblCadetClassEvents.* 
  FROM (( tlkpCoreComponent INNER JOIN tlkpCoreComponentTasks
   ON tlkpCoreComponent.CoreComponentID = tlkpCoreComponentTasks.CoreComponentID)
  INNER JOIN tlkpTaskTests ON tlkpCoreComponentTasks.TaskID = tlkpTaskTests.fkTaskID) 
  INNER JOIN tblCadetClassEvents ON tlkpTaskTests.TaskTestID =tblCadetClassEvents.fkTaskTestEventID 
- WHERE (( tblCadetClassEvents.fkClassDetailID = 7) AND tlkpCoreComponentTasks.CoreComponentID = 3)
+ INNER JOIN tblClassDetails   ON tblClassDetails.ClassDetailID = tblCadetClassEvents.fkClassDetailID 
+ WHERE (( tblClassDetails.fkCadetID = '$cadetID') AND tlkpCoreComponentTasks.CoreComponentID = 3)
   ORDER By tlkpCoreComponentTasks.TaskID, tlkpCoreComponentTasks.CoreComponentID,tlkpTaskTests.TaskTest";
+
+$sql =
+    "SELECT tlkpCoreComponentTasks.CoreComponentID, 
+tlkpCoreComponentTasks.TaskID, tlkpCoreComponentTasks.TaskNumber, tlkpCoreComponentTasks.Task,
+tlkpTaskTests.TaskTestID, tlkpTaskTests.TaskTest, tblCadetClassEvents.* 
+FROM (( tlkpCoreComponent 
+INNER JOIN tlkpCoreComponentTasks ON tlkpCoreComponent.CoreComponentID = tlkpCoreComponentTasks.CoreComponentID) 
+INNER JOIN tlkpTaskTests ON tlkpCoreComponentTasks.TaskID = tlkpTaskTests.fkTaskID) 
+INNER JOIN tblCadetClassEvents ON tlkpTaskTests.TaskTestID =tblCadetClassEvents.fkTaskTestEventID 
+INNER JOIN tblClassDetails ON tblClassDetails.ClassDetailID = tblCadetClassEvents.fkClassDetailID 
+WHERE (( tblClassDetails.fkCadetID = '$cadetID') AND tlkpCoreComponentTasks.CoreComponentID = 3) 
+ORDER By tlkpCoreComponentTasks.TaskID, tlkpCoreComponentTasks.CoreComponentID,tlkpTaskTests.TaskTest";
 
 //sending the sql statement
 $result = $connection->runSelectQuery($sql);

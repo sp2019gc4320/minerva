@@ -19,9 +19,10 @@ if (isset($_POST['fkClassDetailID'])) {
 if (isset($_POST['fkTaskID'])) {
     $fkTaskID = $_POST['fkTaskID'];
 }
-if (isset($_POST['$fkTaskTestEventID'])) {
-    $fkTaskTestEventID = $_POST['$fkTaskTestEventID'];
+if (isset($_POST['fkTaskTestEventID'])) {
+    $fkTaskTestEventID = $_POST['fkTaskTestEventID'];
 }
+
 // Data being updated
 
 if (isset($_POST['EventDate'])) {

@@ -12,7 +12,7 @@
     <div ng-controller="jobSkillsController">
         <!--name form for two way binding-->
         <form name="JobSkillsForm">
-            <table id="JobSkillsEvents" class="table minerva-table">
+            <table id="JobSkillsTasks" class="table minerva-table">
                 <thead>
                 <tr>
                     <th colspan="5">TASKS
@@ -84,7 +84,11 @@
             <table id="JobSkillsTests" class="table minerva-table">
                 <thead>
                 <tr>
-                    <th colspan="5">2(A) TESTS</th>
+                    <th colspan="5">2(A) TESTS
+                    <button class="btn btnEdit" ng-click="makeTestsEditable()"ng-hide="editTests"> Edit</button>
+                    <button class="btn btnSave" ng-click="saveTestsUpdate(tasks)"ng-show="editTests"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelTestsUpdate()"ng-show="editTests"> Cancel</button>
+                    </th>
                 </tr>
                 </thead>
                 <tr>
@@ -96,19 +100,19 @@
                 </tr>
                 <tr ng-repeat="test in tests">
                     <td>{{test.TaskTest}}</td>
-                    <td><input name="EventDate" type="date" ng-model="test.EventDate"></td>
-                    <td><input name="Score" type="text" ng-model="test.TestScore"></td>
+                    <td><input name="EventDate" type="date" ng-model="test.EventDate" ng-disabled="!editTests"></td>
+                    <td><input name="Score" type="text" ng-model="test.TestScore" ng-disabled="!editTests"></td>
                     <td ng-if="test.DidPass == '1'" class="bg-success text-center">
                         <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="test.DidPass"
-                               ng-true-value="'1'" ng-false-value="'0'">
+                               ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTests">
                     </td>
 
                     <td ng-if="test.DidPass == '0'" class="bg-danger text-center">
                         <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="test.DidPass"
-                               ng-true-value="'1'" ng-false-value="'0'">
+                               ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTests">
                     </td>
 
-                    <td><input name="EventNote" type="text" ng-model="test.EventNote"></td>
+                    <td><input name="EventNote" type="text" ng-model="test.EventNote" ng-disabled="!editTests"></td>
 
                 </tr>
             </table>
