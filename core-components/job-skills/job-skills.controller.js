@@ -49,7 +49,7 @@ $scope.saveTasksUpdate = function()
                 //send the json object to the correct update*.php file
                 $http({
                     method: 'POST',
-                    url: "./php/job-skillsUpdateTasks.php",
+                    url: "./php/job-skills_updateTasks.php",
                     data: Object.toparams(sendData),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(
@@ -98,7 +98,7 @@ $scope.cancelTasksUpdate = function()
                 //send the json object to the correct update*.php file
                 $http({
                     method: 'POST',
-                    url: "./php/job-skillsUpdateTests.php",
+                    url: "./php/job-skills_updateTests.php",
                     data: Object.toparams(sendData),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(
