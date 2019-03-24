@@ -1,5 +1,7 @@
 <?php
 //mentor_updateContacts.php
+//Added MentorContactID field to table to make updating easier.
+// Fields:  MentorContactID, fkMentorPotentialID, ContactDate, MentorContactType, MentorContactNote, ContactPlacementMonth
 
 require_once 'dbcontroller.php';
 
@@ -8,37 +10,30 @@ $connection = new DBController();
 
 //temporary values for testing
 $op ='UPDATE';
-$fkMentorPotentialID= 308;
-$cadetID = 12;
 
+if(isset($_POST['MentorContactID'])){
+    $mentorContactID = filter_input(INPUT_POST, "MentorContactID");
+    unset($_POST['MentorContactID']);
+}
 
-if(isset($_POST['fkMentorPotentialID'])){
-    $fkMentorPotentialID = filter_input(INPUT_POST, "fkMentorPotentialID");
-    unset($_POST['fkMentorPotentialID']);
-}
-if(isset($_POST['ContactDate'])){
-    $ContactDate = filter_input(INPUT_POST, "ContactDate");
-    unset($_POST['ContactDate']);
-}
 // check for operation set from controller
 if(isset($_POST['op'])){
     $op = filter_input(INPUT_POST, "op");
     unset($_POST['op']);
 }
 
-/*$fkMentorPotentialID = filter_input(INPUT_POST, "fkMentorPotentialID");
-$ContactDate = filter_input(INPUT_POST, "ContactDate");
-$MentorContactType =filter_input(INPUT_POST, "MentorContactType");
-$MentorContactNote = filter_input(INPUT_POST, "MentorContactNote");*/
 // if operation is update, query to update tblmentorcontacts
 if($op == 'UPDATE')
 {
-    $sql = "SELECT tblmentorcontacts.*
-          FROM tblmentorcontacts
+    //Get all the column names in the tblMentorContacts table
+    $sql = "SELECT tblMentorContacts.*
+          FROM tblMentorContacts
           WHERE
-          fkMentorPotentialID= $fkMentorPotentialID
+          MentorContactID= $mentorContactID
           ";
     $result = $connection->runSelectQuery($sql);
+
+    //Update each field sent as post parameter
     if ($result) {
         $fieldInfo = mysqli_fetch_fields($result);
         $row = $result->fetch_assoc();
@@ -49,85 +44,37 @@ if($op == 'UPDATE')
             // check to see if there is a post value
             if (isset($_POST[$fieldName])) {
                 $fieldValue = filter_input(INPUT_POST, $fieldName);
-                $sql = "UPDATE tblmentorcontacts set $fieldName =
-          '$fieldValue' WHERE  fkMentorPotentialID=$fkMentorPotentialID AND ContactDate=$ContactDate";
-                /*$sql = "UPDATE tblMentorContacts
-JOIN tblClassDetails
-JOIN tblMentorPotential 
-  SET
-  MentorContactType = '$MentorContactType',
-  MentorContactNote = '$MentorContactNote'
-WHERE
-   tblClassDetails.fkCadetID='$CadetID' AND tblMentorContacts.ContactDate = '$ContactDate' AND
-        tblClassDetails.ClassDetailID=tblMentorPotential.fkClassDetailID AND
-        tblMentorPotential.MentorPotentialID='$fkMentorPotentialID'";*/
-
+                $sql = "UPDATE tblMentorContacts  SET  $fieldName ='$fieldValue'
+                      WHERE  MentorContactID=$mentorContactID";
                 $connection->runQuery($sql);
             }
-
         }
     }
-    /*$sql = "UPDATE tblMentorContacts
-JOIN tblClassDetails
-JOIN tblMentorPotential 
-  SET
-  MentorContactType = '$MentorContactType',
-  MentorContactNote = '$MentorContactNote'
-WHERE
-   tblClassDetails.fkCadetID='$CadetID' AND tblMentorContacts.ContactDate = '$ContactDate' AND
-        tblClassDetails.ClassDetailID=tblMentorPotential.fkClassDetailID AND
-        tblMentorPotential.MentorPotentialID='$fkMentorPotentialID'";
-
-    $result = $conn->runQuery($sql);
-    if ($result === TRUE) {
-        echo $sql;
-        echo "Record updated successfully";
-    } else {
-        echo "Error updating record: $sql";
-    }*/
     echo '{ "status": "finished updating "}';
 }
-         /*   fkMentorPotentialID: $scope.cadetClass.MentorPotentialID,//===========================================================================================================
-            CadetID:$scope.CadetID,
-            ContactDate:"",
-            MentorName: "",
-            MentorContactType:"",
-            MentorContactNote:"",
-            ContactPlacementMonth:"",*/
+
 // if operation is add, query to add a new record to the database
 else if ($op=='ADD')
 {
+    // Fields:   fkMentorPotentialID, ContactDate, MentorContactType, MentorContactNote, ContactPlacementMonth
+
     $fkMentorPotentialID = filter_input(INPUT_POST, "fkMentorPotentialID");
     $contactDate = filter_input(INPUT_POST, "ContactDate");
-    //$mentorName = filter_input(INPUT_POST, "MentorName");
     $mentorContactType = filter_input(INPUT_POST, "MentorContactType");
     $mentorContactNote = filter_input(INPUT_POST, "MentorContactNote");
     $contactPlacementMonth = filter_input(INPUT_POST, "ContactPlacementMonth");
 
-    $sql = "INSERT INTO tblmentorcontacts ( fkMentorPotentialID, ContactDate, MentorContactType, MentorContactNote, ContactPlacementMonth)
+    $sql = "INSERT INTO tblMentorContacts ( fkMentorPotentialID, ContactDate, MentorContactType, MentorContactNote, ContactPlacementMonth)
              VALUES ('$fkMentorPotentialID', '$contactDate', '$mentorContactType', '$mentorContactNote', '$contactPlacementMonth')";
 
-    $connection->createRecord($sql);
-    /*$result = $conn->runQuery($sql);
-    if ($result === TRUE) {
-        echo "Record updated successfully";
-    } else {
-        echo "Error updating record: $sql";
-    }*/
-
-    // echo "adding sql: $sql";
+    $connection->createRecord($sql); //This will echo a json object with the MentorContactID
 }
 
 // if operation is delete, query to delete a record from the database
 else if ($op =='DELETE')
 {
-    $sql= "SELECT MentorPotentialID FROM tblmentorpotential where fkmentorID='$fkMentorID'";
-    $fkMentorPotentialID = 308;
-
-    $sql = " DELETE FROM tblmentorcontacts
-     WHERE ContactDate='$ContactDate'
-      AND MentorContactNote='$MentorContactNote' AND
-       fkMentorPotentialID='$fkMentorPotentialID' AND MentorContactType='$MentorContactType'";
+    $sql = " DELETE FROM tblMentorContacts
+      WHERE  MentorContactID=$mentorContactID";
 
     $result = $conn->runDeleteQuery($sql);
 }
