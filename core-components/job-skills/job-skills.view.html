@@ -123,7 +123,14 @@
     <table id="ASVABTests" class="table minerva-table">
         <thead>
         <tr>
-            <th colspan="4"> ASVAB</th>
+            <th colspan="4"> ASVAB
+                <button class="btn btnEdit" ng-click="makeAsvabEditable()"ng-hide="editAsvab || showNewAsvab"> Edit</button>
+                <button class="btn btnSave" ng-click="saveAsvabUpdate(tasks)"ng-show="editAsvab"> Save</button>
+                <button class="btn btnCancel" ng-click="cancelAsvabUpdate()"ng-show="editAsvab"> Cancel</button>
+
+                <button class="btn btnSave" ng-click="saveAsvabCreate()"ng-show="showNewAsvab"> Save</button>
+                <button class="btn btnCancel" ng-click="cancelAsvabCreate()"ng-show="showNewAsvab"> Cancel</button>
+            </th>
         </tr>
         </thead>
         <tr>
@@ -133,40 +140,35 @@
             <th>Note</th>
         </tr>
         <tr ng-repeat="asvab in asvabs">
-            <td><input name="ASVABDate" type="date" ng-model="asvab.ASVABDate"></td>
-            <td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"></td>
-            <td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore"></td>
-            <td><input name="ASVABTestNotes" type="text" ng-model="asvab.ASVABTestNotes" data-ng-bind="note"></td>
+            <td><input name="ASVABDate" type="date" ng-model="asvab.ASVABDate" ng-disabled="!editAsvab"></td>
+            <td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"  ng-disabled="!editAsvab"></td>
+            <td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore" ng-disabled="!editAsvab"></td>
+            <td><input name="ASVABTestNotes" type="text" ng-model="asvab.ASVABTestNotes" ng-disabled="!editAsvab"></td>
         </tr>
 
     </table>
         <!-- The third table, containing asvab scores -->
-        <button class="btn btnCreate" ng-click="addASVAB()" style="margin: 0 auto" ng-hide="showNewAsvab"> Add ASVAB Score</button>
+        <button class="btn btnCreate" ng-click="addASVAB()" style="margin: 0 auto" ng-hide="showNewAsvab||editAsvab"> Add ASVAB Score</button>
         <form id="asvabAdd"  ng-show="showNewAsvab">
             <table style="width:100%">
                 <tr>
                     <th><label>Date:
                     </label><input name="ASVABDate" type="date"
-                                   ng-model="asvab.ASVABDate" >
+                                   ng-model="tempAsvab.ASVABDate" >
                     </th>
                     <th><label>Technical Score: </label>
                         <input name="ASVABTechScore" type="text"
-                               ng-model="asvab.ASVABTechScore" >
+                               ng-model="tempAsvab.ASVABTechScore" >
                     </th>
                     <th><label>AFQT Score: </label>
                         <input name="AFQTScore" type="text"
-                               ng-model="asvab.AFQTScore"></th>
+                               ng-model="tempAsvab.AFQTScore"></th>
                     <th><label>Note: </label>
                         <input name="ASVABTestNotes" type="text"
-                               ng-model="asvab.ASVABTestNotes" ></th>
+                               ng-model="tempAsvab.ASVABTestNotes" ></th>
                 </tr>
             </table>
         </form>
-
-    <button class="btn btnSave" ng-click="update(tasks,tests,asvabs)"> Save</button>
-    <button class="btn btnCancel" ng-click="cancelUpdate()"> Cancel</button>
-
-
 </div>
 
 </div>

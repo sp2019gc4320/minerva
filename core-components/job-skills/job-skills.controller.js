@@ -19,9 +19,59 @@ angular.module('core-components.job-skills').controller('jobSkillsController', f
     //$scope.cadetID = "7"; //with data
     //alert("setting cadetID  for testing: " +$scope.cadetID);
 
-$scope.asvab ={};
+    $scope.tempAsvab ={};
     $scope.editTasks = false;
     $scope.editTests = false;
+    $scope.editAsbav = false;
+
+
+    $scope.makeAsvabEditable = function()
+    {
+        $scope.editAsvab = true;
+        //create backup of tasks
+        $scope.asvabBackup = angular.copy($scope.asvabs);
+
+    };
+
+    $scope.saveAsvabUpdate = function()
+    {
+        var numSaved = 0;
+        //
+        $scope.editAsvab = false;
+
+        //copy rows of Task table
+        for (var j=0; j<$scope.asvabs.length; j++)
+        {
+                var sendData = angular.copy($scope.asvabs[j]);
+
+                delete sendData.Task;
+                delete sendData.TaskNumber;
+                sendData.ASVABDate = convertToSqlDate(sendData.ASVABDate);
+
+                //send the json object to the correct update*.php file
+                $http({
+                    method: 'POST',
+                    url: "./php/job-skills_updateAsvab.php",
+                    data: Object.toparams(sendData),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(
+                    function (response) {
+                        //only show saved message after last task saved.
+                        numSaved++;
+                        if (numSaved === $scope.asvabs.length)
+                            alert("Asvabs Update");
+                    }, function (result) {
+                        alert("Error saving asvabs");
+                    });
+            }
+
+    };
+    $scope.cancelAsvabUpdate = function()
+    {
+        $scope.editAsvab = false;
+        $scope.asvabs = angular.copy($scope.asvabBackup);
+    };
+
 
 
     $scope.makeTasksEditable = function()
@@ -123,6 +173,7 @@ $scope.cancelTasksUpdate = function()
 
 
 
+
 //create new record for asvab
     $scope.addASVAB = function()
     {
@@ -130,20 +181,28 @@ $scope.cancelTasksUpdate = function()
         $scope.showNewAsvab = true;
 
         //Clear text
-        $scope.asvab.ASVABDate = new Date();
-        $scope.asvab.ASVABTechScore = "";
-        $scope.asvab.AFQTScore="";
-        $scope.asvab.ASVABTestNotes="";
+        $scope.tempAsvab.ASVABDate = new Date();
+        $scope.tempAsvab.ASVABTechScore = "";
+        $scope.tempAsvab.AFQTScore="";
+        $scope.tempAsvab.ASVABTestNotes="";
     };
 
-$scope.createASVAB = function() 
-    {
-        var sendData=angular.copy($scope.asvabs);
-        
-        sendData.fkClassDetailID = $scope.asvabs[0].ClassDetailID;
-        
 
-        JSON.stringify(sendData);
+    $scope.cancelAsvabCreate = function()
+    {
+        $scope.showNewAsvab = false;
+
+    };
+
+
+    $scope.saveAsvabCreate = function()
+    {
+        $scope.showNewAsvab = false;
+
+        var sendData=angular.copy($scope.tempAsvab);
+        
+        sendData.fkClassDetailID = $scope.tasks[0].fkClassDetailID;
+        sendData.ASVABDate = convertToSqlDate(sendData.ASVABDate);
 
         //create data entry using createDuty.php
         $http ({
@@ -158,10 +217,12 @@ $scope.createASVAB = function()
                     //give new entry unique id
                     sendData.ASVABID=response.data.id;
                     //display new entry
+
+                sendData.ASVABDate = convertToHtmlDate(sendData.ASVABDate);
                     $scope.asvabs.push(sendData);
                     //alert("data updated");
-            },function(result){
-                    
+            },function(result)
+            {
         });
     };
 
