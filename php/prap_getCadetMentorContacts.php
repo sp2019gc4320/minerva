@@ -14,17 +14,16 @@ $connection = new DBController();
 $CadetID="12";
 
 if(isset($_POST['CadetID'])) {
-
     $CadetID = filter_input(INPUT_POST, "CadetID");
 }
 
 //Create Field List
-$fields = "fkMentorID, ClassDetailID, CadetID, ContactDate, MentorContactType, MentorContactNote, ContactPlacementMonth";
+$fields = "fkMentorID, ClassDetailID, CadetID, MentorContactID, ContactDate, MentorContactType, MentorContactNote, ContactPlacementMonth";
 
 $sql = "SELECT tblClassDetails.ClassDetailID AS ClassDetailID, tblClassDetails.fkCadetID AS CadetID,
         tblMentorPotential.fkClassDetailID, tblMentorPotential.MentorPotentialID, tblMentorPotential.fkMentorID,
-        tblMentorContacts.fkMentorPotentialID, tblMentorContacts.ContactDate, tblMentorContacts.MentorContactType,
-        tblMentorContacts.MentorContactNote, tblMentorContacts.ContactPlacementMonth
+        tblMentorContacts.MentorContactID,tblMentorContacts.fkMentorPotentialID, tblMentorContacts.ContactDate,
+        tblMentorContacts.MentorContactType, tblMentorContacts.MentorContactNote, tblMentorContacts.ContactPlacementMonth
         FROM  tblClassDetails JOIN tblMentorPotential JOIN tblMentorContacts
         WHERE
         tblClassDetails.fkCadetID= '$CadetID' AND
