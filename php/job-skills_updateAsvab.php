@@ -4,7 +4,7 @@
 // Input:  all info from table and cadet id in order to form sql statment.
 // Output: none
 
-//Known Error: cannot create new record for ASVAB scores, only update existing. 
+//Known Error: cannot create new record for ASVAB scores, only update existing.
 
 //connect to db controller
 require_once 'dbcontroller.php';
@@ -32,8 +32,33 @@ if (isset($_POST['ASVABID'])) {
     $ASVABID = $_POST['ASVABID'];
 }
 
+//Default to UPDATE
+$op = "UPDATE";
+if (isset($_POST['op'])) {
+    $op = filter_input(INPUT_POST, "op");
+    unset($_POST['op']);
+}
+
+//DELETING existing record
+if ($op == 'DELETE') {
+    $sql = " DELETE FROM tblASVAB
+             WHERE  tblASVAB.ASVABID = '$ASVABID'
+             ";
+    $result = $conn->runDeleteQuery($sql);
+
+    print_r($sql);
+
+    if ($result === TRUE) {
+        echo "Record deleted successfully";
+    } else {
+        echo "Error deleting record: $sql";
+    }
+}
+
+//UPDATING existing record
+else {
 //Setting the sql statment to update the 3rd table up
- $sql = "UPDATE
+    $sql = "UPDATE
 	tblASVAB 
 SET
   ASVABDate = '$ASVABDate',
@@ -45,6 +70,6 @@ WHERE
   tblASVAB.ASVABID = '$ASVABID'";
 
 //sending the prepared sql statement
-$result = $conn->runQuery($sql);
-
+    $result = $conn->runQuery($sql);
+}
 ?>

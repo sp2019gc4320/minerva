@@ -123,7 +123,7 @@
     <table id="ASVABTests" class="table minerva-table">
         <thead>
         <tr>
-            <th colspan="4"> ASVAB
+            <th colspan="5"> ASVAB
                 <button class="btn btnEdit" ng-click="makeAsvabEditable()"ng-hide="editAsvab || showNewAsvab"> Edit</button>
                 <button class="btn btnSave" ng-click="saveAsvabUpdate(tasks)"ng-show="editAsvab"> Save</button>
                 <button class="btn btnCancel" ng-click="cancelAsvabUpdate()"ng-show="editAsvab"> Cancel</button>
@@ -144,6 +144,11 @@
             <td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"  ng-disabled="!editAsvab"></td>
             <td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore" ng-disabled="!editAsvab"></td>
             <td><input name="ASVABTestNotes" type="text" ng-model="asvab.ASVABTestNotes" ng-disabled="!editAsvab"></td>
+            <td>
+                <button class="btn btnDelete" ng-disabled="!editAsvab"
+                        ng-click="deleteAsvab($index)"> Delete
+                </button>
+            </td>
         </tr>
 
     </table>
@@ -169,6 +174,10 @@
                 </tr>
             </table>
         </form>
+        <p>
+        </p>
+        <p>
+        </p>
 </div>
 
 </div>

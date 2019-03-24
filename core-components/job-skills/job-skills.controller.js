@@ -33,17 +33,42 @@ angular.module('core-components.job-skills').controller('jobSkillsController', f
 
     };
 
-    $scope.saveAsvabUpdate = function()
+    $scope.deleteAsvab = function (index)
+    {
+        $scope.asvabs.splice(index,1);
+    };
+
+
+
+        $scope.saveAsvabUpdate = function()
     {
         var numSaved = 0;
         //
         $scope.editAsvab = false;
 
-        //copy rows of Task table
-        for (var j=0; j<$scope.asvabs.length; j++)
-        {
-                var sendData = angular.copy($scope.asvabs[j]);
+        var updates = angular.copy($scope.asvabs);
 
+        //Find deleted asvab scores
+        for (let i =0; i< $scope.asvabBackup.length; i++) {
+            let id = $scope.asvabBackup[i].ASVABID;
+
+            let found = false;
+            for(let j =0; j< $scope.asvabs.length; j++) {
+                if (id == $scope.asvabs[j].ASVABID)
+                    found = true;
+            }
+            //mark scores that should be deleted from the database
+            if (!found){
+                var update = angular.copy($scope.asvabBackup[i]);
+                update.op = "DELETE";
+                updates.push(update);
+            }
+        };
+
+        //Send update requests to the server
+        for (var j=0; j<updates.length; j++)
+        {
+                var sendData = angular.copy(updates[j]);
                 delete sendData.Task;
                 delete sendData.TaskNumber;
                 sendData.ASVABDate = convertToSqlDate(sendData.ASVABDate);
@@ -64,6 +89,7 @@ angular.module('core-components.job-skills').controller('jobSkillsController', f
                         alert("Error saving asvabs");
                     });
             }
+
 
     };
     $scope.cancelAsvabUpdate = function()
@@ -194,7 +220,6 @@ $scope.cancelTasksUpdate = function()
 
     };
 
-
     $scope.saveAsvabCreate = function()
     {
         $scope.showNewAsvab = false;
@@ -319,7 +344,6 @@ $http ({
 //request data for jsView.html when it is opened
 var myRequest= {cadetID: $scope.cadetID};
 
-alert("myRequest: " + JSON.stringify(myRequest));
 //request the daata
         $http ({
             method: 'POST',
