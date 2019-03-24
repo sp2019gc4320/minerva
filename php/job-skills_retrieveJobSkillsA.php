@@ -42,6 +42,7 @@ WHERE(((tlkpCoreComponentTasks.CoreComponentID)=3) AND ((tblClassDetails.fkCadet
 $tests =   array();
 $tasks =   array();
 $testIDs = array();
+$asvabs = array();
 
 //sending the sql statement
 $result = $connection->runSelectQuery($sql);
@@ -86,11 +87,22 @@ if ($result->num_rows > 0)
     while($row = $result->fetch_assoc()) {
             $tests[] = $row;
         }
+}
+$sql ="SELECT tblASVAB.ASVABDate, tblASVAB.ASVABTechScore, tblASVAB.AFQTScore, tblASVAB.ASVABTestNotes, tblClassDetails.fkCadetID, tblASVAB.ASVABID, tblClassDetails.ClassDetailID
+FROM tblClassDetails INNER JOIN tblASVAB ON tblClassDetails.ClassDetailID = tblASVAB.fkClassDetailID
+WHERE (((tblClassDetails.fkCadetID)='$cadetID'))";
 
+$result = $connection->runSelectQuery($sql);
+//copy result into asvabs array
+if ($result->num_rows > 0)
+{
+    while($row = $result->fetch_assoc()) {
+        $asvabs[] = $row;
+    }
 }
 
 echo '{"taskTbl":' . (json_encode($tasks)) . ', "testIDs":' . (json_encode($testIDs)) .
-    ', "testTbl":' . (json_encode($tests)) . '}';
+    ', "testTbl":' . (json_encode($tests)) . ', "asvabTbl":' . (json_encode($asvabs)) . '}';
 
 /*
  * $result = $connection->runSelectQueryArray($sql);

@@ -19,9 +19,21 @@ angular.module('core-components.job-skills').controller('jobSkillsController', f
     $scope.cadetID = "7"; //with data
     //alert("setting cadetID  for testing: " +$scope.cadetID);
 
-
+$scope.asvab ={};
 
 //create new record for asvab
+    $scope.addASVAB = function()
+    {
+        //set flag to show new record
+        $scope.showNewAsvab = true;
+
+        //Clear text
+        $scope.asvab.ASVABDate = new Date();
+        $scope.asvab.ASVABTechScore = "X";
+        $scope.asvab.AFQTScore="X";
+        $scope.asvab.ASVABTestNotes="X";
+    };
+
 $scope.createASVAB = function() 
     {
         var sendData=angular.copy($scope.asvabs);
@@ -156,19 +168,27 @@ var myRequest= {cadet: $scope.cadetID};
             $scope.tasks = result.data.taskTbl;
             $scope.tests = result.data.testTbl;
             $scope.testIDs= result.data.testIDs;
+            $scope.asvabs = result.data.asvabTbl;
 
 
-            for(var i=0; i<$scope.tasks.length; i++) {
+            for(let i=0; i<$scope.tasks.length; i++) {
                 if ($scope.tasks[i].EventDate !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
 
                     $scope.tasks[i].EventDate = convertToHtmlDate($scope.tasks[i].EventDate);
 
                 }
             }
-            for(var i=0; i<$scope.tests.length; i++) {
+            for(let i=0; i<$scope.tests.length; i++) {
                 if ($scope.tests[i].EventDate !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
 
                     $scope.tests[i].EventDate = convertToHtmlDate($scope.tests[i].EventDate);
+
+                }
+            }
+            for(let i=0; i<$scope.asvabs.length; i++) {
+                if ($scope.asvabs[i].ASVABDate !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
+
+                    $scope.asvabs[i].ASVABDate = convertToHtmlDate($scope.asvabs[i].ASVABDate);
 
                 }
             }

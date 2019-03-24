@@ -39,8 +39,8 @@
                                                             ng-readonly="true"></span>
                     </td>
 
-                        <!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
-                     <td ng-if="!hasTests(task) && task.DidPass == '1'" class="bg-success text-center">
+                    <!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
+                    <td ng-if="!hasTests(task) && task.DidPass == '1'" class="bg-success text-center">
                         <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass"
                                ng-true-value="'1'" ng-false-value="'0'">
                     </td>
@@ -109,48 +109,56 @@
                 </tr>
             </table>
             <br>
-            <!-- The thirds table, containing asvab scores -->
         </form>
-        <!--
-    <form>
-        <table class = "table minerva-table">
-            <thead>
-                <tr>
-                    <th colspan="5">ASVAB SCORES </th>
-                </tr>
-            </thead>
-            <tr>
-            <td><input name="ASVABDate" type="text" ng-model="asvab.ASVABDate"></td>
-            <td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"></td>
-            <td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore"></td>
-            <td><input name="ASVABTestNotes" type="text" ng-model="asvab.ASVABTestNotes" data-ng-bind="note"></td>
-            <td><button class="btn btnCreate" ng-click="createASVAB()"> Add New Record</button></td>
-        </tr>
-        </table>
-    </form>
-    <table id="ASVABTests">
 
+
+    <table id="ASVABTests" class="table minerva-table">
+        <thead>
         <tr>
-
+            <th colspan="4"> ASVAB</th>
+        </tr>
+        </thead>
+        <tr>
             <th>Date</th>
             <th>Technical Score</th>
             <th>AFQT Score</th>
             <th>Note</th>
         </tr>
         <tr ng-repeat="asvab in asvabs">
-            <td><input name="ASVABDate" type="text" ng-model="asvab.ASVABDate"></td>
+            <td><input name="ASVABDate" type="date" ng-model="asvab.ASVABDate"></td>
             <td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"></td>
             <td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore"></td>
             <td><input name="ASVABTestNotes" type="text" ng-model="asvab.ASVABTestNotes" data-ng-bind="note"></td>
         </tr>
 
-
     </table>
-    -->
-        <button class="btn btnSave" ng-click="update(tasks,tests,asvabs)"> Save</button>
-        <button class="btn btnCancel" ng-click="cancelUpdate()"> Cancel</button>
+        <!-- The third table, containing asvab scores -->
+        <button class="btn btnCreate" ng-click="addASVAB()" style="margin: 0 auto" ng-hide="showNewAsvab"> Add ASVAB Score</button>
+        <form id="asvabAdd"  ng-show="showNewAsvab">
+            <table style="width:100%">
+                <tr>
+                    <th><label>Date:
+                    </label><input name="ASVABDate" type="date"
+                                   ng-model="asvab.ASVABDate" >
+                    </th>
+                    <th><label>Technical Score: </label>
+                        <input name="ASVABTechScore" type="text"
+                               ng-model="asvab.ASVABTechScore" >
+                    </th>
+                    <th><label>AFQT Score: </label>
+                        <input name="AFQTScore" type="text"
+                               ng-model="asvab.AFQTScore"></th>
+                    <th><label>Note: </label>
+                        <input name="ASVABTestNotes" type="text"
+                               ng-model="asvab.ASVABTestNotes" ></th>
+                </tr>
+            </table>
+        </form>
+
+    <button class="btn btnSave" ng-click="update(tasks,tests,asvabs)"> Save</button>
+    <button class="btn btnCancel" ng-click="cancelUpdate()"> Cancel</button>
 
 
-    </div>
+</div>
 
 </div>
