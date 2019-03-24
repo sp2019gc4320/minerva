@@ -33,8 +33,8 @@
 
 			<td>
 				<!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
-				<span ng-if="!hasTests(task)"><input name="EventDate" type="text" ng-model="task.EventDate"></span>
-				<span ng-if="hasTests(task)"><input name="EventDate" type="text" ng-model="task.EventDate" ng-readonly="true"></span>
+				<span ng-if="!hasTests(task)"><input name="EventDate" type="date" ng-model="task.EventDate"></span>
+				<span ng-if="hasTests(task)"><input name="EventDate" type="date" ng-model="task.EventDate" ng-readonly="true"></span>
 			</td>
 			<td>
 				<!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
@@ -69,7 +69,7 @@
 		</tr>
 		<tr ng-repeat="test in tests"> 
 			<td>{{test.TaskTest}}</td>
-			<td><input name="EventDate" type="text" ng-model="test.EventDate"></td>
+			<td><input name="EventDate" type="date" ng-model="test.EventDate"></td>
 			<td><input name="Score" type="text" ng-model="test.TestScore"></td>
 			<td><input name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'" ng-model="test.DidPass"></td>
 			<td><input name="EventNote" type="text" ng-model="test.EventNote"></td>

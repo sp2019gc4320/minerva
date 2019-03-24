@@ -156,25 +156,41 @@ var myRequest= {cadet: $scope.cadetID};
             $scope.tasks = result.data.taskTbl;
             $scope.tests = result.data.testTbl;
             $scope.testIDs= result.data.testIDs;
-           /*
-            //put data into a scope to be accessed elsewhere
-            $scope.tasks=result.data.taskTbl;
-			$scope.tests=result.data.testTbl;
-			$scope.asvabs=result.data.asvabTbl;
-            //parsing the dates to format correctly
-            for(var i=0; i<$scope.tasks.length; i++)
-            {
-                $scope.tasks[i].EventDate=$scope.tasks[i].EventDate.split(" ")[0];
+
+
+            for(var i=0; i<$scope.tasks.length; i++) {
+                if ($scope.tasks[i].EventDate !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
+
+                    $scope.tasks[i].EventDate = convertToHtmlDate($scope.tasks[i].EventDate);
+
+                }
             }
-			for(var i=0; i<$scope.tests.length; i++)
-            {
-                $scope.tests[i].EventDate=$scope.tests[i].EventDate.split(" ")[0];
+            for(var i=0; i<$scope.tests.length; i++) {
+                if ($scope.tests[i].EventDate !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
+
+                    $scope.tests[i].EventDate = convertToHtmlDate($scope.tasks[i].EventDate);
+
+                }
             }
-            for(var i=0; i<$scope.asvabs.length; i++)
-            {
-                $scope.asvabs[i].ASVABDate=$scope.asvabs[i].ASVABDate.split(" ")[0];
-            }
-            */
+            /*
+        //put data into a scope to be accessed elsewhere
+        $scope.tasks=result.data.taskTbl;
+        $scope.tests=result.data.testTbl;
+        $scope.asvabs=result.data.asvabTbl;
+        //parsing the dates to format correctly
+        for(var i=0; i<$scope.tasks.length; i++)
+        {
+            $scope.tasks[i].EventDate=$scope.tasks[i].EventDate.split(" ")[0];
+        }
+        for(var i=0; i<$scope.tests.length; i++)
+        {
+            $scope.tests[i].EventDate=$scope.tests[i].EventDate.split(" ")[0];
+        }
+        for(var i=0; i<$scope.asvabs.length; i++)
+        {
+            $scope.asvabs[i].ASVABDate=$scope.asvabs[i].ASVABDate.split(" ")[0];
+        }
+        */
         },function(result){
             alert(result);
         });
