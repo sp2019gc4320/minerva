@@ -21,6 +21,26 @@ angular.module('core-components.job-skills').controller('jobSkillsController', f
 
 $scope.asvab ={};
 
+
+    $scope.makeTasksEditable = function()
+    {
+        $scope.editTasks = true;
+        //create backup of tasks
+        $scope.tasksBackup = angular.copy($scope.tasks);
+
+    };
+$scope.saveTasksUpdate = function()
+    {
+alert("TODO: Saving");
+    };
+$scope.cancelTasksUpdate = function()
+{
+    $scope.editTasks = false;
+    $scope.tasks = angular.copy($scope.tasksBackup);
+};
+
+
+
 //create new record for asvab
     $scope.addASVAB = function()
     {
