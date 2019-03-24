@@ -168,7 +168,7 @@ var myRequest= {cadet: $scope.cadetID};
             for(var i=0; i<$scope.tests.length; i++) {
                 if ($scope.tests[i].EventDate !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
 
-                    $scope.tests[i].EventDate = convertToHtmlDate($scope.tasks[i].EventDate);
+                    $scope.tests[i].EventDate = convertToHtmlDate($scope.tests[i].EventDate);
 
                 }
             }

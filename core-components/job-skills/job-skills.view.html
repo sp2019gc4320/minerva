@@ -15,7 +15,7 @@
             <table id="JobSkillsEvents" class="table minerva-table">
                 <thead>
                 <tr>
-                    <th colspan="6">TASKS</th>
+                    <th colspan="5">TASKS</th>
                 </tr>
                 </thead>
                 <tr>
@@ -40,27 +40,27 @@
                     </td>
                     <td>
                         <!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
-                     <td ng-if="!hasTests(task) && task.DidPass == '1'" class="bg-success text-center">
+                     <span ng-if="!hasTests(task) && task.DidPass == '1'" class="bg-success text-center">
                         <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass"
                                ng-true-value="'1'" ng-false-value="'0'">
-                    </td>
+                    </span>
 
-                    <td ng-if="!hasTests(task) && task.DidPass == '0'" class="bg-danger text-center">
+                    <span ng-if="!hasTests(task) && task.DidPass == '0'" class="bg-danger text-center">
                         <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass"
                                ng-true-value="'1'" ng-false-value="'0'">
-                    </td>
+                    </span>
 
 
                     <!-- Get Date and Pass Status from Tests -->
-                    <td ng-if="hasTests(task) && task.DidPass == '1'" class="bg-success text-center">
+                    <span ng-if="hasTests(task) && task.DidPass == '1'" class="bg-success text-center">
                         <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass"
                                ng-true-value="'1'" ng-false-value="'0'" ng-disabled="true">
-                    </td>
+                    </span>
 
-                    <td ng-if="hasTests(task) && task.DidPass == '0'" class="bg-danger text-center">
+                    <span ng-if="hasTests(task) && task.DidPass == '0'" class="bg-danger text-center">
                         <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass"
                                ng-true-value="'1'" ng-false-value="'0'" ng-disabled="true">
-                    </td>
+                    </span>
 
                     </td>
                     <td>
@@ -94,17 +94,16 @@
                     <td>{{test.TaskTest}}</td>
                     <td><input name="EventDate" type="date" ng-model="test.EventDate"></td>
                     <td><input name="Score" type="text" ng-model="test.TestScore"></td>
-                    <td><input name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                               ng-model="test.DidPass"></td>
-
-                    <td ng-if="test.DidPass == '1'" class="bg-success text-center">
+                    <td>
+                    <span ng-if="test.DidPass == '1'" class="bg-success text-center">
                         <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="test.DidPass"
                                ng-true-value="'1'" ng-false-value="'0'">
-                    </td>
+                    </span>
 
-                    <td ng-if="test.DidPass == '0'" class="bg-danger text-center">
+                    <span ng-if="test.DidPass == '0'" class="bg-danger text-center">
                         <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="test.DidPass"
                                ng-true-value="'1'" ng-false-value="'0'">
+                    </span>
                     </td>
 
 
