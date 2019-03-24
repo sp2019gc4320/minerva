@@ -22,11 +22,9 @@ $sql = "SELECT * FROM tblClassDetails WHERE
         fkCadetID = '$CadetID'";
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
 
-// This code originally would print an empty string because not all of the data
-// was utf8 encoded. This fixes an array to have utf8 encoding.
-// https://stackoverflow.com/questions/19361282/why-would-json-encode-return-an-empty-string
+//calls utf8size -- originally would print an empty string because not all
+// of the data was utf8 encoded. this fixes an array to utf8 encoding.
 echo '{ "data":' . (json_encode(utf8ize($result))) . "} ";
-
 
 ?>
 
