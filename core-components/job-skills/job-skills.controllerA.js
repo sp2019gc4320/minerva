@@ -15,8 +15,8 @@ angular.module('core-components.job-skills').controller('jobSkillsController', f
 //Hardcoded in for now. Once a cadetID is stored in localStorage, switch the two statments below.
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
 
-    alert("Testing  with Cadet 7 - William Bowles to see sample data");
-    $scope.cadetID = "7"; //with data
+    alert("Test  with Cadet 7 - William Bowles to see sample data");
+    //$scope.cadetID = "7"; //with data
     //alert("setting cadetID  for testing: " +$scope.cadetID);
 
 
@@ -147,16 +147,13 @@ var myRequest= {cadet: $scope.cadetID};
 //request the daata
         $http ({
             method: 'POST',
-            url: "./php/job-skills_retrieveJobSkillsA.php",
+            url: "./php/job-skills_retrieveJobSkills.php",
             data: Object.toparams(myRequest),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(
         function(result)
         {
-            $scope.tasks = result.data.taskTbl;
-            $scope.tests = result.data.testTbl;
-            $scope.testIDs= result.data.testIDs;
-           /*
+            
             //put data into a scope to be accessed elsewhere
             $scope.tasks=result.data.taskTbl;
 			$scope.tests=result.data.testTbl;
@@ -174,36 +171,10 @@ var myRequest= {cadet: $scope.cadetID};
             {
                 $scope.asvabs[i].ASVABDate=$scope.asvabs[i].ASVABDate.split(" ")[0];
             }
-            */
         },function(result){
             alert(result);
         });
 
-        $scope.hasTests = function hasTests(task) {
-            var found = $scope.testIDs.includes(task.fkTaskID);
-            if (found) {
-
-
-                task.EventDate = $scope.tests[0].EventDate;
-                task.DidPass = $scope.tests[0].DidPass;
-                let i = 1;
-                while (i < $scope.tests.length) {
-
-                    if (task.DidPass == '1' && $scope.tests[i].DidPass == '1')
-                        task.DidPass = '1';
-                    else
-                        task.DidPass = '0';
-                if ($scope.tests[i].EventDate > task.EventDate)
-                    task.EventDate = $scope.tests[i].EventDate;
-                i++;
-            }
-
-
-                return true;
-            }
-            else
-                return false;
-        };
 
       $scope.cancelUpdate = function() {
         location.reload(true);

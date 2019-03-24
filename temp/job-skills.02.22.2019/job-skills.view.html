@@ -1,0 +1,245 @@
+<!--job-skills.view.html-->
+<!--view page for JobSkills tab-->
+<!-- Programmer: Kevin Krider 2018, Zachary Ross Graham Schunk and Jacob Sherrod 2019 -->
+<!-- This code shares a scope with jobSkillsController.js -->
+<!--fields that can be updated are autoloaded with current values from the database-->
+<!-- The page takes no input other than a cadetID in local session storage. It can update the associated database.-->
+
+
+<div
+        class="well container infoContainer"
+        id="jscontainer"
+        ng-controller="jobSkillsController">
+    <h3>Job Skills</h3>
+    <!--load app.controller from JobSkillsCtrl.js-->
+    
+    <h4>Tasks
+        <button
+                ng-show="!isUpdatingTasks"
+                class="btn btn-secondary btn-sm"
+                ng-click="startEdits()">Edit</button>
+        <button
+                ng-show="isUpdatingTasks"
+                class="btn btn-secondary btn-sm"
+                ng-click="cancelEdits()">Cancel</button>
+        <button
+                ng-show="isUpdatingTasks"
+                class="btn btn-primary btn-sm"
+                ng-click="saveEdits()">Save</button>
+    </h4>
+        <!--name form for two way binding-->
+        <form id="JobSkills">
+            <table class="table" id="JobSkillsEvents">
+                <tr>
+                    <th>No.</th>
+                    <th>Description</th>
+                    <th>Last Activity</th>
+                    <th>Passed</th>
+                    <th>Note</th>
+                </tr>
+                <!--iterate through each instance in scope from controller-->
+                <tr ng-repeat="task in tasks">
+                    <!-- task number and task name will not be able to be changed by the user -->
+                    <td>{{task.TaskNumber}}</td>
+                    <td>{{task.Task}}</td>
+
+                    <!--Task 2(a) can only be updated from the second table,
+                        otherwise funky wierd stuff happens. So we separate the
+                        two tasks into different table displays. -->
+                    <td ng-if-start="task.TaskNumber!='2(a)' && isUpdatingTasks">
+                        <input type="date" ng-model="task.EventDate">
+                    </td>
+                    <td align="center">
+                        <input
+                                name="DidPass"
+                                type="checkbox"
+                                ng-true-value="'1'"
+                                ng-false-value="'0'"
+                                ng-model="task.DidPass">
+                    </td>
+                    <td ng-if-end>
+                        <textarea name="EventNote" id="EventNote" class="text" ng-model="task.EventNote"></textarea>
+                    </td>
+
+                    <td ng-if-start="task.TaskNumber=='2(a)' || !isUpdatingTasks">
+                        {{task.EventDate}}
+                    </td>
+                    <td >
+                        <span ng-if="task.DidPass=='1'">Yes</span>
+                        <span ng-if="task.DidPass=='0'">No</span>
+                    </td>
+                    <td ng-if-end>
+                        {{task.EventNote}}
+                    </td>
+                </tr>
+
+            </table>
+        
+            <!-- Second table containing the subtests 2(a) -->
+
+            <table class="table" id="JobSkillsTests">
+                <tr>
+                    <th>2(a) Tests</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                    <th>Passed</th>
+                    <th>Note</th>
+                </tr>
+                <!--iterate through each instance in scope from controller??-->
+                <tr ng-repeat="test in tests">
+                    <td>{{test.TaskTest}}</td>
+                    <td ng-if-start="isUpdatingTasks">
+                        <input type="date" ng-model="test.EventDate">
+                    </td>
+                    <td>
+                        <input
+                                class="form-control"
+                                name="Score"
+                                type="text"
+                                ng-model="test.Score">
+                    </td>
+                    <td align="center">
+                        <input
+                                name="DidPass"
+                                type="checkbox"
+                                ng-true-value="'1'"
+                                ng-false-value="'0'"
+                                ng-model="test.DidPass">
+                    </td>
+                    <td ng-if-end>
+                        <textarea ng-model="test.EventNote"></textarea>
+                    </td>
+
+                    <td ng-if-start="!isUpdatingTasks">
+                        {{test.EventDate}}
+                    </td>
+                    <td>
+                        {{test.Score}}
+                    </td>
+                    <td >
+                        <span ng-if="test.DidPass">Yes</span>
+                        <span ng-if="!test.DidPass">No</span>
+                    </td>
+                    <td ng-if-end>
+                        {{test.EventNote}}
+                    </td>
+
+                </tr>
+            </table>
+            <br>
+            <!-- The third table, containing asvab scores -->
+            <h4>ASVAB Scores</h4>
+
+            <button class="btn btn-secondary btn-sm" onclick="toggleEdit()"> edit </button>
+
+            <!-- displays by default -->
+            <div id="ASVABTests_View" >
+                <table id="ASVABTest_viewtable">
+                    <tr>
+
+                        <th>Date</th>
+                        <th>Technical Score</th>
+                        <th>AFQT Score</th>
+                        <th>Note</th>
+                    </tr>
+                    <!--iterate through each instance in scope from controller??-->
+                    <tr ng-repeat="asvab in asvabs">
+                        <td>{{asvab.ASVABDate}}</td>
+                        <td class="text-center">{{asvab.ASVABTechScore}}</td>
+                        <td class="text-center">{{asvab.AFQTScore}}</td>
+                        <td class="text-center">{{asvab.ASVABTestNotes}}</td>
+                    </tr>
+                </table>
+            </div>
+        
+            <!-- displays only when edit button is clicked -->
+            <div id="ASVABTests_Edit" style="display: none">
+
+
+                    <table id="ASVABTest_edittable">
+                        <tr>
+                            <th>Date</th>
+                            <th>Technical Score</th>
+                            <th>AFQT Score</th>
+                            <th>Note</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <!-- This is for a new ASVAB entry. Notice the n in front of nasvab -->
+                            <td><label class="control-label" for="date">Date</label>
+                            <input type="date" ng-model="nasvab.ASVABDate"></td>
+                            <td><input name="ASVABTechScore" type="text" ng-model="nasvab.ASVABTechScore"></td>
+                            <td><input name="AFQTScore" type="text" ng-model="nasvab.AFQTScore"></td>
+                            <td><textarea ng-model="nasvab.ASVABTestNotes"></textarea></td>
+                            <td><button ng-click="createASVAB()">Add New Record</button></td>
+                        </tr>
+                        <tr>
+
+                            <th>Date</th>
+                            <th>Technical Score</th>
+                            <th>AFQT Score</th>
+                            <th>Note</th>
+                            <td></td>
+                        </tr>
+                        <!--iterate through each instance in scope from controller??-->
+                        <!-- This is an edit area for ASVAB records. It currently has a critical problem -->
+                        <tr ng-repeat="asvab in asvabs">
+                            <td><label class="control-label" for="date">Date</label>
+                            <!-- TODO - NEED TO FIX THIS SUCH THAT DEFAULT DATE IS SET
+                            THIS CURRENTLY OVERWRITES DATES WHEN UPDATE BUTTON IS CLICKED.
+                            THE BEST CURRENT OPTION IS PROBABLY A TEXT FIELD ENTRY INSTEAD -->
+                            <!--<input type="date" id="ASVABDate{{$id}}" ng-model="asvab.ASVABDate" value="asvab.ASVABDate">-->
+                            <input type="text" id="ASVABDate{{$id}}" ng-model="asvab.ASVABDate" value="asvab.ASVABDate">
+                            </td>
+                            <td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"></td>
+                            <td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore"></td>
+                            <td><textarea ng-model="asvab.ASVABTestNotes"></textarea></td>
+                            <td></td>
+                        </tr>
+
+                    </table>
+                    <button class="btn btn-secondary btn-sm" ng-click="update(tasks,tests,asvabs)">Update</button>
+                    <button class="btn btn-secondary btn-sm" ng-click="cancelUpdate()">Cancel Update</button>
+
+                </form>
+            </div>
+
+
+            <br><br>
+            <!-- Script to toggle edit and view modes -->
+            <script type="text/javascript" >
+                function toggleEdit(){
+
+                    var x = document.getElementById("ASVABTests_View");
+
+                    if (x.style.display === "none") {
+                        x.style.display = "block";
+
+                    } else {
+                        x.style.display = "none";
+
+                    }
+
+
+                    var y = document.getElementById("ASVABTests_Edit");
+
+                    if (y.style.display === "block") {
+                        y.style.display = "none";
+                    }
+                    else {
+                        y.style.display = "block";
+                    }
+
+
+                }
+            </script>
+
+
+
+            <br><br>
+
+
+
+
+</div>
+

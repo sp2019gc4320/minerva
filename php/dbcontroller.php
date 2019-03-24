@@ -68,6 +68,7 @@ class DBController {
 
    function runSelectQueryArray($query) //Used to run a select query and return array of rows
     {
+        echo $query;
          $result = mysqli_query($this->conn,$query);
          $result_array = array();
 
