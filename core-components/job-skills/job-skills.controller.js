@@ -31,13 +31,93 @@ $scope.asvab ={};
     };
 $scope.saveTasksUpdate = function()
     {
-alert("TODO: Saving");
+        var numSaved = 0;
+        //
+        $scope.editTasks = false;
+
+        //copy rows of Task table
+        for (var j=0; j<$scope.tasks.length; j++)
+        {
+            //Only send tasks that do not have tests associated with them
+            if($scope.tasks[j].fkTaskTestEventID == null) {
+                var sendData = angular.copy($scope.tasks[j]);
+
+                delete sendData.Task;
+                delete sendData.TaskNumber;
+                sendData.EventDate = convertToSqlDate(sendData.EventDate);
+
+                //send the json object to the correct update*.php file
+                $http({
+                    method: 'POST',
+                    url: "./php/job-skillsUpdateTasks.php",
+                    data: Object.toparams(sendData),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(
+                    function (response) {
+                        //only show saved message after last task saved.
+                        numSaved++;
+                        if (numSaved === $scope.tasks.length)
+                            alert("Tasks Update");
+                    }, function (result) {
+                        alert("Error saving tasks");
+                    });
+            }
+        }
+
     };
 $scope.cancelTasksUpdate = function()
 {
     $scope.editTasks = false;
     $scope.tasks = angular.copy($scope.tasksBackup);
 };
+
+
+
+    $scope.makeTestsEditable = function()
+    {
+        $scope.editTests = true;
+        //create backup of tasks
+        $scope.testsBackup = angular.copy($scope.tests);
+
+    };
+    $scope.saveTestsUpdate = function()
+    {
+        var numSaved = 0;
+        //
+        $scope.editTests = false;
+
+        //copy rows of Task table
+        for (var j=0; j<$scope.tests.length; j++)
+        {
+                var sendData = angular.copy($scope.tasks[j]);
+
+                delete sendData.Task;
+                delete sendData.TaskNumber;
+                sendData.EventDate = convertToSqlDate(sendData.EventDate);
+
+                //send the json object to the correct update*.php file
+                $http({
+                    method: 'POST',
+                    url: "./php/job-skillsUpdateTests.php",
+                    data: Object.toparams(sendData),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(
+                    function (response) {
+                        //only show saved message after last task saved.
+                        numSaved++;
+                        if (numSaved === $scope.tasks.length)
+                            alert("Job Skill Tests Updated");
+                    }, function (result) {
+                        alert("Error saving tests.");
+                    });
+        }
+
+    };
+    $scope.cancelTestsUpdate = function()
+    {
+        $scope.editTests = false;
+        $scope.tests = angular.copy($scope.testsBackup);
+    };
 
 
 
@@ -49,9 +129,9 @@ $scope.cancelTasksUpdate = function()
 
         //Clear text
         $scope.asvab.ASVABDate = new Date();
-        $scope.asvab.ASVABTechScore = "X";
-        $scope.asvab.AFQTScore="X";
-        $scope.asvab.ASVABTestNotes="X";
+        $scope.asvab.ASVABTechScore = "";
+        $scope.asvab.AFQTScore="";
+        $scope.asvab.ASVABTestNotes="";
     };
 
 $scope.createASVAB = function() 
@@ -261,7 +341,4 @@ var myRequest= {cadet: $scope.cadetID};
                 return false;
         };
 
-      $scope.cancelUpdate = function() {
-        location.reload(true);
-      };
 });
