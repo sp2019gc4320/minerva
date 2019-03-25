@@ -50,7 +50,7 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
     };
 
 
-    $scope.addMentorContactNote = function () {
+    $scope.addMentorContactNoteOLD = function () {
         var contactNote = {
             fkMentorPotentialID: $scope.mentorContacts.MentorPotentialID,
             CadetID: $scope.CadetID,
@@ -128,9 +128,8 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
     //----------- NOTES
 
     $scope.editNotes = false;
-    $scope.deleteNote = function (index)
-    {
-        $scope.prapNotes.splice(index,1);
+    $scope.deleteNote = function (index) {
+        $scope.prapNotes.splice(index, 1);
     };
 
     $scope.makeNotesEditable = function () {
@@ -208,13 +207,10 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
     };
 
 
-
-
 // ------ MENTOR CONTACTS
     $scope.editContacts = false;
-    $scope.deleteContact = function (index)
-    {
-        $scope.mentorContacts.splice(index,1);
+    $scope.deleteContact = function (index) {
+        $scope.mentorContacts.splice(index, 1);
     };
 
 
@@ -529,8 +525,6 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
     );
 
 
-
-
 // function to save a new note inserted into the database
     $scope.saveNewNoteOLD = function () {
         alert("hi");
@@ -599,10 +593,9 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
             });
     };
 
-
+//---------------------------------------
 //create new record for prapNote
-    $scope.addNote = function()
-    {
+    $scope.addNote = function () {
         //TODO store NoteEditorID and NoteCreatedByID as userID
         //TODO  store userID in when logging in
         //set flag to show new record
@@ -627,34 +620,31 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
 
     };
 
-    $scope.cancelNoteCreate = function()
-    {
+    $scope.cancelNoteCreate = function () {
         $scope.showNewNote = false;
     };
 
-    $scope.showNewNote= false;
-    $scope.saveNoteCreate = function()
-    {
-        $scope.showNewNote= false;
+    $scope.showNewNote = false;
+    $scope.saveNoteCreate = function () {
+        $scope.showNewNote = false;
 
-        var sendData=angular.copy($scope.tempNote);
+        var sendData = angular.copy($scope.tempNote);
 
         //convert all dates to SQL
         sendData.NoteCreatedDate = convertToSqlDate(sendData.NoteCreatedDate);
         sendData.NoteEditedDate = convertToSqlDate(sendData.NoteEditedDate);
 
         //create data entry using updateNotes.php
-        $http ({
+        $http({
             method: 'POST',
             url: "./php/prap_updateNotes.php",
             data: Object.toparams(sendData),
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(
-            function(response)
-            {
-                if(response.data)
+            function (response) {
+                if (response.data)
                 //give new entry unique id
-                    sendData.GenNoteID=response.data.id;
+                    sendData.GenNoteID = response.data.id;
                 //display new entry
 
                 delete sendData.op;
@@ -662,10 +652,65 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
                 sendData.NoteEditedDate = convertToHtmlDate(sendData.NoteEditedDate);
                 $scope.prapNotes.push(sendData);
                 //alert("data updated");
-            },function(result)
-            {
+            }, function (result) {
             });
     };
 
+//----------------------------
 
+    $scope.addContact = function () {
+        //TODO store NoteEditorID and NoteCreatedByID as userID
+        //TODO  store userID in when logging in
+        //TODO YOu must have a valid MentorPotentiaID
+        //set flag to show new record
+        $scope.showNewContact = true;
+
+        var contactNote = {
+            fkMentorPotentialID: $scope.mentorContacts[0].MentorPotentialID,
+            CadetID: $scope.CadetID,
+            ContactDate: new Date(),
+            //MentorName: "",
+            MentorContactType: "",
+            MentorContactNote: "",
+            ContactPlacementMonth: "",
+            op: "ADD"
+        };
+
+        //Clear text
+        $scope.tempContact = angular.copy(contactNote);
+    };
+
+
+    $scope.cancelContactCreate = function () {
+        $scope.showNewContact = false;
+    };
+
+    $scope.showNewContact = false;
+    $scope.saveContactCreate = function () {
+        $scope.showNewContact = false;
+
+        var sendData = angular.copy($scope.tempContact);
+
+        //convert all dates to SQL
+        sendData.ContactDate = convertToSqlDate(sendData.ContactDate);
+
+        //create data entry using updateContacts.php
+        $http({
+            method: 'POST',
+            url: "./php/prap_updateContacts.php",
+            data: Object.toparams(sendData),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(
+            function (response) {
+                if (response.data)
+                //give new entry unique id
+                    sendData.MentorContactID = response.data.id;
+
+                delete sendData.op;
+                sendData.ContactDate = convertToHtmlDate(sendData.ContactDate);
+                $scope.mentorContacts.push(sendData);
+            },
+            function (result) {
+            });
+    }
 });

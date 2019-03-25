@@ -98,7 +98,7 @@ Usesprap.controller.js
             </table>
         </form>
         <p>
-            <hr>
+        <hr>
         </p>
 
 
@@ -106,9 +106,12 @@ Usesprap.controller.js
             <thead>
             <tr>
                 <th colspan="3"> Mentor Contacts
-                    <button class="btn btnEdit" ng-click="makeContactsEditable()" ng-hide="editContacts"> Edit</button>
+                    <button class="btn btnEdit" ng-click="makeContactsEditable()" ng-hide="editContacts||showNewContact"> Edit</button>
                     <button class="btn btnSave" ng-click="saveContactsUpdate()" ng-show="editContacts"> Save</button>
                     <button class="btn btnCancel" ng-click="cancelContactsUpdate()" ng-show="editContacts"> Cancel</button>
+
+                    <button class="btn btnSave" ng-click="saveContactCreate()"ng-show="showNewContact"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelContactCreate()"ng-show="showNewContact"> Cancel</button>
                 </th>
             </tr>
             </thead>
@@ -138,19 +141,29 @@ Usesprap.controller.js
             </tr>
         </table>
 
+                    <button class="btn btnCreate" ng-click="addContact()" style="margin: 0 auto" ng-hide="showNewContact||editContacts"> Add Mentor Contact</button>
+                    <form id="contactAdd"  ng-show="showNewContact">
+                        <table style="width:100%" ng-show="showNewContact">
+                            <tr>
 
-        <div class="form-row">
-            <div class="col-md-5d-noned-md-block"></div>
-            <div class="form-rowjustify-content-centercol-md-2">
-                <!-- the AddNote button is not visible until the user clicks the edit button -->
-                <div ng-if="!NotEditable">
-                    <button class="btn btnCreate" ng-click="addMentorContactNote()" class="col-xs-12btn-danger"> Add
-                        Note
-                    </button>
-                </div>
-                <div class="col-md-5d-noned-md-block"></div>
-            </div>
-        </div>
+                                <td style="width:100px">
+                                    <table>
+                                        <input type="date" class="form-control" ng-model="tempContact.ContactDate">
+                                        <input type="text"  class="form-control" ng-model="tempContact.MentorContactType">
+                                        <input type="text" class="form-control" ng-model="tempContact.MentorPotentialID">
+                                    </table>
+                                </td>
+                                <td><textarea rows="3" style="min-width: 100%" class="form-control"
+                                  ng-model="tempContact.MentorContactNote"></textarea>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <p>
+                    <hr>
+                    </p>
+
+        <hr>
 
         <!-- ACTION PLAN AND GOALS -->
         <table id="actionPlanTable" class="table minerva-table">
