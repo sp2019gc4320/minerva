@@ -401,8 +401,27 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
         function(result){
             $scope.mentorContacts = result.data.data;
 
+
             //Fillin the MentorName
             for (var i=0; i< $scope.mentorContacts.length; i++) {
+
+                //Convert all dates to html format
+                for (var fieldName in $scope.mentorContacts[i]) {
+                    //Check to see if property name contains Date
+                    if (fieldName.includes("Date")) {
+
+                        if ($scope.mentorContacts[i][fieldName] !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
+
+
+                            $scope.mentorContacts[i][fieldName] = convertToHtmlDate($scope.mentorContacts[i][fieldName]);
+                        }
+                        else {
+                            $scope.mentorContacts[i][fieldName] = new Date("");
+                        }
+                    }
+                }
+
+
                 if ($scope.mentorContacts[i].fkMentorID.length > 0) {
                     var index = i;
                     var nameRequest = {MentorID: $scope.mentorContacts[i].fkMentorID, index:index};
@@ -438,6 +457,22 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
         function(result){
             $scope.cadetClass = result.data.data[0];
             //alert(JSON.stringify($scope.cadetClass));
+
+            //Convert all dates to html format
+            for (var fieldName in $scope.cadetClass) {
+                //Check to see if property name contains Date
+                if (fieldName.includes("Date")) {
+
+                    if ($scope.cadetClass[fieldName] !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
+
+
+                        $scope.cadetClass[fieldName] = convertToHtmlDate($scope.cadetClass[fieldName]);
+                    }
+                    else {
+                        $scope.cadetClass[fieldName] = new Date("");
+                    }
+                }
+            }
 
         },
         //ERROR

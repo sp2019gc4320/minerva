@@ -4,244 +4,298 @@ Usesprap.controller.js
 -->
 <link rel="stylesheet" type="text/css" href="../../css/site.css">
 <div class="container" id="prapContainer" ng-app="myApp" ng-controller="prapController"
-	 xmlns="http://www.w3.org/1999/html">
-	<form>
-		<div>
-			<div class="col-xs-12">
-				<h1>PRAP</h1>
-			</div>
-		</div>
-		<div>
-			<!--When this button is clicked, the page becomes editable-->
-			<button class="btn btnEdit" ng-click="editSection('contactNote')"> Edit</button><!--check this-->
-		</div>
+     xmlns="http://www.w3.org/1999/html">
+    <form>
+        <div>
+            <div class="col-xs-12">
+                <h1>PRAP</h1>
+            </div>
+        </div>
 
-			<!-- this div is only viewable after the user clicks on edit -->
-			<div ng-if="!NotEditable">
-				<!-- the cancel button calls the cancelUpdate function to cancel the current input -->
-				<button class="btn btnCancel" ng-click="cancelNotes()"> Cancel</button>
-				<!-- the save button calls the saveContacts function when clicked to save the current
-                input to the database -->
-				<button class="btn btnSave" ng-click="saveNotes()"> Save</button>
-				<button class="btn btnCreate" ng-click="addNote()"> Add Note</button>
-			</div>
+        <!--When this button is clicked, the page becomes editable
+    <div>
+        <button class="btn btnEdit" ng-click="editSection('contactNote')"> Edit</button><!--check this
+    </div>
 
-		<table id="notesTable">
-			<th>
+        <!-- this div is only viewable after the user clicks on edit
+        <div ng-if="!NotEditable">
+            <!-- the cancel button calls the cancelUpdate function to cancel the current input
+            <button class="btn btnCancel" ng-click="cancelNotes()"> Cancel</button>
+            <!-- the save button calls the saveContacts function when clicked to save the current
+            input to the database -
+            <button class="btn btnSave" ng-click="saveNotes()"> Save</button>
+            <button class="btn btnCreate" ng-click="addNote()"> Add Note</button>
+        </div>
+-->
 
-			</th>
-			<th>
-				Notes:
-			</th>
-			<tr ng-repeat="note in prapNotes track by $index">
-				<!-- the attachments section is not visible until edit is clicked on -->
-				<td style="width:30%">
-					<table>
-					<tr>
-
-				<td>
-					Creator:
-					<input type="text" ng-disabled="NotEditable" ng-model="note.NoteCreatedByName">
-				</td>
-				<td>
-					<input type="date" ng-disabled="NotEditable" ng-model="note.NoteCreatedDate">
-				</td>
-					</tr>
-						<tr>
-				<td>
-					Editor:
-					<input type="text" ng-disabled="NotEditable" ng-model="note.NoteEditedByName">
-				</td>
-				<td>
-					<input type="date"ng-disabled="NotEditable" ng-model="note.NoteEditedDate">
-				</td>
-						</tr>
-				</table>
-				</>
-
-				<td>
-					<textarea style="resize:vertical;" class="form-control" ng-disabled="NotEditable" ng-model="note.GenNote"></textarea>							<!--NOTE 1-->
+        <table id="notesTable" class="able minerva-table">
+            <thead>
+            <tr>
+                <th colspan="3"> Notes
+                    <button class="btn btnEdit" ng-click="makeTasksEditable()" ng-hide="editTasks"> Edit</button>
+                    <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)" ng-show="editTasks"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelTasksUpdate()" ng-show="editTasks"> Cancel</button>
+                </th>
+            </tr>
+            </thead>
+            <tr ng-repeat="note in prapNotes track by $index" style="outline: thin solid">
+                <!-- the attachments section is not visible until edit is clicked on -->
+                <td style="width:35%">
+                    <table>
+                        <tr>
+                            <td>
+                                <strong>Creator</strong>:<br/>
+                                <input type="text" ng-disabled="NotEditable" ng-model="note.NoteCreatedByName">
+                            </td>
+                            <td>
+                                <br/>
+                                <input type="date" ng-disabled="NotEditable" ng-model="note.NoteCreatedDate">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Editor</strong>:<br/>
+                                <input type="text" ng-disabled="NotEditable" ng-model="note.NoteEditedByName">
+                            </td>
+                            <td><br/>
+                                <input type="date" ng-disabled="NotEditable" ng-model="note.NoteEditedDate">
+                            </td>
+                        </tr>
+                    </table>
                 </td>
-				<td>
-					<button ng-click="deleteNote($index)" class="btn btnDelete">Delete</button>
-				</td>
-			</tr>
-		</table>
+
+                <td>
+                    <textarea rows="4" style="resize:vertical;" class="form-control" ng-disabled="NotEditable"
+                              ng-model="note.GenNote"></textarea>                            <!--NOTE 1-->
+                </td>
+                <td style="width:100px">
+                    <button ng-click="deleteNote($index)" class="btn btnDelete">Delete1</button>
+                </td>
+            </tr>
+        </table>
 
 
-                <fieldset class="form-group">
-                    <div class="row">
-                        <legend class="col-form-labelcol-xs-12">MentorContacts</legend>
+
+
+            <table id="contactsTable" class="table minerva-table">
+                <thead>
+                <tr>
+                    <th colspan="3"> Mentor Contacts
+                        <button class="btn btnEdit" ng-click="makeTasksEditable()" ng-hide="editTasks"> Edit</button>
+                        <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)" ng-show="editTasks"> Save</button>
+                        <button class="btn btnCancel" ng-click="cancelTasksUpdate()" ng-show="editTasks"> Cancel</button>
+
+                        <!-- this div is only viewable after the user clicks on edit -->
+                        <div ng-if="!NotEditable">
+                            <!-- the cancel button calls the cancelUpdate function to cancel the current input -->
+                            <button class="btn btnCancel" ng-click="cancelMentorContacts()"> Cancel</button>
+                            <!-- the save button calls the saveContacts function when clicked to save the current
+                            input to the database -->
+                            <button class="btn btnSave" ng-click="saveContacts()"> Save</button>
+                        </div>
+                    </th>
+                </tr>
+                </thead>
+            <tr ng-repeat="contact in mentorContacts track by $index" style="outline: thin solid">
+                <td style="width:100px">
+                    <table >
+                        <!-- this input is not editable until the user clicks edit -->
+                        <input type="date" ng-disabled="NotEditable" class="form-control"
+                               ng-model="contact.ContactDate">
+
+                        <!-- this input is disabled until the user clicks edit -->
+                        <input type="text" ng-disabled="NotEditable" class="form-control"
+                               ng-model="contact.MentorContactType">
+
+                        <!-- this input is disabled until the user clicks edit -->
+                        <input type="text" ng-disabled="NotEditable" class="form-control" ng-model="contact.MentorName">
+             </table>
+                </td>
+                <td>
+                        <textarea rows="3" style="min-width: 100%" class="form-control" ng-disabled="NotEditable"
+                                  ng-model="contact.MentorContactNote"></textarea>
+                </td>
+                <td style="width:100px">
+                    <button ng-click="deleteContact($index)" class="btn btnDelete"> Delete</button>
+
+                </td>
+            </tr>
+                </table>
+
+
+
+
+            <div class="form-row">
+                <div class="col-md-5d-noned-md-block"></div>
+                <div class="form-rowjustify-content-centercol-md-2">
+                    <!-- the AddNote button is not visible until the user clicks the edit button -->
+                    <div ng-if="!NotEditable">
+                        <button class="btn btnCreate" ng-click="addMentorContactNote()" class="col-xs-12btn-danger"> Add
+                            Note
+                        </button>
                     </div>
+                    <div class="col-md-5d-noned-md-block"></div>
+                </div>
+            </div>
+
+
+
+        <table id="actionPlanTable" class="table minerva-table">
+            <thead>
+            <tr>
+                <th colspan="5"> Action Plan
+                    <button class="btn btnEdit" ng-click="makeTasksEditable()" ng-hide="editTasks"> Edit</button>
+                    <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)" ng-show="editTasks"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelTasksUpdate()" ng-show="editTasks"> Cancel</button>
+
+                    <!-- the save and cancel buttons are not visible until the user clicks edit -->
+                    <div ng-if="!NotEditable">
+                        <button class="btn btnCancel" ng-click="cancelActionPlanAndGoals()"> Cancel</button>
+                        <button class="btn btnSave" ng-click="savePlan()"> Save</button>
+                    </div>
+
                     <!-- this div is only viewable after the user clicks on edit -->
-			<div ng-if="!NotEditable">
-				<!-- the cancel button calls the cancelUpdate function to cancel the current input -->
-				<button class="btn btnCancel" ng-click="cancelMentorContacts()"> Cancel</button>
-				<!-- the save button calls the saveContacts function when clicked to save the current
-                input to the database -->
-				<button class="btn btnSave" ng-click="saveContacts()"> Save</button>
-			</div>
-			<div ng-repeat="contact in mentorContacts track by $index">
-				<div class="form-inline">
+                    <div ng-if="!NotEditable">
+                        <!-- the cancel button calls the cancelUpdate function to cancel the current input -->
+                        <button class="btn btnCancel" ng-click="cancelMentorContacts()"> Cancel</button>
+                        <!-- the save button calls the saveContacts function when clicked to save the current
+                        input to the database -->
+                        <button class="btn btnSave" ng-click="saveContacts()"> Save</button>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tr>
+                <th> Category</th>
+                <th> Sponsor</th>
+                <th> Initiated Date</th>
+                <th> Completed Date</th>
+                <th> Mentee Training Date</th>
 
-					<div class="form-group col-md-2">
-						<label>Date</label>
-						<!-- this input is not editable until the user clicks edit -->
-						<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="contact.ContactDate">
-					</div>
-					<div class="form-group col-md-2">
-						<label>Type</label>
-						<!-- this input is disabled until the user clicks edit -->
-						<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="contact.MentorContactType">
-					</div>
-					<div class="form-group col-md-3">
-						<label>Mentor</label>
-						<!-- this input is disabled until the user clicks edit -->
-						<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="contact.MentorName">
-					</div>
-					<div class="form-group col-md-4">
-						<label>Note</label>
-						<textarea rows="1" style="min-width: 100%"  class="form-control"  ng-disabled="NotEditable" ng-model="contact.MentorContactNote"></textarea>
-					</div>
-					<button ng-click="deleteContact($index)" class="btn btnDelete"> Delete</button>
-
-
-				</div>
-
-				<hr>
-			</div>
-			<div class="form-row">
-				<div class="col-md-5d-noned-md-block"></div>
-				<div class="form-rowjustify-content-centercol-md-2">
-					<!-- the AddNote button is not visible until the user clicks the edit button -->
-					<div ng-if="!NotEditable">
-						<button class="btn btnCreate" ng-click="addMentorContactNote()" class="col-xs-12btn-danger"> Add Note</button>
-					</div>
-					<div class="col-md-5d-noned-md-block"></div>
-				</div>
-			</div>
-		</fieldset>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" ng-disabled="NotEditable" class="form-control"
+                           ng-model="cadetClass.PRAPCategory">
+                </td>
+                <td>
+                    <input type="text" ng-disabled="NotEditable" class="form-control"
+                           ng-model="cadetClass.PRAPSponsorID">
+                </td>
+                <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="date" ng-disabled="NotEditable" class="form-control"
+                           ng-model="cadetClass.PRAPInitDate">
+                </td>
+            <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="date" ng-disabled="NotEditable" class="form-control"
+                           ng-model="cadetClass.PRAPCompleteDate">
+            </td>
+              <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="date" ng-disabled="NotEditable" class="form-control"
+                           ng-model="cadetClass.MenteeTrainingDate">
+              </td>
+               </tr>
+        </table>
 
 
-		<fieldset class="form-group">
-			<div class="row">
-				<legend class="col-form-labelcol-xs-12">ActionPlan</legend>
-			</div>
-			<!-- the save and cancel buttons are not visible until the user clicks edit -->
-			<div ng-if="!NotEditable">
-				<button class="btn btnCancel" ng-click="cancelActionPlanAndGoals()"> Cancel</button>
-				<button class="btn btnSave" ng-click="savePlan()"> Save</button>
-			</div>
-
-			<div class="form-row">
-				<div class="col-md-1d-noned-md-block"></div>
-				<div class="form-group col-md-2">
-					<label class="">Category</label>
-					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.PRAPCategory">
-				</div>
-				<div class="form-group col-md-2">
-					<label>Sponsor</label>
-					<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.PRAPSponsorID">
-				</div>
-				<div class="form-group col-md-2">
-					<label>Initiated Date</label>
-					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.PRAPInitDate">
-				</div>
-				<div class="form-group col-md-2">
-					<label>Completed Date</label>
-					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.PRAPCompleteDate">
-				</div>
-				<div class="form-group col-md-2">
-					<label class="">Mentee Training Date</label>
-					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.MenteeTrainingDate">
-				</div>
-				<div class="col-md-1d-noned-md-block"></div>
-			</div>
-		</fieldset>
 
 
-		<fieldset class="form-group">
-			<div class="row">
-				<legend class="col-form-labelcol-xs-12">Goals</legend>
-			</div>
-			<!-- the cancel and save buttons are only visible after the user clicks the edit button-->
-			<div ng-if="!NotEditable">
-				<button class="btn btnCancel" ng-click="cancelActionPlanAndGoals()"> Cancel</button>
-				<button class="btn btnSave" ng-click="saveGoals()"> Save</button>
-			</div>
-			<div class="form-row">
-				<div class="col-md-1d-noned-md-block"></div>
-				<div class="form-group col-md-2">
-					<label>Short Term Date</label>
-					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="date"ng-disabled="NotEditable"class="form-control"ng-model="cadetClass.ShortTermGoalDate">
-				</div>
-				<div class="form-group col-md-3">
-					<label>Short Term Details</label>
-					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="text"ng-disabled="NotEditable"class="form-control"ng-model="cadetClass.ShortTermGoal">
-				</div>
-				<div class="col-md-1d-noned-md-block"></div>
-			</div>
-			<div class="form-row">
-				<div class="col-md-1d-noned-md-block"></div>
-				<div class="form-group col-md-2">
-					<label>Intermediate Term Date</label>
-					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.IntermediateGoalDate">
-				</div>
-				<div class="form-group col-md-3">
-					<label>Intermediate Term Details</label>
-					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.IntermediateGoal">
-				</div>
-				<div class="col-md-1d-noned-md-block"></div>
-			</div>
-			<div class="form-row">
-			<div class="form-row">
-				<div class="col-md-1d-noned-md-block"></div>
-				<div class="form-group col-md-2">
-					<label>Long Term Date</label>
-					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.LongTermGoalDate">
-				</div>
-				<div class="form-group col-md-3">
-					<label>Long Term Details</label>
-					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.LongTermGoal">
-				</div>
-				<div class="col-md-1d-noned-md-block"></div>
-			</div></div>
-		</fieldset>
-		<fieldset class="form-group">
-			<div class="row">
-				<legend class="col-form-labelcol-xs-12">Attachments</legend>
-			</div>
-			<div class="row">
-				<div class="col-md-12">
-					<ng-include src="'./utility/attachments/attachments.view.html'"></ng-include>
-				</div>
-			</div>
-		</fieldset>
-	</form>
+        <table id="goalsTable" class="table minerva-table">
+            <thead>
+            <tr>
+                <th colspan="5"> Goals
+                    <button class="btn btnEdit" ng-click="makeTasksEditable()" ng-hide="editTasks"> Edit</button>
+                    <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)" ng-show="editTasks"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelTasksUpdate()" ng-show="editTasks"> Cancel</button>
+
+                    <!-- the save and cancel buttons are not visible until the user clicks edit -->
+                    <div ng-if="!NotEditable">
+
+                            <button class="btn btnCancel" ng-click="cancelActionPlanAndGoals()"> Cancel</button>
+                            <button class="btn btnSave" ng-click="saveGoals()"> Save</button>
+                    </div>
+
+                    <!-- this div is only viewable after the user clicks on edit -->
+                    <div ng-if="!NotEditable">
+                        <!-- the cancel button calls the cancelUpdate function to cancel the current input -->
+                        <button class="btn btnCancel" ng-click="cancelMentorContacts()"> Cancel</button>
+                        <!-- the save button calls the saveContacts function when clicked to save the current
+                        input to the database -->
+                        <button class="btn btnSave" ng-click="saveContacts()"> Save</button>
+                    </div>
+                </th>
+            </tr>
+            </thead>
+            <tr>
+                <th style="width:100px"> Term</th>
+                <th style="width:100px"> Date</th>
+                <th> Details</th>
+
+
+            </tr>
+            <!-- the cancel and save buttons are only visible after the user clicks the edit button-->
+
+           <tr>
+               <td> Short Term</td>
+               <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="date" ng-disabled="NotEditable" class="form-control"
+                           ng-model="cadetClass.ShortTermGoalDate">
+               </td>
+                <td>                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="text" ng-disabled="NotEditable" class="form-control"
+                           ng-model="cadetClass.ShortTermGoal">
+                </td>
+           </tr>
+            <tr>
+                <td> Intermediate Term</td>
+          <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="date" ng-disabled="NotEditable" class="form-control"
+                           ng-model="cadetClass.IntermediateGoalDate">
+          </td>
+               <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="text" ng-disabled="NotEditable" class="form-control"
+                           ng-model="cadetClass.IntermediateGoal">
+               </td>
+                    </tr>
+
+            <tr>
+                <td> Long Term </td>
+                <td>  <input type="date" ng-disabled="NotEditable" class="form-control"
+                             ng-model="cadetClass.LongTermGoalDate"></td>
+                <td>    <input type="text" ng-disabled="NotEditable" class="form-control"
+                               ng-model="cadetClass.LongTermGoal"></td>
+            </tr>
+        </table>
+
+        <fieldset class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <ng-include src="'./utility/attachments/attachments.view.html'"></ng-include>
+                </div>
+            </div>
+        </fieldset>
+
+    </form>
 </div>
 <script>
-	function addNote() {
-		var table = document.getElementById("notesTable");
-		var row = table.insertRow(table.length);
-		var cell1 = row.insertCell(0);
-		var cell2 = row.insertCell(1);
-		var cell3 = row.insertCell(2);
-		var cell4 = row.insertCell(3);
-		var cell5 = row.insertCell(4);
-		cell1.innerHTML = "Created By <input type=\"text\" ng-model=\"note.NoteCreatedByName\">";
-		cell2.innerHTML = "Created Date <input type=\"date\" ng-model=\"note.NoteCreatedDate\">";
-		cell3.innerHTML = "Edited By <input type=\"text\" ng-model=\"note.NoteEditedByName\">";
-		cell4.innerHTML = "Edited Date <input type=\"date\" ng-model=\"note.NoteEditedDate\">";
-		cell5.innerHTML = "Note <textarea style=\"resize:vertical;\" ng-model=\"note.GenNote\"></textarea>";
-	}
+    function addNote() {
+        var table = document.getElementById("notesTable");
+        var row = table.insertRow(table.length);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        cell1.innerHTML = "Created By <input type=\"text\" ng-model=\"note.NoteCreatedByName\">";
+        cell2.innerHTML = "Created Date <input type=\"date\" ng-model=\"note.NoteCreatedDate\">";
+        cell3.innerHTML = "Edited By <input type=\"text\" ng-model=\"note.NoteEditedByName\">";
+        cell4.innerHTML = "Edited Date <input type=\"date\" ng-model=\"note.NoteEditedDate\">";
+        cell5.innerHTML = "Note <textarea style=\"resize:vertical;\" ng-model=\"note.GenNote\"></textarea>";
+    }
 </script>
