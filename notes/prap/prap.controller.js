@@ -1,51 +1,47 @@
 //File: prap.controller.js
 // Used with: prap.view.html
 
-angular.module('notes.prap').controller('prapController', function($scope, $http, $window){
+angular.module('notes.prap').controller('prapController', function ($scope, $http, $window) {
 
-    $scope.NotEditable=true;
+    $scope.NotEditable = true;
 
     // called when cancel in notes section is clicked
-    $scope.cancelNotes=function()
-    {
+    $scope.cancelNotes = function () {
         // input no longer editable
-        $scope.NotEditable=true;
+        $scope.NotEditable = true;
         // retrieve backed up notes
-        $scope.prapNotes=angular.copy($scope.prapNotesBackup);
+        $scope.prapNotes = angular.copy($scope.prapNotesBackup);
         // alert user
         alert("Notes cancelled");
     };
 
     // called when cancel in Mentor Contacts section is clicked
-    $scope.cancelMentorContacts=function()
-    {
+    $scope.cancelMentorContacts = function () {
         // input no longer editable
-        $scope.NotEditable=true;
+        $scope.NotEditable = true;
         //retrieve backed up mentor contact info
-        $scope.mentorContacts=angular.copy($scope.mentorContactsBackup);
+        $scope.mentorContacts = angular.copy($scope.mentorContactsBackup);
         // alert user
         alert("Mentor Contacts Cancelled");
     };
 
     // called when cancel in Action Plan and Goals section is clicked
-    $scope.cancelActionPlanAndGoals=function()
-    {
+    $scope.cancelActionPlanAndGoals = function () {
         // input no longer editable
-        $scope.NotEditable=true;
+        $scope.NotEditable = true;
         //retrieve backed up action plan info
-        $scope.cadetClass=angular.copy($scope.cadetClassBackup);
+        $scope.cadetClass = angular.copy($scope.cadetClassBackup);
         // alert user
         alert("Action Plan Cancelled");
     };
 
     // called when edit button is clicked. backs up current data and makes input uneditable
-    $scope.editSection=function()
-    {
-        $scope.NotEditable= !$scope.NotEditable;
-        $scope.prapNotesBackup=angular.copy($scope.prapNotes);
-        $scope.mentorContactsBackup=angular.copy($scope.mentorContacts);
+    $scope.editSection = function () {
+        $scope.NotEditable = !$scope.NotEditable;
+        $scope.prapNotesBackup = angular.copy($scope.prapNotes);
+        $scope.mentorContactsBackup = angular.copy($scope.mentorContacts);
         // back up info in Action Plan and Goals
-        $scope.cadetClassBackup=angular.copy($scope.cadetClass);
+        $scope.cadetClassBackup = angular.copy($scope.cadetClass);
     };
 
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
@@ -61,7 +57,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
         $scope.numSaved = 0;
 
         //Find new and updated appts
-        for(let i=0; i< $scope.prapNotes.length; i++) {
+        for (let i = 0; i < $scope.prapNotes.length; i++) {
             update = angular.copy($scope.prapNotes[i]);
             update.op = "UPDATE";
             updates.push(update);
@@ -69,8 +65,8 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
 
         //send updates to php file:
         for (let index = 0; index < updates.length; index++) {
-            var test=Object.toparams(updates[index]);
-            var req= $http({
+            var test = Object.toparams(updates[index]);
+            var req = $http({
                 method: 'POST',
                 url: './php/prap_updateNotes.php',
                 data: Object.toparams(updates[index]),
@@ -88,7 +84,8 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
                 function (result) {
                     alert("Error updating record" + JSON.stringify(result));
                 });
-        };
+        }
+        ;
 
     };
 
@@ -126,17 +123,16 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
  };
 */
 
-    $scope.addMentorContactNote = function()
-    {
-        var contactNote={
+    $scope.addMentorContactNote = function () {
+        var contactNote = {
             fkMentorPotentialID: $scope.mentorContacts.MentorPotentialID,
-            CadetID:$scope.CadetID,
-            ContactDate:"",
+            CadetID: $scope.CadetID,
+            ContactDate: "",
             //MentorName: "",
-            MentorContactType:"",
-            MentorContactNote:"",
-            ContactPlacementMonth:"",
-            op:"ADD"
+            MentorContactType: "",
+            MentorContactNote: "",
+            ContactPlacementMonth: "",
+            op: "ADD"
         };
 
 
@@ -168,7 +164,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
     $scope.saveContacts = function () {
         var update = {};
         var updates = [];
-        $scope.numSaved=0;
+        $scope.numSaved = 0;
 
         // loops for # rows in table
         for (let i = 0; i < $scope.mentorContacts.length; i++) {
@@ -179,8 +175,8 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
 
         // send updates to php file
         for (let index = 0; index < updates.length; index++) {
-            var test=Object.toparams(updates[index]);
-            var req= $http({
+            var test = Object.toparams(updates[index]);
+            var req = $http({
                 method: 'POST',
                 url: "./php/prap_updateContacts.php",
                 data: Object.toparams(updates[index]),
@@ -190,7 +186,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
                 function (result) {
                     alert("saving: " + JSON.stringify(result));
                     $scope.numSaved++;
-                    if($scope.numSaved == $scope.mentorContacts.length)
+                    if ($scope.numSaved == $scope.mentorContacts.length)
                         alert("all saved");
                 },
                 //ERROR
@@ -275,42 +271,98 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
 
     // called when save button in Goals section is clicked
 
+// ------ MENTOR CONTACTS
+    $scope.editContacts = false;
+    $scope.deleteContact = function (index)
+    {
+        $scope.mentorContacts.splice(index,1);
+    };
 
 
+    $scope.makeContactsEditable = function () {
+        $scope.editContacts = true;
+        //create backup of tasks
+        $scope.contactsBackup = angular.copy($scope.mentorContacts);
+    };
 
+    $scope.cancelContactsUpdate = function () {
+        $scope.editContacts = false;
+        $scope.mentorContacts = angular.copy($scope.contactsBackup);
+    };
+
+    $scope.saveContactsUpdate = function () {
+        $scope.editContacts = false;
+        var numSaved = 0;
+
+        var updates = angular.copy($scope.mentorContacts);
+
+        //Find deleted contacts
+        for (let i = 0; i < $scope.contactsBackup.length; i++) {
+            let id = $scope.contactsBackup[i].MentorContactID;
+
+            let found = false;
+            for (let j = 0; j < $scope.mentorContacts.length; j++) {
+                if (id == $scope.mentorContacts[j].MentorContactID)
+                    found = true;
+            }
+            //mark scores that should be deleted from the database
+            if (!found) {
+                var update = angular.copy($scope.contactsBackup[i]);
+                update.op = "DELETE";
+                updates.push(update);
+            }
+        }
+
+
+        //Send update requests to the server
+        for (var j = 0; j < updates.length; j++) {
+            var sendData = angular.copy(updates[j]);
+            delete sendData.fkCadetID;
+            delete sendData.fkClassID;
+
+            //Convert all Dates to sql format
+            for (var fieldName in sendData) {
+                //Check to see if property name contains Date
+                if (fieldName.includes("Date")) {
+                    sendData[fieldName] = convertToSqlDate(sendData[fieldName]);
+                }
+            }
+
+            //send the json object to the correct update*.php file
+            $http({
+                method: 'POST',
+                url: "./php/prap_updateContacts.php",
+                data: Object.toparams(sendData),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(
+                function (response) {
+                    //only show saved message after last task saved.
+                    numSaved++;
+                    if (numSaved === updates.length)
+                        alert("Contacts Updated");
+                }, function (result) {
+                    alert("Error saving Contacts");
+                });
+        }
+    };
+
+    //---------- ACTION PLAN AND GOALS
 
     $scope.editGoals = false;
 
-    $scope.makeGoalsEditable = function()
-    {
+    $scope.makeGoalsEditable = function () {
         $scope.editGoals = true;
         //create backup of tasks
         $scope.goalsBackup = angular.copy($scope.cadetClass);
     };
 
-    $scope.cancelGoalsUpdate = function()
-    {
+    $scope.cancelGoalsUpdate = function () {
         $scope.editGoals = false;
         $scope.cadetClass = angular.copy($scope.goalsBackup);
-
-        /*
-        $scope.cadetClass.PRAPCategory = $scope.goalsBackup.PRAPCategory;
-        $scope.cadetClass.PRAPSponsorID = $scope.goalsBackup.PRAPSponsorID;
-        $scope.cadetClass.PRAPInitDate = $scope.goalsBackup.PRAPInitDate;
-        $scope.cadetClass.PRAPCompleteDate = $scope.goalsBackup.PRAPCompleteDate;
-        $scope.cadetClass.MenteeTrainingDate =  $scope. goalsBackup.MenteeTrainingDate;
-        $scope.cadetClass.ShortTermGoalDate = $scope.goalsBackup.ShortTermGoalDate;
-        $scope.cadetClass.ShortTermGoal = $scope.goalsBackup.ShortTermGoal;
-        $scope.cadetClass.IntermediateGoalDate = $scope.goalsBackup.IntermediateGoalDate;
-        $scope.cadetClass.IntermediateGoal =  $scope.goalsBackup.IntermediateGoal;
-        $scope.cadetClass.LongTermGoalDate =  $scope.goalsBackup.LongTermGoalDate;
-        $scope.cadetClass.LongTermGoal =  $scope.goalsBackup.LongTermGoal;
-        */
     };
 
 
-    $scope.saveGoalsUpdate = function()
-    {
+    $scope.saveGoalsUpdate = function () {
         $scope.editGoals = false;
 
         var update = angular.copy($scope.cadetClass);
@@ -319,8 +371,8 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
         for (var fieldName in update) {
             //Check to see if property name contains Date
             if (fieldName.includes("Date")) {
-                   update[fieldName] = convertToSqlDate(update[fieldName]);
-                }
+                update[fieldName] = convertToSqlDate(update[fieldName]);
+            }
         }
 
         //Send action plan to server
@@ -354,12 +406,6 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
     };
 
 
-
-
-
-
-
-
     //1. Get Cadet's PRAP Notes
     var taskGetPrapNotes = $http({
         method: 'POST',
@@ -377,7 +423,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
     });
 
     //3 GEt Cadet Class Details
-    var taskGetCadetClassDetails =$http({
+    var taskGetCadetClassDetails = $http({
         method: 'POST',
         url: './php/prap_getCadetClassDetails.php',
         data: Object.toparams(cadet),
@@ -386,12 +432,12 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
 
     taskGetPrapNotes.then(
         //SUCCESS
-        function(result) {
+        function (result) {
             //   alert(JSON.stringify(result));
             $scope.prapNotes = result.data.data;
 
 
-            for (var i=0; i< $scope.prapNotes.length; i++) {
+            for (var i = 0; i < $scope.prapNotes.length; i++) {
 
                 //Convert Date to be displayed in html
 
@@ -411,8 +457,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
                 }
 
                 //Add Created By Name to each Note
-                if($scope.prapNotes[i].NoteCreatorID.length > 0)
-                {
+                if ($scope.prapNotes[i].NoteCreatorID.length > 0) {
                     var index = i;
                     var nameRequest = {PersonID: $scope.prapNotes[i].NoteCreatorID, index: index};
                     //Get NoteCreatedByName
@@ -424,20 +469,20 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
                     }).then(
                         //SUCCESS
                         function (result) {
-                            var obj =result.data.data[0];
+                            var obj = result.data.data[0];
                             var myIndex = result.data.index;
 
-                            if(obj)
-                                $scope.prapNotes[myIndex].NoteCreatedByName = obj.PersonLN+", "+obj.PersonFN;
+                            if (obj)
+                                $scope.prapNotes[myIndex].NoteCreatedByName = obj.PersonLN + ", " + obj.PersonFN;
                         }
-
-                    )};
+                    )
+                }
+                ;
 
                 //Add NoteEditedByName to each Note
-                if($scope.prapNotes[i].NoteEditorID.length > 0)
-                {
+                if ($scope.prapNotes[i].NoteEditorID.length > 0) {
                     var index = i;
-                    var nameRequest = {PersonID: $scope.prapNotes[i].NoteEditorID, index:index};
+                    var nameRequest = {PersonID: $scope.prapNotes[i].NoteEditorID, index: index};
                     //Get NoteCreatedByName
                     $http({
                         method: 'POST',
@@ -447,29 +492,30 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
                     }).then(
                         //SUCCESS
                         function (result) {
-                            var obj =result.data.data[0];
+                            var obj = result.data.data[0];
                             var myIndex = result.data.index;
 
-                            if(obj)
-                                $scope.prapNotes[myIndex].NoteEditedByName = obj.PersonLN+", "+obj.PersonFN;
+                            if (obj)
+                                $scope.prapNotes[myIndex].NoteEditedByName = obj.PersonLN + ", " + obj.PersonFN;
                         }
-                    )}
+                    )
+                }
             }
         },
         //ERROR
-        function(result){
+        function (result) {
             alert("Error reading PRAP notes");
         }
     );
 
     taskGetCadetMentorContacts.then(
         //SUCCESS
-        function(result){
+        function (result) {
             $scope.mentorContacts = result.data.data;
 
 
             //Fillin the MentorName
-            for (var i=0; i< $scope.mentorContacts.length; i++) {
+            for (var i = 0; i < $scope.mentorContacts.length; i++) {
 
                 //Convert all dates to html format
                 for (var fieldName in $scope.mentorContacts[i]) {
@@ -490,7 +536,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
 
                 if ($scope.mentorContacts[i].fkMentorID.length > 0) {
                     var index = i;
-                    var nameRequest = {MentorID: $scope.mentorContacts[i].fkMentorID, index:index};
+                    var nameRequest = {MentorID: $scope.mentorContacts[i].fkMentorID, index: index};
                     //Get NoteCreatedByName
                     $http({
                         method: 'POST',
@@ -511,7 +557,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
             }
         },
         //ERROR
-        function(result){
+        function (result) {
             alert("Error reading CadetMentorContacts");
 
         }
@@ -520,7 +566,7 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
 
     taskGetCadetClassDetails.then(
         //SUCESS
-        function(result){
+        function (result) {
             $scope.cadetClass = result.data.data[0];
             //alert(JSON.stringify($scope.cadetClass));
 
@@ -542,19 +588,17 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
 
         },
         //ERROR
-        function(result){
+        function (result) {
             alert("Error reading Cadet Class Details." + JSON.stringify(result));
         }
     )
 
 
-
-
-    angular.module('notes.prap').filter('seedate', function($filter)
-    {
-        return function(input)
-        {
-            if(input == null){ return ""; }
+    angular.module('notes.prap').filter('seedate', function ($filter) {
+        return function (input) {
+            if (input == null) {
+                return "";
+            }
             alert(input);
             var _date = $filter('date')(new Date(input), 'MMM dd yyyy');
 
@@ -597,26 +641,25 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
     /******************************************************************************************/
 
 
-    $scope.addNote = function()
-    {
+    $scope.addNote = function () {
         alert("in add note");
         //TODO store NoteEditorID and NoteCreatedByID as userID
         //TODO  store userID in when logging in
         //TODO NoteCreatedDate and NoteEditedDate should be todays date
 
-        var note={
-            GenNoteID:"",
-            fkClassDetailID:$scope.cadetClass.ClassDetailID,
-            CadetID:$scope.cadetID,
-            GenNoteTopic:"PRAP",
-            GenNote:"",
-            NoteCycle:"",
-            NoteCreatorID:"",
-            NoteCreatedDate:"",
-            NoteEditorID:"",
-            NoteEditedDate:"",
-            TrackerCode:"",
-            op:"ADD"
+        var note = {
+            GenNoteID: "",
+            fkClassDetailID: $scope.cadetClass.ClassDetailID,
+            CadetID: $scope.cadetID,
+            GenNoteTopic: "PRAP",
+            GenNote: "",
+            NoteCycle: "",
+            NoteCreatorID: "",
+            NoteCreatedDate: "",
+            NoteEditorID: "",
+            NoteEditedDate: "",
+            TrackerCode: "",
+            op: "ADD"
         };
 
         $http({
@@ -685,30 +728,8 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
                 alert("Error updating record" + JSON.stringify(result));
             });
     }; */
-    $scope.deleteContact=function(index)
-    {
-        var sendData = $scope.mentorContacts[index];
-        location.reload();
-        alert(JSON.stringify(sendData));
-        sendData.op = "DELETE";
 
-        $http({
-            method: 'POST',
-            url: "./php/prap_updateContacts.php",
-            data: Object.toparams(sendData),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(
-            function (response) {
-                alert("updated: prap_updateContacts.php" + JSON.stringify(response));
-                alert("Data deleted");
-            }, function (result) {
-                alert("Failed");
-            });
-
-    };
-
-    $scope.deleteNote=function(index)
-    {
+    $scope.deleteNote = function (index) {
         var sendData = $scope.prapNotes[index];
 
         //Creates a list without the removed notes then re renders it.

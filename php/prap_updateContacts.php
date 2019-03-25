@@ -76,7 +76,7 @@ else if ($op =='DELETE')
     $sql = " DELETE FROM tblMentorContacts
       WHERE  MentorContactID=$mentorContactID";
 
-    $result = $conn->runDeleteQuery($sql);
+    $result = $connection->runDeleteQuery($sql);
 }
 
 ?>
