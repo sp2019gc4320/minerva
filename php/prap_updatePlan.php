@@ -1,8 +1,6 @@
 <?php
-// File: updateDuty.php
-// Updates Duty entries
-// Prints JSON array
-// Needs CadetID
+// File: prap_updatePlan.php
+// Needs ClassDetailID
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST))
     $_POST = json_decode(file_get_contents('php://input'), true);
@@ -13,7 +11,11 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
-$fkCadetID = "12";
+$classDetailID = "12";
+
+if(isset($_POST['ClassDetailID'])){
+    $classDetailID = filter_input(INPUT_POST, "ClassDetailID");
+}
 
 if(isset($_POST['PRAPCategory'])){
     $PRAPCategory = filter_input(INPUT_POST, "PRAPCategory");
@@ -22,7 +24,7 @@ if(isset($_POST['PRAPSponsorID'])){
     $PRAPSponsorID = filter_input(INPUT_POST, "PRAPSponsorID");
 }
 if(isset($_POST['PRAPInitDate'])){
-    $PRAPInitDate = filter_input(INPUT_POST, "PRAPSponsorID");
+    $PRAPInitDate = filter_input(INPUT_POST, "PRAPInitDate");
 }
 if(isset($_POST['PRAPCompleteDate'])){
     $PRAPCompleteDate = filter_input(INPUT_POST, "PRAPCompleteDate");
@@ -30,7 +32,7 @@ if(isset($_POST['PRAPCompleteDate'])){
 if(isset($_POST['MenteeTrainingDate'])){
     $MenteeTrainingDate = filter_input(INPUT_POST, "MenteeTrainingDate");
 }
-//$fkCadetID= $_POST['fkCadetID'];
+
 
 $sql = "UPDATE tblClassDetails
   SET
@@ -40,13 +42,9 @@ $sql = "UPDATE tblClassDetails
   PRAPCompleteDate= '$PRAPCompleteDate',
   MenteeTrainingDate='$MenteeTrainingDate'
   WHERE
-  fkCadetID = '$fkCadetID'";
+  ClassDetailID = '$classDetailID'";
 
 $result = $conn->runQuery($sql);
-if ($result === TRUE) {
-    echo "Record updated successfully";
-} else {
-    echo "Error updating record: $sql";
-}
+
 //$connection->close();
 ?>

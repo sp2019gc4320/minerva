@@ -274,10 +274,70 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
     };*/
 
     // called when save button in Goals section is clicked
-    $scope.saveGoals = function () {
+
+
+
+
+
+    $scope.editGoals = false;
+
+    $scope.makeGoalsEditable = function()
+    {
+        $scope.editGoals = true;
+        //create backup of tasks
+        $scope.goalsBackup = angular.copy($scope.cadetClass);
+    };
+
+    $scope.cancelGoalsUpdate = function()
+    {
+        $scope.editGoals = false;
+        $scope.cadetClass = angular.copy($scope.goalsBackup);
+
+        /*
+        $scope.cadetClass.PRAPCategory = $scope.goalsBackup.PRAPCategory;
+        $scope.cadetClass.PRAPSponsorID = $scope.goalsBackup.PRAPSponsorID;
+        $scope.cadetClass.PRAPInitDate = $scope.goalsBackup.PRAPInitDate;
+        $scope.cadetClass.PRAPCompleteDate = $scope.goalsBackup.PRAPCompleteDate;
+        $scope.cadetClass.MenteeTrainingDate =  $scope. goalsBackup.MenteeTrainingDate;
+        $scope.cadetClass.ShortTermGoalDate = $scope.goalsBackup.ShortTermGoalDate;
+        $scope.cadetClass.ShortTermGoal = $scope.goalsBackup.ShortTermGoal;
+        $scope.cadetClass.IntermediateGoalDate = $scope.goalsBackup.IntermediateGoalDate;
+        $scope.cadetClass.IntermediateGoal =  $scope.goalsBackup.IntermediateGoal;
+        $scope.cadetClass.LongTermGoalDate =  $scope.goalsBackup.LongTermGoalDate;
+        $scope.cadetClass.LongTermGoal =  $scope.goalsBackup.LongTermGoal;
+        */
+    };
+
+
+    $scope.saveGoalsUpdate = function()
+    {
+        $scope.editGoals = false;
+
         var update = angular.copy($scope.cadetClass);
-        alert(JSON.stringify(update));
-        //update using prap_updateGoals.php
+
+        //Convert all Dates to sql format
+        for (var fieldName in update) {
+            //Check to see if property name contains Date
+            if (fieldName.includes("Date")) {
+                   update[fieldName] = convertToSqlDate(update[fieldName]);
+                }
+        }
+
+        //Send action plan to server
+        $http({
+            method: 'POST',
+            url: "./php/prap_updatePlan.php",
+            data: Object.toparams(update),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(
+            function (response) {
+                alert("Goals Updated.");
+
+            }, function (result) {
+                alert("Error Updating Goals");
+            });
+
+        //Send goals to server
         $http({
             method: 'POST',
             url: "./php/prap_updateGoals.php",
@@ -285,14 +345,20 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(
             function (response) {
+                alert("Goals Updated.");
 
-                alert("updated: [prap_updateGoals.php" + JSON.stringify(response));
-                //alert("data updated");
             }, function (result) {
-                alert("Failed");
+                alert("Error Updating Goals");
             });
-        alert("goals updated");
+
     };
+
+
+
+
+
+
+
 
     //1. Get Cadet's PRAP Notes
     var taskGetPrapNotes = $http({

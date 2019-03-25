@@ -1,6 +1,6 @@
 <?php
 // File: prap_getCadetClassDetails.php
-// Receives a [CadetID] and returns all ClassDetails for Cadet
+// Receives a [CadetID] and returns on necessary values of ClassDetails for Cadet
 // Used by: prap_controller.js
 
 require_once 'dbcontroller.php';
@@ -15,10 +15,15 @@ $CadetID="12";
 //Replaced with POST parameter
 if(isset($_POST['CadetID'])) {
     $CadetID = filter_input(INPUT_POST, "CadetID");
+
 }
 
 
-$sql = "SELECT * FROM tblClassDetails WHERE
+$sql = "SELECT 
+PRAPCategory, PRAPSponsorID, PRAPInitDate, PRAPCompleteDate, MenteeTrainingDate,  ShortTermGoalDate,
+ShortTermGoal, IntermediateGoalDate, IntermediateGoal, LongTermGoal, LongTermGoalDate,
+ClassDetailID, fkCadetID, fkClassID
+FROM tblClassDetails WHERE
         fkCadetID = '$CadetID'";
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
 

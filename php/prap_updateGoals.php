@@ -1,8 +1,7 @@
 <?php
-// File: updateDuty.php
-// Updates Duty entries
+// File: prap_updateGoals.php
 // Prints JSON array
-// Needs CadetID
+// Needs ClassDetailID
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST))
     $_POST = json_decode(file_get_contents('php://input'), true);
@@ -11,32 +10,34 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && empty($_POST))
 require_once 'dbcontroller.php';
 
 
-$CadetID = "12";
+$classDetailID = "12";
 //create connection
 $conn = new DBController();
 
-if(isset($_POST['ShortTermGoalDate'])){
+if (isset($_POST['ShortTermGoalDate'])) {
     $ShortTermGoalDate = filter_input(INPUT_POST, "ShortTermGoalDate");
 }
-if(isset($_POST['ShortTermGoal'])){
+if (isset($_POST['ShortTermGoal'])) {
     $ShortTermGoal = filter_input(INPUT_POST, "ShortTermGoal");
-}if(isset($_POST['IntermediateGoalDate'])){
+}
+if (isset($_POST['IntermediateGoalDate'])) {
     $IntermediateGoalDate = filter_input(INPUT_POST, "IntermediateGoalDate");
 }
-if(isset($_POST['IntermediateGoal'])){
+if (isset($_POST['IntermediateGoal'])) {
     $IntermediateGoal = filter_input(INPUT_POST, "IntermediateGoal");
-}if(isset($_POST['LongTermGoalDate'])){
+}
+if (isset($_POST['LongTermGoalDate'])) {
     $LongTermGoalDate = filter_input(INPUT_POST, "LongTermGoalDate");
 }
-if(isset($_POST['LongTermGoal'])){
+if (isset($_POST['LongTermGoal'])) {
     $LongTermGoal = filter_input(INPUT_POST, "LongTermGoal");
+}
+if (isset($_POST['ClassDetailID'])) {
+    $classDetailID = filter_input(INPUT_POST, "ClassDetailID");
 }
 
 
-//if(isset($_POST['CadetID'])) {
-  //  $CadetID = filter_input(INPUT_POST, "CadetID");
-
-    $sql = "UPDATE tblClassDetails
+$sql = "UPDATE tblClassDetails
   SET
   ShortTermGoalDate = '$ShortTermGoalDate',
   ShortTermGoal = '$ShortTermGoal',
@@ -45,14 +46,8 @@ if(isset($_POST['LongTermGoal'])){
   LongTermGoalDate='$LongTermGoalDate',
   LongTermGoal = '$LongTermGoal'
 WHERE
-  fkCadetID = '$CadetID'";
+  ClassDetailID = '$classDetailID'";
 
-    $result = $conn->runQuery($sql);
-    if ($result === TRUE) {
-        echo "Record updated successfully";
-    } else {
-        echo "Error updating record: $sql";
-    }
-//}
-//$connection->close();
+$result = $conn->runQuery($sql);
+
 ?>
