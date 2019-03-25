@@ -1,0 +1,120 @@
+<!--job-skills.view.html-->
+<!--view page for JobSkills tab-->
+<!-- Programmer: Kevin Krider -->
+<!-- This code shares a scope with jobSkillsController.js -->
+<!--fields that can be updated are autoloaded with current values from the database-->
+<!-- The page takes no input other than a cadetID in local session storage. It can update the associated database.-->
+
+    <div class="well container infoContainer" id="jscontainer">
+	<h3>Job Skills</h3>
+	<!--load app.controller from JobSkillsCtrl.js-->
+	
+	<div ng-controller="jobSkillsController">
+	<!--name form for two way binding-->
+	<form name ="JobSkillsForm">
+	<table id="JobSkillsEvents" class = "table minerva-table">
+		<thead>
+			<tr>
+				<th colspan="5">TASKS </th>
+			</tr>
+		</thead>
+		<tr>
+			<th>Task</th>
+			<th>Description</th>
+			<th>Last Activity</th>
+			<th>Pass/Fail</th>
+			<th>Note</th>
+		</tr> 
+		<!--iterate through each instance in scope from controller-->
+		<tr ng-repeat="task in tasks"> 
+		<!-- task number and task name will not be able to be changed by the user -->
+			<td>{{task.TaskNumber}}</td>
+			<td>{{task.Task}}</td>
+			
+			<td>
+			    <!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
+			    <span ng-if="task.TaskNumber!='2(a)'"><input name="EventDate" type="text" ng-model="task.EventDate"></span>
+			    <span ng-if="task.TaskNumber=='2(a)'"><input name="EventDate" type="text" ng-model="task.EventDate" ng-readonly="true"></span>
+			</td>
+			<td>
+			    <!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
+			    <span ng-if="task.TaskNumber!='2(a)'"><input name="DidPass" type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="task.DidPass"></span>
+			   	<span ng-if="task.TaskNumber=='2(a)'"><input name="DidPass" type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="task.DidPass" ng-readonly="true"></span>
+			</td>
+			<td>
+			    <!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
+			    <span ng-if="task.TaskNumber!='2(a)'"><input name="EventNote" type="text" ng-model="task.EventNote" data-ng-bind="note"></span>
+			   	<span ng-if="task.TaskNumber=='2(a)'">{{task.EventNote}}</span>
+			</td>
+			
+		</tr>
+	</table>
+	<!-- Second table containing the subtests 2(a) -->
+	<table id="JobSkillsTests" class="table minerva-table">
+		<thead>
+			<tr>
+				<th colspan="5">2(A) TESTS </th>
+			</tr>
+		</thead>
+		<tr>
+			<th>Test Name</th>
+			<th>Date</th>
+			<th>Score</th>
+			<th>Pass/Fail</th>
+			<th>Note</th>
+		</tr> 
+		<!--iterate through each instance in scope from controller??-->
+		<tr ng-repeat="test in tests"> 
+			<td>{{test.TaskTest}}</td>
+			<td><input name="EventDate" type="text" ng-model="test.EventDate"></td>
+			<td><input name="Score" type="text" ng-model="test.Score"></td>
+			<td><input name="DidPass" type="checkbox" ng-true-value="1" ng-false-value="0" ng-model="test.DidPass"></td>
+			<td><input name="EventNote" type="text" ng-model="test.EventNote" data-ng-bind="note"></td>
+			
+		</tr>
+	</table>
+	<br>
+	<!-- The thirds table, containing asvab scores -->
+	</form>
+	<form>
+	    <table class = "table minerva-table">
+			<thead>
+				<tr>
+					<th colspan="5">ASVAB SCORES </th>
+				</tr>
+			</thead>
+	        <tr> 
+			<td><input name="ASVABDate" type="text" ng-model="asvab.ASVABDate"></td>
+			<td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"></td>
+			<td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore"></td>
+			<td><input name="ASVABTestNotes" type="text" ng-model="asvab.ASVABTestNotes" data-ng-bind="note"></td>
+			<td><button class="btn btnCreate" ng-click="createASVAB()"> Add New Record</button></td>
+		</tr>
+	    </table>
+	</form>
+	<table id="ASVABTests">
+		
+		<tr>
+
+			<th>Date</th>
+			<th>Technical Score</th>
+			<th>AFQT Score</th>
+			<th>Note</th>
+		</tr> 
+		<!--iterate through each instance in scope from controller??-->
+		<tr ng-repeat="asvab in asvabs"> 
+			<td><input name="ASVABDate" type="text" ng-model="asvab.ASVABDate"></td>
+			<td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"></td>
+			<td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore"></td>
+			<td><input name="ASVABTestNotes" type="text" ng-model="asvab.ASVABTestNotes" data-ng-bind="note"></td>
+		</tr>
+		
+		
+	</table>
+	<button class="btn btnSave" ng-click="update(tasks,tests,asvabs)"> Save</button>
+	<button class="btn btnCancel" ng-click="cancelUpdate()"> Cancel</button>
+	
+	
+	</div>
+
+</div>

@@ -1,6 +1,6 @@
 <!--job-skills.view.html-->
 <!--view page for JobSkills tab-->
-<!-- Programmer: Kevin Krider -->
+<!-- Programmer: Kevin Krider 2018, Zachary Ross Graham Schunk and Jacob Sherrod 2019 -->
 <!-- This code shares a scope with jobSkillsController.js -->
 <!--fields that can be updated are autoloaded with current values from the database-->
 <!-- The page takes no input other than a cadetID in local session storage. It can update the associated database.-->
@@ -16,20 +16,19 @@
     <h4>Tasks
         <button
                 ng-show="!isUpdatingTasks"
-                class="btn btnEdit"
-                ng-click="startEdits()"> Edit</button>
+                class="btn btn-secondary btn-sm"
+                ng-click="startEdits()">Edit</button>
         <button
                 ng-show="isUpdatingTasks"
-                class="btn btnCancel"
-                ng-click="cancelEdits()"> Cancel</button>
+                class="btn btn-secondary btn-sm"
+                ng-click="cancelEdits()">Cancel</button>
         <button
                 ng-show="isUpdatingTasks"
-                class="btn btnSave"
-                ng-click="saveEdits()"> Save</button>
+                class="btn btn-primary btn-sm"
+                ng-click="saveEdits()">Save</button>
     </h4>
-    <div id="datepicker" class="input-group date" data-date-format="yyyy/mm/dd">
         <!--name form for two way binding-->
-        <form>
+        <form id="JobSkills">
             <table class="table" id="JobSkillsEvents">
                 <tr>
                     <th>No.</th>
@@ -48,7 +47,7 @@
                         otherwise funky wierd stuff happens. So we separate the
                         two tasks into different table displays. -->
                     <td ng-if-start="task.TaskNumber!='2(a)' && isUpdatingTasks">
-                        <input type="date" value= "task.EventDate" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                        <input type="date" ng-model="task.EventDate">
                     </td>
                     <td align="center">
                         <input
@@ -59,15 +58,15 @@
                                 ng-model="task.DidPass">
                     </td>
                     <td ng-if-end>
-                        <textarea>{{task.EventNote}}</textarea>
+                        <textarea name="EventNote" id="EventNote" class="text" ng-model="task.EventNote"></textarea>
                     </td>
 
                     <td ng-if-start="task.TaskNumber=='2(a)' || !isUpdatingTasks">
                         {{task.EventDate}}
                     </td>
                     <td >
-                        <span ng-if="task.DidPass">Yes</span>
-                        <span ng-if="!task.DidPass">No</span>
+                        <span ng-if="task.DidPass=='1'">Yes</span>
+                        <span ng-if="task.DidPass=='0'">No</span>
                     </td>
                     <td ng-if-end>
                         {{task.EventNote}}
@@ -90,7 +89,7 @@
                 <tr ng-repeat="test in tests">
                     <td>{{test.TaskTest}}</td>
                     <td ng-if-start="isUpdatingTasks">
-                        <input type="date" value="test.EventDate"required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}">
+                        <input type="date" ng-model="test.EventDate">
                     </td>
                     <td>
                         <input
@@ -108,7 +107,7 @@
                                 ng-model="test.DidPass">
                     </td>
                     <td ng-if-end>
-                        <textarea>{{test.EventNote}}</textarea>
+                        <textarea ng-model="test.EventNote"></textarea>
                     </td>
 
                     <td ng-if-start="!isUpdatingTasks">
@@ -128,13 +127,12 @@
                 </tr>
             </table>
             <br>
-            <!-- The thirds table, containing asvab scores -->
-            <!-- The thirds table, containing asvab scores -->
+            <!-- The third table, containing asvab scores -->
             <h4>ASVAB Scores</h4>
 
+            <button class="btn btn-secondary btn-sm" onclick="toggleEdit()"> edit </button>
 
-            <button class="btn btnEdit" onclick="toggleEdit()"> Edit</button>
-
+            <!-- displays by default -->
             <div id="ASVABTests_View" >
                 <table id="ASVABTest_viewtable">
                     <tr>
@@ -146,14 +144,15 @@
                     </tr>
                     <!--iterate through each instance in scope from controller??-->
                     <tr ng-repeat="asvab in asvabs">
-                        <td>{{asvab.ASVABDate}}</td><!--input name="ASVABDate" type="text" ng-model="asvab.ASVABDate"></td>-->
-                        <td class="text-center">{{asvab.ASVABTechScore}}</td><!--<input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"></td>-->
-                        <td class="text-center">{{asvab.AFQTScore}}</td><!--<input name="AFQTScore" type="text" ng-model="asvab.AFQTScore"></td>-->
-                        <td class="text-center">{{asvab.ASVABTestNotes}}</td><!--<input name="ASVABTestNotes" type="text" ng-model="asvab.ASVABTestNotes" data-ng-bind="note"></td>-->
+                        <td>{{asvab.ASVABDate}}</td>
+                        <td class="text-center">{{asvab.ASVABTechScore}}</td>
+                        <td class="text-center">{{asvab.AFQTScore}}</td>
+                        <td class="text-center">{{asvab.ASVABTestNotes}}</td>
                     </tr>
                 </table>
             </div>
         
+            <!-- displays only when edit button is clicked -->
             <div id="ASVABTests_Edit" style="display: none">
 
 
@@ -166,11 +165,12 @@
                             <td></td>
                         </tr>
                         <tr>
+                            <!-- This is for a new ASVAB entry. Notice the n in front of nasvab -->
                             <td><label class="control-label" for="date">Date</label>
-                            <input class="datepicker" ng-model="asvab.ASVABDate"></td>
+                            <input type="date" ng-model="nasvab.ASVABDate"></td>
                             <td><input name="ASVABTechScore" type="text" ng-model="nasvab.ASVABTechScore"></td>
                             <td><input name="AFQTScore" type="text" ng-model="nasvab.AFQTScore"></td>
-                            <td><textarea>{{asvab.ASVABTestNotes}}</textarea></td>
+                            <td><textarea ng-model="nasvab.ASVABTestNotes"></textarea></td>
                             <td><button ng-click="createASVAB()">Add New Record</button></td>
                         </tr>
                         <tr>
@@ -182,30 +182,31 @@
                             <td></td>
                         </tr>
                         <!--iterate through each instance in scope from controller??-->
+                        <!-- This is an edit area for ASVAB records. It currently has a critical problem -->
                         <tr ng-repeat="asvab in asvabs">
                             <td><label class="control-label" for="date">Date</label>
-                            <input type="date"  value="asvab.ASVABDate" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}"></td>
+                            <!-- TODO - NEED TO FIX THIS SUCH THAT DEFAULT DATE IS SET
+                            THIS CURRENTLY OVERWRITES DATES WHEN UPDATE BUTTON IS CLICKED.
+                            THE BEST CURRENT OPTION IS PROBABLY A TEXT FIELD ENTRY INSTEAD -->
+                            <!--<input type="date" id="ASVABDate{{$id}}" ng-model="asvab.ASVABDate" value="asvab.ASVABDate">-->
+                            <input type="text" id="ASVABDate{{$id}}" ng-model="asvab.ASVABDate" value="asvab.ASVABDate">
+                            </td>
                             <td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"></td>
                             <td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore"></td>
-                            <td><textarea>{{asvab.ASVABTestNotes}}</textarea></td>
+                            <td><textarea ng-model="asvab.ASVABTestNotes"></textarea></td>
                             <td></td>
                         </tr>
 
                     </table>
-                    <button class="btn btnSave" ng-click="update(tasks,tests,asvabs)"> Save</button>
-                    <button class="btn btnCancel" ng-click="cancelUpdate()"> Cancel</button>
+                    <button class="btn btn-secondary btn-sm" ng-click="update(tasks,tests,asvabs)">Update</button>
+                    <button class="btn btn-secondary btn-sm" ng-click="cancelUpdate()">Cancel Update</button>
 
                 </form>
             </div>
 
 
             <br><br>
-    <script type="text/javascript">
-        $('.datepicker').datepicker({
-            format: 'yyyy/mm/dd',
-            startDate: '-3d'
-        });
-</script>
+            <!-- Script to toggle edit and view modes -->
             <script type="text/javascript" >
                 function toggleEdit(){
 
@@ -239,7 +240,6 @@
 
 
 
-    </div>
 
 </div>
 

@@ -85,5 +85,3 @@ function convertToHtmlDate(sqlDate) {
     return htmlDate;
 }
 
-
-

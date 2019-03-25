@@ -9,10 +9,7 @@ require_once 'dbcontroller.php';
 //Create connection
 $connection = new DBController();
 
-
-//default to updating
 $op ='UPDATE';
-
 $genNoteID = 2;
 
 
@@ -41,14 +38,17 @@ if($op == 'UPDATE')
         foreach ($fieldInfo as $val) {
             $fieldName = $val->name;
 
+
             // check to see if there is a post value
             if(isset($_POST[$fieldName])){
                 $fieldValue = filter_input(INPUT_POST, $fieldName);
                 $sql = "UPDATE tblGenNotes set $fieldName = '$fieldValue' WHERE  GenNoteID=$genNoteID";
                 $connection->runQuery($sql);
             }
+
         }
     }
+
 
     echo '{ "status": "finsihed updating "}';
 }
@@ -64,6 +64,7 @@ else if ($op=='ADD')
 
     $sql = "INSERT INTO tblGenNotes ( fkClassDetailID, GenNoteTopic, NoteCreatorID, NoteEditorID, NoteCreatedDate, NoteEditedDate, GenNote)
              VALUES ('$fkClassDetailID',  '$genNoteTopic',  '$noteCreatorID',  '$noteEditorID', '$noteCreatedDate', '$noteEditedDate', '$genNote')";
+
 
     $connection->createRecord($sql);
 

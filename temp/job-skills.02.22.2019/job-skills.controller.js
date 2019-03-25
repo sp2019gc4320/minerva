@@ -11,38 +11,74 @@
 angular.module('core-components.job-skills').controller('jobSkillsController', function($scope, $http, $window) {
 
 
-//Hardcoded in for now. Once a cadetID is stored in localStorage, switch the two statments below.
-    $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
-    $scope.fkClassDetailID = JSON.parse($window.localStorage.getItem("CadetID"));
-
+//The following 2 variables contain the same data but are used interchangably throughout the document
+//TODO - Find out what the difference between the two are if any/ consolidate the two variables
+    $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"))
+    $scope.fkClassDetailID = JSON.parse($window.localStorage.getItem("CadetID"))
 //this is for the input field for a new entry
+//new asvab = nasvab
     $scope.nasvab = {
-        ASVABDate: '0000-00-00',
-        ASVABTechScore: 0,
-        AFQTScore: 0,
-        ASVABTestNotes: '',
-        fkClassDetailID: 0
-    };
+        ASVABDate: '0000-00-00', //Date String
+        ASVABTechScore: 0,      //Technical Score int
+        AFQTScore: 0,           //AFQT score int
+        ASVABTestNotes: '',     //notes
+        fkClassDetailID: 0      //Foriegn Key
+    }
 
     $scope.isUpdatingTasks = false;
     alert("Test  with Cadet 7 - William Bowles to see sample data");
-    //$scope.cadetID = "7"; //with data
-    //alert("setting cadetID  for testing: " +$scope.cadetID);
-
 
 
 //create new record for asvab
 $scope.createASVAB = function() 
     {
-        var sendData=angular.copy($scope.nasvab);
+        var sendData;// SQL results to be sent
+        var date = $scope.nasvab.ASVABDate;
+        //the following is modified from health controller.js
+        if(date!==null) {//IF A DATE IS ENTERED 
+                    date += "";//make the whole thing a string
 
-        sendData.fkClassDetailID = $scope.cadetID;
+                    var dateArray = date.split(" ");//split by space to get rid of time
+                    var month;                      // integer to hold month value
+                    if (dateArray[1] === 'Jan')
+                        month = "01";
+                    else if (dateArray[1] === 'Feb')
+                        month = "02";
+                    else if (dateArray[1] === 'Mar')
+                        month = "03";
+                    else if (dateArray[1] === 'Apr')
+                        month = "04";
+                    else if (dateArray[1] === 'May')
+                        month = "05";
+                    else if (dateArray[1] === 'Jun')
+                        month = "06";
+                    else if (dateArray[1] === 'Jul')
+                        month = "07";
+                    else if (dateArray[1] === 'Aug')
+                        month = "08";
+                    else if (dateArray[1] === 'Sep')
+                        month = "09";
+                    else if (dateArray[1] === 'Oct')
+                        month = "10";
+                    else if (dateArray[1] === 'Nov')
+                        month = "11";
+                    else if (dateArray[1] === 'Dec')
+                        month = "12";
 
+                    var dateString = dateArray[3] + '-' + month + '-' + dateArray[2];//will be used as Date Value 
+        alert(dateString);
+        sendData=angular.copy($scope.nasvab);
+        sendData.ASVABDate = dateString;
 
+        }
+        else{
+            sendData=angular.copy($scope.nasvab);
+        sendData.ASVABDate = getCurrentDate(); //If input is empty will fetch today's date
+        }
+
+        sendData.fkClassDetailID = $scope.cadetID; // foreign key to cadet ID
 
         JSON.stringify(sendData);
-
-
         //create data entry using createDuty.php
         $http ({
             method: 'POST',
@@ -53,26 +89,20 @@ $scope.createASVAB = function()
             function(response)
             {
                 if(response.data)
-                    //give new entry unique id
-                    //sendData.ASVABID=response.data.id;
-                    //display new entry
-                    $scope.asvabs.push(sendData);
-                    //alert(JSON.stringify(sendData));
-                    alert("data updated");
+                    $scope.asvabs.push(sendData); // sends data to createASVAB.php's sql
+                    alert("data added");
             },function(result){
-                    //alert(result);
 
 
         });
     };
 
 
-
+        //Presumably these change the edit view in job-skills.view.html
         $scope.startEdits = function() {
             $scope.isUpdatingTasks = true;
             $scope.tasksBeforeEdit = angular.copy($scope.tasks);
             $scope.testsBeforeEdit = angular.copy($scope.tests);
-           // $scope.asvabsBeforeEdit = angular.copy($scope.asvabs);
         };
 
         $scope.saveEdits = function() {
@@ -84,7 +114,6 @@ $scope.createASVAB = function()
             $scope.isUpdatingTasks = false;
             $scope.tasks = $scope.tasksBeforeEdit;
             $scope.tests = $scope.testsBeforeEdit;
-            //$scope.asvabs = angular.copy($scope.asvabsBeforeEdit);
         };
 
 
@@ -98,7 +127,9 @@ $scope.createASVAB = function()
 
                 delete sendData.Task;
                 delete sendData.TaskNumber;
-
+                sendData.EventDate= JSON.stringify(sendData.EventDate);
+                sendData.EventDate=sendData.EventDate.split("T")[0]; //splits date another way
+                sendData.EventDate=sendData.EventDate.split("\"")[1];
                 //turn data into a json array
                 JSON.stringify(sendData);
                 //send the json array to the correct update*.php file
@@ -124,8 +155,10 @@ $scope.createASVAB = function()
             for (var j=0; j<$scope.tests.length; j++)
             {
                 var sendData2=angular.copy($scope.tests[j]);
-
-
+                // Remove extra bits to send back to database in correct format.
+                sendData2.EventDate= JSON.stringify(sendData2.EventDate);
+                sendData2.EventDate=sendData2.EventDate.split("T")[0];
+                sendData2.EventDate=sendData2.EventDate.split("\"")[1];
                 JSON.stringify(sendData2);
                 //send the json array to the correct update*.php file
 
@@ -147,14 +180,15 @@ $scope.createASVAB = function()
                     });
             }
 
-            //////////////////MUY IMPORTANTE
             //third table
             //copying rows of table3
             for (var j=0; j<$scope.asvabs.length; j++)
             {
                 var sendData3=angular.copy($scope.asvabs[j]);
 
-
+                sendData3.ASVABDate= JSON.stringify(sendData3.ASVABDate);
+                sendData3.ASVABDate=sendData3.ASVABDate.split("T")[0];
+                sendData3.ASVABDate=sendData3.ASVABDate.split("\"")[1];
                 JSON.stringify(sendData3);
                 //send the json array to the correct update*.php file
 
@@ -180,7 +214,7 @@ $scope.createASVAB = function()
         //request data for jsView.html when it is opened
         var myRequest= {cadet: $scope.cadetID};
 
-        //request the data
+        //request the daata
         $http ({
             method: 'POST',
             url: "./php/job-skills_retrieveJobSkills.php",
@@ -205,14 +239,37 @@ $scope.createASVAB = function()
                 }
                 for(var i=0; i<$scope.asvabs.length; i++)
                 {
-                    $scope.asvabs[i].ASVABDate=$scope.asvabs[i].ASVABDate.split(" ")[0];
+                    $scope.asvabs[i].ASVABDate=$scope.asvabs[i].ASVABDate.slice(0,10);
                 }
             },function(result){
                 alert(result);
             });
 
-
         $scope.cancelUpdate = function() {
             location.reload(true);
         };
+
+
+        /** used to get the date for new asvab results when no date is entered
+
+        
+         */
+         var getCurrentDate=function () {
+         var today = new Date();
+         var dd = today.getDate();
+         var mm = today.getMonth() + 1; //January is 0!
+         var yyyy = today.getFullYear();
+
+         if (dd < 10) {
+             dd = '0' + dd;
+         }
+
+         if (mm < 10) {
+             mm = '0' + mm;
+         }
+
+         today = yyyy + '-' + mm + '-' + dd;
+         return today;
+     }
+
     });
