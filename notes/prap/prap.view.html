@@ -143,7 +143,7 @@ Usesprap.controller.js
         <table id="actionPlanTable" class="table minerva-table">
             <thead>
             <tr>
-                <th colspan="5"> Action Plan
+                <th colspan="5"> Action Plan and Goals
                     <button class="btn btnEdit" ng-click="makeTasksEditable()" ng-hide="editTasks"> Edit</button>
                     <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)" ng-show="editTasks"> Save</button>
                     <button class="btn btnCancel" ng-click="cancelTasksUpdate()" ng-show="editTasks"> Cancel</button>
@@ -204,37 +204,10 @@ Usesprap.controller.js
 
 
         <table id="goalsTable" class="table minerva-table">
-            <thead>
-            <tr>
-                <th colspan="5"> Goals
-                    <button class="btn btnEdit" ng-click="makeTasksEditable()" ng-hide="editTasks"> Edit</button>
-                    <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)" ng-show="editTasks"> Save</button>
-                    <button class="btn btnCancel" ng-click="cancelTasksUpdate()" ng-show="editTasks"> Cancel</button>
-
-                    <!-- the save and cancel buttons are not visible until the user clicks edit -->
-                    <div ng-if="!NotEditable">
-
-                            <button class="btn btnCancel" ng-click="cancelActionPlanAndGoals()"> Cancel</button>
-                            <button class="btn btnSave" ng-click="saveGoals()"> Save</button>
-                    </div>
-
-                    <!-- this div is only viewable after the user clicks on edit -->
-                    <div ng-if="!NotEditable">
-                        <!-- the cancel button calls the cancelUpdate function to cancel the current input -->
-                        <button class="btn btnCancel" ng-click="cancelMentorContacts()"> Cancel</button>
-                        <!-- the save button calls the saveContacts function when clicked to save the current
-                        input to the database -->
-                        <button class="btn btnSave" ng-click="saveContacts()"> Save</button>
-                    </div>
-                </th>
-            </tr>
-            </thead>
             <tr>
                 <th style="width:100px"> Term</th>
                 <th style="width:100px"> Date</th>
                 <th> Details</th>
-
-
             </tr>
             <!-- the cancel and save buttons are only visible after the user clicks the edit button-->
 
@@ -246,8 +219,8 @@ Usesprap.controller.js
                            ng-model="cadetClass.ShortTermGoalDate">
                </td>
                 <td>                    <!-- the input box is disabled until the user clicks the edit button -->
-                    <input type="text" ng-disabled="NotEditable" class="form-control"
-                           ng-model="cadetClass.ShortTermGoal">
+                    <textarea rows="3" style="min-width: 100%" class="form-control" ng-disabled="NotEditable"
+                              ng-model="cadetClass.ShortTermGoal"></textarea>
                 </td>
            </tr>
             <tr>
@@ -259,8 +232,8 @@ Usesprap.controller.js
           </td>
                <td>
                     <!-- the input box is disabled until the user clicks the edit button -->
-                    <input type="text" ng-disabled="NotEditable" class="form-control"
-                           ng-model="cadetClass.IntermediateGoal">
+                   <textarea rows="3" style="min-width: 100%" class="form-control" ng-disabled="NotEditable"
+                             ng-model="cadetClass.IntermediateGoal"> </textarea>
                </td>
                     </tr>
 
@@ -268,8 +241,8 @@ Usesprap.controller.js
                 <td> Long Term </td>
                 <td>  <input type="date" ng-disabled="NotEditable" class="form-control"
                              ng-model="cadetClass.LongTermGoalDate"></td>
-                <td>    <input type="text" ng-disabled="NotEditable" class="form-control"
-                               ng-model="cadetClass.LongTermGoal"></td>
+                <td>   <textarea rows="3" style="min-width: 100%" class="form-control" ng-disabled="NotEditable"
+                                 ng-model="cadetClass.LongTermGoal"></textarea></td>
             </tr>
         </table>
 
