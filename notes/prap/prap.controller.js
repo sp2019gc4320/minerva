@@ -530,10 +530,9 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
 
 
 
-    /*******************************************************************************************/
 
 // function to save a new note inserted into the database
-    $scope.saveNewNote = function () {
+    $scope.saveNewNoteOLD = function () {
         alert("hi");
         var sendData = angular.copy($scope.prapNotes);
         alert(JSON.stringify(sendData));
@@ -557,7 +556,7 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
     /******************************************************************************************/
 
 
-    $scope.addNote = function () {
+    $scope.addNoteOLD = function () {
         alert("in add note");
         //TODO store NoteEditorID and NoteCreatedByID as userID
         //TODO  store userID in when logging in
@@ -592,7 +591,6 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
                 delete  note.op;
 
                 $scope.prapNotes[nextIndex] = angular.copy(note);
-                //$scope.backup_note.push( angular.copy(note));
             },
 
             //ERROR
@@ -600,4 +598,74 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
                 alert("Error updating record" + JSON.stringify(result));
             });
     };
+
+
+//create new record for prapNote
+    $scope.addNote = function()
+    {
+        //TODO store NoteEditorID and NoteCreatedByID as userID
+        //TODO  store userID in when logging in
+        //set flag to show new record
+        $scope.showNewNote = true;
+
+        var note = {
+            GenNoteID: "",
+            fkClassDetailID: $scope.cadetClass.ClassDetailID,
+            CadetID: $scope.cadetID,
+            GenNoteTopic: "PRAP",
+            GenNote: "",
+            NoteCycle: "",
+            NoteCreatorID: "",
+            NoteCreatedDate: new Date(),
+            NoteEditorID: "",
+            NoteEditedDate: new Date(),
+            TrackerCode: "",
+            op: "ADD"
+        };
+        //Clear text
+        $scope.tempNote = angular.copy(note);
+
+    };
+
+    $scope.cancelNoteCreate = function()
+    {
+        $scope.showNewNote = false;
+    };
+
+    $scope.showNewNote= false;
+    $scope.saveNoteCreate = function()
+    {
+        $scope.showNewNote= false;
+
+        var sendData=angular.copy($scope.tempNote);
+
+        //convert all dates to SQL
+        sendData.NoteCreatedDate = convertToSqlDate(sendData.NoteCreatedDate);
+        sendData.NoteEditedDate = convertToSqlDate(sendData.NoteEditedDate);
+
+        //create data entry using updateNotes.php
+        $http ({
+            method: 'POST',
+            url: "./php/prap_updateNotes.php",
+            data: Object.toparams(sendData),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(
+            function(response)
+            {
+                if(response.data)
+                //give new entry unique id
+                    sendData.GenNoteID=response.data.id;
+                //display new entry
+
+                delete sendData.op;
+                sendData.NoteCreatedDate = convertToHtmlDate(sendData.NoteCreatedDate);
+                sendData.NoteEditedDate = convertToHtmlDate(sendData.NoteEditedDate);
+                $scope.prapNotes.push(sendData);
+                //alert("data updated");
+            },function(result)
+            {
+            });
+    };
+
+
 });
