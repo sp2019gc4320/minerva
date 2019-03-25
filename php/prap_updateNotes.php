@@ -9,7 +9,10 @@ require_once 'dbcontroller.php';
 //Create connection
 $connection = new DBController();
 
+
+//default to updating
 $op ='UPDATE';
+
 $genNoteID = 2;
 
 
@@ -25,8 +28,8 @@ if(isset($_POST['op'])){
 
 if($op == 'UPDATE')
 {
-    $sql = "SELECT tblgennotes.*
-          FROM tblgennotes
+    $sql = "SELECT tblGenNotes.*
+          FROM tblGenNotes
           WHERE
           GenNoteID= $genNoteID
           ";
@@ -38,17 +41,14 @@ if($op == 'UPDATE')
         foreach ($fieldInfo as $val) {
             $fieldName = $val->name;
 
-
             // check to see if there is a post value
             if(isset($_POST[$fieldName])){
                 $fieldValue = filter_input(INPUT_POST, $fieldName);
-                $sql = "UPDATE tblgennotes set $fieldName = '$fieldValue' WHERE  GenNoteID=$genNoteID";
+                $sql = "UPDATE tblGenNotes set $fieldName = '$fieldValue' WHERE  GenNoteID=$genNoteID";
                 $connection->runQuery($sql);
             }
-
         }
     }
-
 
     echo '{ "status": "finsihed updating "}';
 }
@@ -62,9 +62,8 @@ else if ($op=='ADD')
     $noteEditedDate = filter_input(INPUT_POST, "NoteEditedDate");
     $genNote = filter_input(INPUT_POST, "GenNote");
 
-    $sql = "INSERT INTO tblgennotes ( fkClassDetailID, GenNoteTopic, NoteCreatorID, NoteEditorID, NoteCreatedDate, NoteEditedDate, GenNote)
+    $sql = "INSERT INTO tblGenNotes ( fkClassDetailID, GenNoteTopic, NoteCreatorID, NoteEditorID, NoteCreatedDate, NoteEditedDate, GenNote)
              VALUES ('$fkClassDetailID',  '$genNoteTopic',  '$noteCreatorID',  '$noteEditorID', '$noteCreatedDate', '$noteEditedDate', '$genNote')";
-
 
     $connection->createRecord($sql);
 
@@ -72,7 +71,7 @@ else if ($op=='ADD')
 }
 else if ($op =='DELETE')
 {
-    $sql = " DELETE FROM tblgennotes
+    $sql = " DELETE FROM tblGenNotes
                WHERE  GenNoteID=$genNoteID
              ";
     $connection->runDeleteQuery($sql);

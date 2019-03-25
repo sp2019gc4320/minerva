@@ -8,7 +8,7 @@ require_once 'dbcontroller.php';
 //Create connection
 $connection = new DBController();
 
-//temporary values for testing
+//default to updating
 $op ='UPDATE';
 
 if(isset($_POST['MentorContactID'])){

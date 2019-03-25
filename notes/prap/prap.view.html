@@ -32,9 +32,9 @@ Usesprap.controller.js
             <thead>
             <tr>
                 <th colspan="3"> Notes
-                    <button class="btn btnEdit" ng-click="makeTasksEditable()" ng-hide="editTasks"> Edit</button>
-                    <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)" ng-show="editTasks"> Save</button>
-                    <button class="btn btnCancel" ng-click="cancelTasksUpdate()" ng-show="editTasks"> Cancel</button>
+                    <button class="btn btnEdit" ng-click="makeNotesEditable()" ng-hide="editNotes"> Edit</button>
+                    <button class="btn btnSave" ng-click="saveNotesUpdate(tasks)" ng-show="editNotes"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelNotesUpdate()" ng-show="editNotes"> Cancel</button>
                 </th>
             </tr>
             </thead>
@@ -45,31 +45,31 @@ Usesprap.controller.js
                         <tr>
                             <td>
                                 <strong>Creator</strong>:<br/>
-                                <input type="text" ng-disabled="NotEditable" ng-model="note.NoteCreatedByName">
+                                <input type="text" ng-disabled="!editNotes" ng-model="note.NoteCreatedByName">
                             </td>
                             <td>
                                 <br/>
-                                <input type="date" ng-disabled="NotEditable" ng-model="note.NoteCreatedDate">
+                                <input type="date" ng-disabled="!editNotes" ng-model="note.NoteCreatedDate">
                             </td>
                         </tr>
                         <tr>
                             <td>
                                 <strong>Editor</strong>:<br/>
-                                <input type="text" ng-disabled="NotEditable" ng-model="note.NoteEditedByName">
+                                <input type="text" ng-disabled="!editNotes" ng-model="note.NoteEditedByName">
                             </td>
                             <td><br/>
-                                <input type="date" ng-disabled="NotEditable" ng-model="note.NoteEditedDate">
+                                <input type="date" ng-disabled="!editNotes" ng-model="note.NoteEditedDate">
                             </td>
                         </tr>
                     </table>
                 </td>
 
                 <td>
-                    <textarea rows="4" style="resize:vertical;" class="form-control" ng-disabled="NotEditable"
+                    <textarea rows="4" style="resize:vertical;" class="form-control" ng-disabled="!editNotes"
                               ng-model="note.GenNote"></textarea>                            <!--NOTE 1-->
                 </td>
                 <td style="width:100px">
-                    <button ng-click="deleteNote($index)" class="btn btnDelete">Delete1</button>
+                    <button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
                 </td>
             </tr>
         </table>
