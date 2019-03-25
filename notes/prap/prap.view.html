@@ -27,29 +27,44 @@ Usesprap.controller.js
 			</div>
 
 		<table id="notesTable">
+			<th>
+
+			</th>
+			<th>
+				Notes:
+			</th>
 			<tr ng-repeat="note in prapNotes track by $index">
 				<!-- the attachments section is not visible until edit is clicked on -->
+				<td style="width:30%">
+					<table>
+					<tr>
+
 				<td>
-					Created By
+					Creator:
 					<input type="text" ng-disabled="NotEditable" ng-model="note.NoteCreatedByName">
 				</td>
 				<td>
-					Created Date
-					<input type="text" ng-disabled="NotEditable" ng-model="note.NoteCreatedDate">
+					<input type="date" ng-disabled="NotEditable" ng-model="note.NoteCreatedDate">
 				</td>
+					</tr>
+						<tr>
 				<td>
-					Edited By
+					Editor:
 					<input type="text" ng-disabled="NotEditable" ng-model="note.NoteEditedByName">
 				</td>
 				<td>
-					Edited Date
-					<input type="text"ng-disabled="NotEditable" ng-model="note.NoteEditedDate">
+					<input type="date"ng-disabled="NotEditable" ng-model="note.NoteEditedDate">
 				</td>
+						</tr>
+				</table>
+				</>
+
 				<td>
-					Note
 					<textarea style="resize:vertical;" class="form-control" ng-disabled="NotEditable" ng-model="note.GenNote"></textarea>							<!--NOTE 1-->
-                    <button ng-click="deleteNote($index)" class="btn btnDelete">Delete</button>
                 </td>
+				<td>
+					<button ng-click="deleteNote($index)" class="btn btnDelete">Delete</button>
+				</td>
 			</tr>
 		</table>
 
@@ -72,7 +87,7 @@ Usesprap.controller.js
 					<div class="form-group col-md-2">
 						<label>Date</label>
 						<!-- this input is not editable until the user clicks edit -->
-						<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="contact.ContactDate">
+						<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="contact.ContactDate">
 					</div>
 					<div class="form-group col-md-2">
 						<label>Type</label>
@@ -132,17 +147,17 @@ Usesprap.controller.js
 				<div class="form-group col-md-2">
 					<label>Initiated Date</label>
 					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.PRAPInitDate">
+					<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.PRAPInitDate">
 				</div>
 				<div class="form-group col-md-2">
 					<label>Completed Date</label>
 					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.PRAPCompleteDate">
+					<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.PRAPCompleteDate">
 				</div>
 				<div class="form-group col-md-2">
 					<label class="">Mentee Training Date</label>
 					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.MenteeTrainingDate">
+					<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.MenteeTrainingDate">
 				</div>
 				<div class="col-md-1d-noned-md-block"></div>
 			</div>
@@ -163,7 +178,7 @@ Usesprap.controller.js
 				<div class="form-group col-md-2">
 					<label>Short Term Date</label>
 					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="text"ng-disabled="NotEditable"class="form-control"ng-model="cadetClass.ShortTermGoalDate">
+					<input type="date"ng-disabled="NotEditable"class="form-control"ng-model="cadetClass.ShortTermGoalDate">
 				</div>
 				<div class="form-group col-md-3">
 					<label>Short Term Details</label>
@@ -177,7 +192,7 @@ Usesprap.controller.js
 				<div class="form-group col-md-2">
 					<label>Intermediate Term Date</label>
 					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.IntermediateGoalDate">
+					<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.IntermediateGoalDate">
 				</div>
 				<div class="form-group col-md-3">
 					<label>Intermediate Term Details</label>
@@ -192,7 +207,7 @@ Usesprap.controller.js
 				<div class="form-group col-md-2">
 					<label>Long Term Date</label>
 					<!-- the input box is disabled until the user clicks the edit button -->
-					<input type="text" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.LongTermGoalDate">
+					<input type="date" ng-disabled="NotEditable" class="form-control" ng-model="cadetClass.LongTermGoalDate">
 				</div>
 				<div class="form-group col-md-3">
 					<label>Long Term Details</label>
@@ -224,9 +239,9 @@ Usesprap.controller.js
 		var cell4 = row.insertCell(3);
 		var cell5 = row.insertCell(4);
 		cell1.innerHTML = "Created By <input type=\"text\" ng-model=\"note.NoteCreatedByName\">";
-		cell2.innerHTML = "Created Date <input type=\"text\" ng-model=\"note.NoteCreatedDate\">";
+		cell2.innerHTML = "Created Date <input type=\"date\" ng-model=\"note.NoteCreatedDate\">";
 		cell3.innerHTML = "Edited By <input type=\"text\" ng-model=\"note.NoteEditedByName\">";
-		cell4.innerHTML = "Edited Date <input type=\"text\" ng-model=\"note.NoteEditedDate\">";
+		cell4.innerHTML = "Edited Date <input type=\"date\" ng-model=\"note.NoteEditedDate\">";
 		cell5.innerHTML = "Note <textarea style=\"resize:vertical;\" ng-model=\"note.GenNote\"></textarea>";
 	}
 </script>

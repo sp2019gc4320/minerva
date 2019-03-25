@@ -324,8 +324,27 @@ angular.module('notes.prap').controller('prapController', function($scope, $http
             //   alert(JSON.stringify(result));
             $scope.prapNotes = result.data.data;
 
-            //Add Created By Name to each Note
+
             for (var i=0; i< $scope.prapNotes.length; i++) {
+
+                //Convert Date to be displayed in html
+
+                for (var fieldName in $scope.prapNotes[i]) {
+                    //Check to see if property name contains Date
+                    if (fieldName.includes("Date")) {
+
+                        if ($scope.prapNotes[i][fieldName] !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
+
+
+                            $scope.prapNotes[i][fieldName] = convertToHtmlDate($scope.prapNotes[i][fieldName]);
+                        }
+                        else {
+                            $scope.prapNotes[i][fieldName] = new Date("");
+                        }
+                    }
+                }
+
+                //Add Created By Name to each Note
                 if($scope.prapNotes[i].NoteCreatorID.length > 0)
                 {
                     var index = i;

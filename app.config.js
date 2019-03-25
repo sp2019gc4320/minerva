@@ -85,18 +85,3 @@ function convertToHtmlDate(sqlDate) {
     return htmlDate;
 }
 
-// in prap_gettCadetClassDetails.php originally would print an empty string because not all of the data
-// was utf8 encoded. This fixes an array to have utf8 encoding.
-// https://stackoverflow.com/questions/19361282/why-would-json-encode-return-an-empty-string
-// This code is placed in app.config, a more global file, in case other files encounter the
-// same issue.
-function utf8ize($d) {
-    if (is_array($d)) {
-        foreach ($d as $k => $v) {
-            $d[$k] = utf8ize($v);
-        }
-    } else if (is_string ($d)) {
-        return utf8_encode($d);
-    }
-    return $d;
-}

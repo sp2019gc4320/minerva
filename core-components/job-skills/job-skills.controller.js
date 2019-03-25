@@ -243,7 +243,7 @@ $scope.cancelTasksUpdate = function()
                     sendData.ASVABID=response.data.id;
                     //display new entry
 
-                sendData.ASVABDate = convertToHtmlDate(sendData.ASVABDate);
+                    sendData.ASVABDate = convertToHtmlDate(sendData.ASVABDate);
                     $scope.asvabs.push(sendData);
                     //alert("data updated");
             },function(result)
