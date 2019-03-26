@@ -70,7 +70,7 @@ if ($op == 'UPDATE') {
         unset($_POST[$primaryKey]);
     }
         //Get all the column names in the tblMentorContacts table
-        $sql = "SELECT * FROM $tbl  WHERE  $primaryKey = $primaryValue";
+        $sql = "SELECT * FROM $tbl  WHERE  $primaryKey = '$primaryValue'";
         $result = $connection->runSelectQuery($sql);
 
         //Update each field sent as post parameter
@@ -94,6 +94,10 @@ if ($op == 'UPDATE') {
 } // if operation is add, query to add a new record to the database
  // if operation is delete, query to delete a record from the database
 else if ($op == 'DELETE') {
+    if (isset($_POST[$primaryKey])) {
+        $primaryValue = filter_input(INPUT_POST, $primaryKey);
+        unset($_POST[$primaryKey]);
+    }
     $sql = " DELETE FROM $tbl WHERE $primaryKey= '$primaryValue'";
 
     $result = $connection->runDeleteQuery($sql);
