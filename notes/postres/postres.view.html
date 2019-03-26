@@ -18,28 +18,30 @@
 				</td>
 			</tr>
 		</table>
-		<table>
-			<tr>
-				<th>Mentor Meets Required Contact</th>
-				<th>Meets Placement Criteria</th>
+
+		<table class ="" style="font-size: 12px;">
+			<tr style="">
+				<th colspan="2" style="text-align: center; outline: thin solid">Current Month</th>
+				<th style="width:50px; "></th>
+				<th colspan="4" style="text-align: center; outline: thin solid">Last Month</th>
+			</tr>
+			<tr  style="">
+				<td style="width:100px; outline: thin solid">Mentor Meets Required Contact</td>
+				<td style="width:100px; outline: thin solid">Meets Placement Criteria</td>
+				<td style="width:50px;"></td>
+				<td style="width:100px; outline: thin solid">Placement Criteria Met (LPM)</td>
+				<td style="width:100px; outline: thin solid">Contact Made  (LCM)</td>
+				<td style="width:100px; outline: thin solid">Mentor Contact Requirements Met (LMCRM)</td>
+				<td style="width:100px; outline: thin solid ">All Requirements Met??- (LRM) </td>
 			</tr>
 			<tr>
-				<td>{{current.MeetsRequiredContact}}</td>
-				<td>{{current.MeetsPlacementCriteria}}</td>
-			</tr>
-		</table>
-		<table>
-			<tr>
-				<th>Last Month Placement Criteria Met (LPM)</th>
-				<th>Last Month Contact Made  (LCM)</th>
-				<th>Last Month Mentor Contact Requirements Met (LMCRM)</th>
-				<th>Last Month All Requirements Met??- (LRM) </th>
-			</tr>
-			<tr>
-				<td>{{status.LastMonthPlacementCriteriaMet}}</td>
-				<td>{{status.LastMonthContactMade}}</td>
-				<td>{{status.LastMonthMentorContactRequirementsMet}}</td>
-				<td>{{status.LastMonthAllRequirementsMet}}</td>
+				<td style="width:100px; outline: thin solid; text-align: center">{{current.MeetsRequiredContact}}</td>
+				<td style="width:100px; outline: thin solid; text-align: center">{{current.MeetsPlacementCriteria}}</td>
+				<td></td>
+				<td style="width:100px; outline: thin solid; text-align: center" >{{status.LastMonthPlacementCriteriaMet}}</td>
+				<td style="width:100px;outline: thin solid; text-align: center">{{status.LastMonthContactMade}}</td>
+				<td style="width:100px;outline: thin solid; text-align: center">{{status.LastMonthMentorContactRequirementsMet}}</td>
+				<td style="width:100px;outline: thin solid; text-align: center">{{status.LastMonthAllRequirementsMet}}</td>
 			</tr>
 		</table>
 		<hr>
@@ -64,7 +66,7 @@
 				<td> <input type="text" ng-model="report.PRReporterID"></td>
 				<td> <input type="text" ng-model="report.WasContactMade"></td>
 				<td> <input type="text" ng-model="report.WasMentorInvolved"></td>
-				<td> <textarea rows="4" style="resize:vertical;" ng-model="report.PRReportNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="report.PRReportNote"></textarea></td>
 				<td style="width:100px">
 					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
 				</td>
@@ -117,7 +119,7 @@
 				<td> <input type="text" ng-model="contact.ContactDate"></td>
 				<td> <input type="text" ng-model="contact.MentorContactType"></td>
 				<td> <input type="text" ng-model="contact.ContactPlacementMonth"></td>
-				<td> <textarea rows="4" style="resize:vertical;" ng-model="contact.MentorContactNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="contact.MentorContactNote"></textarea></td>
 				<td style="width:100px">
 					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
 				</td>
@@ -144,7 +146,7 @@
 				<td> <input type="text" ng-model="record.PREdStartDate"></td>
 				<td> <input type="text" ng-model="record.PREdEndDate"></td>
 				<td> <input type="text" ng-model="record.IsPREdFullTime"></td>
-				<td> <textarea rows="4" style="resize:vertical;" ng-model="record.PREdNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREdNote"></textarea></td>
 				<td style="width:100px">
 					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
 				</td>
@@ -174,9 +176,9 @@
 				<td> <input type="text" ng-model="record.PREmpPOCPhone"></td>
 				<td> <input type="text" ng-model="record.PREmpPOCName"></td>
 				<td> <input type="text" ng-model="record.IsPREmpSelfEmployed"></td>
-				<td> <textarea rows="4" style="resize:vertical;" ng-model="record.PREmpNotes"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpNotes"></textarea></td>
 				<td> <input type="text" ng-model="record.PREmpTermDate"></td>
-				<td> <textarea rows="4" style="resize:vertical;" ng-model="record.PREmpTermNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpTermNote"></textarea></td>
 				<td style="width:100px">
 					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
 				</td>
@@ -203,7 +205,7 @@
 				<td> <input type="text" ng-model="record.PRMilEnlistDate"></td>
 				<td> <input type="text" ng-model="record.PRMilDelayedEntryDate"></td>
 				<td> <input type="text" ng-model="record.PRMilDischargeDate"></td>
-				<td> <textarea rows="4" style="resize:vertical;" ng-model="record.PRMilNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PRMilNote"></textarea></td>
 				<td style="width:100px">
 					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
 				</td>
@@ -229,7 +231,7 @@
 				<td> <input type="text" ng-model="record.PRMiscStartDate"></td>
 				<td> <input type="text" ng-model="record.PRMiscEndDate"></td>
 				<td> <input type="text" ng-model="record.PRMiscHrs"></td>
-				<td> <textarea rows="4" style="resize:vertical;" ng-model="record.PRMiscNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PRMiscNote"></textarea></td>
 				<td style="width:100px">
 					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
 				</td>
