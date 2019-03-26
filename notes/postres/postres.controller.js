@@ -31,6 +31,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
             $scope.postres = result.data.data;
             $scope.current = $scope.postres[0];
             $scope.contacts = result.data.contacts;
+            $scope.findStatus();
         },
         //ERROR
         function (result) {
@@ -43,7 +44,48 @@ angular.module('notes.postres').controller('postresController', function($scope,
        $scope.current =  $scope.postres[index];
     };
 
-    //function to update education section
+    $scope.status ={};
+    $scope.findStatus = function()
+    {
+        $scope.status.LastMonthPlacementCriteriaMet ="";
+        $scope.status.LastMonthContactMade = "";
+        $scope.status.LastMonthMentorContactRequirementsMet ="";
+        $scope.status.LastMonthAllRequirementsMet= "";
+        let i=0;
+
+        //assumes postres is in order by PlacementMonth
+        while (i < $scope.postres.length) {
+            var placement = $scope.postres[i];
+            if (placement.MeetsPlacementCriteria == '1')
+                $scope.status.LastMonthPlacementCriteriaMet = placement.PlacementMonth;
+
+            if (placement.MeetsRequiredContact == '1')
+                $scope.status.LastMonthMentorContactRequirementsMet = placement.PlacementMonth ;
+
+            //look at report for current month, and see if  WasContactMade==1.
+            var report = placement.reports;
+            if(report.length >0) {
+                let j = 0;
+                while (j < report.length) {
+                    if (report[j].WasContactMade == '1')
+                    $scope.status.LastMonthContactMade = placement.PlacementMonth;
+                    j++;
+                }
+            }
+
+            if( $scope.status.LastMonthPlacementCriteriaMet == $scope.status.LastMonthMentorContactRequirementsMet &&
+                $scope.status.LastMonthMentorContactRequirementsMet == $scope.status.LastMonthContactMade ) {
+                $scope.status.LastMonthAllRequirementsMet = $scope.status.LastMonthContactMade;
+            }
+
+            i++;
+        }
+    };
+
+
+
+
+        //function to update education section
     $scope.updateEducation = function (index) {
         //creates an array to update each attribute in table
         alert("Index: " +index);

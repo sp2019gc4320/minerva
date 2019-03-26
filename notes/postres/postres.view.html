@@ -18,6 +18,30 @@
 				</td>
 			</tr>
 		</table>
+		<table>
+			<tr>
+				<th>Mentor Meets Required Contact</th>
+				<th>Meets Placement Criteria</th>
+			</tr>
+			<tr>
+				<td>{{current.MeetsRequiredContact}}</td>
+				<td>{{current.MeetsPlacementCriteria}}</td>
+			</tr>
+		</table>
+		<table>
+			<tr>
+				<th>Last Month Placement Criteria Met (LPM)</th>
+				<th>Last Month Contact Made  (LCM)</th>
+				<th>Last Month Mentor Contact Requirements Met (LMCRM)</th>
+				<th>Last Month All Requirements Met??- (LRM) </th>
+			</tr>
+			<tr>
+				<td>{{status.LastMonthPlacementCriteriaMet}}</td>
+				<td>{{status.LastMonthContactMade}}</td>
+				<td>{{status.LastMonthMentorContactRequirementsMet}}</td>
+				<td>{{status.LastMonthAllRequirementsMet}}</td>
+			</tr>
+		</table>
 		<hr>
 
 		<table id="reportsTable" class="table minerva-table">
@@ -47,8 +71,37 @@
 			</tr>
 		</table>
 
+		<style>
+			.tableFixHead { overflow-y: auto; height: 400px; }
+			.tableFixHead th { position: sticky; top: 0; height:40px; }
+			.fixed {
+				position: fixed;
+				background: #f83d23;
+				width: 100px;
+				height: 100px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+				box-shadow: 0 0 6px #000;
+				color: #fff;
+			}
+			.extra,
+			.wrapper {
+				width: 75%;
+				margin: auto;
+				background-color: #ccc;
+			}
+			.wrapper {
+				height: 800px;
+			}
+			.extra {
+				height: 100px;
+			}
+
+		</style>
+		<div class=" tableFixHead">
 		<table id="contactsTable" class="table minerva-table">
-			<thead>
+			<thead style="height:100px;">
 			<tr>
 				<th colspan="3"> Mentor Contacts
 					<button class="btn btnEdit" ng-click="makeNotesEditable()" ng-hide="editNotes||showNewNote"> Edit</button>
@@ -70,6 +123,7 @@
 				</td>
 			</tr>
 		</table>
+		</div>
 
 		<table id="educationTable" class="table minerva-table">
 			<thead>
