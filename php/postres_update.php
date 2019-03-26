@@ -18,6 +18,11 @@ if (isset($_POST['tbl'])) {
         $tbl = "tblPRReports";
         $primaryKey = "PRReportID";
     }
+    else if ($tblType == "MentorContacts")
+    {
+        $tbl = "tblMentorContacts";
+        $primaryKey = "MentorContactID";
+    }
 
     unset($_POST['tbl']);
 }
@@ -30,35 +35,35 @@ if (isset($_POST['op'])) {
 
 if ($op == 'ADD') {
 
-    $fkPlacementID = filter_input(INPUT_POST, "fkPlacementID");
-    $PRReportType = filter_input(INPUT_POST, "PRReportType");
-    $PRReporterCategory = filter_input(INPUT_POST, "PRReporterCategory");
-    $PRReportDate = filter_input(INPUT_POST, "PRReportDate");
-    $PRReporterID = filter_input(INPUT_POST, "PRReporterID");
-    $WasContactMade = filter_input(INPUT_POST, "WasContactMade");
-    $WasMentorInvolved = filter_input(INPUT_POST, "WasMentorInvolved");
-    $PRReportNote = filter_input(INPUT_POST, "PRReportNote");
+    if ($tblType == "Report") {
+        $fkPlacementID = filter_input(INPUT_POST, "fkPlacementID");
+        $PRReportType = filter_input(INPUT_POST, "PRReportType");
+        $PRReporterCategory = filter_input(INPUT_POST, "PRReporterCategory");
+        $PRReportDate = filter_input(INPUT_POST, "PRReportDate");
+        $PRReporterID = filter_input(INPUT_POST, "PRReporterID");
+        $WasContactMade = filter_input(INPUT_POST, "WasContactMade");
+        $WasMentorInvolved = filter_input(INPUT_POST, "WasMentorInvolved");
+        $PRReportNote = filter_input(INPUT_POST, "PRReportNote");
 
-
-    $sql = "INSERT INTO $tbl 
-            ( fkPlacementID,
-            PRReportType,
-            PRReporterCategory,
-            PRReportDate,
-            PRReporterID,
-            WasContactMade,
-            WasMentorInvolved,
-            PRReportNote)
-             VALUES (
-             '$fkPlacementID',
-            '$PRReportType',
-            '$PRReporterCategory',
-            '$PRReportDate',
-            '$PRReporterID',
-            '$WasContactMade',
-            '$WasMentorInvolved',
-            '$PRReportNote'
+        $sql = "INSERT INTO $tbl 
+            ( fkPlacementID, PRReportType, PRReporterCategory, PRReportDate, PRReporterID,
+            WasContactMade, WasMentorInvolved, PRReportNote)
+             VALUES ( '$fkPlacementID', '$PRReportType', '$PRReporterCategory', '$PRReportDate', '$PRReporterID',
+            '$WasContactMade', '$WasMentorInvolved', '$PRReportNote'
              )";
+    }
+    else if ($tblType == "MentorContacts")
+    {
+        $fkMentorPotentialID = filter_input(INPUT_POST, "fkMentorPotentialID");
+        $contactDate = filter_input(INPUT_POST, "ContactDate");
+        $mentorContactType = filter_input(INPUT_POST, "MentorContactType");
+        $mentorContactNote = filter_input(INPUT_POST, "MentorContactNote");
+        $contactPlacementMonth = filter_input(INPUT_POST, "ContactPlacementMonth");
+
+        $sql = "INSERT INTO tblMentorContacts ( fkMentorPotentialID, ContactDate, MentorContactType, MentorContactNote, ContactPlacementMonth)
+             VALUES ('$fkMentorPotentialID', '$contactDate', '$mentorContactType', '$mentorContactNote', '$contactPlacementMonth')";
+
+    }
     $primaryValue  = $connection->createRecord($sql);
 
 
