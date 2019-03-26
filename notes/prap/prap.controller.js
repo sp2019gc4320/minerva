@@ -10,7 +10,7 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
 
     var cadet = {CadetID: $scope.cadetID};
 
-
+/*
     $scope.saveNotesOLD = function () {
         var update = {};
         var updates = [];
@@ -48,7 +48,8 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
         ;
 
     };
-
+    */
+/*
 
     $scope.addMentorContactNoteOLD = function () {
         var contactNote = {
@@ -86,7 +87,8 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
             });
 
     };
-
+    */
+/*
     // function to send mentor contacts data to prap_updateContacts.php to save data to tblMentorContacts in database
     $scope.saveContactsOLD = function () {
         var update = {};
@@ -123,7 +125,7 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
         }
         //alert("contacts updated");
     };
-
+*/
 
     //----------- NOTES
 
@@ -415,6 +417,8 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
                 ;
 
                 //Add NoteEditedByName to each Note
+                if($scope.prapNotes[i].NoteEditorID == null)
+                    $scope.prapNotes[i].NoteEditorID ="";
                 if ($scope.prapNotes[i].NoteEditorID.length > 0) {
                     var index = i;
                     var nameRequest = {PersonID: $scope.prapNotes[i].NoteEditorID, index: index};
@@ -524,7 +528,7 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
         }
     );
 
-
+/*
 // function to save a new note inserted into the database
     $scope.saveNewNoteOLD = function () {
         alert("hi");
@@ -546,9 +550,9 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
             });
         alert("notes updated");
     };
-
+*/
     /******************************************************************************************/
-
+/*
 
     $scope.addNoteOLD = function () {
         alert("in add note");
@@ -592,7 +596,7 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
                 alert("Error updating record" + JSON.stringify(result));
             });
     };
-
+*/
 //---------------------------------------
 //create new record for prapNote
     $scope.addNote = function () {
