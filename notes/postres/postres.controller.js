@@ -47,8 +47,18 @@ angular.module('notes.postres').controller('postresController', function($scope,
             $scope.convertDatesInArrayToHtml($scope.contacts);
             $scope.convertDatesInArrayToHtml($scope.reportMonths);
 
+            //select the placement month relative to today's date
+            let curMonth =0;
+            let today  = new Date();
+            i=0;
+            while (i < $scope.reportMonths.length)
+            {
+                if (today > $scope.reportMonths[i].ReportMonthStartDate)
+                    curMonth = i;
+                i++;
+            }
 
-            $scope.selectMonth(0);
+            $scope.selectMonth(curMonth);
             $scope.findStatus();
         },
         //ERROR
