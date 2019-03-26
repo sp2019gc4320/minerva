@@ -38,6 +38,11 @@ angular.module('notes.postres').controller('postresController', function($scope,
         }
     );
 
+    $scope.selectMonth = function(index)
+    {
+       $scope.current =  $scope.postres[index];
+    };
+
     //function to update education section
     $scope.updateEducation = function (index) {
         //creates an array to update each attribute in table

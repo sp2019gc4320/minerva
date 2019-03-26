@@ -11,7 +11,10 @@
 
 		<table id ="monthTable">
 			<tr>
-				<td ng-repeat="x in [].constructor(12) track by $index"><button>{{$index+1}}</button> </td>
+				<td> Placement Month: {{current.PlacementMonth}}</td>
+				<td ng-repeat="x in [].constructor(12) track by $index">
+					<button ng-click="selectMonth($index)">{{$index+1}}</button>
+				</td>
 			</tr>
 		</table>
 		<hr>
