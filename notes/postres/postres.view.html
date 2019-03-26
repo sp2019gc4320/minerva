@@ -11,11 +11,12 @@
 
 		<table id ="monthTable">
 			<tr>
-				<td> Placement Month: {{current.PlacementMonth}}</td>
+				<td> Placement Month: {{current.PlacementMonth}}: For the Dates: {{current.dateRange}}</td>
 				<td ng-repeat="x in [].constructor(12) track by $index">
 					<button ng-click="selectMonth($index)"  ng-class="{'alert-success':($index+1)==current.PlacementMonth}">
 						{{$index+1}}</button>
 				</td>
+				<td>Test with Cadet 230 for contatcs - month 7</td>
 			</tr>
 		</table>
 
@@ -125,7 +126,7 @@
 				<td> <input type="text" ng-model="contact.ContactPlacementMonth"></td>
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="contact.MentorContactNote"></textarea></td>
 				<td style="width:100px">
-					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes"></button>
+					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
 				</td>
 			</tr>
 		</table>
@@ -174,7 +175,7 @@
 		<table id="employmentTable" class="table minerva-table">
 			<thead>
 			<tr>
-				<th colspan="12"> Employment
+				<th colspan="13"> Employment
 					<button class="btn btnEdit" ng-click="makeNotesEditable()" ng-hide="editNotes||showNewNote"> Edit</button>
 					<button class="btn btnSave" ng-click="saveNotesUpdate()" ng-show="editNotes"> Save</button>
 					<button class="btn btnCancel" ng-click="cancelNotesUpdate()" ng-show="editNotes"> Cancel</button>
@@ -226,7 +227,7 @@
 		<table id="militaryTable" class="table minerva-table">
 			<thead>
 			<tr>
-				<th colspan="3"> Military
+				<th colspan="8"> Military
 					<button class="btn btnEdit" ng-click="makeNotesEditable()" ng-hide="editNotes||showNewNote"> Edit</button>
 					<button class="btn btnSave" ng-click="saveNotesUpdate()" ng-show="editNotes"> Save</button>
 					<button class="btn btnCancel" ng-click="cancelNotesUpdate()" ng-show="editNotes"> Cancel</button>
@@ -234,6 +235,16 @@
 					<button class="btn btnSave" ng-click="saveNoteCreate()"ng-show="showNewNote"> Save</button>
 					<button class="btn btnCancel" ng-click="cancelNoteCreate()"ng-show="showNewNote"> Cancel</button>
 				</th>
+			</tr>
+			<tr>
+				<th>Status</th>
+				<th>Affiliation</th>
+				<th>AGR?</th>
+				<th>Enlist Date</th>
+				<th>Delayed Entry Date</th>
+				<th>Discharge Date</th>
+				<th>Note</th>
+				<th></th>
 			</tr>
 			</thead>
 			<tr ng-repeat="record in current.military track by $index">
@@ -258,7 +269,7 @@
 		<table id="miscTable" class="table minerva-table">
 			<thead>
 			<tr>
-				<th colspan="3"> Miscellaneous
+				<th colspan="6"> Miscellaneous
 					<button class="btn btnEdit" ng-click="makeNotesEditable()" ng-hide="editNotes||showNewNote"> Edit</button>
 					<button class="btn btnSave" ng-click="saveNotesUpdate()" ng-show="editNotes"> Save</button>
 					<button class="btn btnCancel" ng-click="cancelNotesUpdate()" ng-show="editNotes"> Cancel</button>
@@ -266,6 +277,14 @@
 					<button class="btn btnSave" ng-click="saveNoteCreate()"ng-show="showNewNote"> Save</button>
 					<button class="btn btnCancel" ng-click="cancelNoteCreate()"ng-show="showNewNote"> Cancel</button>
 				</th>
+			</tr>
+			<tr>
+				<th>Placement Type</th>
+				<th>Start Date</th>
+				<th>End Date</th>
+				<th>Hours</th>
+				<th>Note</th>
+				<th></th>
 			</tr>
 			</thead>
 			<tr ng-repeat="record in current.misc track by $index">

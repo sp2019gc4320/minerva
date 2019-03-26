@@ -29,8 +29,10 @@ angular.module('notes.postres').controller('postresController', function($scope,
             }
             */
             $scope.postres = result.data.data;
-            $scope.current = $scope.postres[0];
+
             $scope.contacts = result.data.contacts;
+            $scope.reportMonths = result.data.reportMonths;
+            $scope.selectMonth(0);
             $scope.findStatus();
         },
         //ERROR
@@ -42,7 +44,20 @@ angular.module('notes.postres').controller('postresController', function($scope,
     $scope.selectMonth = function(index)
     {
        $scope.current =  $scope.postres[index];
+
+       //Find dates of related week
+       let dateRange = "";
+       let i = 0;
+       while (i< $scope.reportMonths.length)
+       {
+           if($scope.reportMonths[i].ReportMonth == (index+1))
+                dateRange = $scope.reportMonths[i].ReportMonthStartDate + " - " +  $scope.reportMonths[i].ReportMonthEndDate ;
+           i++;
+       }
+
+       $scope.current.dateRange = dateRange;
     };
+
 
     $scope.status ={};
     $scope.findStatus = function()
@@ -81,9 +96,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
             i++;
         }
     };
-    $scope.checkboxStyle = function(value) {
-        return {'bg-danger': value == '0', 'bg-success':  value== '1'};
-    };
+
 
 
 
