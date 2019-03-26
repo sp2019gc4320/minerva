@@ -408,16 +408,13 @@ angular.module('notes.postres').controller('postresController', function($scope,
         $scope.showNewContact = true;
 
         var reportObj = {
-            //PRReportID:"",
-            fkPlacementID: $scope.current.PlacementID,
-            PRReportType:"",
-            PRReporterCategory:"",
-            PRReportDate: new Date(),
-            PRReporterID:"",
-            WasContactMade:"0",
-            WasMentorInvolved:"0",
-            PRReportNote:"",
-            op: "ADD",
+           // MentorContactID:
+            fkMentorPotentialID:"", //TODO get default Mentors -- the potential mentor should not be empty
+            ContactDate: new Date(),
+            MentorContactType:"",
+            MentorContactNote:"",
+            ContactPlacementMonth:$scope.current.PlacementMonth,
+        op: "ADD",
             tbl: "MentorContacts"
         };
 

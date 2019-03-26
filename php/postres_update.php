@@ -23,6 +23,29 @@ if (isset($_POST['tbl'])) {
         $tbl = "tblMentorContacts";
         $primaryKey = "MentorContactID";
     }
+    else if ($tblType == "Employment")
+    {
+        $tbl = "tblPREmployment";
+        $primaryKey = "PREmpID";
+    }
+
+    else if ($tblType == "Education")
+    {
+        $tbl = "tblPREducation";
+        $primaryKey = "PREdID";
+    }
+
+    else if ($tblType == "Military")
+    {
+        $tbl = "tblPRMilitary";
+        $primaryKey = "PRMilID";
+    }
+
+    else if ($tblType == "Misc")
+    {
+        $tbl = "tblPRMisc";
+        $primaryKey = "PRMiscID";
+    }
 
     unset($_POST['tbl']);
 }
@@ -46,7 +69,7 @@ if ($op == 'ADD') {
         $PRReportNote = filter_input(INPUT_POST, "PRReportNote");
 
         $sql = "INSERT INTO $tbl 
-            ( fkPlacementID, PRReportType, PRReporterCategory, PRReportDate, PRReporterID,
+            (fkPlacementID, PRReportType, PRReporterCategory, PRReportDate, PRReporterID,
             WasContactMade, WasMentorInvolved, PRReportNote)
              VALUES ( '$fkPlacementID', '$PRReportType', '$PRReporterCategory', '$PRReportDate', '$PRReporterID',
             '$WasContactMade', '$WasMentorInvolved', '$PRReportNote'
@@ -64,6 +87,72 @@ if ($op == 'ADD') {
              VALUES ('$fkMentorPotentialID', '$contactDate', '$mentorContactType', '$mentorContactNote', '$contactPlacementMonth')";
 
     }
+    else if ($tblType == "Education")
+    {
+        $fkPlacementID = filter_input(INPUT_POST,'fkPlacementID');
+        $PREdSchoolType= filter_input(INPUT_POST,'PREdSchoolType');
+        $PREdStatus= filter_input(INPUT_POST,'PREdStatus');
+        $PREdStartDate= filter_input(INPUT_POST,'PREdStartDate');
+        $PREdEndDate= filter_input(INPUT_POST,'PREdEndDate');
+        $IsPREdFullTime= filter_input(INPUT_POST,'IsPREdFullTime');
+        $PREdNote = filter_input(INPUT_POST,'PREdNote');
+
+    $sql = "INSERT INTO tblPREducation (fkPlacementID, PREdSchoolType, PREdStatus, PREdStartDate, PREdEndDate, IsPREdFullTime, PREdNote )
+VALUES ('$fkPlacementID', '$PREdSchoolType', '$PREdStatus', '$PREdStartDate', '$PREdEndDate', '$IsPREdFullTime', '$PREdNote' )";
+    }
+    else if ($tblType == "Employment")
+    {
+        $fkPlacementID = filter_input(INPUT_POST,'fkPlacementID');
+        $PREmployer = filter_input(INPUT_POST,'PREmployer');
+        $PREmpHireDate = filter_input(INPUT_POST,'PREmpHireDate');
+        $PREmpHrsPerWeek = filter_input(INPUT_POST,'PREmpHrsPerWeek');
+        $PREmpWageRate = filter_input(INPUT_POST,'PREmpWageRate');
+        $PREmpWageType = filter_input(INPUT_POST,'PREmpWageType');
+        $PREmpWorkStatus = filter_input(INPUT_POST,'PREmpWorkStatus');
+        $PREmpPOCPhone = filter_input(INPUT_POST,'PREmpPOCPhone');
+        $PREmpPOCName = filter_input(INPUT_POST,'PREmpPOCName');
+        $IsPREmpSelfEmployed = filter_input(INPUT_POST,'IsPREmpSelfEmployed');
+        $PREmpTermDate = filter_input(INPUT_POST,'PREmpTermDate');
+        $PREmpTermNote = filter_input(INPUT_POST,'PREmpTermNote');
+        $PREmpNotes = filter_input(INPUT_POST,'PREmpNotes');
+
+
+      $sql = "INSERT INTO tblPREmployment (fkPlacementID, PREmployer, PREmpHireDate, PREmpHrsPerWeek, PREmpWageRate,
+PREmpWageType, PREmpWorkStatus, PREmpPOCPhone, PREmpPOCName, IsPREmpSelfEmployed,
+PREmpTermDate, PREmpTermNote, PREmpNotes) VALUES
+('$fkPlacementID', '$PREmployer', '$PREmpHireDate', '$PREmpHrsPerWeek', '$PREmpWageRate',
+'$PREmpWageType', '$PREmpWorkStatus', '$PREmpPOCPhone', '$PREmpPOCName', '$IsPREmpSelfEmployed',
+'$PREmpTermDate', '$PREmpTermNote', '$PREmpNotes')";
+
+
+    }
+    else if ($tblType == "Military")
+    {
+        $fkPlacementID = filter_input(INPUT_POST,'fkPlacementID');
+        $PRMilStatus= filter_input(INPUT_POST,'PRMilStatus');
+        $PRMilAffiliation= filter_input(INPUT_POST,'PRMilAffiliation');
+        $IsAGR= filter_input(INPUT_POST,'IsAGR');
+        $PRMilEnlistDate= filter_input(INPUT_POST,'PRMilEnlistDate');
+        $PRMilDelayedEntryDate= filter_input(INPUT_POST,'PRMilDelayedEntryDate');
+        $PRMilDischargeDate= filter_input(INPUT_POST,'PRMilDischargeDate');
+        $PRMilNote= filter_input(INPUT_POST,'PRMilNote');
+
+        $sql = "INSERT INTO tblPRMilitary (fkPlacementID, PRMilStatus, PRMilAffiliation, IsAGR, PRMilEnlistDate, PRMilDelayedEntryDate, PRMilDischargeDate, PRMilNote)
+ VALUES ('$fkPlacementID', '$PRMilStatus', '$PRMilAffiliation', '$IsAGR', '$PRMilEnlistDate', '$PRMilDelayedEntryDate', '$PRMilDischargeDate', '$PRMilNote')";
+    }
+    else if ($tblType == "Misc")
+    {
+        $fkPlacementID = filter_input(INPUT_POST,'fkPlacementID');
+        $PRMiscPlacementType = filter_input(INPUT_POST,'PRMiscPlacementType');
+        $PRMiscStartDate = filter_input(INPUT_POST,'PRMiscStartDate');
+        $PRMiscEndDate = filter_input(INPUT_POST,'PRMiscEndDate');
+        $PRMiscHrs = filter_input(INPUT_POST,'PRMiscHrs');
+        $PRMiscNote = filter_input(INPUT_POST,'PRMiscNote');
+
+          $sql = "INSERT INTO tblPRMisc (fkPlacementID, PRMiscPlacementType, PRMiscStartDate, PRMiscEndDate, PRMiscHrs, PRMiscNote)
+                  VALUES ('$fkPlacementID', '$PRMiscPlacementType', '$PRMiscStartDate', '$PRMiscEndDate', '$PRMiscHrs', '$PRMiscNote')";
+    }
+
     $primaryValue  = $connection->createRecord($sql);
 
 
