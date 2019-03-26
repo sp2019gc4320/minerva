@@ -8,7 +8,7 @@ require_once 'dbcontroller.php';
 $connection = new DBController();
 
 //default to updating
-$op = 'UPDATE';
+$op = 'ADD';
 $tbl = "tblPRReports";
 $primaryKey = "0";
 
@@ -16,7 +16,7 @@ if (isset($_POST['tbl'])) {
     $tblType = filter_input(INPUT_POST, "tbl");
     if ($tblType == "Report") {
         $tbl = "tblPRReports";
-        $primaryKey = "PRReporterID";
+        $primaryKey = "PRReportID";
     }
 
     unset($_POST['tbl']);
@@ -28,11 +28,47 @@ if (isset($_POST['op'])) {
     unset($_POST['op']);
 }
 
+if ($op == 'ADD') {
+
+    $fkPlacementID = filter_input(INPUT_POST, "fkPlacementID");
+    $PRReportType = filter_input(INPUT_POST, "PRReportType");
+    $PRReporterCategory = filter_input(INPUT_POST, "PRReporterCategory");
+    $PRReportDate = filter_input(INPUT_POST, "PRReportDate");
+    $PRReporterID = filter_input(INPUT_POST, "PRReporterID");
+    $WasContactMade = filter_input(INPUT_POST, "WasContactMade");
+    $WasMentorInvolved = filter_input(INPUT_POST, "WasMentorInvolved");
+    $PRReportNote = filter_input(INPUT_POST, "PRReportNote");
+
+
+    $sql = "INSERT INTO $tbl 
+            ( fkPlacementID,
+            PRReportType,
+            PRReporterCategory,
+            PRReportDate,
+            PRReporterID,
+            WasContactMade,
+            WasMentorInvolved,
+            PRReportNote)
+             VALUES (
+             '$fkPlacementID',
+            '$PRReportType',
+            '$PRReporterCategory',
+            '$PRReportDate',
+            '$PRReporterID',
+            '$WasContactMade',
+            '$WasMentorInvolved',
+            '$PRReportNote'
+             )";
+    $primaryValue  = $connection->createRecord($sql);
+
+
+}
 // if operation is update, query to update tblmentorcontacts
 if ($op == 'UPDATE') {
     if (isset($_POST[$primaryKey])) {
         $primaryValue = filter_input(INPUT_POST, $primaryKey);
         unset($_POST[$primaryKey]);
+    }
         //Get all the column names in the tblMentorContacts table
         $sql = "SELECT * FROM $tbl  WHERE  $primaryKey = $primaryValue";
         $result = $connection->runSelectQuery($sql);
@@ -54,24 +90,11 @@ if ($op == 'UPDATE') {
             }
         }
         echo '{ "status": "finished updating "}';
-    }
+
 } // if operation is add, query to add a new record to the database
-else if ($op == 'ADD') {
-    // Fields:   fkMentorPotentialID, ContactDate, MentorContactType, MentorContactNote, ContactPlacementMonth
-//TODO CORRECT ADD
-    $fkMentorPotentialID = filter_input(INPUT_POST, "fkMentorPotentialID");
-    $contactDate = filter_input(INPUT_POST, "ContactDate");
-    $mentorContactType = filter_input(INPUT_POST, "MentorContactType");
-    $mentorContactNote = filter_input(INPUT_POST, "MentorContactNote");
-    $contactPlacementMonth = filter_input(INPUT_POST, "ContactPlacementMonth");
-
-    $sql = "INSERT INTO tblMentorContacts ( fkMentorPotentialID, ContactDate, MentorContactType, MentorContactNote, ContactPlacementMonth)
-             VALUES ('$fkMentorPotentialID', '$contactDate', '$mentorContactType', '$mentorContactNote', '$contactPlacementMonth')";
-
-    $connection->createRecord($sql); //This will echo a json object with the MentorContactID
-} // if operation is delete, query to delete a record from the database
+ // if operation is delete, query to delete a record from the database
 else if ($op == 'DELETE') {
-    $sql = " DELETE FROM $tbl WHERE  $primaryKey= '$primaryValue'";
+    $sql = " DELETE FROM $tbl WHERE $primaryKey= '$primaryValue'";
 
     $result = $connection->runDeleteQuery($sql);
 }
