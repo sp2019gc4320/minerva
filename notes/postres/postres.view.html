@@ -9,6 +9,13 @@
 			</div>
 		</div>
 
+		<table id ="monthTable">
+			<tr>
+				<td ng-repeat="x in [].constructor(12) track by $index"><button>{{$index+1}}</button> </td>
+			</tr>
+		</table>
+		<hr>
+
 		<table id="reportsTable" class="table minerva-table">
 			<thead>
 			<tr>
