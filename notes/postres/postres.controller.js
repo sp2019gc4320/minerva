@@ -143,7 +143,6 @@ angular.module('notes.postres').controller('postresController', function($scope,
             function (result) {
                 alert("Employment update error.");
             });
-
     };
     $scope.updateMisc = function (index) {
         var sendData = {};
