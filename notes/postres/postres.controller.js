@@ -81,7 +81,9 @@ angular.module('notes.postres').controller('postresController', function($scope,
             i++;
         }
     };
-
+    $scope.checkboxStyle = function(value) {
+        return {'bg-danger': value == '0', 'bg-success':  value== '1'};
+    };
 
 
 

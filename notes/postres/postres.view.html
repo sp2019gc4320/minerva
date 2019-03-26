@@ -19,6 +19,7 @@
 			</tr>
 		</table>
 
+
 		<table class ="" style="font-size: 12px;">
 			<tr style="">
 				<th colspan="2" style="text-align: center; outline: thin solid">Current Month</th>
@@ -35,7 +36,10 @@
 				<td style="width:100px; outline: thin solid ">All Requirements Met??- (LRM) </td>
 			</tr>
 			<tr>
-				<td style="width:100px; outline: thin solid; text-align: center">{{current.MeetsRequiredContact}}</td>
+				<td style="width:100px; outline: thin solid; text-align: center"
+				ng-class="{'bg-danger':current.MeetsRequiredContact=='0','bg-success':current.MeetsRequiredContact=='1' }">
+					<input  name="MeetsRequiredContact" type="checkbox" ng-model="current.MeetsRequiredContact" ng-true-value="'1'" ng-false-value="'0'">
+				</td>
 				<td style="width:100px; outline: thin solid; text-align: center">{{current.MeetsPlacementCriteria}}</td>
 				<td></td>
 				<td style="width:100px; outline: thin solid; text-align: center" >{{status.LastMonthPlacementCriteriaMet}}</td>
@@ -49,7 +53,7 @@
 		<table id="reportsTable" class="table minerva-table">
 			<thead>
 			<tr>
-				<th colspan="3"> Post-Residential Reports
+				<th colspan="8"> Post-Residential Reports
 					<button class="btn btnEdit" ng-click="makeNotesEditable()" ng-hide="editNotes||showNewNote"> Edit</button>
 					<button class="btn btnSave" ng-click="saveNotesUpdate()" ng-show="editNotes"> Save</button>
 					<button class="btn btnCancel" ng-click="cancelNotesUpdate()" ng-show="editNotes"> Cancel</button>
@@ -59,13 +63,30 @@
 				</th>
 			</tr>
 			</thead>
+			<tr>
+				<th> Type</th>
+				<th> Reporter Category</th>
+				<th> Date</th>
+				<th> Reporter</th>
+				<th> Contact Made? </th>
+				<th> Mentor Involved? </th>
+				<th>Note</th>
+				<th></th>
+
+			</tr>
 			<tr ng-repeat="report in current.reports track by $index">
 				<td> <input type="text" ng-model="report.PRReportType"></td>
 				<td> <input type="text" ng-model="report.PRReporterCategory"></td>
 				<td> <input type="text" ng-model="report.PRReportDate"></td>
 				<td> <input type="text" ng-model="report.PRReporterID"></td>
-				<td> <input type="text" ng-model="report.WasContactMade"></td>
-				<td> <input type="text" ng-model="report.WasMentorInvolved"></td>
+
+				<td ng-class="{'bg-danger':report.WasContactMade=='0','bg-success':report.WasContactMade=='1' }">
+					<input  name="WasContactMade" type="checkbox" ng-model="report.WasContactMade" ng-true-value="'1'" ng-false-value="'0'">
+				</td>
+
+				<td ng-class="{'bg-danger':report.WasMentorInvolved=='0','bg-success':report.WasMentorInvolved=='1' }">
+					<input  name="WasMentorInvolved" type="checkbox" ng-model="report.WasMentorInvolved" ng-true-value="'1'" ng-false-value="'0'">
+				</td>
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="report.PRReportNote"></textarea></td>
 				<td style="width:100px">
 					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
@@ -145,7 +166,11 @@
 				<td> <input type="text" ng-model="record.PREdStatus"></td>
 				<td> <input type="text" ng-model="record.PREdStartDate"></td>
 				<td> <input type="text" ng-model="record.PREdEndDate"></td>
-				<td> <input type="text" ng-model="record.IsPREdFullTime"></td>
+
+				<td ng-class="{'bg-danger':record.IsPREdFullTime=='0','bg-success':record.IsPREdFullTime=='1' }">
+					<input  name="IsPREdFullTime" type="checkbox" ng-model="record.IsPREdFullTime" ng-true-value="'1'" ng-false-value="'0'">
+				</td>
+
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREdNote"></textarea></td>
 				<td style="width:100px">
 					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
@@ -175,7 +200,12 @@
 				<td> <input type="text" ng-model="record.PREmpWorkStatus"></td>
 				<td> <input type="text" ng-model="record.PREmpPOCPhone"></td>
 				<td> <input type="text" ng-model="record.PREmpPOCName"></td>
-				<td> <input type="text" ng-model="record.IsPREmpSelfEmployed"></td>
+
+				<td ng-class="{'bg-danger':record.IsPREmpSelfEmployed=='0','bg-success':record.IsPREmpSelfEmployed=='1' }">
+					<input  name="IsPREmpSelfEmployed" type="checkbox" ng-model="record.IsPREmpSelfEmployed" ng-true-value="'1'" ng-false-value="'0'">
+				</td>
+
+
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpNotes"></textarea></td>
 				<td> <input type="text" ng-model="record.PREmpTermDate"></td>
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpTermNote"></textarea></td>
@@ -201,7 +231,11 @@
 			<tr ng-repeat="record in current.military track by $index">
 				<td> <input type="text" ng-model="record.PRMilStatus"></td>
 				<td> <input type="text" ng-model="record.PRMilAffiliation"></td>
-				<td> <input type="text" ng-model="record.IsAGR"></td>
+
+				<td ng-class="{'bg-danger':record.IsAGR=='0','bg-success':record.IsAGR=='1' }">
+					<input  name="IsAGR" type="checkbox" ng-model="record.IsAGR" ng-true-value="'1'" ng-false-value="'0'">
+				</td>
+
 				<td> <input type="text" ng-model="record.PRMilEnlistDate"></td>
 				<td> <input type="text" ng-model="record.PRMilDelayedEntryDate"></td>
 				<td> <input type="text" ng-model="record.PRMilDischargeDate"></td>
