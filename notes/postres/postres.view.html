@@ -3,20 +3,23 @@
  -->
 <div class="container infoContainer" id="postResContainer" ng-controller="postresController">
 	<form>
-		<div>
 			<div class="col-xs-12">
 				<h1>Post Residential</h1>
 			</div>
-		</div>
-
+		Test with Cadet 230 for contatcs - month 7<br/>
+		<hr>
 		<table id ="monthTable">
 			<tr>
-				<td> Placement Month: {{current.PlacementMonth}}: For the Dates: {{current.dateRange}}</td>
+				<td> Select Placement Month:</td>
 				<td ng-repeat="x in [].constructor(12) track by $index">
-					<button ng-click="selectMonth($index)"  ng-class="{'alert-success':($index+1)==current.PlacementMonth}">
-						{{$index+1}}</button>
+					<button ng-click="selectMonth($index)"
+							ng-class="{'alert-success':($index+1)==current.PlacementMonth}">
+						<span  style="font-size: 20px;">{{$index+1}}</span></button>
 				</td>
-				<td>Test with Cadet 230 for contatcs - month 7</td>
+			</tr>
+			<tr >
+				<td></td>
+				<td style="text-align: center;"  colspan="12">Dates for Placement Month {{current.PlacementMonth}}: {{current.dateRange}}</td>
 			</tr>
 		</table>
 
@@ -39,11 +42,13 @@
 			<tr>
 				<td style="width:100px; outline: thin solid; text-align: center"
 				ng-class="{'bg-danger':current.MeetsRequiredContact=='0','bg-success':current.MeetsRequiredContact=='1' }">
-					<input  name="MeetsRequiredContact" type="checkbox" ng-model="current.MeetsRequiredContact" ng-true-value="'1'" ng-false-value="'0'">
+					<input  name="MeetsRequiredContact" type="checkbox" ng-model="current.MeetsRequiredContact" ng-true-value="'1'" ng-false-value="'0'"
+					ng-change="findStatus()">
 				</td>
 				<td style="width:100px; outline: thin solid; text-align: center"
 					ng-class="{'bg-danger':current.MeetsPlacementCriteria=='0','bg-success':current.MeetsPlacementCriteria=='1' }">
-					<input  name="MeetsPlacementCriteria" type="checkbox" ng-model="current.MeetsPlacementCriteria" ng-true-value="'1'" ng-false-value="'0'">
+					<input  name="MeetsPlacementCriteria" type="checkbox" ng-model="current.MeetsPlacementCriteria" ng-true-value="'1'" ng-false-value="'0'"
+							ng-change="findStatus()">
 				</td>
 
 				<td></td>
