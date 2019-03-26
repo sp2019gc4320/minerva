@@ -19,10 +19,18 @@ angular.module('notes.postres').controller('postresController', function($scope,
 
     taskGetPostResReports.then(
         //SUCCESS
-        //Creates an array of objects that contain data
         function (result) {
+           /* {data: [
+                {PlacementMonth: 1,  Education:[], Employment:[], Military:[], Misc:[], Report:[]},
+                {PlacementMonth: 2,  Education:[], Employment:[], Military:[], Misc:[], Report:[]}
+                {PlacementMonth: 3,  Education:[], Employment:[], Military:[], Misc:[], Report:[]}
+            ],
+                contacts: []
+            }
+            */
             $scope.postres = result.data.data;
             $scope.current = $scope.postres[0];
+            $scope.contacts = result.data.contacts;
         },
         //ERROR
         function (result) {
