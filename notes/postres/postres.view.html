@@ -13,7 +13,8 @@
 			<tr>
 				<td> Placement Month: {{current.PlacementMonth}}</td>
 				<td ng-repeat="x in [].constructor(12) track by $index">
-					<button ng-click="selectMonth($index)">{{$index+1}}</button>
+					<button ng-click="selectMonth($index)"  ng-class="{'alert-success':($index+1)==current.PlacementMonth}">
+						{{$index+1}}</button>
 				</td>
 			</tr>
 		</table>
