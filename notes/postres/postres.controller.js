@@ -115,6 +115,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
     $scope.selectMonth = function(index)
     {
        $scope.current =  $scope.postres[index];
+       $scope.currentIndex = index;
 
        //Find dates of related week
        let dateRange = "";
@@ -172,8 +173,148 @@ angular.module('notes.postres').controller('postresController', function($scope,
     };
 
 
+//-------- REPORTS
+    $scope.editReports = false;
+    $scope.deleteReport = function (index) {
+        $scope.current.reports.splice(index, 1);
+    };
+
+    $scope.makeReportsEditable = function () {
+        $scope.editReports = true;
+        //create backup of tasks
+        $scope.reportsBackup = angular.copy($scope.current.reports);
+    };
+
+    $scope.cancelReportsUpdate = function () {
+        $scope.editReports = false;
+        $scope.current.reports = angular.copy($scope.reportsBackup);
+    };
+    $scope.saveReportsUpdate = function () {
+        $scope.editReports = false;
+        var numSaved = 0;
+
+        var update = {};
+        var updates = [];
+        $scope.numSaved = 0;
+
+        // loops for # rows in table
+        for (let i = 0; i < $scope.current.reports.length; i++) {
+            update = angular.copy($scope.current.reports[i]);
+            update.op = "UPDATE";
+            updates.push(update);
+        }
+
+        //Find deleted reports
+        for (let i = 0; i < $scope.reportsBackup.length; i++) {
+            let id = $scope.reportsBackup[i].PRReportID;
+
+            let found = false;
+            for (let j = 0; j < $scope.current.reports.length; j++) {
+                if (id == $scope.current.reports[j].PRReportID)
+                    found = true;
+            }
+            //mark scores that should be deleted from the database
+            if (!found) {
+                update = angular.copy($scope.reportsBackup[i]);
+                update.op = "DELETE";
+                updates.push(update);
+            }
+        }
+
+        //Send update requests to the server
+        for (var j = 0; j < updates.length; j++) {
+            var sendData = angular.copy(updates[j]);
+            sendData.tbl = 'Report';
+
+            //Convert all Dates to sql format
+            for (var fieldName in sendData) {
+                //Check to see if property name contains Date
+                if (fieldName.includes("Date")) {
+                    sendData[fieldName] = convertToSqlDate(sendData[fieldName]);
+                }
+            }
+
+            //send the json object along with specified table to  update*.php file
+            $http({
+                method: 'POST',
+                url: "./php/postres_update.php",
+                data: Object.toparams(sendData),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(
+                function (response) {
+                    //only show saved message after last task saved.
+                    numSaved++;
+                    if (numSaved === updates.length) {
+                        //may not be needed since shallow copy initially
+                        //$scope.postres[currentIndex].reports = angular.copy(current.reports);
+                        alert("Reports Updated");
+                    }
+                }, function (result) {
+                    alert("Error saving Reports");
+                });
+        }
+    };
+
+    $scope.addReport = function () {
+        //set flag to show new record
+        $scope.showNewReport = true;
+
+        var reportObj = {
+            //PRReportID:"",
+            fkPlacementID: $scope.current.PlacementID,
+            PRReportType:"",
+            PRReporterCategory:"",
+            PRReportDate: new Date(),
+            PRReporterID:"",
+            WasContactMade:"0",
+            WasMentorInvolved:"0",
+            PRReportNote:"",
+            op: "ADD",
+            tbl: "Report"
+        };
+
+        //Clear text
+        $scope.tempReport = angular.copy(reportObj);
+    };
 
 
+    $scope.cancelReportCreate = function () {
+        $scope.showNewReport = false;
+    };
+
+    $scope.showNewReport = false;
+    $scope.saveReportCreate = function () {
+        $scope.showNewReport = false;
+
+        var sendData = angular.copy($scope.tempReport);
+
+        //convert all dates to SQL
+        $scope.convertDatesInObjectToSql(sendData);
+
+        //create data entry using updateContacts.php
+        $http({
+            method: 'POST',
+            url: "./php/postres_update.php",
+            data: Object.toparams(sendData),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(
+            function (response) {
+                if (response.data)
+                //give new entry unique id
+                    sendData.PRReportID = response.data.id;
+
+                delete sendData.op;
+                delete sendData.tbl;
+
+                $scope.convertDatesInObjectToHtml(sendData);
+                $scope.current.reports.push(sendData);
+            },
+            function (result) {
+            });
+    };
+
+    //--------------------
+/*
         //function to update education section
     $scope.updateEducation = function (index) {
         //creates an array to update each attribute in table
@@ -370,7 +511,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
     $scope.saveNote = function () {
     };
     //This function gives the add report button functionality.
-    $scope.addReport = function()
+    $scope.addReportOLD = function()
     {
         var report = {
             MeetsRequiredContact:"",
@@ -483,5 +624,5 @@ angular.module('notes.postres').controller('postresController', function($scope,
         var idx = $scope.allmisc.indexOf(misc);
         $scope.allmisc.splice(idx, 1);
     };
-
+*/
 });

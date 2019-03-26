@@ -64,12 +64,12 @@
 			<thead>
 			<tr>
 				<th colspan="8"> Post-Residential Reports
-					<button class="btn btnEdit" ng-click="makeNotesEditable()" ng-hide="editNotes||showNewNote"> Edit</button>
-					<button class="btn btnSave" ng-click="saveNotesUpdate()" ng-show="editNotes"> Save</button>
-					<button class="btn btnCancel" ng-click="cancelNotesUpdate()" ng-show="editNotes"> Cancel</button>
+					<button class="btn btnEdit" ng-click="makeReportsEditable()" ng-hide="editReports||showNewReport"> Edit</button>
+					<button class="btn btnSave" ng-click="saveReportsUpdate()" ng-show="editReports"> Save</button>
+					<button class="btn btnCancel" ng-click="cancelReportsUpdate()" ng-show="editReports"> Cancel</button>
 
-					<button class="btn btnSave" ng-click="saveNoteCreate()"ng-show="showNewNote"> Save</button>
-					<button class="btn btnCancel" ng-click="cancelNoteCreate()"ng-show="showNewNote"> Cancel</button>
+					<button class="btn btnSave" ng-click="saveReportCreate()"ng-show="showNewReport"> Save</button>
+					<button class="btn btnCancel" ng-click="cancelReportCreate()"ng-show="showNewReport"> Cancel</button>
 				</th>
 			</tr>
 			</thead>
@@ -85,24 +85,53 @@
 
 			</tr>
 			<tr ng-repeat="report in current.reports track by $index">
-				<td> <input type="text" ng-model="report.PRReportType"></td>
-				<td> <input type="text" ng-model="report.PRReporterCategory"></td>
-				<td> <input type="date" ng-model="report.PRReportDate"></td>
-				<td> <input type="text" ng-model="report.PRReporterID"></td>
+				<td> <input type="text" ng-model="report.PRReportType" ng-disabled="!editReports"></td>
+				<td> <input type="text" ng-model="report.PRReporterCategory" ng-disabled="!editReports"></td>
+				<td> <input type="date" ng-model="report.PRReportDate" ng-disabled="!editReports"></td>
+				<td> <input type="text" ng-model="report.PRReporterID" ng-disabled="!editReports"></td>
 
 				<td ng-class="{'bg-danger':report.WasContactMade=='0','bg-success':report.WasContactMade=='1' }">
-					<input  name="WasContactMade" type="checkbox" ng-model="report.WasContactMade" ng-true-value="'1'" ng-false-value="'0'">
+					<input  name="WasContactMade" type="checkbox"  ng-disabled="!editReports"
+							ng-model="report.WasContactMade" ng-true-value="'1'" ng-false-value="'0'">
 				</td>
-
 				<td ng-class="{'bg-danger':report.WasMentorInvolved=='0','bg-success':report.WasMentorInvolved=='1' }">
-					<input  name="WasMentorInvolved" type="checkbox" ng-model="report.WasMentorInvolved" ng-true-value="'1'" ng-false-value="'0'">
+					<input  name="WasMentorInvolved" type="checkbox"  ng-disabled="!editReports"
+							ng-model="report.WasMentorInvolved" ng-true-value="'1'" ng-false-value="'0'">
 				</td>
-				<td> <textarea rows="1" style="resize:vertical;" ng-model="report.PRReportNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="report.PRReportNote"
+							   ng-disabled="!editReports"></textarea></td>
 				<td style="width:100px">
-					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
+					<button ng-click="deleteReports($index)" class="btn btnDelete" ng-disabled="!editReports">Delete</button>
 				</td>
 			</tr>
 		</table>
+		<button class="btn btnCreate" ng-click="addReport()" style="margin: 0 auto" ng-hide="showNewReport||editReporrs"> Add Report</button>
+		<form id="reportAdd"  ng-show="showNewReport">
+			<table style="width:100%" ng-show="showNewReport">
+				<tr>
+					<td> <input type="text" ng-model="tempReport.PRReportType" ></td>
+					<td> <input type="text" ng-model="tempReport.PRReporterCategory" ></td>
+					<td> <input type="date" ng-model="tempReport.PRReportDate" ></td>
+					<td> <input type="text" ng-model="tempReport.PRReporterID"></td>
+
+					<td ng-class="{'bg-danger':tempReport.WasContactMade=='0','bg-success':tempReport.WasContactMade=='1' }">
+						<input  name="WasContactMade" type="checkbox"
+								ng-model="tempReport.WasContactMade" ng-true-value="'1'" ng-false-value="'0'">
+					</td>
+
+					<td ng-class="{'bg-danger':tempReport.WasMentorInvolved=='0','bg-success':tempReport.WasMentorInvolved=='1' }">
+						<input  name="WasMentorInvolved" type="checkbox"
+								ng-model="tempReport.WasMentorInvolved" ng-true-value="'1'" ng-false-value="'0'">
+					</td>
+					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempReport.PRReportNote"
+								   ></textarea></td>
+
+				</tr>
+			</table>
+		</form>
+		<p>
+		<hr>
+		</p>
 
 		<style>
 			.tableFixHead { overflow-y: auto; height: 400px; }
