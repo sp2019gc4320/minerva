@@ -32,6 +32,22 @@ angular.module('notes.postres').controller('postresController', function($scope,
 
             $scope.contacts = result.data.contacts;
             $scope.reportMonths = result.data.reportMonths;
+
+
+            //Convert all dates to html format
+            let i=0;
+            while (i<$scope.postres.length){
+                $scope.convertDatesInArrayToHtml($scope.postres[i].education);
+                $scope.convertDatesInArrayToHtml($scope.postres[i].employment);
+                $scope.convertDatesInArrayToHtml($scope.postres[i].military);
+                $scope.convertDatesInArrayToHtml($scope.postres[i].misc);
+                $scope.convertDatesInArrayToHtml($scope.postres[i].reports);
+                i++;
+            }
+            $scope.convertDatesInArrayToHtml($scope.contacts);
+            $scope.convertDatesInArrayToHtml($scope.reportMonths);
+
+
             $scope.selectMonth(0);
             $scope.findStatus();
         },
@@ -41,6 +57,51 @@ angular.module('notes.postres').controller('postresController', function($scope,
         }
     );
 
+    $scope.convertDatesInObjectToHtml = function (myObject)
+    {
+        for (var fieldName in myObject) {
+            //Check to see if property name contains Date
+            if (fieldName.includes("Date")) {
+                if (myObject[fieldName] !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
+                    myObject[fieldName] = convertToHtmlDate(myObject[fieldName]);
+                }
+                else {
+                    myObject[fieldName] = new Date("");
+                }
+            }
+        }
+    };
+
+    $scope.convertDatesInArrayToHtml = function( myArray)
+    {
+        let index = 0;
+        while (index < myArray.length) {
+            $scope.convertDatesInObjectToHtml(myArray[index]);
+            index++;
+        }
+    };
+    $scope.convertDatesInArrayToSql = function( myArray)
+    {
+        let index = 0;
+        while (index < myArray.length) {
+            $scope.convertDatesInObjectToSql(myArray[index]);
+            index++;
+        }
+    };
+    $scope.convertDatesInObjectToSql = function( myObject)
+    {
+        for (var fieldName in myObject) {
+        //Check to see if property name contains Date
+            if (fieldName.includes("Date")) {
+                if (myObject[fieldName] !== null) {//IF DATE IS NOT NULL
+                myObject[fieldName] = convertToSqlDate(myObject[fieldName]);
+                }
+                else {
+                myObject[fieldName] = "";
+                }
+            }
+        }
+    };
     $scope.selectMonth = function(index)
     {
        $scope.current =  $scope.postres[index];
@@ -50,8 +111,11 @@ angular.module('notes.postres').controller('postresController', function($scope,
        let i = 0;
        while (i< $scope.reportMonths.length)
        {
-           if($scope.reportMonths[i].ReportMonth == (index+1))
-                dateRange = $scope.reportMonths[i].ReportMonthStartDate + " - " +  $scope.reportMonths[i].ReportMonthEndDate ;
+           if($scope.reportMonths[i].ReportMonth == (index+1)) {
+               let tempStartDate = convertToSqlDate( $scope.reportMonths[i].ReportMonthStartDate);
+               let tempEndDate = convertToSqlDate( $scope.reportMonths[i].ReportMonthEndDate);
+               dateRange = tempStartDate + " - " + tempEndDate;
+           }
            i++;
        }
 

@@ -41,7 +41,11 @@
 				ng-class="{'bg-danger':current.MeetsRequiredContact=='0','bg-success':current.MeetsRequiredContact=='1' }">
 					<input  name="MeetsRequiredContact" type="checkbox" ng-model="current.MeetsRequiredContact" ng-true-value="'1'" ng-false-value="'0'">
 				</td>
-				<td style="width:100px; outline: thin solid; text-align: center">{{current.MeetsPlacementCriteria}}</td>
+				<td style="width:100px; outline: thin solid; text-align: center"
+					ng-class="{'bg-danger':current.MeetsPlacementCriteria=='0','bg-success':current.MeetsPlacementCriteria=='1' }">
+					<input  name="MeetsPlacementCriteria" type="checkbox" ng-model="current.MeetsPlacementCriteria" ng-true-value="'1'" ng-false-value="'0'">
+				</td>
+
 				<td></td>
 				<td style="width:100px; outline: thin solid; text-align: center" >{{status.LastMonthPlacementCriteriaMet}}</td>
 				<td style="width:100px;outline: thin solid; text-align: center">{{status.LastMonthContactMade}}</td>
@@ -78,7 +82,7 @@
 			<tr ng-repeat="report in current.reports track by $index">
 				<td> <input type="text" ng-model="report.PRReportType"></td>
 				<td> <input type="text" ng-model="report.PRReporterCategory"></td>
-				<td> <input type="text" ng-model="report.PRReportDate"></td>
+				<td> <input type="date" ng-model="report.PRReportDate"></td>
 				<td> <input type="text" ng-model="report.PRReporterID"></td>
 
 				<td ng-class="{'bg-danger':report.WasContactMade=='0','bg-success':report.WasContactMade=='1' }">
@@ -121,7 +125,7 @@
 			</tr>
 			</thead>
 			<tr ng-repeat="contact in contacts track by $index">
-				<td> <input type="text" ng-model="contact.ContactDate"></td>
+				<td> <input type="date" ng-model="contact.ContactDate"></td>
 				<td> <input type="text" ng-model="contact.MentorContactType"></td>
 				<td> <input type="text" ng-model="contact.ContactPlacementMonth"></td>
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="contact.MentorContactNote"></textarea></td>
@@ -158,8 +162,8 @@
 			<tr ng-repeat="record in current.education track by $index">
 				<td> <input type="text" ng-model="record.PREdSchoolType"></td>
 				<td> <input type="text" ng-model="record.PREdStatus"></td>
-				<td> <input type="text" ng-model="record.PREdStartDate"></td>
-				<td> <input type="text" ng-model="record.PREdEndDate"></td>
+				<td> <input type="date" ng-model="record.PREdStartDate"></td>
+				<td> <input type="date" ng-model="record.PREdEndDate"></td>
 
 				<td ng-class="{'bg-danger':record.IsPREdFullTime=='0','bg-success':record.IsPREdFullTime=='1' }">
 					<input  name="IsPREdFullTime" type="checkbox" ng-model="record.IsPREdFullTime" ng-true-value="'1'" ng-false-value="'0'">
@@ -202,7 +206,7 @@
 			</thead>
 			<tr ng-repeat="record in current.employment track by $index">
 				<td> <input type="text" ng-model="record.PREmployer"></td>
-				<td> <input type="text" ng-model="record.PREmpHireDate"></td>
+				<td> <input type="date" ng-model="record.PREmpHireDate"></td>
 				<td> <input type="text" ng-model="record.PREmpHrsPerWeek"></td>
 				<td> <input type="text" ng-model="record.PREmpWageRate"></td>
 				<td> <input type="text" ng-model="record.PREmpWageType"></td>
@@ -216,7 +220,7 @@
 
 
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpNotes"></textarea></td>
-				<td> <input type="text" ng-model="record.PREmpTermDate"></td>
+				<td> <input type="date" ng-model="record.PREmpTermDate"></td>
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpTermNote"></textarea></td>
 				<td style="width:100px">
 					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
@@ -255,9 +259,9 @@
 					<input  name="IsAGR" type="checkbox" ng-model="record.IsAGR" ng-true-value="'1'" ng-false-value="'0'">
 				</td>
 
-				<td> <input type="text" ng-model="record.PRMilEnlistDate"></td>
-				<td> <input type="text" ng-model="record.PRMilDelayedEntryDate"></td>
-				<td> <input type="text" ng-model="record.PRMilDischargeDate"></td>
+				<td> <input type="date" ng-model="record.PRMilEnlistDate"></td>
+				<td> <input type="date" ng-model="record.PRMilDelayedEntryDate"></td>
+				<td> <input type="date" ng-model="record.PRMilDischargeDate"></td>
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PRMilNote"></textarea></td>
 				<td style="width:100px">
 					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
@@ -289,8 +293,8 @@
 			</thead>
 			<tr ng-repeat="record in current.misc track by $index">
 				<td> <input type="text" ng-model="record.PRMiscPlacementType"></td>
-				<td> <input type="text" ng-model="record.PRMiscStartDate"></td>
-				<td> <input type="text" ng-model="record.PRMiscEndDate"></td>
+				<td> <input type="date" ng-model="record.PRMiscStartDate"></td>
+				<td> <input type="date" ng-model="record.PRMiscEndDate"></td>
 				<td> <input type="text" ng-model="record.PRMiscHrs"></td>
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PRMiscNote"></textarea></td>
 				<td style="width:100px">
