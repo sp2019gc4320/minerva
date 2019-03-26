@@ -5,127 +5,6 @@
 	<form>
 		<div>
 			<div class="col-xs-12">
-				<h1>PRAP</h1>
-			</div>
-		</div>
-
-		<table id="reportsTable" class="table minerva-table">
-			<thead>
-			<tr>
-				<th colspan="3"> Post-Residential Reports
-					<button class="btn btnEdit" ng-click="makeNotesEditable()" ng-hide="editNotes||showNewNote"> Edit</button>
-					<button class="btn btnSave" ng-click="saveNotesUpdate()" ng-show="editNotes"> Save</button>
-					<button class="btn btnCancel" ng-click="cancelNotesUpdate()" ng-show="editNotes"> Cancel</button>
-
-					<button class="btn btnSave" ng-click="saveNoteCreate()"ng-show="showNewNote"> Save</button>
-					<button class="btn btnCancel" ng-click="cancelNoteCreate()"ng-show="showNewNote"> Cancel</button>
-				</th>
-			</tr>
-			</thead>
-			<tr ng-repeat="report in current.reports track by $index">
-				<td> <input type="text" ng-model="report.PRReportType"></td>,
-				<td> <input type="text" ng-model="report.PRReporterCategory"></td>,
-				<td> <input type="text" ng-model="report.PRReportDate"></td>,
-				<td> <input type="text" ng-model="report.PRReporterID"></td>,
-				<td> <input type="text" ng-model="report.WasContactMade"></td>,
-				<td> <input type="text" ng-model="report.WasMentorInvolved"></td>,
-				<td> <textarea rows="4" style="resize:vertical;" ng-model="report.PRReportNote"></textarea></td>,
-				<td style="width:100px">
-					<button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
-				</td>
-			</tr>
-		</table>
-	</form>
-</div>
-
-				<!-- the attachments section is not visible until edit is clicked on
-				<td style="width:35%">
-					<table>
-						<tr>
-							<td>
-								<strong>Creator</strong>:<br/>
-								<input type="text" ng-disabled="!editNotes" ng-model="note.NoteCreatedByName">
-							</td>
-							<td>
-								<br/>
-								<input type="date" ng-disabled="!editNotes" ng-model="note.NoteCreatedDate">
-							</td>
-						</tr>
-						<tr>
-							<td>
-								<strong>Editor</strong>:<br/>
-								<input type="text" ng-disabled="!editNotes" ng-model="note.NoteEditedByName">
-							</td>
-							<td><br/>
-								<input type="date" ng-disabled="!editNotes" ng-model="note.NoteEditedDate">
-							</td>
-						</tr>
-					</table>
-				</td>
-				<td>
-                    <textarea rows="4" style="resize:vertical;" class="form-control" ng-disabled="!editNotes"
-							  ng-model="note.GenNote"></textarea>
-				</td>
-
-			</tr>
-		</table>
-		<button class="btn btnCreate" ng-click="addNote()" style="margin: 0 auto" ng-hide="showNewNote||editNotes"> Add Note</button>
-		<form id="noteAdd"  ng-show="showNewNote">
-			<table style="width:100%" ng-show="showNewNote">
-				<tr>
-					<td style="width:35%">
-						<table>
-							<tr>
-								<td>
-									<strong>Creator ID</strong>:<br/>
-									<input name="NoteCreatorID" type="text" ng-model="tempNote.NoteCreatorID" >
-								</td>
-								<td>
-									<br/>
-									<input name="NoteCreatedDate" type="date" ng-model="tempNote.NoteCreatedDate" >
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<strong>Editor ID</strong>:<br/>
-									<input name="NoteEditorID" type="text" ng-model="tempNote.NoteEditorID">
-								</td>
-								<td><br/>
-									<input name="NoteEditedDate" type="date" ng-model="tempNote.NoteEditedDate">
-								</td>
-							</tr>
-						</table>
-					</td>
-					<td>
-                    <textarea rows="4" style="resize:vertical;" class="form-control"
-							  ng-model="tempNote.GenNote"></textarea>
-					</td>
-
-				</tr>
-
-
-
-
-			</table>
-		</form>
-		<p>
-		<hr>
-		</p>
-
-		<fieldset class="form-group">
-			<div class="row">
-				<div class="col-md-12">
-					<ng-include src="'./utility/attachments/attachments.view.html'"></ng-include>
-				</div>
-			</div>
-		</fieldset>
-
-	</form>
-</div>
-<!--
-	<form>
-		<div>
-			<div class="col-xs-12">
 				<h1>Post Residential</h1>
 			</div>
 		</div>
@@ -257,8 +136,7 @@
 								<button ng-click="saveNote()" class=".minervaButton">Save</button>
 							</div>
 							<div id="notes1">
-								<textarea style="resize:vertical;" class="form-control" ng-model="reports.PRReportNote" disabled=true></textarea>
-
+								<textarea style="resize:vertical;" class="form-control" ng-model="reports.PRReportNote" disabled=true></textarea>							<!--NOTE 1-->
 
 					<div ng-app="module" ng-controller="postresController">
 						<div ng-repeat="input in inputList">
@@ -268,7 +146,7 @@
 						<button ng-click="addNote()" class="btn btnCreate"> Add Note</button>
 					</div>
 					</div>
-
+				<!--</div>-->
 			</div>
 			<div class="form-row justify-content-center">
 				<button ng-click="addReport()" class="btn btnCreate" > Add Another Report</button>
@@ -279,6 +157,7 @@
 				<legend class="col-form-label col-xs-12">Mentor Contacts</legend>
 			</div>
 			<div ng-repeat="contacts in allcontacts track by $index" >
+				<!--<div ng-if="isCurrentContacts($index)">-->
 					<div class="form-row">
 						<div class="col-md-2 d-none d-md-block"></div>
 						<div class="form-group col-md-2">
@@ -332,6 +211,7 @@
 						</div>
 						<div class="col-md-1 d-none d-md-block"></div>
 					</div>
+				<!--</div>-->
 			</div>
 			<div class="form-row justify-content-center">
 				<button ng-click="addMentor()" class="btn btnCreate"> Add Mentor Contact Report</button>
@@ -343,6 +223,7 @@
 				<legend class="col-form-label col-xs-12">Education</legend>
 			</div>
 			<div ng-repeat="education in alleducation track by $index" >
+				<!--<div ng-if="isCurrentEducation($index)">-->
 				<div class="form-row">
 					<div class="col-md-1 d-none d-md-block"></div>
 					<div class="form-group col-md-2">
@@ -401,6 +282,7 @@
 					<button class=".minervaButton" ng-click="updateEducation($index)">Update</button>
 					<button ng-click="removeEducation(education)" class=".minervaButton">Remove Education Report</button>
 				</div>
+				<!--</div>-->
 			</div>
 			<div class="form-row justify-content-center">
 				<button ng-click="addEducation()" class=".minervaButton">Add Education Report</button>
@@ -411,6 +293,7 @@
 				<legend class="col-form-label col-xs-12">Military</legend>
 			</div>
 			<div ng-repeat="military in allmilitary track by $index">
+				<!--<div ng-if="isCurrentMilitary($index)">-->
 					<div class="form-row">
 						<div class="form-group col-md-2">
 							<label >Affiliation</label>
@@ -466,7 +349,7 @@
 
 					<div ng-app="module" ng-controller="postresController">
 						<div ng-repeat="input in inputList">
-							<textarea style="resize:vertical;" class="form-control" ng-model="military.PRMilNote"></textarea>
+							<textarea style="resize:vertical;" class="form-control" ng-model="military.PRMilNote"></textarea>				<!-- NOTE 2-->
 							<button ng-click="removeNote(input)" class="btn btnDelete"> Delete</button>
 						</div>
 						<button ng-click="addNote()" class="btn btnCreate"> Add Note</button>
@@ -492,6 +375,7 @@
 				<legend class="col-form-label col-xs-12">Employment</legend>
 			</div>
 			<div ng-repeat="employment in allemployment track by $index">
+				<!--<div ng-if="isCurrentEmployment($index)">-->
 					<div class="form-row">
 						<div class="col-md-1 d-none d-md-block"></div>
 						<div class="form-group col-md-2">
@@ -578,6 +462,7 @@
 						<button class=".minervaButton" ng-click="updateEmployment($index)">Update</button>
 						<button ng-click="removeEmployment(employment)" class=".minervaButton">Remove Employment Report</button>
 					</div>
+				<!--</div>-->
 			</div>
 			<div class="form-row justify-content-center">
 				<button ng-click="addEmployment()" class=".minervaButton">Add Employment Report</button>
@@ -588,6 +473,7 @@
 				<legend class="col-form-label col-xs-12">Misc</legend>
 			</div>
 			<div ng-repeat="misc in allmisc track by $index">
+				<!--<div ng-if="isCurrentMisc($index)">-->
 					<div class="form-row">
 						<div class="col-md-2 d-none d-md-block"></div>
 						<div class="form-group col-md-2">
@@ -616,10 +502,13 @@
 						</div>
 						<div class="col-md-2 d-none d-md-block"></div>
 					</div>
-
+					<!--<div class="card bg-transparent " ng-if="!editNoteSection3">
+                            <button class="btn-primary" ng-click="editSection('noteSection3')">Edit</button>-->
 
 
 				<div class="form-row">
+				<!--<button ng-click="enableEdit()" class="btn btn-success">Edit</button>
+				<button ng-click="disableEdit()" class="btn btn-success">Cancel</button>-->
 			    <div class="col-md-1 d-none d-md-block"></div>
 			    <div class="form-group col-md-10">
 			        <label>Note</label>
@@ -629,7 +518,7 @@
 						<button ng-click="saveNote()" class="btn btnSave"> Save</button>
 					</div>
 						<div id="notes3">
-					<textarea style="resize:vertical;" class="form-control" ng-model="misc.PRMiscNote" disabled=true></textarea>
+					<textarea style="resize:vertical;" class="form-control" ng-model="misc.PRMiscNote" disabled=true></textarea>						<!--NOTE 3-->
 
 
                     <div ng-app="module" ng-controller="postresController">
@@ -656,4 +545,3 @@
 		</fieldset>
 	</form>
 </div>
--->

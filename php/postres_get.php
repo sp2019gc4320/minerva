@@ -11,18 +11,63 @@ $connection = new DBController();
 
 
 // default values for testing
-$CadetID = 12;//Uses CadetID 12 (Da'jour Calloway)
 $CadetID = 230;//Uses CadetID 12 (Judson has 2 education placements in one month
 //Replace with POST parameters
-if (isset($_POST['CadetID'])) {
-    $CadetID = filter_input(INPUT_POST, "CadetID");
+
+//Use ClassDetailID
+$ClassDetailID = 229; //ClassDetail for Cadet 230 Judson has two Education Records
+if (isset($_POST['ClassDetailID'])) {
+    $ClassDetailID = filter_input(INPUT_POST, "CadetID");
 }
 
-$sql = "SELECT tblPRPlacements.PlacementMonth, tblPRPlacements.MeetsRequiredContact, tblPRPlacements.MeetsPlacementCriteria,
-               tblCadets.CadetID, tblPeople.PersonFN, tblPeople.PersonLN
-        FROM (tblPeople INNER JOIN (tblCadets INNER JOIN tblClassDetails ON tblCadets.CadetID = tblClassDetails.fkCadetID) ON tblPeople.PersonID = tblCadets.fkPersonID) INNER JOIN tblPRPlacements ON tblClassDetails.ClassDetailID = tblPRPlacements.fkClassDetailID
-        WHERE (((tblCadets.CadetID)='$CadetID'));
-       ";
+$data = array();
+//1. Get All Placement records for a given ClassDetailID
+$sql= "SELECT * FROM tblPRPlacements WHERE fkClassDetailID = '$ClassDetailID'";
+$result = $connection->runSelectQuery($sql);
+
+//2.  For each placement record store education, employment, military, misc, and report arrays
+if ($result->num_rows > 0)
+{
+    while($row = $result->fetch_assoc()) {
+        //An associate array is returned.  so convert this into an object
+        $placement = (object)$row;
+
+        //Store the placementID so it can be used in subsequent queries
+        $placementID = $placement->PlacementID;
+
+        //Store Education Information
+        $sectionSQL = "SELECT * FROM tblPREducation WHERE fkPlacementID = '$placementID'";
+        $sectionResult = $connection->runSelectQueryArrayNotEncoded($sectionSQL);
+        $placement->education = $sectionResult;
+
+        //Store Employment Information
+        $sectionSQL = "SELECT * FROM tblPREmployment WHERE fkPlacementID = '$placementID'";
+        $sectionResult = $connection->runSelectQueryArrayNotEncoded($sectionSQL);
+        $placement->employment = $sectionResult;
+
+        //Store Military Information
+        $sectionSQL = "SELECT * FROM tblPRMilitary WHERE fkPlacementID = '$placementID'";
+        $sectionResult = $connection->runSelectQueryArrayNotEncoded($sectionSQL);
+        $placement->military = $sectionResult;
+
+        //Store Misc Information
+        $sectionSQL = "SELECT * FROM tblPRMisc WHERE fkPlacementID = '$placementID'";
+        $sectionResult = $connection->runSelectQueryArrayNotEncoded($sectionSQL);
+        $placement->misc = $sectionResult;
+
+        //Store Report Information
+        $sectionSQL = "SELECT * FROM tblPRReports WHERE fkPlacementID = '$placementID'";
+        $sectionResult = $connection->runSelectQueryArrayNotEncoded($sectionSQL);
+        $placement->reports = $sectionResult;
+
+        //add placement object to data array
+        $data[] = $placement;
+    }
+}echo '{ "data":' . (json_encode($data)) . "} ";
+
+
+/*
+
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
 echo '{ "header":' . (json_encode($result)) . ", ";
 
@@ -94,5 +139,5 @@ tblPRMisc.PRMiscEndDate, tblPRMisc.PRMiscHrs, tblPRMisc.PRMiscNote, tblPRMisc.PR
         ";
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
 echo ' "misc":' . (json_encode($result)) . "} ";
-
+*/
 ?>

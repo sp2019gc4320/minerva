@@ -21,38 +21,8 @@ angular.module('notes.postres').controller('postresController', function($scope,
         //SUCCESS
         //Creates an array of objects that contain data
         function (result) {
-            //Current CadetID is set to 12 (Da'jour Calloway)\
-            //data for header section
-            $scope.allheader = result.data.header;
-            $scope.header = $scope.allheader[0];
-
-            //data for reports section
-            $scope.allreports = result.data.reports;
-            $scope.reports = $scope.allreports[0];
-
-            //data for contacts section
-            $scope.allcontacts = result.data.contacts;
-            $scope.contacts = $scope.allcontacts[0];
-
-            //data for education section
-            $scope.alleducation = result.data.education;
-            $scope.education = $scope.alleducation[0];
-
-
-            //data for military section
-            $scope.allmilitary = result.data.military;
-            $scope.military = $scope.allmilitary[0];
-
-
-            //data for employment section
-            $scope.allemployment = result.data.employment;
-            $scope.employment = $scope.allemployment[0];
-
-
-            //data for misc section
-            $scope.allmisc = result.data.misc;
-            $scope.misc = $scope.allmisc[0];
-
+            $scope.data = result.data;
+            $current = data[0];
         },
         //ERROR
         function (result) {
