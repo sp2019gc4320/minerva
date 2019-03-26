@@ -63,7 +63,16 @@ if ($result->num_rows > 0)
         //add placement object to data array
         $data[] = $placement;
     }
-}echo '{ "data":' . (json_encode($data)) . "} ";
+}
+
+//3. Retrieve mentor contacts
+$sql = "SELECT tblMentorContacts.* FROM tblMentorContacts 
+      INNER JOIN tblMentorPotential ON tblMentorContacts.fkMentorPotentialID = tblMentorPotential.MentorPotentialID 
+      WHERE tblMentorPotential.fkClassDetailID = $ClassDetailID";
+$contacts = $connection->runSelectQueryArrayNotEncoded($sql);
+
+
+echo '{ "data":' . (json_encode($data)) . ', "contacts": ', (json_encode($contacts)) .' } ';
 
 
 /*
