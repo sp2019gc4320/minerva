@@ -21,8 +21,8 @@ angular.module('notes.postres').controller('postresController', function($scope,
         //SUCCESS
         //Creates an array of objects that contain data
         function (result) {
-            $scope.data = result.data;
-            $current = data[0];
+            $scope.postres = result.data.data;
+            $scope.current = $scope.postres[0];
         },
         //ERROR
         function (result) {
