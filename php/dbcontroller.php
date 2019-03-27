@@ -43,7 +43,7 @@ class DBController {
             $last_id = $conn->insert_id;
             //show the id of the record
 			echo '{ "id":'. $last_id. ', "status":"New record(s) created successfully"}';
-			return true;
+			return $last_id;
 		} 
 		else {
 		    echo '{"status": "error", "statusText":"Error: ' . $query. ' - ' . $conn->error.'"}';
@@ -68,7 +68,7 @@ class DBController {
 
    function runSelectQueryArray($query) //Used to run a select query and return array of rows
     {
-        echo $query;
+        //echo $query;
          $result = mysqli_query($this->conn,$query);
          $result_array = array();
 
