@@ -160,6 +160,7 @@
 				</th>
 			</tr>
 			<tr>
+				<th>Mentor ID</th>
 				<th>Contact Date</th>
 				<th>Contact Type</th>
 				<th>Placement Month</th>
@@ -168,6 +169,7 @@
 			</tr>
 			</thead>
 			<tr ng-repeat="contact in contacts track by $index">
+				<td> <input type="text" ng-model="contact.fkMentorPotentialID"></td>
 				<td> <input type="date" ng-model="contact.ContactDate"></td>
 				<td> <input type="text" ng-model="contact.MentorContactType"></td>
 				<td> <input type="text" ng-model="contact.ContactPlacementMonth"></td>
@@ -183,6 +185,7 @@
 		<form id="contactAdd"  ng-show="showNewContact">
 			<table style="width:100%" ng-show="showNewContact">
 				<tr>
+					<th>Mentor ID</th>
 					<th>Contact Date</th>
 					<th>Contact Type</th>
 					<th>Placement Month</th>
@@ -190,6 +193,7 @@
 					<th></th>
 				</tr>
 				<tr>
+					<td> <input type="text" ng-model="tempContact.fkMentorPotentialID"></td>
 					<td> <input type="date" ng-model="tempContact.ContactDate"></td>
 					<td> <input type="text" ng-model="tempContact.MentorContactType"></td>
 					<td> <input type="text" ng-model="tempContact.ContactPlacementMonth"></td>

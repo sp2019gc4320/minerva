@@ -31,6 +31,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
             $scope.postres = result.data.data;
 
             $scope.contacts = result.data.contacts;
+            $scope.mentors = result.data.mentors;
             $scope.reportMonths = result.data.reportMonths;
 
 
@@ -409,7 +410,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
 
         var reportObj = {
            // MentorContactID:
-            fkMentorPotentialID:"", //TODO get default Mentors -- the potential mentor should not be empty
+            fkMentorPotentialID:$scope.mentors[0].MentorPotentialID, //TODO get default Mentors -- the potential mentor should not be empty
             ContactDate: new Date(),
             MentorContactType:"",
             MentorContactNote:"",
@@ -452,7 +453,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
                 delete sendData.tbl;
 
                 $scope.convertDatesInObjectToHtml(sendData);
-                //$scope.contacts.push(sendData);
+                $scope.contacts.push(sendData);
             },
             function (result) {
             });

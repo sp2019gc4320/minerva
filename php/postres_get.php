@@ -85,6 +85,11 @@ $contacts = $connection->runSelectQueryArrayNotEncoded($sql);
 $sql = "SELECT * FROM tlkpPRReportMonth WHERE fkClassID =$ClassID  ORDER BY ReportMonth";
 $reportMonths = $connection->runSelectQueryArrayNotEncoded($sql);
 
-echo '{ "data":' . (json_encode($data)) . ', "contacts": ', (json_encode($contacts)) .', "reportMonths": '. (json_encode($reportMonths)) .' } ';
+//5. Retrieve all related Potential mentors
+
+$sql = "SELECT fkMentorID, MentorPotentialID FROM tblMentorPotential WHERE fkClassDetailID = $ClassDetailID";
+$mentors = $connection->runSelectQueryArrayNotEncoded($sql);
+
+echo '{ "data":' . (json_encode($data)) . ', "contacts": ', (json_encode($contacts)) .', "mentors": '. (json_encode($mentors)).', "reportMonths": '. (json_encode($reportMonths)) .' } ';
 
 ?>
