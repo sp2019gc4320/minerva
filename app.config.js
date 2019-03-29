@@ -85,3 +85,33 @@ function convertToHtmlDate(sqlDate) {
     return htmlDate;
 }
 
+function convertDatesInArrayToHtml( myArray)
+{
+    let index = 0;
+    while (index < myArray.length) {
+        convertDatesInObjectToHtml(myArray[index]);
+        index++;
+    }
+}
+function convertDatesInArrayToSql ( myArray)
+{
+    let index = 0;
+    while (index < myArray.length) {
+        convertDatesInObjectToSql(myArray[index]);
+        index++;
+    }
+}
+function convertDatesInObjectToSql( myObject)
+{
+    for (var fieldName in myObject) {
+        //Check to see if property name contains Date
+        if (fieldName.includes("Date")) {
+            if (myObject[fieldName] !== null) {//IF DATE IS NOT NULL
+                myObject[fieldName] = convertToSqlDate(myObject[fieldName]);
+            }
+            else {
+                myObject[fieldName] = "";
+            }
+        }
+    }
+}
