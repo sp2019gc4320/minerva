@@ -26,6 +26,7 @@ angular.
             .when('/prap',   { templateUrl: './notes/prap/prap.view.html'})
 
             .when('/cadreModule',   { templateUrl: './homescreen/cadre/cadre.view.html'})
+            .when('/recruiterModule',   { templateUrl: './recruiter/recruiter.view.html'})
 
             .otherwise({redirectTo: '/login'})
     });
