@@ -1,0 +1,60 @@
+<!--site-viewcadets.html-->
+<!--view page for Admin  tab-->
+<!-- Programmer: Lauren Alibey -->
+<!-- This code shares a scope with site.viewCadets.controller.js -->
+
+<h3>Cadets</h3>
+<!--load app.controller from ViewCadetsController.js-->
+
+<div ng-controller = "ViewCadetsController">
+    <div class = "row">
+        <div class="dropdown">
+            <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
+            <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)"ng-show="editTasks"> Save</button>
+            <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
+            <button class="btn btn-primary" ng-click="print()">Print Current Roster</button>
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By:
+                <span class="caret"></span></button>
+            <div class="dropdown-menu">
+                <li><a href="#">Cadet ID</a></li>
+                <li><a href="#">First Name</a></li>
+                <li><a href="#">Last Name</a></li
+                <li><a href="#">Class ID</a></li>
+                <li><a href="#">Roster Number</a></li>
+
+            </div>
+            <div class = "form-group row">
+                <!-- don't forget this white space-->
+            </div>
+        </div>
+    </div> <!-- row-->
+
+    <table class="table minerva-table">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Class ID</th>
+            <th>Roster Number</th>
+            <th>Cadet ID</th>
+            <th>Status</th>
+        </tr>
+        <tr ng-repeat="x in cadets"
+            ng-click="pickCadet(x)">
+            <td align="center"
+                class="text-center">
+            </td>
+            <td>{{x.PersonFN}}</td>
+            <td>{{x.PersonLN}}</td>
+            <td> {{x.fkClassID}}</td>
+            <td>{{x.CadetRosterNumber}}</td>
+            <td>{{x.fkCadetID}}</td>
+            <!--<td><button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status
+                <span class="caret"></span></button>
+                <div class="dropdown-menu">
+                    <li><a href="#">Cadet</a></li>
+                    <li><a href="#">Graduate</a></li>
+            </td>
+            -->
+        </tr>
+    </table>
+</div>
