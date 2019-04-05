@@ -1,0 +1,79 @@
+<!--healthHyg.html-->
+<!--view page for Health/Hygiene tab-->
+<!--fields that can be updated are autoloaded with current values-->
+
+
+<div class="well container infoContainer" id="healthContainer">
+	<h1>Health & Hygiene</h1>
+	<!--load app.controller from healthHygCtrl.js-->
+	<div ng-controller="healthController">
+		<!--name form for two way binding-->
+		<form name ="HealthForm">
+			<table class="table minerva-table" id="HealthEvents">
+				<thead>
+					<tr>
+						<th colspan="5">TASKS 
+							<button class="btn btnEdit" ng-click="edit()"ng-hide="editable"> Edit</button>
+							<button class="btn btnSave" ng-click="update(tasks)"ng-show="editable"> Save</button>
+							<button class="btn btnCancel" ng-click="cancelUpdate()"ng-show="editable"> Cancel</button>
+						</th>
+					</tr>
+				</thead>
+				<tr>
+					<th>Task</th>
+					<th>Description</th>
+					<th>Last Activity</th>
+					<th>Pass/Fail</th>
+					<th>Note</th>
+				</tr>
+
+
+				<!--iterate through each instance in scope from controller??-->
+
+
+					<tr ng-repeat="task in tasks">
+						<td>{{task.TaskNumber}}</td>
+						<td style="text-align: left">{{task.Task}}</td>
+
+
+				<td><input name="EventDate" type="date" ng-model="task.EventDate"ng-disabled="!editable" ></td>
+
+						<td ng-if="task.DidPass == '1'" class="bg-success text-center">
+				<input  style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable">
+					</td>
+
+						<td ng-if="task.DidPass == '0'" class="bg-danger text-center">
+							<input  style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable">
+						</td>
+
+
+				<td><textarea style="resize: both; overflow: auto;" name="EventNote" type="text" ng-model="task.EventNote" data-ng-bind="note"ng-disabled="!editable"  data-toggle="modal" data-target="#event{{$index}}"></textarea>
+					<!-- dive to pop up textarea when clicked -->
+					<div class="modal fade" id="event{{$index}}" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h6>Note</h6>
+									<div class="modal-body">
+										<textarea ng-model="task.EventNote"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+				</tr>
+
+				<tr>
+					<td></td>
+					<td></td>
+					<td></td>
+					<td style="color: #1c7430" ng-show="show==true"><b>ALL PASSED</b></td>
+				</tr>
+
+			</table>
+		</form>
+		{{msg}}
+	</div>
+</div>
