@@ -3,244 +3,358 @@
 // 
 
 
-// Process error message if call to server returns an exception
-function errormsg(jqXHR, exception) {
-    var msg = '';
-    if (jqXHR.status === 0) {
-        msg = 'Not connect.\n Verify Network.';
-    } else if (jqXHR.status == 404) {
-        msg = 'Requested page not found. [404]';
-    } else if (jqXHR.status == 500) {
-        msg = 'Internal Server Error [500].';
-    } else if (exception === 'parsererror') {
-        msg = 'Requested JSON parse failed.';
-    } else if (exception === 'timeout') {
-        msg = 'Time out error.';
-    } else if (exception === 'abort') {
-        msg = 'Ajax request aborted.';
-    } else {
-        msg = 'Uncaught Error.\n' + jqXHR.responseText;
+angular.module('core-components.physical-fitness').controller('physicalFitnessController', function($scope, $http, $window) {
+
+    $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
+    alert("Test Citizenship with Cadet 361 - Jennifer Avila to see sample dates");
+
+    $scope.tasks=[];
+    $scope.tests=[];
+    $scope.showTest = false;
+    $scope.flags=[0,0,0];
+
+
+    $scope.showTable = function(index)
+    {
+        return $scope.flags[index] == '1';
     }
 
 
-}
+  //  minDate();
 
-//This function issues an AJAX request sends data -- it is called when user clicks button in student.html
-function getPhysFit() {
-    //get value entered in textfield
+   $scope.showTest = function(index)
+    {
+        if($scope.flags[index] == 0)
+        {
+          $scope.flags[index] = 1;
+        }
+        else
+        {
+            $scope.flags[index] = 0;
+        }
+    };
 
-    var cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
-    alert("Test  with Cadet 7 - William Bowles to see sample data");
+
+    $scope.getIndex = function()
+    {
+
+    }
 
 
-    //options to format data for ajax command -- these are not used in this example
-    // var formData ="name=ravi&age=31";
-    //     formdata = "major=CSCI";
-    // var formData2 ={name:"ravi", age: "31"};
-    $(document).ready(function () {
 
-        $.ajax({
-            type: "POST",  //POST is more secure
-            url: "./php/retrievePhysFit2.php",
+ /*   $scope.backup_tasks = [];
+    $scope.backup_tests = [];
 
-            data: ({cadet: cadetID}),
-            dataType: "json",
-            success: function (result) {
-                showPhysFit(result);
-            },
+    $scope.editTasks = true;
+    $scope.editTests=true;
 
-            error: function (jqXHR, exception) {
-                errormsg(jqXHR, exception);
+    //document.getElementById("taskSaveCancelButtons").style.display ="none";
+    //document.getElementById("testSaveCancelButtons").style.display ="none";
+
+    $scope.editSection = function(section){
+        if(section == "tasks")
+        {
+            $scope.editTasks = false;
+            $scope.backup_tasks = angular.copy($scope.tasks);
+
+
+            document.getElementById("editButtonTasks").style.display = "none";
+            var element1 = document.getElementById("taskSaveCancelButtons");
+
+            if(element1.style.display == 'none')
+            {
+                element1.style.display = 'block';
             }
+
+        }
+
+        else if(section == "tests")
+        {
+            $scope.editTests = false;
+            $scope.backup_tests = angular.copy($scope.tests);
+
+            document.getElementById("editButtonTests").style.display = "none";
+            var element1 = document.getElementById("testSaveCancelButtons");
+
+            if(element1.style.display == 'none')
+            {
+                element1.style.display = 'block';
+            }
+
+        }
+
+    };
+
+    $scope.saveSection = function(section){
+        if(section == "tasks")
+        {
+            $scope.editTasks = true;
+
+
+            document.getElementById("editButtonTasks").style.display = "block";
+            var element1 = document.getElementById("taskSaveCancelButtons");
+            if (element1.style.display == 'block')
+            {
+                element1.style.display = 'none';
+            }
+
+
+            for (var j=0; j<$scope.tasks.length; j++)
+            {
+
+                var sendData=angular.copy($scope.tasks[j]);
+                sendData.EventDate+="";
+
+
+                var tasksDateArray=sendData.EventDate.split(" ");
+                sendData.EventDate=dateFormat(tasksDateArray);
+
+
+                delete sendData.Task;
+                delete sendData.TaskNumber;
+
+
+                $http ({
+                    method: 'POST',
+                    url: "./php/updatePhysFit.php",
+                    data: Object.toparams(sendData),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(
+                    function(response)
+                    {
+                        if(response.data)
+                        {
+
+                        }
+                        alert("updated: [updatePhysFit.php" + JSON.stringify(response));
+                    },function(result){
+                        alert("Failed");
+                    });
+            }
+            alert("task updated");
+        }
+
+        else if(section=="tests")
+        {
+
+
+            $scope.editTests = true;
+
+            document.getElementById("editButtonTests").style.display = "block";
+            var element1 = document.getElementById("testSaveCancelButtons");
+            if (element1.style.display == 'block') {
+                element1.style.display = 'none';
+            }
+
+
+            for (var j=0; j<$scope.tests.length; j++)
+            {
+
+                var sendData=angular.copy($scope.tests[j]);
+                sendData.EventDate+="";
+
+
+                var testsDateArray=sendData.EventDate.split(" ");
+                sendData.EventDate=dateFormat(testsDateArray);
+
+                delete sendData.TaskNumber;
+                delete sendData.TaskTest;
+
+
+                $http ({
+                    method: 'POST',
+                    url: "./php/updatePhysFit.php",
+                    data: Object.toparams(sendData),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(
+                    function(response)
+                    {
+                        if(response.data)
+                        {
+
+                        }
+                        alert("updated: [updatePhysFit.php" + JSON.stringify(response));
+                    },function(result){
+                        alert("Failed");
+                    });
+            }
+            alert("test updated");
+
+        }
+    };
+*/
+    var myRequest= {cadet: $scope.cadetID};
+
+
+    $http ({
+        method: 'POST',
+        url: "./php/physical-fitness_retrievePhysFit2.php",
+        data: Object.toparams(myRequest),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    }).then(
+        function(result)
+        {
+            alert("updated: [physical-fitness_retrievePhysFit2.php" + JSON.stringify(result));
+
+            //split result into variables
+            $scope.tasks=result.data.taskTbl;
+            $scope.tests=result.data.data;
+
+
+
+            for(var i=0; i<$scope.tasks.length; i++)
+            {
+                $scope.tasks[i].date=convertToHtmlDate($scope.tasks[i].date);
+            }
+
+
+            for(var j=0; j<$scope.tests.length; j++)
+            {
+                $scope.tests[j].PTDate=convertToHtmlDate($scope.tests[j].PTDate);
+            }
+
+           //$scope.convertDatesInArrayToHtml(  $scope.tasks);
+           // $scope.convertDatesInArrayToHtml(  $scope.tests);
+        },function(result){
+            alert(result);
         });
-    })
-}
 
 
-function showPhysFit(result) {
-    if (document.getElementById('PhysicalFitnessMain').rows.length > 1) {
-        return;
-    }
-    console.log(result);
 
-    /*  -- receives an array of OBJECTS
-    { "value": [{"name":"Anna Smith", "major":"CSCI", "age":"19"},
-                {"name":"Aaron Smith", "major":"CSCI", "age":"20"},
-                {"name":"Brad Jones", "major":"MATH", "age":20"},
-                {"name":"Bobby Jones", "major":"MATH", "age":"22"}]
-   */
-//////////////////////////////////////////////////////////////////////////////////////////////////////////////
-    //build html code.
-    var row;
+  /*  $scope.cancelUpdate = function(section) {
+        if(section=="tasks")
+        {
+            $scope.tasks = angular.copy($scope.backup_tasks);
+            $scope.editTasks = true;
 
-    for (var i in result.taskTbl) {
-        taskNumber = result.taskTbl[i].taskNumber;
-        description = result.taskTbl[i].task;
-        lastActivity = result.taskTbl[i].date;
-        notes = result.taskTbl[i].note;
-        row = document.getElementById("PhysicalFitnessMain").insertRow(-1);
-        row.insertCell(0);
-        row.insertCell(1);
-        row.insertCell(2);
-        row.insertCell(3);
-        row.insertCell(4);
-        row.insertCell(5);
-        row.cells[0].innerHTML = taskNumber;
-        row.cells[1].innerHTML = description;
-        row.cells[2].innerHTML = lastActivity;
-        row.cells[3].innerHTML = notes;
+            document.getElementById("editButtonTasks").style.display = "block";
 
-        if (taskNumber == "2(a)") {
-            row.cells[5].innerHTML = `<button class="btn-danger" onclick="addInfo('pfSubContainer1')" >Show Tests</button>`;
+            var element1 = document.getElementById("taskSaveCancelButtons");
+            if (element1.style.display == 'block')
+            {
+                element1.style.display = 'none';
+            }
         }
-        if (taskNumber == "2(b)") {
-            row.cells[5].innerHTML = `<button class="btn-danger" onclick="addInfo('pfSubContainer2')" >Show Tests</button>`;
+        else if(section=="tests")
+        {
+            $scope.tests = angular.copy($scope.backup_tests);
+            $scope.editTests = true;
+
+            document.getElementById("editButtonTests").style.display = "block";
+            var element1 = document.getElementById("testSaveCancelButtons");
+            if (element1.style.display == 'block')
+            {
+                element1.style.display = 'none';
+            }
         }
-        if (taskNumber == "2(c)") {
-            row.cells[5].innerHTML = `<button class="btn-danger" onclick="addInfo('pfSubContainer3')" >Show Tests</button>`;
-        }
-    }
-
-
-    for (var j in result.testTblAlways) {
-        taskNumber = result.testTblAlways[j].taskNumber;
-        description = result.testTblAlways[j].test;
-
-
-        if (taskNumber == "2(a)") {
-            row = document.getElementById("pfSubContainer1").insertRow(-1);
-        }
-        if (taskNumber == "2(b)") {
-            row = document.getElementById("pfSubContainer2").insertRow(-1);
-        }
-        if (taskNumber == "2(c)") {
-            row = document.getElementById("pfSubContainer3").insertRow(-1);
-        }
-        row.insertCell(0);
-        row.insertCell(1);
-        row.insertCell(2);
-        row.insertCell(3);
-        row.insertCell(4);
-        row.insertCell(5);
-        row.insertCell(6);
-        row.insertCell(7);
-        row.insertCell(8);
-        row.cells[0].innerHTML = taskNumber;
-        row.cells[1].innerHTML = description;
-
-        row.cells[3].innerHTML = '<input type="text" name="tsknum" value="">';
-        row.cells[4].innerHTML = '<input type="text" name="tsknum" value="">';
-        row.cells[5].innerHTML = '<input type="text" name="tsknum" value="">';
-        row.cells[6].innerHTML = '<input type="text" name="tsknum" value="">';
-        row.cells[7].innerHTML = '<input type="text" name="tsknum" value="">';
-        row.cells[8].innerHTML = '<input type="text" name="tsknum" value="">';
-
-
-    }
-
-    for (var k in result.testTbl) {
-
-        taskNumber = result.testTbl[k].taskNumber;
-        description = result.testTbl[k].test;
-        score = result.testTbl[k].result;
-        lastActivity = result.testTbl[k].date;
-        height = result.testTbl[k].height;
-        weight = result.testTbl[k].weight;
-        bmi = result.testTbl[k].bmi;
-        note = result.testTbl[k].note;
-
-        if (taskNumber == "2(a)") {
-            for (var p = 1; p < document.getElementById("pfSubContainer1").rows.length; p++) {
-                if (description == document.getElementById("pfSubContainer1").rows[p].cells[1].innerHTML) {
-                    row = document.getElementById("pfSubContainer1").rows[p];
+    };
+*/
+    $scope.convertDatesInObjectToHtml = function (myObject)
+    {
+        for (var fieldName in myObject) {
+            //Check to see if property name contains Date
+            if (fieldName.includes("Date")) {
+                if (myObject[fieldName] !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
+                    myObject[fieldName] = convertToHtmlDate(myObject[fieldName]);
+                }
+                else {
+                    myObject[fieldName] = new Date("");
                 }
             }
         }
-        if (taskNumber == "2(b)") {
-            for (p = 1; p < document.getElementById("pfSubContainer2").rows.length; p++) {
-                if (description == document.getElementById("pfSubContainer2").rows[p].cells[1].innerHTML) {
-                    row = document.getElementById("pfSubContainer2").rows[p];
+    };
+
+    $scope.convertDatesInArrayToHtml = function( myArray)
+    {
+        let index = 0;
+        while (index < myArray.length) {
+            $scope.convertDatesInObjectToHtml(myArray[index]);
+            index++;
+        }
+    };
+    $scope.convertDatesInArrayToSql = function( myArray)
+    {
+        let index = 0;
+        while (index < myArray.length) {
+            $scope.convertDatesInObjectToSql(myArray[index]);
+            index++;
+        }
+    };
+    $scope.convertDatesInObjectToSql = function( myObject)
+    {
+        for (var fieldName in myObject) {
+            //Check to see if property name contains Date
+            if (fieldName.includes("Date")) {
+                if (myObject[fieldName] !== null) {//IF DATE IS NOT NULL
+                    myObject[fieldName] = convertToSqlDate(myObject[fieldName]);
+                }
+                else {
+                    myObject[fieldName] = "";
                 }
             }
         }
-        if (taskNumber == "2(c)") {
-            for (p = 1; p < document.getElementById("pfSubContainer3").rows.length; p++) {
-                if (description == document.getElementById("pfSubContainer3").rows[p].cells[1].innerHTML) {
-                    row = document.getElementById("pfSubContainer3").rows[p];
-                }
-            }
+    };
+
+   /* function minDate()
+    {
+        let min = new Date(),
+            day = min.getDate(),
+            month = min.getMonth() + 1, //January is 0
+            year = min.getFullYear();
+
+        if (day < 10)
+        {
+            day = '0' + day
         }
 
-
-        row.cells[3].innerHTML = '<input type="text" name="' + taskNumber + description + k + '" value="' + score + '">';
-        row.cells[4].innerHTML = '<input type="text" name="' + taskNumber + description + k + '" value="' + lastActivity + '">';
-        row.cells[5].innerHTML = '<input type="text" name="' + taskNumber + description + k + '" value="' + height + '">';
-        row.cells[6].innerHTML = '<input type="text" name="' + taskNumber + description + k + '" value="' + weight + '">';
-        row.cells[7].innerHTML = '<input type="text" name="' + taskNumber + description + k + '" value="' + bmi + '">';
-        row.cells[8].innerHTML = '<input type="text" name="' + taskNumber + description + k + '" value="' + note + '">';
-
-    }
-
-    //creating drop down menus
-    for (var o = 1; o < document.getElementById("pfSubContainer1").rows.length; o++) {
-
-        var str = '<div class="form-group"><select class="form-control" id="sel1">';
-
-        for (var l in result.testTblOptions) {
-
-            if (result.testTblOptions[l].taskTest == document.getElementById("pfSubContainer1").rows[o].cells[1].innerHTML && result.testTblOptions[l].taskNumber == document.getElementById("pfSubContainer1").rows[o].cells[0].innerHTML) {
-                str = str + '<option>' + result.testTblOptions[l].testEvent + '</option>';
-            }
+        if (month < 10)
+        {
+            month = '0' + month
         }
-        str = str + '</select></div>'
-        document.getElementById("pfSubContainer1").rows[o].cells[2].innerHTML = str;
 
+        min = year + '-' + month + '-' + day;
+        let today = min.toString();
 
-    }
-
-    for (var o = 1; o < document.getElementById("pfSubContainer2").rows.length; o++) {
-
-        var str = '<div class="form-group"><select class="form-control" id="sel1">';
-
-        for (var l in result.testTblOptions) {
-
-            if (result.testTblOptions[l].taskTest == document.getElementById("pfSubContainer2").rows[o].cells[1].innerHTML && result.testTblOptions[l].taskNumber == document.getElementById("pfSubContainer2").rows[o].cells[0].innerHTML) {
-                str = str + '<option>' + result.testTblOptions[l].testEvent + '</option>';
-            }
+        let list = document.getElementsByClassName("LF-Date");
+        for (let i = 0; i < list.length; i++)
+        {
+            list[i].setAttribute("min",today);
         }
-        str = str + '</select></div>'
-        document.getElementById("pfSubContainer2").rows[o].cells[2].innerHTML = str;
-
-
     }
 
-    for (var o = 1; o < document.getElementById("pfSubContainer3").rows.length; o++) {
 
-        var str = '<div class="form-group"><select class="form-control" id="sel1">';
+    function dateFormat(dateArray)
+    {
 
-        for (var l in result.testTblOptions) {
+        let month;
 
-            if (result.testTblOptions[l].taskTest == document.getElementById("pfSubContainer3").rows[o].cells[1].innerHTML && result.testTblOptions[l].taskNumber == document.getElementById("pfSubContainer3").rows[o].cells[0].innerHTML) {
-                str = str + '<option>' + result.testTblOptions[l].testEvent + '</option>';
-            }
-        }
-        str = str + '</select></div>'
-        document.getElementById("pfSubContainer3").rows[o].cells[2].innerHTML = str;
+        if(dateArray[1]==='Jan')
+            month="01";
+        else if(dateArray[1]==='Feb')
+            month="02";
+        else if(dateArray[1]==='Mar')
+            month="03";
+        else if(dateArray[1]==='Apr')
+            month="04";
+        else if(dateArray[1]==='May')
+            month="05";
+        else if(dateArray[1]==='Jun')
+            month="06";
+        else if(dateArray[1]==='Jul')
+            month="07";
+        else if(dateArray[1]==='Aug')
+            month="08";
+        else if(dateArray[1]==='Sep')
+            month="09";
+        else if(dateArray[1]==='Oct')
+            month="10";
+        else if(dateArray[1]==='Nov')
+            month="11";
+        else
+            month="12";
+        let dateString=dateArray[3]+'-'+month+'-'+dateArray[2];
 
-
+        return dateString;
     }
-
-    row = document.getElementById("pfSubContainer1").insertRow(-1);
-    row.insertCell(0);
-    row.cells[0].innerHTML = '<input type="submit" value="Submit">';
-    row = document.getElementById("pfSubContainer2").insertRow(-1);
-    row.insertCell(0);
-    row.cells[0].innerHTML = '<input type="submit" value="Submit">';
-
-    row = document.getElementById("pfSubContainer3").insertRow(-1);
-
-    row.insertCell(0);
-    row.cells[0].innerHTML = '<input type="submit" value="Submit">';
-
-
-}
+*/
+});
