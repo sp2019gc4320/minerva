@@ -1,0 +1,47 @@
+<!--site-viewgraduates.html-->
+<!--view page for Admin  tab-->
+<!-- Programmer: Lauren Alibey -->
+<!-- This code shares a scope with site.viewgraduates.controller.js -->
+
+<h3>Graduates</h3>
+<!--load app.controller from ViewGraduatesController.js-->
+
+<div ng-controller = "ViewGraduatesController">
+    <div class = "row">
+        <div class="dropdown">
+            <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
+            <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)"ng-show="editTasks"> Save</button>
+            <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
+            <button class="btn btn-primary" ng-click="print()">Print</button>
+            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By:
+                <span class="caret"></span></button>
+            <div class="dropdown-menu">
+                <li><a href="#">First Name</a></li>
+                <li><a href="#">Last Name</a></li>
+            </div>
+            <div class = "form-group row">
+                <!-- don't forget this white space-->
+            </div>
+        </div>
+    </div> <!-- row-->
+    <table class="table minerva-table">
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+        </tr>
+        <tr ng-repeat="x in graduates"
+            ng-click="pickGraduate(x)">
+            <td align="center"
+                class="text-center">
+            </td>
+            <td>{{x.PersonFN}}</td>
+            <td>{{x.PersonLN}}</td>
+            <!--<td><button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status
+                <span class="caret"></span></button>
+                <div class="dropdown-menu">
+                    <li><a href="#">Cadet</a></li>
+                    <li><a href="#">Graduate</a></li>
+            </td>-->
+        </tr>
+    </table>
+</div>
