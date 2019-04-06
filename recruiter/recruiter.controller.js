@@ -1,35 +1,31 @@
 'use strict';
 
-angular.module('admin').
-controller('ctrl_homeOptions', function($scope, $http, $window) {
-
+angular.module('recruiter').controller('recController', function($scope, $http, $window) {
+    alert("yoo");
     //set it to null
-    $window.localStorage.setItem("lookupTable",null);
+   // $window.localStorage.setItem("lookupTable",null);
 
-    $scope.adminViews = [
+    $scope.recruiterViews = [
         {view:'Add Class', url:'./admin/site-addclass/site-addclass.view.html'},
         {view:'Add Cadet', url:'./admin/site-addcadet/site-addcadet.view.html'},
-    ]
+    ];
 
     $scope.showView = function showView(item){
         $scope.dataurl = item.url;
         $scope.updateDisplay = item.url
     };
-    //stolen from attachments.controller.js.
-    //Changing to fit recruiter purposes.
+
     //Mock Data used for testing ----------------------
     $scope.fileData = {
         Category: "Category",
         CadetID:"208",
         File: "testB.html",
-        DateAdded:"2017-04-27",
         Description:"Description of File"
     };
     $scope.fileData2 = {
         Category: "Category2",
         CadetID:"208",
         File: "File2",
-        DateAdded:"2017-04-28",
         Description:"Description of File Two"
     };
 
@@ -39,19 +35,23 @@ controller('ctrl_homeOptions', function($scope, $http, $window) {
     $scope.files[0] = $scope.file;
     $scope.files[1] = angular.copy($scope.fileData2);
     //Set Cadet ID to value stored in local storage
+
+    //TODO: Once this is changed to applicantID, send to backend in place of cadet
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
 
     //Upload File - Specify CadetID, PATH and File
     $scope.uploadFile =  function() {
+        alert("yoo");
+
         var currDirectory='mentorFiles';
         var myFile = document.querySelector('#myFile');
-        var currCadetID= $scope.cadetID;
-        //Set file type based on what is stored in local storage.
-        var fileType= $scope.fileTypes;
+
         var formData = new FormData();
-        formData.append('CadetID',currCadetID);
+
+
+        formData.append('CadetID',$scope.cadetID);
         formData.append('directory',currDirectory);
-        formData.append('fileType',fileType);
+        formData.append('fileType',$scope.file);
         formData.append('file', myFile.files[0]);
         for (var key of formData.keys()) {
             console.log(key);
@@ -59,7 +59,7 @@ controller('ctrl_homeOptions', function($scope, $http, $window) {
 
         var task = $http({
             method: 'POST',
-            url: './php/files_upload.php',
+            url: './php/app_fileUpload.php',
             data: formData,
             transformRequest: angular.identity,
             headers: {'Content-Type': undefined}
@@ -67,7 +67,7 @@ controller('ctrl_homeOptions', function($scope, $http, $window) {
             //success
             function (result) {
                 alert("File Uploaded!");
-                //alert("success: " + JSON.stringify(result));
+                alert("success: " + JSON.stringify(result));
 
                 $scope.selectedFile = result.data;
                 $scope.showDirectory();
