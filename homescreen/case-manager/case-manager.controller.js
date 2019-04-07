@@ -41,7 +41,7 @@ controller("caseManagerController", function($scope, $http, $window){
     {
         $window.open('./utility/find-cadet/find-cadet-index.view.html', "_blank",
             "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=300,height=300");
-
+            
     };
 
     $scope.localStorageUpdate = function localStorageUpdate(item)
