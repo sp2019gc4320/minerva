@@ -12,7 +12,8 @@ angular.module("myApp",[
     "notes",
     "core-components",
     "site",
-    "homescreen"
+    "homescreen",
+    "recruiter"
 ]);
 
 var myApp = angular.module("myApp");

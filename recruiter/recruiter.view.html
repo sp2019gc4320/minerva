@@ -1,24 +1,32 @@
-<div ng-controller="ctrl_homeOptions">
-    <!-- refer to pdf of mockups for how this should be designed -->
     <ng-include src="'./views/pagination.html'"></ng-include>
 
+    <div class="container" id="recruitContainer" ng-app="myApp" ng-controller="recController"
+         xmlns="http://www.w3.org/1999/html">
     <h1>Recruiter</h1>
     
     <div class="row">
         
         <div class="col-md-2">
             <nav class="nav flex-column">
-                <button ng-repeat="item in adminViews" type="button" ng-click="showView(item)" class="btn btn-outline-primary"> 
-                    {{item.view}} </button>
+                <button ng-repeat="item in recruiterViews"
+                        type="button"
+                        ng-click="showView(item)"
+                        class="btn btn-outline-primary"
+                        >
+                        {{item.view}}
+                </button>
             </nav>
         </div>
-
+        <!--
+        Idk what this means..
+        --------------
         <div class="col-md-10">
             <ng-include src="updateDisplay"></ng-include>
         </div>
-    
+        -->
+        <button type="button" class="btn" ng-click="uploadFile()"> Upload New File</button>
     </div>
 
-    <button onclick="">Attachment button</button>
+
 
 </div>

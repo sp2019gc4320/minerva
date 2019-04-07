@@ -16,18 +16,6 @@ if(isset($_POST['CadetID'])){
 }
 
 
-// $_FILES  is a global variable that keeps all information related to uploaded file
-// in the code below the input's name attribute in uploading the file was 'file'
-//echo '>>>>>>>>>>>>>>>>>>  $_FILES:';
-// print_r($_FILES);
-
-//echo '<<<<<<<<<<<<<<<<< $_POST:';
-//print_r($_POST);
-
-// echo '<<<<<<<<<<<<<<<<< $_GET:';
-// print_r($_GET);
-
-//echo ' --------------------RESULT:';
 if(isset($_FILES['file'])){
 
     //echo 'Yay! File was received by server!';0
@@ -49,11 +37,11 @@ if(isset($_FILES['file'])){
     $currentDate=date("Y-m-d");
 
     //TODO: Assign unique documentID to each document in tableappdocs.
-    //TODO: Once applicantID's can be created, will change query.
+    //TODO: Once applicantID's can be created, will change query. IN meantime, using cadetID for testing purposes.
 
     //SQL for inserting new file into the database.
     $sql= "INSERT INTO `tblappdocs` (`dateUploaded`, `applicantID`, `docType`, `note`, `filePath`, `documentID`)
- VALUES ('$currentDate', '2', '$fileType', 'blah', '$aPath', '2');";
+ VALUES ('$currentDate', '$CadetID', '$fileType', 'Testing123', '$aPath', '2');";
     $result = $conn->runQuery($sql);
 
 }
