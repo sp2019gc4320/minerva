@@ -6,8 +6,8 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
    // $window.localStorage.setItem("lookupTable",null);
 
     $scope.recruiterViews = [
-        {view:'Add Class', url:'./admin/site-addclass/site-addclass.view.html'},
-        {view:'Add Cadet', url:'./admin/site-addcadet/site-addcadet.view.html'},
+        // This has been replaced by an indivual button {view:'View Applicants', url:'./utility/find-cadet/find-cadet.view.html'},
+        {view:'Add Applicant', url:'./recruiter/site-addcadet/site-addcadet.view.html'},
     ];
 
     $scope.showView = function showView(item){
@@ -182,5 +182,13 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             }
         );
     };
+
+    $scope.openFindCadetView = function()
+    {
+        $window.open('./utility/find-cadet/find-cadet-index.view.html', "_blank",
+            "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=300,height=300");
+
+    };
+    
     $scope.showDirectory();
 });
