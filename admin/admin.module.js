@@ -3,7 +3,8 @@
 //Define the 'main' module
 angular.module('admin', [
     'admin.siteSetup',
-    'admin.siteViewCadets'
-    //,
-    //'admin.siteDropdown'
+    'admin.siteViewCadets',
+    'admin.siteAddClass',
+    'admin.siteAddCadet',
+    'admin.siteViewGraduates',
 ]);

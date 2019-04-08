@@ -6,7 +6,7 @@
 <h3>Cadets</h3>
 <!--load app.controller from ViewCadetsController.js-->
 
-<div ng-controller = "ViewCadetsController">
+<div ng-controller = "viewCadets">
     <div class = "row">
         <div class="dropdown">
             <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
@@ -40,9 +40,6 @@
         </tr>
         <tr ng-repeat="x in cadets"
             ng-click="pickCadet(x)">
-            <td align="center"
-                class="text-center">
-            </td>
             <td>{{x.PersonFN}}</td>
             <td>{{x.PersonLN}}</td>
             <td> {{x.fkClassID}}</td>

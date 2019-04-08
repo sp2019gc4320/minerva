@@ -11,14 +11,15 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
-if ($conn->connect_error) {
+/*if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
-}
+}*/
+
 //Create Field List
 $fields = "PersonFN, PersonLN";
-$sql = "SELECT tblPeople.PersonFN, tblPeople.PersonLN";
+$sql = "SELECT PersonFN, PersonLN";
 $sql =  $sql." FROM tblPeople";
-$result = $connection->runSelectQueryArrayNotEncoded($sql);
+$result = $conn->runSelectQueryArrayNotEncoded($sql);
 
 echo '{"data":' . (json_encode($result)) . "} ";
 ?>
