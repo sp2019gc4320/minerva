@@ -1,7 +1,29 @@
 angular.module('website.edit-corecomponent').controller('coreTasksController', function($scope, $http, $window) {
-	
+	var corecomponent = 5;
 	$scope.editable= false;
+    var taskGetCoreTasks = $http({
+        method: 'POST',
+        url: './php/retriveCoreTasks.php',
+        data: Object.toparams(corecomponent),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    });
+    taskGetCoreTasks.then(
+        //SUCCESS
+        function (result) {
+            //   alert(JSON.stringify(result));
+            $scope.task = result.data.data;
+        }
+    );
+    $scope.makeTasksEditable = function () {
+        $scope.editable = true;
+        //create backup of tasks
+        $scope.taskBackup = angular.copy($scope.task);
+    };
 
+    $scope.cancelTasksUpdate = function () {
+        $scope.editable = false;
+        $scope.task = angular.copy($scope.taskBackup);
+    };
 
 
 	$scope.update= function(){
