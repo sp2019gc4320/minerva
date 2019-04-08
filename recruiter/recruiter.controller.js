@@ -1,7 +1,6 @@
 'use strict';
 
 angular.module('recruiter').controller('recController', function($scope, $http, $window) {
-    alert("yoo");
     //set it to null
    // $window.localStorage.setItem("lookupTable",null);
 
@@ -41,14 +40,10 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
     //Upload File - Specify CadetID, PATH and File
     $scope.uploadFile =  function() {
-        alert("yoo");
-
         var currDirectory='mentorFiles';
         var myFile = document.querySelector('#myFile');
 
         var formData = new FormData();
-
-
         formData.append('CadetID',$scope.cadetID);
         formData.append('directory',currDirectory);
         formData.append('fileType',$scope.file);
@@ -56,7 +51,6 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         for (var key of formData.keys()) {
             console.log(key);
         }
-
         var task = $http({
             method: 'POST',
             url: './php/app_fileUpload.php',
