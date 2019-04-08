@@ -1,0 +1,23 @@
+<!-- CompAssign.html -->
+<!-- This is the view that displays all currently existing companies as well as as their corresponding Cadre and Case Managers.-->
+<!-- TODO -- create editable section to assign and change Cadre and Case Managers-->
+
+
+<div id="compassign_outer">
+
+	<div class="well container infoContainer"
+	id="jscontainer"
+	ng-controller="companyAssignController">
+
+		<h1>Assign Companies</h1>
+		<table>
+			<tr ng-repeat="company in companies">
+				<td><h2>{{company}}</h2></td>
+			</tr>
+
+		</table>
+
+
+	</div>
+
+</div>
