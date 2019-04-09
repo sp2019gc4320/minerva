@@ -1,0 +1,27 @@
+<!-- first name, last name, cadet id, application status-->
+<form ng-submit="submit()" ng-controller="addCadetController">
+    <div class="container" >
+        <div id="personal-info-container">
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="fname">First</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="fname"
+                           placeholder="First"
+                           ng-model="person.PersonFN"
+                           ng-disabled = "true">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="lname">Last</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="lname"
+                           placeholder="Last"
+                           ng-model="person.PersonLN"
+                           ng-disabled = "false">
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
