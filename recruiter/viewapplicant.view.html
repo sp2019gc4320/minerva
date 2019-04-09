@@ -2,6 +2,7 @@
 <form ng-submit="submit()" ng-controller="addCadetController">
     <div class="container" >
         <div id="personal-info-container">
+            <img src="./exampleAppPic.png" alt="Applicant Photo">
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="fname">First</label>
@@ -19,7 +20,27 @@
                            id="lname"
                            placeholder="Last"
                            ng-model="person.PersonLN"
-                           ng-disabled = "false">
+                           ng-disabled = "true">
+                </div>
+            </div>
+            <div class = "form-row">
+                <div class="form-group col-md-3">
+                    <label for="lname">Applicant ID</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="appID"
+                           placeholder="Applicant ID"
+                           ng-model="person.PersonLN"
+                           ng-disabled = "true">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="lname">Application Status</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="appStatus"
+                           placeholder="Application Status"
+                           ng-model="person.PersonLN"
+                           ng-disabled = "true">
                 </div>
             </div>
         </div>
