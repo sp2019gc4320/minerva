@@ -1,10 +1,8 @@
-<div id="recruitContainer" ng-app="myApp" ng-controller="recController"
-xmlns="http://www.w3.org/1999/html">
+<div ng-app="myApp" ng-controller="recController">
     <ng-include src="'./views/pagination.html'"></ng-include>
-    <h1>Recruiter</h1>
     
+    <h1>Recruiter</h1>
     <div class="row">
-        
         <div class="col-md-2">
             <nav class="nav flex-column">
                 <button ng-repeat="item in recruiterViews"
@@ -14,12 +12,12 @@ xmlns="http://www.w3.org/1999/html">
                         >
                         {{item.view}}
                 </button>
-                <button type="button" class="btn" ng-click="openFindCadetView()"> View Applicants</button>
-                <input id="myFile" name="file" type="file" ng-model="fileToUpload" class="">
-                <button type="button" class="btn" ng-click="uploadFile()"> Upload New File</button>
+                <button type="button" class="btn btn-outline-primary" ng-click="openFindCadetView()"> View Applicants</button>
             </nav>
+                <input id="myFile" name="file" type="file" ng-model="fileToUpload" class="">
+                <button type="button" class="btn btn-outline-primary" ng-click="uploadFile()"> Upload New File</button>
+            
         </div>
-
         <div class="col-md-10">
             <ng-include src="updateDisplay"></ng-include>
         </div>
