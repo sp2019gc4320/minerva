@@ -7,6 +7,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.recruiterViews = [
         // This has been replaced by an indivual button {view:'View Applicants', url:'./utility/find-cadet/find-cadet.view.html'},
         {view:'Add Applicant', url:'./recruiter/site-addcadet/site-addcadet.view.html'},
+        {view:'Applicant View Test', url:'./recruiter/viewapplicant.view.html'}
     ];
 
     $scope.showView = function showView(item){

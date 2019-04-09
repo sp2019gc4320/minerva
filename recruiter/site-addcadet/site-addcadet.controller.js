@@ -165,7 +165,5 @@ angular.module('admin.siteAddCadet').controller('addCadetController', function($
             function(error) {
                 console.log("Error: " + error);
             });
-        
     }
-
 });
