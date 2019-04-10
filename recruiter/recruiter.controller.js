@@ -124,7 +124,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         //alert("Downloading:" + name);
         $http({
             method: 'GET',
-            url: './php/files_download.php',
+            url: './php/app_fileDownload.php',
             params: { file: name ,directory:'mentorFiles' },
             responseType: 'arraybuffer'
         }).success(function (data, status, headers) {
