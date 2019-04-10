@@ -5,7 +5,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
    // $window.localStorage.setItem("lookupTable",null);
 
     $scope.recruiterViews = [
-        // This has been replaced by an indivual button {view:'View Applicants', url:'./utility/find-cadet/find-cadet.view.html'},
+        // This has been replaced by an individual button {view:'View Applicants', url:'./utility/find-cadet/find-cadet.view.html'},
         {view:'Add Applicant', url:'./recruiter/site-addcadet/site-addcadet.view.html'},
         {view:'Applicant View Test', url:'./recruiter/viewapplicant.view.html'}
     ];
@@ -40,14 +40,17 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
 
     //Upload File - Specify CadetID, PATH and File
-    $scope.uploadFile =  function() {
+    $scope.uploadFile =  function(docType) {
         var currDirectory='mentorFiles';
-        var myFile = document.querySelector('#myFile');
+
+        var myFile = "#"+docType;
+        var myFile = document.querySelector(myFile);
+
 
         var formData = new FormData();
         formData.append('CadetID',$scope.cadetID);
         formData.append('directory',currDirectory);
-        formData.append('fileType',$scope.file);
+        formData.append('fileType',docType);
         formData.append('file', myFile.files[0]);
         for (var key of formData.keys()) {
             console.log(key);
