@@ -1,4 +1,4 @@
-<? php 
+<?php 
 /**
  * PHP script to get the data necessary to populate the view for the manage
  * permissions module. Note that this script is only to GET the data, but none
@@ -7,11 +7,11 @@
  * Created by: Zachary Ross
  */
 
-require 'dbcontroller.php'
+require_once('dbcontroller.php');
 $db = new DBController();
 
 // Query strings for the db
-$user_query = "SELECT fkUserLoginName FROM tblUsers";
+$user_query = "SELECT UserLoginName FROM tblUsers";
 $permissions_query = "SELECT * FROM tlkpPermissions";
 
 // Run the queries
@@ -19,10 +19,7 @@ $users = $db->runSelectQueryArray($user_query);
 $permissions = $db->runSelectQueryArray($permissions_query);
 
 // Return the data
-$data = $db->makeObject([
-    "users" => json_encode($users), 
-    "permissions" => json_encode($permissions)
-], "users, permissions");
+$data = json_encode([ "users" => $users, "permissions" => $permissions]);
 echo $data;
 
 ?>
