@@ -60,10 +60,13 @@ angular.module('website.edit-corecomponent').controller('coreTasksController', f
         $scope.tasks.splice(index,1);
 
     }
-    $scope.addNewTask= function(){
-        
+    $scope.addNewTask= function($coreID){
+        var sendData=angular.copy($coreID);
+        $http ({
+            method 'POST',
+            url: "./php/createCoreTask.php",
+            data: Object.toparams(sendData),
+            headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+        });
     }
-
-	
-
 }

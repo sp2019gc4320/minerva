@@ -31,9 +31,9 @@
                 	<td>{{task.TaskNumber}}</td>
 					<td><input name="TaskName" ng-model="task.Task"ng-disabled="!editable" ></td>
                     <td><input  style="width:20px; height:20px;" name="IsActive" type="checkbox" ng-model="task.IsActive" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable"></td> 
-                    <td><button class = "btn btnDelete" ng-click="deleteTask(index)"></td>
+                    <td><button class = "btn btnDelete" ng-click="deleteTask(index)">Delete Task</button></td>
                 </tr>	
-                
+                <tr><button class = "btn btnCreate" ng-click="addNewTask">Create</button></tr>
             </table>
         </form>
 
