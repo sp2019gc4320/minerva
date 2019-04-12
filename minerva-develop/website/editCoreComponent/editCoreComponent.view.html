@@ -1,16 +1,15 @@
 
-
-<link rel="stylesheet" type="text/css" href="../../css/site.css">
 <!--<div class="container" id="fileSubmissionContainer" ng-app="myApp" ng-controller="fileSubmission"
      xmlns="http://www.w3.org/1999/html">-->
 
-<div class="well container infoContainer" id="jscontainer">
+<div class="well container infoContainer" id="editCoreContainer">
     <h3>Edit CoreComponent Tasks</h3>
     <!--load app.controller from JobSkillsCtrl.js-->
 
     <div ng-controller="editCoreComponentController">
         <!--name form for two way binding-->
         <form name="coreComponentForm">
+            <button class = "btn btnEdit" ng-click="showTasks()">show tasks</button>
               <select id="selectNumber" ng-model="list">
                 <option>Choose a number</option>
                 </select>

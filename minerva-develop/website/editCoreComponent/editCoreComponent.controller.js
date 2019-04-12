@@ -1,19 +1,19 @@
 angular.module('website.editCoreComponent').controller('editCoreComponentController', function($scope, $http, $window) {
-	var corecomponent = 5;
+	var corecomponent = {CoreComponentID: "5"};
 	$scope.editable= false;
-    var taskGetCoreTasks = $http({
+    $scope.showTasks= function(){
+        $http({
         method: 'POST',
         url: './php/retriveCoreTasks.php',
         data: Object.toparams(corecomponent),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    });
-    taskGetCoreTasks.then(
+    }).then(
         //SUCCESS
-        function (result) {
+        function (result){
             //   alert(JSON.stringify(result));
             $scope.task = result.data.data;
         }
-    );
+    )};
     $scope.makeTasksEditable = function () {
         $scope.editable = true;
         //create backup of tasks
@@ -63,10 +63,10 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
     $scope.addNewTask= function($coreID){
         var sendData=angular.copy($coreID);
         $http ({
-            method 'POST',
+            method: 'POST',
             url: "./php/createCoreTask.php",
             data: Object.toparams(sendData),
             headers:{'Content-Type': 'application/x-www-form-urlencoded'}
         });
     }
-}
+});
