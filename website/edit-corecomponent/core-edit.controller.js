@@ -56,7 +56,13 @@ angular.module('website.edit-corecomponent').controller('coreTasksController', f
         $scope.editable = false;
     };
 		
+    $scope.deleteTask= function($index){
+        $scope.tasks.splice(index,1);
 
+    }
+    $scope.addNewTask= function(){
+        
+    }
 
 	
 
