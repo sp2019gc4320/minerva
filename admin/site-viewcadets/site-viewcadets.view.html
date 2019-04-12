@@ -2,23 +2,23 @@
 <!--view page for Admin  tab-->
 <!-- Programmer: Lauren Alibey -->
 <!-- This code shares a scope with site.viewCadets.controller.js -->
-
 <h3>Cadets</h3>
 <!--load app.controller from ViewCadetsController.js-->
-
+<body id="printSectionId" ng-app="admin.siteViewCadets">
 <div ng-controller = "viewCadets">
-    <div class = "row">
+    <div class = "row" id="print">
         <div class="dropdown">
-            <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
-            <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)"ng-show="editTasks"> Save</button>
-            <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
-            <button class="btn btn-primary" ng-click="print()">Print Current Roster</button>
+            <button class="btn btnEdit" ng-click="edit()"ng-hide="editable"> Edit</button>
+            <button class="btn btnSave" ng-click="update(cadets)"ng-show="editable"> Save</button>
+            <button class="btn btnCancel" ng-click="cancelUpdate()"ng-show="editable"> Cancel</button>
+
+            <button class="btn btn-primary" ng-click="printToCart('print')">Print Current Roster</button>
             <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By:
                 <span class="caret"></span></button>
             <div class="dropdown-menu">
                 <li><a href="#">Cadet ID</a></li>
                 <li><a href="#">First Name</a></li>
-                <li><a href="#">Last Name</a></li
+                <li><a href="#">Last Name</a></li>
                 <li><a href="#">Class ID</a></li>
                 <li><a href="#">Roster Number</a></li>
 
@@ -38,20 +38,20 @@
             <th>Cadet ID</th>
             <th>Status</th>
         </tr>
-        <tr ng-repeat="x in cadets"
-            ng-click="pickCadet(x)">
+        <tr ng-repeat="x in cadets">
             <td>{{x.PersonFN}}</td>
             <td>{{x.PersonLN}}</td>
             <td> {{x.fkClassID}}</td>
             <td>{{x.CadetRosterNumber}}</td>
             <td>{{x.fkCadetID}}</td>
-            <!--<td><button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Status
+            <td> <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
                 <span class="caret"></span></button>
-                <div class="dropdown-menu">
+                <ul class="dropdown-menu">
                     <li><a href="#">Cadet</a></li>
                     <li><a href="#">Graduate</a></li>
+                </ul>
             </td>
-            -->
         </tr>
     </table>
 </div>
+</body>
