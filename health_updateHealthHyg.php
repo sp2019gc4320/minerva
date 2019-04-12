@@ -23,7 +23,10 @@ else{
     $EventDate=$_POST["EventDate"];
 }
 $DidPass= $conn->sanitize($_POST['DidPass']);
+
 $EventNote= $conn->sanitize($_POST['EventNote']);
+$EventNote=filter_var($EventNote, FILTER_SANITIZE_ENCODED);
+
 $fkTaskID= $conn->sanitize($_POST['fkTaskID']);
 
 

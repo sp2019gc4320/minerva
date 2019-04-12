@@ -36,7 +36,7 @@ if ($result->num_rows > 0)
         	echo ",";
       
       	//format output as an object -- specify each field along with its value
-        echo '{"TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "EventDate":"' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "EventNote":"' . $row["EventNote"]. '", "fkCadetID":"' . $row["fkCadetID"]. '", "fkTaskID":"' . $row["fkTaskID"]. '"}';
+        echo '{"TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "EventDate":"' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "EventNote":"' . urldecode($row["EventNote"]). '", "fkCadetID":"' . $row["fkCadetID"]. '", "fkTaskID":"' . $row["fkTaskID"]. '"}';
        
         $count = $count+1;
     }
