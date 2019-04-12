@@ -1,0 +1,40 @@
+
+
+<link rel="stylesheet" type="text/css" href="../../css/site.css">
+<!--<div class="container" id="fileSubmissionContainer" ng-app="myApp" ng-controller="fileSubmission"
+     xmlns="http://www.w3.org/1999/html">-->
+
+<div class="well container infoContainer" id="jscontainer">
+    <h3>Edit CoreComponent Tasks</h3>
+    <!--load app.controller from JobSkillsCtrl.js-->
+
+    <div ng-controller="editCoreComponentController">
+        <!--name form for two way binding-->
+        <form name="coreComponentForm">
+              <select id="selectNumber" ng-model="list">
+                <option>Choose a number</option>
+                </select>
+            <table id="CoreComponentTasksTbl" class="table minerva-table">
+                <thead>
+                <tr>
+                    <th colspan="5">TASKS
+                    <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
+                    <button class="btn btnSave" ng-click="update(tasks)"ng-show="editTasks"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
+                    </th>
+                </tr>
+                </thead>
+                <tr>
+                	<th>Task Number</th>
+                	<th>Task Name</th>
+                	<th>Is Active</th>
+                </tr>
+                <tr ng-repeat="task in tasks track by $index">
+                	<td>{{task.TaskNumber}}</td>
+					<td><input name="TaskName" ng-model="task.Task"ng-disabled="!editable" ></td>
+                    <td><input  style="width:20px; height:20px;" name="IsActive" type="checkbox" ng-model="task.IsActive" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable"></td> 
+                    <td><button class = "btn btnDelete" ng-click="deleteTask(index)">Delete Task</button></td>
+                </tr>	
+                <tr><button class = "btn btnCreate" ng-click="addNewTask">Create</button></tr>
+            </table>
+        </form>
