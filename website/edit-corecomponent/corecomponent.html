@@ -17,7 +17,7 @@
                 <tr>
                     <th colspan="5">TASKS
                     <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
-                    <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)"ng-show="editTasks"> Save</button>
+                    <button class="btn btnSave" ng-click="update(tasks)"ng-show="editTasks"> Save</button>
                     <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
                     </th>
                 </tr>
@@ -27,11 +27,13 @@
                 	<th>Task Name</th>
                 	<th>Is Active</th>
                 </tr>
-                <tr ng-repeat="task in tasks">
+                <tr ng-repeat="task in tasks track by $index">
                 	<td>{{task.TaskNumber}}</td>
 					<td><input name="TaskName" ng-model="task.Task"ng-disabled="!editable" ></td>
                     <td><input  style="width:20px; height:20px;" name="IsActive" type="checkbox" ng-model="task.IsActive" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable"></td> 
+                    <td><button class = "btn btnDelete" ng-click="deleteTask(index)">Delete Task</button></td>
                 </tr>	
+                <tr><button class = "btn btnCreate" ng-click="addNewTask">Create</button></tr>
             </table>
         </form>
 
