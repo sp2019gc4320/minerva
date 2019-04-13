@@ -13,7 +13,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
             //   alert(JSON.stringify(result));
             $scope.task = result.data.data;
         }
-    )};
+    )};//Comments
     $scope.makeTasksEditable = function () {
         $scope.editable = true;
         //create backup of tasks
