@@ -2,7 +2,8 @@
 //This code is the controller for the viewcadets main view: viewcadets.view.html
 //This code uses viewcadets.view.html, site-viewcadets.php,
 'use strict';
-angular.module('admin.siteViewCadets').controller('viewCadets', function($scope, $http, $window){
+angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination']).controller('viewCadets', function($scope, $http, $window)
+{
     $http({
         method: 'POST',
         url: './php/site-viewcadets.php',
@@ -91,7 +92,10 @@ angular.module('admin.siteViewCadets').controller('viewCadets', function($scope,
         //backup data
         $scope.cadetsBackup = angular.copy($scope.cadets);
     };
-
+    $scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
 });
 
 
