@@ -18,4 +18,19 @@ angular.module('admin.siteViewGraduates').controller('viewGraduates',  function(
         popupWinindow.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
         popupWinindow.document.close();
     }
+    $scope.cancelUpdate = function() {
+        $scope.editable = false;
+        $scope.cadets = angular.copy($scope.cadetsBackup);
+    };
+    $scope.edit = function() {
+        $scope.editable = true;
+        $scope.show=false;
+
+        //backup data
+        $scope.cadetsBackup = angular.copy($scope.cadets);
+    };
+    $scope.sort = function(keyname){
+        $scope.sortKey = keyname;   //set the sortKey to the param passed
+        $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
 });

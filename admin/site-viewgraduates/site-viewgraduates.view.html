@@ -13,25 +13,36 @@
             <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)"ng-show="editTasks"> Save</button>
             <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
             <button class="btn btn-primary" ng-click="printToCart('print')">Print Current Roster</button>
-            <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">Sort By:
-                <span class="caret"></span></button>
-            <div class="dropdown-menu">
-                <li><a href="#">First Name</a></li>
-                <li><a href="#">Last Name</a></li>
-            </div>
-            <div class = "form-group row">
-                <!-- don't forget this white space-->
-            </div>
+            <label >Search</label><input type="text" ng-model="search" placeholder="Search">
         </div>
     </div> <!-- row-->
     <table class="table minerva-table">
         <tr>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th ng-click="sort('PersonFN')">First Name</th>
+            <th ng-click="sort('PersonLN')">Last Name</th>
+            <th ng-click="sort('fkClassID')">Class ID</th>
+            <th ng-click="sort('CadetRosterNumber')">Roster Number</th>
+            <th ng-click="sort('CadetID')">Cadet ID</th>
+
         </tr>
-        <tr ng-repeat="x in graduates">
+        <tr dir-paginate="x in graduates|orderBy:sortKey:reverse|filter:search|itemsPerPage:15">
             <td>{{x.PersonFN}}</td>
             <td>{{x.PersonLN}}</td>
+            <td> {{x.fkClassID}}</td>
+            <td>{{x.CadetRosterNumber}}</td>
+            <td>{{x.fkCadetID}}</td>
+            <td> <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Cadet</a></li>
+                    <li><a href="#">Graduate</a></li>
+                </ul>
+            </td>
         </tr>
     </table>
+    <dir-pagination-controls
+            max-size="60"
+            direction-links="true"
+            boundary-links="true" >
+    </dir-pagination-controls>
 </div>
