@@ -9,45 +9,60 @@
     <!-- Bootstrap 4 -->
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
     <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
-
+<style>
+</style>
 </head>
 <body>
+<br>
+<h3>Current Applicants</h3>
 
-    <div class="scrollingtable">
+<hr style="height:3px;border:none;color:#333;background-color:#333;" />
+
+<div class="topnav">
+    <input type="text" placeholder="Search.." name="search">
+</div>
+
+<div class="scrollingtable">
+    <div>
         <div>
-            <div>
-                <table>
-                    <caption>Top Caption</caption>
-                    <thead>
-                    <tr>
-                        <th><div label="Last"></div></th>
-                        <th><div label="First"></div></th>
-                        <th><div label="Date Submitted"></div></th>
-                        <th><div label="Documents"></div></th>
-                        <th class="scrollbarhead"/> <!--extra cell at end of header row-->
-                    </tr>
-                    </thead>
+            <table id="data-table">
+                <thead>
+                <tr>
+                    <th><div label=" "</div></th>
+                    <th><div label="Last"></div></th>
+                    <th><div label="First"></div></th>
+                    <th><div label="Date Submitted"></div></th>
+                    <th><div label="IDNumber"></div></th>
+                    <th><div label="Documents"></div></th>
+                    <th class="scrollbarhead"/> <!--extra cell at end of header row-->
+                </tr>
+                </thead>
 
-                    <!-- TODO pull data from SQL database (applicant - tblApplicants) to populate below table-->
-                    <tbody>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    <tr><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td></tr>
-                    </tbody>
-                </table>
-            </div>
-            Faux bottom caption
+                <!-- TODO pull data from SQL database (applicant - tblApplicants) to populate below table-->
+                <tbody>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
+
+<br>
+<div class="col-md-10 text-center">
+<button type="button" class="btn btn-primary">VIEW</button>
+<button type="button" class="btn btn-danger">DEADPOOL</button>
+</div>
 
 </body>
 </html>
