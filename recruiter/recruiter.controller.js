@@ -12,7 +12,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     // List of ContactInformationModels
     $scope.contactInformation = []
 
-    $scope.age = 0
+
 
     /// Model to arrange the data for ContactInformation in the post requests.
     class ContactInformationModel {
@@ -277,7 +277,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     //http://jaliyaudagedara.blogspot.com/2016/05/angularjs-download-files-by-sending.html
     $scope.downloadFile = function (name) {
 
-        //alert("Downloading:" + name);
+        alert("Downloading:" + name);
         $http({
             method: 'GET',
             url: './php/app_fileDownload.php',
@@ -336,6 +336,29 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             }
         );
     };
+
+    var taskListFile = $http({
+        method: 'POST',
+        url: './php/app_fileList.php',
+        data: '',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+
+    });
+    taskListFile.then(
+        //Will use this statement once we have applicant ID functioning fully
+        //var applicantID = $scope.applicantID
+            function(result){
+                alert("Success");
+                $scope.fileList = result.data.data;
+                    console.log(JSON.stringify($scope.fileList));
+                    alert(JSON.stringify($scope.fileList));
+            },
+            function(result){
+                alert("Failure");
+            }
+
+
+);
 
     $scope.openFindCadetView = function()
     {
