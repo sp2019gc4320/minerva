@@ -2,7 +2,7 @@
 // TODO Cadet 406  has  3 mentors -- selecting all 3 rows or just select one.
 'use strict';
 
-angular.module('findApp').controller("FindCadetController", function FindCadetController($scope, $http, $window) {
+angular.module('recruiter').controller("FindApplicantController", function FindApplicantController($scope, $http, $window) {
 
     //Search Criteria
     $scope.cadetSearch = {};
