@@ -12,8 +12,92 @@
                         >
                         {{item.view}}
                 </button>
+              
                 <button type="button" class="btn btn-outline-primary" ng-click="openFindCadetView()"> View Applicants (Windowed)</button>
-            </nav>
+
+                <input id="myFile" name="file" type="file" ng-model="fileToUpload" class="">
+                <button type="button" class="btn btn-outline-primary" ng-click="uploadFile()"> Upload New File</button>
+            <br>
+                <button type="button" ng-click="listFiles()">List Files</button>
+
+                <ul>
+                    <li ng-repeat="user in fileList track by $index">{{fileList[$index]["File"]}}</li>
+                </ul>
+
+
+
+
+
+
+                    <td style="width:100px">
+                        <button ng-click="deleteContact($index)" class="btn btnDelete" ng-disabled="!editContacts"> Delete</button>
+
+                    </td>
+                </p>
+                <br>
+            <label for="EducationPlan">Education Plan</label>
+            <input id="EducationPlan" name="file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('EducationPlan')"> Upload New File</button>
+            <br>
+
+            <label for="BandARecords">Behavioral and Academic Records</label>
+            <input id="BandARecords" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('BandARecords')"> Upload New File</button>
+            <br>
+            <label for="MedicalInsurance">Medical Insurance</label>
+            <input id="MedicalInsurance" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('MedicalInsurance')"> Upload New File</button>
+            <br>
+            <label for="Immunization">Immunization Records</label>
+            <input id="Immunization" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('Immunization')"> Upload New File</button>
+
+            <br>
+            <label for="Transcript">Unofficial Academic Transcript</label>
+            <input id="Transcript" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('Transcript')"> Upload New File</button>
+
+            <br>
+            <label for="CandidateApplication">Candidate Application</label>
+            <input id="CandidateApplication" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('CandidateApplication')"> Upload New File</button>
+
+            <br>
+            <label for="MedicalHistory">Medical History Form</label>
+            <input id="MedicalHistory" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('MedicalHistory')"> Upload New File</button>
+
+            <br>
+            <label for="BirthCertificate">Birth Certificate</label>
+            <input id="BirthCertificate" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('BirthCertificate')"> Upload New File</button>
+
+            <br>
+            <label for="LegalHistory">Legal History Form</label>
+            <input id="LegalHistory" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('LegalHistory')"> Upload New File</button>
+
+            <br>
+            <label for="MentorApplication">Mentor Application</label>
+            <input id="MentorApplication" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('MentorApplication')"> Upload New File</button>
+
+            <br>
+            <label for="SocialSecurityCard">Social Security Card</label>
+            <input id="SocialSecurityCard" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('SocialSecurityCard')"> Upload New File</button>
+
+            <br>
+            <label for="IDCard">Government Issued ID Card</label>
+            <input id="IDCard" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('IDCARD')"> Upload New File</button>
+
+            <br>
+            <label for="MentalHealthHistory">Mental Health History</label>
+            <input id="MentalHealthHistory" name=file" type="file" ng-model="fileToUpload" class="">
+            <button type="button" class="btn" ng-click="uploadFile('MentalHealthHistory')"> Upload New File</button>
+
+
         </div>
         <div class="col-md-10">
             <ng-include src="updateDisplay"></ng-include>
