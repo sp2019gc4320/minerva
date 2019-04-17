@@ -9,8 +9,11 @@
     <!-- Bootstrap 4 -->
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
     <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
-<style>
-</style>
+    <script src="./searchjs.js"></script>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
+    <link href="search-filter.css" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 <br>
@@ -18,9 +21,36 @@
 
 <hr style="height:3px;border:none;color:#333;background-color:#333;" />
 
-<div class="topnav">
-    <input type="text" placeholder="Search.." name="search">
+<div class="container">
+    <div class="row searchFilter" >
+        <div class="col-sm-12" >
+            <div class="input-group" >
+                <input id="table_filter" type="text" class="form-control" aria-label="Text input with segmented button dropdown" >
+                <div class="input-group-btn" >
+                    <button type="button" class="btn btn-secondary dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" ><span class="label-icon" >Category</span> <span class="caret" >&nbsp;</span></button>
+                    <div class="dropdown-menu dropdown-menu-right" >
+                        <ul style="list-style-type:none;">
+                            <li >
+                                <input class="cat_type category-input" data-label="All" id="all" value="" name="radios" type="radio" ><label for="all" >All</label>
+                            </li>
+                            <li >
+                                <input type="radio" name="radios" id="FirstName" value="FirstName" ><label class="category-label" for="FirstName" >First Name</label>
+                            </li>
+                            <li >
+                                <input type="radio" name="radios" id="LastName" value="LastName" ><label class="category-label" for="LastName" >Last Name</label>
+                            </li>
+                            <li >
+                                <input type="radio" name="radios" id="IDNumber" value="IDNumber" ><label class="category-label" for="IDNumber" >ID Number</label>
+                            </li>
+                        </ul>
+                    </div>
+                    <button id="searchBtn" type="button" class="btn btn-secondary btn-search" ><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+
 
 <div class="scrollingtable">
     <div>
@@ -29,40 +59,41 @@
                 <thead>
                 <tr>
                     <th><div label=" "</div></th>
-                    <th><div label="Last"></div></th>
-                    <th><div label="First"></div></th>
-                    <th><div label="Date Submitted"></div></th>
-                    <th><div label="IDNumber"></div></th>
-                    <th><div label="Documents"></div></th>
-                    <th class="scrollbarhead"/> <!--extra cell at end of header row-->
-                </tr>
-                </thead>
+        <th><div label="Last"></div></th>
+        <th><div label="First"></div></th>
+        <th><div label="Date Submitted"></div></th>
+        <th><div label="IDNumber"></div></th>
+        <th><div label="Documents"></div></th>
+        <th class="scrollbarhead"/> <!--extra cell at end of header row-->
+        </tr>
+        </thead>
 
-                <!-- TODO pull data from SQL database (applicant - tblApplicants) to populate below table-->
-                <tbody>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
-                </tbody>
-            </table>
-        </div>
+        <!-- TODO pull data from SQL database (applicant - tblApplicants) to populate below table-->
+        <tbody>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        <tr><td><input type="checkbox" name="name1" />&nbsp;</td><td>Lorem ipsum</td><td>Dolor</td><td>Sit</td><td>Amet consectetur</td><td>Amet consectetur</td></tr>
+        </tbody>
+        </table>
     </div>
+</div>
 </div>
 
 <br>
 <div class="col-md-10 text-center">
-<button type="button" class="btn btn-primary">VIEW</button>
-<button type="button" class="btn btn-danger">DEADPOOL</button>
+    <button type="button" class="btn btn-primary">VIEW</button>
+    <button type="button" class="btn btn-danger">DEADPOOL</button>
 </div>
+
 
 </body>
 </html>
