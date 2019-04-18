@@ -3,7 +3,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
 	$scope.editable= false;
     $scope.showTasks= function(){
         $http({
-        method: 'POST',
+        method: 'GET',
         url: './php/retriveCoreTasks.php',
         data: Object.toparams(corecomponent),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
