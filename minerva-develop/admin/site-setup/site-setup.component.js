@@ -6,9 +6,7 @@ angular.module('admin.siteSetup').component('siteSetup', {
     controller:
         ['$scope', '$http',
             function SiteSetupController($scope, $http) {//read all site records from the server
-
-                //TODO: change from GET to a POST request and send SiteID
-
+                $scope.editable = false;
                 var promise = $http.get("./php/getRecord.php");
 
                 //this is an example of a callback/promise - asynchronus activity
@@ -149,23 +147,24 @@ angular.module('admin.siteSetup').component('siteSetup', {
 
                 $scope.initialize = function () {
                     // $scope.editTbl = JSON.parse(JSON.stringify($scope.testTbl));
-                    $scope.isEdit = false; //make each field initially uneditable
+                    $scope.editable = false; //make each field initially uneditable
                 };
 
                 $scope.startEdit = function () {
-                    $scope.isEdit = true;
-                    alert("Starting Edit");
+                    //$scope.editable = true;
+                    $scope.editable = true;
                 };
 
                 $scope.cancelUpdate = function () {
-                    $scope.isEdit = false;
-                    alert("Canceling Update");
+                    //$scope.editable = false;
+                    $scope.editable = false;
+                    //alert("Canceling Update");
                     //copy all of the fields from the original back to the editTbl
                     $scope.site = angular.copy($scope.siteBackUp);
 
                 };
                 $scope.canEdit = function () {
-                    return !$scope.isEdit;
+                    return !$scope.editable;
                 };
 
                 $scope.saveChanges = function () {
@@ -173,7 +172,7 @@ angular.module('admin.siteSetup').component('siteSetup', {
                     $scope.siteBackUp = angular.copy($scope.site);
 
                     //disable all fields
-                    $scope.isEdit = false;
+                    $scope.editable = false;
                     // alert("savingChanges:" + JSON.stringify($scope.siteBackUp));
 
 
@@ -185,7 +184,7 @@ angular.module('admin.siteSetup').component('siteSetup', {
 
                         };
 
-                    //I had to do this because siteBackup contains records that have fieldsturcutre.
+                    //I had to do this because siteBackup contains recornds that have fieldsturcutre.
                     //I only need the field names and values in the record -- no structure needed
                     var test = {};
                     for (var propertyName in $scope.siteBackUp) {
@@ -202,6 +201,7 @@ angular.module('admin.siteSetup').component('siteSetup', {
                             }
                             */
                     }
+                    //$scope.editable = false;
                     test.UpdateTable = "tlkpSite";
                     test.SearchField = "SiteID";
                     test.SearchValue = test.SiteID;
@@ -227,6 +227,24 @@ angular.module('admin.siteSetup').component('siteSetup', {
                         }
                     );
                 };
+                $scope.deleteSite= function(){
+                    var sendData=angular.copy($scope.siteID);
+                    $http ({
+                        method 'POST',
+                        url: "./php/admin_deleteSite.php",
+                        data: Object.toparams(sendData),
+                        headers:{'Content-Type': 'application/x-www-form-urlencoded'}
+                    });
+                }).then(
+                //SUCCESS
+                function (result) {
+
+                    alert("site deleted");
+                },
+                //ERROR
+                function (result) {
+                    alert("error: " + result.data);
+                }
                 /*----CALL FUNCTION TO INITIALIZE!- */
                 $scope.initialize();
 
