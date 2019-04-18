@@ -230,11 +230,11 @@ angular.module('admin.siteSetup').component('siteSetup', {
                 $scope.deleteSite= function(){
                     var sendData=angular.copy($scope.siteID);
                     $http ({
-                        method 'POST',
+                        method: 'POST',
                         url: "./php/admin_deleteSite.php",
                         data: Object.toparams(sendData),
                         headers:{'Content-Type': 'application/x-www-form-urlencoded'}
-                    });
+                    
                 }).then(
                 //SUCCESS
                 function (result) {
@@ -257,5 +257,6 @@ angular.module('admin.siteSetup').component('siteSetup', {
 
             }
         ]
+        
 });
 

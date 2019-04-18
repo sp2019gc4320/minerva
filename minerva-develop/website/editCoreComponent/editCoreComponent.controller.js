@@ -3,7 +3,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
 	$scope.editable= false;
     $scope.showTasks= function(){
         $http({
-        method: 'GET',
+        method: 'POST',
         url: './php/retriveCoreTasks.php',
         data: Object.toparams(corecomponent),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
@@ -11,7 +11,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
         //SUCCESS
         function (result){
             //   alert(JSON.stringify(result));
-            $scope.task = result.data.data;
+            $scope.tasks = result.data.taskTbl;
         }
     )};//Comments
     $scope.makeTasksEditable = function () {
@@ -22,7 +22,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
 
     $scope.cancelTasksUpdate = function () {
         $scope.editable = false;
-        $scope.task = angular.copy($scope.taskBackup);
+        $scope.tasks = angular.copy($scope.taskBackup);
     };
 
 

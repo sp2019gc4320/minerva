@@ -7,7 +7,7 @@ require_once 'dbcontroller.php';
 //create connection
 $connection = new DBController();
 
-$coreComponentID= $_POST[corecomponent];
+$coreComponentID= $_POST['CoreComponentID'];
 
 $sql="SELECT TaskNumber, Task, IsActive FROM tlkpCoreComponentTasks WHERE CoreComponentID=$coreComponentID";
 
