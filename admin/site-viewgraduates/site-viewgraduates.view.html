@@ -3,7 +3,6 @@
 <!-- Programmer: Lauren Alibey -->
 <!-- This code shares a scope with site.viewgraduates.controller.js -->
 
-<h3>Graduates</h3>
 <!--load app.controller from ViewGraduatesController.js-->
 
 <div ng-controller = "viewGraduates">
@@ -17,6 +16,15 @@
         </div>
     </div> <!-- row-->
     <table class="table minerva-table">
+        <thead>
+            <tr>
+                <th>Gradutes</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
         <tr>
             <th ng-click="sort('PersonFN')">First Name</th>
             <th ng-click="sort('PersonLN')">Last Name</th>

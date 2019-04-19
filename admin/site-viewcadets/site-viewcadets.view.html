@@ -2,7 +2,6 @@
 <!--view page for Admin  tab-->
 <!-- Programmer: Lauren Alibey -->
 <!-- This code shares a scope with site.viewCadets.controller.js -->
-<h3>Cadets</h3>
 <!--load app.controller from ViewCadetsController.js-->
 <body id="printSectionId" ng-app="siteViewCadets">
 <div ng-controller = "viewCadets">
@@ -17,6 +16,16 @@
     </div> <!-- row-->
 
     <table class="table minerva-table">
+        <thead>
+            <tr>
+                <th>Cadets</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
+        </thead>
         <tr>
             <th ng-click="sort('PersonFN')">First Name</th>
             <th ng-click="sort('PersonLN')">Last Name</th>
