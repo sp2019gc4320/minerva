@@ -27,7 +27,7 @@ if ($result->num_rows > 0)
         	echo ",";
       
       	//format output as an object -- specify each field along with its value
-        echo '{"TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "IsActive":"'.$row["TaskNumber"].'"}';
+        echo '{"TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "IsActive":"'.$row["IsActive"].'"}';
        
         $count = $count+1;
     }

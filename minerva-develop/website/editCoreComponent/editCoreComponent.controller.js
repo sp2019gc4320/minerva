@@ -31,7 +31,8 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
 		for(var i=0; i<$scope.tasks.length;i++){
 
 			$scope.numSaved=0;
-			var sendData=angular.copy($scope.tasks[j]);
+			var sendData=angular.copy($scope.tasks[i]);
+            sendData['CoreComponentID']="5";
 			$http ({
                 method: 'POST',
                 url: "./php/updateCoreTasks.php",
