@@ -172,19 +172,6 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         $scope.updateDisplay = item.url
     };
 
-    //Mock Data used for testing ----------------------
-    $scope.fileData = {
-        Category: "Category",
-        CadetID:"208",
-        File: "testB.html",
-        Description:"Description of File"
-    };
-    $scope.fileData2 = {
-        Category: "Category2",
-        CadetID:"208",
-        File: "File2",
-        Description:"Description of File Two"
-    };
 
     $scope.selectedFile ="";
     $scope.file = angular.copy($scope.fileData);
@@ -351,13 +338,20 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             function(result){
                 alert("Success");
                 $scope.fileList = result.data.data;
-                    console.log(JSON.stringify($scope.fileList));
-                    alert(JSON.stringify($scope.fileList));
+                $scope.missingList = ["EducationPlan", "BandARecords", "MedicalInsurance","Immunization","Transcript",
+                    "CandidateApplication","MedicalHistory","BirthCertificate","LegalHistory",
+                    "MentorApplication","SocialSecurityCard","IDCard","MentalHealthHistory"];
+
+                for(var i = 0; i < $scope.fileList.length; i++) {
+                    if ($scope.missingList.includes(String($scope.fileList[i]["File"]))) {
+                        var index = $scope.missingList.indexOf(String($scope.fileList[i]["File"]));
+                        $scope.missingList.splice(index,1);
+                    }
+                }
             },
             function(result){
                 alert("Failure");
             }
-
 
 );
 
