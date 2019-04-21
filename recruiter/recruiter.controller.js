@@ -12,7 +12,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     // List of ContactInformationModels
     $scope.contactInformation = []
 
-
+    $scope.age = 0
 
     /// Model to arrange the data for ContactInformation in the post requests.
     class ContactInformationModel {
@@ -149,6 +149,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             url: "./php/recruiter_createApplicant.php",
             data: {
                 peopleData: $scope.person,
+                applicantsData: $scope.applicant,
                 contactInformationData: $scope.getContactInformationPOSTData()
             },
             headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
@@ -163,8 +164,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.recruiterViews = [
         // This has been replaced by an individual button {view:'View Applicants', url:'./utility/find-cadet/find-cadet.view.html'},
         {view:'Add Applicant', url:'./recruiter/site-addapplicant/site-addapplicant.view.html'},
-        {view:'Applicant View Test', url:'./recruiter/viewapplicant.view.html'},
-        {view: 'View Applicants (In Page)', url: './recruiter/viewallapplicants.view.html'}
+        {view:'Applicant View Test', url:'./recruiter/viewapplicant.view.html'}
     ];
 
     $scope.showView = function showView(item){
@@ -172,6 +172,19 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         $scope.updateDisplay = item.url
     };
 
+    //Mock Data used for testing ----------------------
+    $scope.fileData = {
+        Category: "Category",
+        CadetID:"208",
+        File: "testB.html",
+        Description:"Description of File"
+    };
+    $scope.fileData2 = {
+        Category: "Category2",
+        CadetID:"208",
+        File: "File2",
+        Description:"Description of File Two"
+    };
 
     $scope.selectedFile ="";
     $scope.file = angular.copy($scope.fileData);
@@ -265,7 +278,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     //http://jaliyaudagedara.blogspot.com/2016/05/angularjs-download-files-by-sending.html
     $scope.downloadFile = function (name) {
 
-        alert("Downloading:" + name);
+        //alert("Downloading:" + name);
         $http({
             method: 'GET',
             url: './php/app_fileDownload.php',
@@ -325,36 +338,6 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         );
     };
 
-    var taskListFile = $http({
-        method: 'POST',
-        url: './php/app_fileList.php',
-        data: '',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-
-    });
-    taskListFile.then(
-        //Will use this statement once we have applicant ID functioning fully
-        //var applicantID = $scope.applicantID
-            function(result){
-                alert("Success");
-                $scope.fileList = result.data.data;
-                $scope.missingList = ["EducationPlan", "BandARecords", "MedicalInsurance","Immunization","Transcript",
-                    "CandidateApplication","MedicalHistory","BirthCertificate","LegalHistory",
-                    "MentorApplication","SocialSecurityCard","IDCard","MentalHealthHistory"];
-
-                for(var i = 0; i < $scope.fileList.length; i++) {
-                    if ($scope.missingList.includes(String($scope.fileList[i]["File"]))) {
-                        var index = $scope.missingList.indexOf(String($scope.fileList[i]["File"]));
-                        $scope.missingList.splice(index,1);
-                    }
-                }
-            },
-            function(result){
-                alert("Failure");
-            }
-
-);
-
     $scope.openFindCadetView = function()
     {
         $window.open('./utility/find-cadet/find-cadet-index.view.html', "_blank",
@@ -363,171 +346,4 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     };
     
     $scope.showDirectory();
-
-    // below here is all methods used for view applicants page
-
-    //Search Criteria
-    $scope.cadetSearch = {};
-
-    //TODO: set the fkSiteID to be the same as the user's login Site.
-    $scope.cadetSearch.fkSiteID = 1;
-
-    //TODO: add needed search fields -- tblClasses has SiteClassNumber, NGB
-
-    // TODO: add options to quickly choose cadets for Mentor, CaseManager, Cadre etc.
-
-    $scope.selectAll = false;
-
-    // List of cadets picked on the Find Cadet View. This is instead of a
-    // dictionary so that an order on when things are picked can be
-    // maintained.
-    $scope.pickedCadets = [];
-
-    // Keeps track of which of the cadets have been checked
-    $scope.checkedCadets = {};
-
-    /**
-     * Retrieve only records from server that match the given search criteria. This will reduce the data
-     * returned from server.
-     */
-    $scope.search = function search() {
-
-        //copy search criteria
-        var cadetSearch = angular.copy($scope.cadetSearch);
-
-        //deselect all checkboxes
-        $scope.checkedCadets = {};
-        $scope.pickedCadets = [];
-        $scope.selectAll = false;
-
-        //request data from server
-        $scope.searchTask = $http({
-            method: 'POST',
-            url: '../../php/findCadets.php',
-            data: Object.toparams(cadetSearch),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function (response) {
-            $scope.cadets = response.data.data;
-        });
-    };
-
-    /**
-     * Select all cadets currently matching the search criteria
-     */
-    $scope.selectGroup = function selectGroup() {
-        //restrict search to the search criteria
-        var cadetSearch = angular.copy($scope.cadetSearch);
-
-        //Retrieve data from server to ensure the same hashcode is used when comparing cadets
-        // the selectCadet function uses indexOf which needs matching objects to have the same hashcode.
-        $scope.searchTask = $http({
-            method: 'POST',
-            url: '../../php/findCadets.php',
-            data: Object.toparams(cadetSearch),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function (response) {
-            $scope.cadets = response.data.data;
-            $scope.checkedCadets = {};
-            $scope.pickedCadets = [];
-
-            //After data returned, select all cadets
-            if ($scope.selectAll) {
-                let index = 0;
-                while (index < $scope.cadets.length) {
-                    $scope.selectCadet($scope.cadets[index]);
-                    index++;
-                }
-            }
-
-        });
-
-
-    };
-    /**
-     * Serves as a toggle for the cadets selected on the Find Cadet View. When
-     * the checkbox for a cadet is checked or row is selected, the respective cadet is added to
-     * the list of `pickedCadets`. When the checkbox is unchecked or the row is selected again, the cadet
-     * is removed.
-     *
-     * - Parameters:
-     *   - cadet: The cadet being either added or removed from the list of
-     *   `pickedCadets`.
-     */
-    $scope.selectCadet = function (cadet) {
-        if (!$scope.checkedCadets[cadet.fkCadetID]) {
-            $scope.pickedCadets.push(cadet);
-
-            //ensure the checkbox is selected.
-            $scope.checkedCadets[cadet.fkCadetID] = true;
-        }
-        else {
-            var index = $scope.pickedCadets.indexOf(cadet);
-            if (index >= 0) {
-                $scope.pickedCadets.splice(index, 1);
-
-                //deselect the checkbox
-                $scope.checkedCadets[cadet.fkCadetID] = false;
-            }
-            else { //This only occurs if the cadet is in the list but does not have the same hashCode
-                alert("index is not found -- adding to list");
-                $scope.pickedCadets.push(cadet);
-                $scope.checkedCadets[cadet.fkCadetID] = true;
-
-            }
-        }
-
-    };
-
-    $scope.saveAndClose = function () {
-        var cadetJSON = JSON.stringify($scope.pickedCadets);
-        $window.sessionStorage.setItem("cadets", cadetJSON);
-        $window.localStorage.setItem("cadets", cadetJSON);
-
-        //Set the cadet for the first item in the list
-        if ($scope.pickedCadets.length > 0) {
-            var firstChosen = $scope.pickedCadets[0];
-            $window.localStorage.setItem("CadetID", firstChosen.fkCadetID);
-            $window.localStorage.setItem("CadetName", firstChosen.PersonFN + " " + firstChosen.PersonLN);
-            $window.localStorage.setItem("CadetGender", firstChosen.PGender);
-            $window.localStorage.setItem("CadetDOB", firstChosen.PDOB);
-        }
-        else {
-            $window.localStorage.removeItem("CadetID");
-            $window.localStorage.removeItem("CadetName");
-            $window.localStorage.removeItem("CadetGender");
-            $window.localStorage.removeItem("CadetDOB");
-        }
-
-        $window.opener.location.reload();
-        $window.close();
-    };
-
-    $scope.pickCadet = function (cadet) {
-        //Storing fkCadetID to be used by another view
-        //CLEAN UP -- only needs to store CadetID to localStorage
-        $window.sessionStorage.setItem("fkCadetID", cadet.fkCadetID);
-        $window.localStorage.setItem("fkCadetID", cadet.fkCadetID);
-        $window.sessionStorage.setItem("CadetID", cadet.fkCadetID);
-        $window.sessionStorage.setItem("theCadet", cadet.fkCadetID);
-        $window.localStorage.setItem("theCadet", cadet.fkCadetID);
-
-
-        $window.localStorage.setItem("CadetID", cadet.fkCadetID);
-        $window.localStorage.setItem("CadetName", cadet.PersonFN + " " + cadet.PersonLN);
-
-        $scope.myCadet = {fkCadetID: cadet.fkCadetID};
-        $http({
-            method: 'POST',
-            url: '../../php/getCadetViewData.php',
-            data: Object.toparams($scope.myCadet),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function (response) {
-                var cadet = response.data.data;
-
-                $scope.updateDisplay = "./cadet-helper.view.html" + "?updated=" + Date.now();
-            }
-        );
-
-        $scope.selectCadet(cadet);
-    }
 });
