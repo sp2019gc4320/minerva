@@ -149,6 +149,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             url: "./php/recruiter_createApplicant.php",
             data: {
                 peopleData: $scope.person,
+                applicantsData: $scope.applicant,
                 contactInformationData: $scope.getContactInformationPOSTData()
             },
             headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
@@ -159,6 +160,8 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             function(error) {
                 console.log("Error: " + error);
             });
+        var form = document.getElementById("newAppForm");
+        form.reset();
     }
     $scope.recruiterViews = [
         // This has been replaced by an individual button {view:'View Applicants', url:'./utility/find-cadet/find-cadet.view.html'},
