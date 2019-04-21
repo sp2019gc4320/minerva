@@ -245,7 +245,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
         var taskShowDirectory = $http({
             method: 'GET',
-            url: './php/files_listAll.php',
+            url: './php/app_fileList.php',
             params: { directory:'mentorFiles' }
         });
         taskShowDirectory.then(function (response) {
