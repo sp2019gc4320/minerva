@@ -13,9 +13,9 @@ body {
     display: inline-block;
     vertical-align: middle;
     overflow: hidden;
-    width: auto; /*if you want a fixed width, set it here, else set to auto*/
+    width: 1130px; /*if you want a fixed width, set it here, else set to auto*/
     min-width: 0/*100%*/; /*if you want a % width, set it here, else set to 0*/
-    height: 188px/*100%*/; /*set table height here; can be fixed value or %*/
+    height:500px/*100%*/; /*set table height here; can be fixed value or %*/
     min-height: 0/*104px*/; /*if using % height, make this large enough to fit scrollbar arrows + caption + thead*/
     font-family: Verdana, Tahoma, sans-serif;
     font-size: 15px;
@@ -125,3 +125,4 @@ body {
 .scrollingtable > div > div > table > tbody:last-of-type > tr:last-child > * {border-bottom: none;}
 .scrollingtable > div > div > table > tbody > tr:nth-child(even) {background: gainsboro;} /*alternate row color*/
 .scrollingtable > div > div > table > tbody > tr > * + * {border-left: 1px solid black;} /*borders between body cells*
+
