@@ -141,6 +141,31 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
 
     };
 
+    $scope.applicantSaveAndClose = function () {
+        var cadetJSON = JSON.stringify($scope.pickedCadets);
+        $window.sessionStorage.setItem("cadets", cadetJSON);
+        $window.localStorage.setItem("cadets", cadetJSON);
+
+        //Set the cadet for the first item in the list
+        if ($scope.pickedCadets.length > 0) {
+            var firstChosen = $scope.pickedCadets[0];
+            $window.localStorage.setItem("CadetID", firstChosen.fkCadetID);
+            $window.localStorage.setItem("CadetName", firstChosen.PersonFN + " " + firstChosen.PersonLN);
+            $window.localStorage.setItem("CadetGender", firstChosen.PGender);
+            $window.localStorage.setItem("CadetDOB", firstChosen.PDOB);
+        }
+        else {
+            $window.localStorage.removeItem("CadetID");
+            $window.localStorage.removeItem("CadetName");
+            $window.localStorage.removeItem("CadetGender");
+            $window.localStorage.removeItem("CadetDOB");
+        }
+
+        $window.opener.location.reload();
+        $window.close();
+
+    };
+
     $scope.pickCadet = function (cadet) {
         //Storing fkCadetID to be used by another view
         //CLEAN UP -- only needs to store CadetID to localStorage

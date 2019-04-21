@@ -6,7 +6,6 @@ controller("caseManagerController", function($scope, $http, $window){
     $scope.cadets = JSON.parse($window.localStorage.getItem("cadets"));
     $scope.CadetID = $window.localStorage.getItem("CadetID");
     $scope.CadetName = $window.localStorage.getItem("CadetName");
-    //EDIT
     $scope.CadetGender = $window.localStorage.getItem("CadetGender");
     $scope.CadetDOB = $window.localStorage.getItem("CadetDOB");
 
