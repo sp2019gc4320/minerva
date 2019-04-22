@@ -17,3 +17,4 @@ minerva
 14. Modified case-manager.controller.js to include Life Skills.
 15. Modified index.html to include Life Skills
 16. Modified index.html to include Physical Fitness
+17. Modified core-components.module.js to include Life Skills
