@@ -8,7 +8,10 @@ $conn = new DBController();
 if(isset($_POST["CoreComponentID"])){
 $coreID= $_POST["CoreComponentID"];
 }
-$sql="INSERT INTO tlkpCoreComponentTasks(CoreComponentID) values('$coreID')";
+if(isset($_POST["TaskNumber"])){
+	$taskNumber=$_POST["TaskNumber"];
+}
+$sql="INSERT INTO tlkpCoreComponentTasks(CoreComponentID,TaskNumber) values('$coreID','$taskNumber')";
 
 $result = $conn->createRecord($sql);
 

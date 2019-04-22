@@ -9,6 +9,7 @@ $coreID= $_POST["CoreComponentID"];
 }
 
 $sql="DELETE FROM tlkpCoreComponentTasks WHERE TaskNumber='$taskNumber' AND CoreComponentID='$coreID'";
+$result=$connection->runQuery($sql);
 
 
 ?>
