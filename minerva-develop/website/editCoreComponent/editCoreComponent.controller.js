@@ -32,7 +32,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
 
 			$scope.numSaved=0;
 			var sendData=angular.copy($scope.tasks[i]);
-            sendData['CoreComponentID']=$scope.corecomponent;
+            sendData['CoreComponentID']=$scope.list;
 			$http ({
                 method: 'POST',
                 url: "./php/updateCoreTasks.php",
