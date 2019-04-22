@@ -1,0 +1,93 @@
+<!--job-skills.view.html-->
+<!--view page for JobSkills tab-->
+<!-- Programmer: Kevin Krider -->
+<!-- This code shares a scope with jobSkillsController.js -->
+<!--fields that can be updated are autoloaded with current values from the database-->
+<!-- The page takes no input other than a cadetID in local session storage. It can update the associated database.-->
+
+<div class="well container infoContainer" id="jscontainer">
+    <h3>Life Skills</h3>
+    <!--load app.controller from JobSkillsCtrl.js-->
+
+    <div ng-controller="lifeSkillsController">
+        <!--name form for two way binding-->
+        <form name="LifeSkillsForm">
+            <table class="table minerva-table" id = "LifeSkillsTaskTable">
+                <thead>
+                <tr>
+                    <th colspan="5">TASKS
+                        <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
+                        <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)"ng-show="editTasks"> Save</button>
+                        <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
+                    </th>
+                </tr>
+                </thead>
+                <tr>
+                    <th>Tasks</th>
+                    <th>Description</th>
+                    <th>Last Activity</th>
+                    <th>Note</th>
+                    <th>Completion</th>
+                </tr>
+                <!--iterate through each instance in scope from controller-->
+                <tr ng-repeat="task in tasks">
+                    <td>{{task.TaskNumber}}</td>
+                    <td class="text-left">{{task.Task}}</td>
+                    <!--editable fields for cadetClassEvents-->
+                    <td><input id="TaskDate" type="date" placeholder="MM/DD/YYYY" ng-model="task.EventDate"  ng-readonly="!editTasks"></td>
+                    <td><textarea name="PTTestNote" rows="1" c wrap="off" ng-model="task.EventNote"  ng-readonly="!editTasks"></textarea></td>
+                    <td ng-if="task.DidPass == '1'" class="bg-success text-center">
+                        <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                ng-model="task.DidPass"  ng-disabled="!editTasks">
+                    </td>
+
+                    <td ng-if="task.DidPass == '0'" class="bg-danger text-center">
+                        <input  type="checkbox" ng-model="task.DidPass"
+                                ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTasks">
+                    </td>
+                    <!--<td><button ng-click="showTest(task.taskNumber)"  ng-show = "(task.taskNumber == '2(a)' || task.taskNumber == '2(b)' || task.taskNumber == '2(c)')">Show Tests</button></td>-->
+                </tr>
+            </table>
+            <br>
+            <table class="table minerva-table" id = "LifeSkillsTestTable">
+                <thead>
+                <tr>
+                    <th colspan="5">TESTS
+                        <button class="btn btnEdit" ng-click="makeTestsEditable()" ng-hide="editTests"> Edit</button>
+                        <button class="btn btnSave" ng-click="saveTestsUpdate(tests)" ng-show="editTests"> Save</button>
+                        <button class="btn btnCancel" ng-click="cancelTestsUpdate()" ng-show="editTests"> Cancel</button>
+                    </th>
+                </tr>
+                </thead>
+                <tr>
+                    <th>Tasks</th>
+                    <th>Description</th>
+                    <th>Last Activity</th>
+                    <th>Note</th>
+                    <th>Completion</th>
+                </tr>
+                <!--iterate through each instance in scope from controller-->
+                <tr ng-repeat="test in tests">
+                    <td>{{test.TaskNumber}}</td>
+                    <td class="text-left">{{test.TaskTest}}</td>
+                    <!--editable fields for cadetClassEvents-->
+                    <td><input id="TestDate" type="date" placeholder="MM/DD/YYYY" ng-model="test.EventDate"  ng-readonly="!editTests"></td>
+                    <td><textarea name="EventNote" rows="1" c wrap="off" ng-model="test.EventNote"  ng-readonly="!editTests"></textarea></td>
+                    <td ng-if="test.DidPass == '1'" class="bg-success text-center">
+                        <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                ng-model="test.DidPass"  ng-disabled="!editTests">
+                    </td>
+
+                    <td ng-if="test.DidPass == '0'" class="bg-danger text-center">
+                        <input  type="checkbox" ng-model="test.DidPass"
+                                ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTests">
+                    </td>
+                    <!--<td><button ng-click="showTest(task.taskNumber)"  ng-show = "(task.taskNumber == '2(a)' || task.taskNumber == '2(b)' || task.taskNumber == '2(c)')">Show Tests</button></td>-->
+                </tr>
+            </table>
+        </form>
+
+
+    </div>
+
+</div>
