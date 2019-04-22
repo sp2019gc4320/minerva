@@ -7,6 +7,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.person = {};
     $scope.applicant = {};
 
+
     $scope.cadets = JSON.parse($window.localStorage.getItem("cadets"));
     $scope.CadetID = $window.localStorage.getItem("CadetID");
     $scope.CadetName = $window.localStorage.getItem("CadetName");

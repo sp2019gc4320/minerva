@@ -2,7 +2,7 @@
 // TODO Cadet 406  has  3 mentors -- selecting all 3 rows or just select one.
 'use strict';
 
-angular.module('findApp').controller("FindCadetController", function FindCadetController($scope, $http, $window) {
+angular.module('recruiter').controller("FindApplicantController", function FindApplicantController($scope, $http, $window) {
 
     //Search Criteria
     $scope.cadetSearch = {};
@@ -117,31 +117,6 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
     };
 
     $scope.saveAndClose = function () {
-        var cadetJSON = JSON.stringify($scope.pickedCadets);
-        $window.sessionStorage.setItem("cadets", cadetJSON);
-        $window.localStorage.setItem("cadets", cadetJSON);
-
-        //Set the cadet for the first item in the list
-        if ($scope.pickedCadets.length > 0) {
-            var firstChosen = $scope.pickedCadets[0];
-            $window.localStorage.setItem("CadetID", firstChosen.fkCadetID);
-            $window.localStorage.setItem("CadetName", firstChosen.PersonFN + " " + firstChosen.PersonLN);
-            $window.localStorage.setItem("CadetGender", firstChosen.PGender);
-            $window.localStorage.setItem("CadetDOB", firstChosen.PDOB);
-        }
-        else {
-            $window.localStorage.removeItem("CadetID");
-            $window.localStorage.removeItem("CadetName");
-            $window.localStorage.removeItem("CadetGender");
-            $window.localStorage.removeItem("CadetDOB");
-        }
-
-        $window.opener.location.reload();
-        $window.close();
-
-    };
-
-    $scope.applicantSaveAndClose = function () {
         var cadetJSON = JSON.stringify($scope.pickedCadets);
         $window.sessionStorage.setItem("cadets", cadetJSON);
         $window.localStorage.setItem("cadets", cadetJSON);

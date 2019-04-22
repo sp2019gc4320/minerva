@@ -1,5 +1,7 @@
 'use strict';
 
 //Define the 'main' module
-angular.module('recruiter',[]);
+angular.module('recruiter',[
+    'recruiter.applicantFind'
+]);
 
