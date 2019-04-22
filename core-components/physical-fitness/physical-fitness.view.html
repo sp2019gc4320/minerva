@@ -9,13 +9,9 @@
                     <thead>
                     <tr>
                         <th colspan="5">TASKS
-                            <button id = "editButtonTasks" class="btn btnEdit" ng-disabled="!editTasks"
-                                    ng-click="editSection('tasks')"> Edit
-                            </button>
-                            <span id="taskSaveCancelButtons">
-                                    <button class="btn btnSave" ng-click="saveSection('tasks')" ng-disabled="editTasks"> Save</button>
-                                    <button class="btn btnCancel" ng-click="cancelUpdate('tasks')" ng-disabled="editTasks"> Cancel</button>
-                                </span>
+                            <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
+                            <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)"ng-show="editTasks"> Save</button>
+                            <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
                         </th>
                     </tr>
                     </thead>
@@ -25,25 +21,24 @@
                         <th>Last Activity</th>
                         <th>Note</th>
                         <th>Completion</th>
-                        <th>Show Tests</th>
                     </tr>
                     <!--iterate through each instance in scope from controller-->
                     <tr ng-repeat="task in tasks">
-                        <td>{{task.taskNumber}}</td>
-                        <td class="text-left">{{task.task}}</td>
+                        <td>{{task.TaskNumber}}</td>
+                        <td class="text-left">{{task.Task}}</td>
                         <!--editable fields for cadetClassEvents-->
-                        <td><input id="date" type="date" placeholder="MM/DD/YYYY" ng-model="task.date"  ng-disabled="editTasks"></td>
-                        <td><textarea name="PTTestNote" rows="1" c wrap="off" ng-model="task.PTTestNote"  ng-disabled="editTasks"></textarea></td>
+                        <td><input id="date" type="date" placeholder="MM/DD/YYYY" ng-model="task.EventDate"  ng-readonly="!editTasks"></td>
+                        <td><textarea name="PTTestNote" rows="1" c wrap="off" ng-model="task.EventNote"  ng-readonly="!editTasks"></textarea></td>
                         <td ng-if="task.DidPass == '1'" class="bg-success text-center">
                             <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                    ng-model="task.DidPass"  ng-disabled="editTasks">
+                                    ng-model="task.DidPass"  ng-disabled="!editTasks">
                         </td>
 
                         <td ng-if="task.DidPass == '0'" class="bg-danger text-center">
                             <input  type="checkbox" ng-model="task.DidPass"
-                                    ng-true-value="'1'" ng-false-value="'0'" ng-disabled="editTasks">
+                                    ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTasks">
                         </td>
-                        <td><button ng-click="showTest(1)"  ng-show = "(task.taskNumber == '2(a)' || task.taskNumber == '2(b)' || task.taskNumber == '2(c)')">Show Tests</button></td>
+                        <!--<td><button ng-click="showTest(task.taskNumber)"  ng-show = "(task.taskNumber == '2(a)' || task.taskNumber == '2(b)' || task.taskNumber == '2(c)')">Show Tests</button></td>-->
                     </tr>
                 </table>
             </div>
@@ -51,14 +46,10 @@
                 <table class="table minerva-table">
                     <thead>
                     <tr>
-                        <th colspan="5">TESTS
-                            <button id = "editButtonTasks" class="btn btnEdit" ng-disabled="!editTasks"
-                                    ng-click="editSection('tasks')"> Edit
-                            </button>
-                            <span id="taskSaveCancelButtons">
-                                    <button class="btn btnSave" ng-click="saveSection('tasks')" ng-disabled="editTasks"> Save</button>
-                                    <button class="btn btnCancel" ng-click="cancelUpdate('tasks')" ng-disabled="editTasks"> Cancel</button>
-                                </span>
+                        <th colspan="7">TESTS
+                            <button class="btn btnEdit" ng-click="makeTestsEditable()"ng-hide="editTests"> Edit</button>
+                            <button class="btn btnSave" ng-click="saveTestsUpdate(tasks)"ng-show="editTests"> Save</button>
+                            <button class="btn btnCancel" ng-click="cancelTestsUpdate()"ng-show="editTests"> Cancel</button>
                         </th>
                     </tr>
                     </thead>
@@ -74,20 +65,25 @@
 
 
                     <tr ng-repeat="test in tests">
-                        <td><input type="date" placeholder="MM/DD/YYYY" ng-model="test.PTDate"></td>
-                        <td><input type="text" ng-model="test.PTTestType"></td>
-                        <td><input type="text" ng-model="test.PTAward"></td>
-                        <td><input type="text" ng-model="test.PTBodyFat"></td>
-                        <td><input type="text" ng-model="test.PTHeight"></td>
-                        <td><input type="text" ng-model="test.PTWeight"></td>
-                        <td></td>
+                        <td><input type="date" placeholder="MM/DD/YYYY" ng-model="test.PTDate" ng-disabled="!editTests"></td>
+                        <td><input type="text" ng-model="test.PTTestType" disabled></td>
+                        <td><input type="text" ng-model="test.PTAward" ng-disabled="!editTests"></td>
+                        <td><input type="text" ng-model="test.PTBodyFat" ng-disabled="!editTests"></td>
+                        <td><input type="text" ng-model="test.PTHeight" ng-disabled="!editTests"></td>
+                        <td><input type="text" ng-model="test.PTWeight" ng-disabled="!editTests"></td>
+                        <td><input type = "text" ng-value = "calcBMI(test.PTHeight, test.PTWeight)" disabled></td>
                     </tr>
                 </table>
                 <div ng-repeat="test in tests">
                 <table class="table minerva-table" ng-show="showTable($index)">
                 <thead>
                 <tr>
-                    <th colspan="5">PT Details</th>
+                    <th
+                            colspan="5">PT Details
+                            <button class="btn btnEdit" ng-click="makePTDetailsEditable()"ng-hide="editPTDetails"> Edit</button>
+                            <button class="btn btnSave" ng-click="saveTestsUpdate(tasks)"ng-show="editPTDetails"> Save</button>
+                            <button class="btn btnCancel" ng-click="cancelPTDetailsUpdate()"ng-show="editPTDetails"> Cancel</button>
+                    </th>
                 </tr>
                 </thead>
                 <tr>
@@ -97,8 +93,11 @@
 
 
                 <tr ng-repeat="row in test.details track by $index">
-                    <td><input type="text" ng-model = "test.tests[$index].TaskEvent"></td>
-                    <td><input type="text" ng-model="test.details[$index].PTDetailResult"></td>
+                    <td>
+                        <input type = "text" ng-model = "test.tests[$index].TaskEvent" disabled>
+                    </td>
+                    <td><input type="text" ng-model="test.details[$index].PTDetailResult" ng-disabled="!editPTDetails"></td>
+                    <td><button class="btn" ng-click=""> Add Waiver</button></td>
                 </tr>
                 </table>
                 </div>

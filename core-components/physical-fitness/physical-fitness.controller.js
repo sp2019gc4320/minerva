@@ -10,179 +10,195 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
 
     $scope.tasks=[];
     $scope.tests=[];
+    $scope.editTasks = false;
+    $scope.editTests = false;
+    $scope.editPTDetails = false;
     $scope.showTest = false;
-    $scope.flags=[0,0,0];
+    $scope.flags=[1,1,1];
 
 
     $scope.showTable = function(index)
     {
         return $scope.flags[index] == '1';
-    }
+    };
 
 
   //  minDate();
-
    $scope.showTest = function(index)
     {
-        if($scope.flags[index] == 0)
-        {
-          $scope.flags[index] = 1;
+        if(index == "2(a)") {
+            if ($scope.flags[0] == 0) {
+                $scope.flags[0] = 1;
+            } else {
+                $scope.flags[0] = 0;
+            }
         }
-        else
+        else if(index == "2(b)")
         {
-            $scope.flags[index] = 0;
+            if ($scope.flags[1] == 0) {
+                $scope.flags[1] = 1;
+            } else {
+                $scope.flags[1] = 0;
+            }
+        }
+        else if(index == "2(c)")
+        {
+            if ($scope.flags[2] == 0) {
+                $scope.flags[2] = 1;
+            } else {
+                $scope.flags[2] = 0;
+            }
         }
     };
 
-
-    $scope.getIndex = function()
+    $scope.makeTasksEditable = function()
     {
-
-    }
-
-
-
- /*   $scope.backup_tasks = [];
-    $scope.backup_tests = [];
-
-    $scope.editTasks = true;
-    $scope.editTests=true;
-
-    //document.getElementById("taskSaveCancelButtons").style.display ="none";
-    //document.getElementById("testSaveCancelButtons").style.display ="none";
-
-    $scope.editSection = function(section){
-        if(section == "tasks")
-        {
-            $scope.editTasks = false;
-            $scope.backup_tasks = angular.copy($scope.tasks);
-
-
-            document.getElementById("editButtonTasks").style.display = "none";
-            var element1 = document.getElementById("taskSaveCancelButtons");
-
-            if(element1.style.display == 'none')
-            {
-                element1.style.display = 'block';
-            }
-
-        }
-
-        else if(section == "tests")
-        {
-            $scope.editTests = false;
-            $scope.backup_tests = angular.copy($scope.tests);
-
-            document.getElementById("editButtonTests").style.display = "none";
-            var element1 = document.getElementById("testSaveCancelButtons");
-
-            if(element1.style.display == 'none')
-            {
-                element1.style.display = 'block';
-            }
-
-        }
+        $scope.editTasks = true;
+        //create backup of tasks
+        $scope.tasksBackup = angular.copy($scope.tasks);
 
     };
+    $scope.saveTasksUpdate = function()
+    {
+        var numSaved = 0;
+        //
+        $scope.editTasks = false;
 
-    $scope.saveSection = function(section){
-        if(section == "tasks")
+        //copy rows of Task table
+        for (var j=0; j<$scope.tasks.length; j++)
         {
-            $scope.editTasks = true;
-
-
-            document.getElementById("editButtonTasks").style.display = "block";
-            var element1 = document.getElementById("taskSaveCancelButtons");
-            if (element1.style.display == 'block')
-            {
-                element1.style.display = 'none';
-            }
-
-
-            for (var j=0; j<$scope.tasks.length; j++)
-            {
-
-                var sendData=angular.copy($scope.tasks[j]);
-                sendData.EventDate+="";
-
-
-                var tasksDateArray=sendData.EventDate.split(" ");
-                sendData.EventDate=dateFormat(tasksDateArray);
-
+            //Only send tasks that do not have tests associated with them
+            if($scope.tasks[j].fkTaskTestEventID == null) {
+                var sendData = angular.copy($scope.tasks[j]);
 
                 delete sendData.Task;
                 delete sendData.TaskNumber;
+                sendData.EventDate = convertToSqlDate(sendData.EventDate);
 
-
-                $http ({
+                //send the json object to the correct update*.php file
+                $http({
                     method: 'POST',
-                    url: "./php/updatePhysFit.php",
+                    url: "./php/physical-fitness_updateTasks.php",
                     data: Object.toparams(sendData),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(
-                    function(response)
-                    {
-                        if(response.data)
-                        {
-
-                        }
-                        alert("updated: [updatePhysFit.php" + JSON.stringify(response));
-                    },function(result){
-                        alert("Failed");
+                    function (response) {
+                        //only show saved message after last task saved.
+                        numSaved++;
+                        if (numSaved === $scope.tasks.length)
+                            alert("Physical Fitness tasks updated");
+                    }, function (result) {
+                        alert("Error saving tasks");
                     });
             }
-            alert("task updated");
         }
 
-        else if(section=="tests")
+    };
+
+    $scope.cancelTasksUpdate = function()
+    {
+        $scope.editTasks = false;
+        $scope.tasks = angular.copy($scope.tasksBackup);
+    };
+
+    $scope.makeTestsEditable = function()
+    {
+        $scope.editTests = true;
+        //create backup of tasks
+        $scope.testsBackup = angular.copy($scope.tests);
+
+    };
+    $scope.saveTestsUpdate = function()
+    {
+        var numSaved = 0;
+        //
+        $scope.editTests = false;
+
+        //copy rows of Task table
+        for (var j=0; j<$scope.tests.length; j++)
         {
+            var sendData = angular.copy($scope.tests[j]);
 
+            delete sendData.Task;
+            delete sendData.TaskNumber;
+            sendData.PTDate = convertToSqlDate(sendData.PTDate);
 
-            $scope.editTests = true;
+            //send the json object to the correct update*.php file
+            $http({
+                method: 'POST',
+                url: "./php/physical-fitness_updateTests.php",
+                data: Object.toparams(sendData),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(
+                function (response) {
+                    //only show saved message after last task saved.
+                    numSaved++;
+                    if (numSaved === $scope.tests.length)
+                        alert("Physical Fitness Tests Updated");
+                }, function (result) {
+                    alert("Error saving tests.");
+                });
+        }
 
-            document.getElementById("editButtonTests").style.display = "block";
-            var element1 = document.getElementById("testSaveCancelButtons");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
+    };
 
+    $scope.cancelTestsUpdate = function()
+    {
+        $scope.editTests = false;
+        $scope.tests = angular.copy($scope.testsBackup);
+    };
 
-            for (var j=0; j<$scope.tests.length; j++)
-            {
+    $scope.makePTDetailsEditable = function()
+    {
+        $scope.editPTDetails = true;
+        //create backup of tasks
+        $scope.testsBackup = angular.copy($scope.tests);
 
-                var sendData=angular.copy($scope.tests[j]);
-                sendData.EventDate+="";
+    };
+    /* $scope.saveTasksUpdate = function()
+    {
+        var numSaved = 0;
+        //
+        $scope.editTasks = false;
 
+        //copy rows of Task table
+        for (var j=0; j<$scope.tasks.length; j++)
+        {
+            //Only send tasks that do not have tests associated with them
+            if($scope.tasks[j].fkTaskTestEventID == null) {
+                var sendData = angular.copy($scope.tasks[j]);
 
-                var testsDateArray=sendData.EventDate.split(" ");
-                sendData.EventDate=dateFormat(testsDateArray);
-
+                delete sendData.Task;
                 delete sendData.TaskNumber;
-                delete sendData.TaskTest;
+                sendData.EventDate = convertToSqlDate(sendData.EventDate);
 
-
-                $http ({
+                //send the json object to the correct update*.php file
+                $http({
                     method: 'POST',
-                    url: "./php/updatePhysFit.php",
+                    url: "./php/physical-fitness_updateTasks.php",
                     data: Object.toparams(sendData),
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                 }).then(
-                    function(response)
-                    {
-                        if(response.data)
-                        {
-
-                        }
-                        alert("updated: [updatePhysFit.php" + JSON.stringify(response));
-                    },function(result){
-                        alert("Failed");
+                    function (response) {
+                        //only show saved message after last task saved.
+                        numSaved++;
+                        if (numSaved === $scope.tasks.length)
+                            alert("Physical Fitness tasks updated");
+                    }, function (result) {
+                        alert("Error saving tasks");
                     });
             }
-            alert("test updated");
-
         }
+
     };
 */
+    $scope.cancelPTDetailsUpdate = function()
+    {
+        $scope.editPTDetails = false;
+        $scope.tests = angular.copy($scope.testsBackup);
+    };
+
+
     var myRequest= {cadet: $scope.cadetID};
 
 
@@ -197,14 +213,14 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
             alert("updated: [physical-fitness_retrievePhysFit2.php" + JSON.stringify(result));
 
             //split result into variables
-            $scope.tasks=result.data.taskTbl;
+            $scope.tasks=result.data.tasks;
             $scope.tests=result.data.data;
 
 
 
             for(var i=0; i<$scope.tasks.length; i++)
             {
-                $scope.tasks[i].date=convertToHtmlDate($scope.tasks[i].date);
+                $scope.tasks[i].EventDate=convertToHtmlDate($scope.tasks[i].EventDate);
             }
 
 
@@ -253,7 +269,7 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
     {
         for (var fieldName in myObject) {
             //Check to see if property name contains Date
-            if (fieldName.includes("Date")) {
+            if (fieldName.includes("EventDate")) {
                 if (myObject[fieldName] !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
                     myObject[fieldName] = convertToHtmlDate(myObject[fieldName]);
                 }
@@ -284,7 +300,7 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
     {
         for (var fieldName in myObject) {
             //Check to see if property name contains Date
-            if (fieldName.includes("Date")) {
+            if (fieldName.includes("EventDate")) {
                 if (myObject[fieldName] !== null) {//IF DATE IS NOT NULL
                     myObject[fieldName] = convertToSqlDate(myObject[fieldName]);
                 }
@@ -294,6 +310,18 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
             }
         }
     };
+
+    $scope.calcBMI = function(PTHeight, PTWeight)
+    {
+        let bmi;
+        if(PTHeight != null && PTWeight != null)
+        {
+            bmi = (703 * PTWeight / (Math.pow(PTHeight, 2))).toFixed(2);
+        }
+        return bmi;
+    }
+
+
 
    /* function minDate()
     {
