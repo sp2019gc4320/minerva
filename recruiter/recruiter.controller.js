@@ -4,7 +4,21 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     //set it to null
    // $window.localStorage.setItem("lookupTable",null);
     // Model for containing the Person to be added to tblPerson
-    $scope.person = {};``
+    $scope.person = {};
+    $scope.applicant = {};
+
+    $scope.cadets = JSON.parse($window.localStorage.getItem("cadets"));
+    $scope.CadetID = $window.localStorage.getItem("CadetID");
+    $scope.CadetName = $window.localStorage.getItem("CadetName");
+    $scope.CadetGender = $window.localStorage.getItem("CadetGender");
+    $scope.CadetDOB = $window.localStorage.getItem("CadetDOB");
+    
+    $scope.cadet = {
+        CadetID: $scope.CadetID,
+        CadetName: $scope.CadetName,
+        CadetGender: $scope.CadetGender,
+        CadetDOB: $scope.CadetDOB
+    };
 
     // Mailing address toggle
     $scope.hasSameMailingAddress = false;
@@ -13,7 +27,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.contactInformation = []
 
     $scope.age = 0
-
+  
     /// Model to arrange the data for ContactInformation in the post requests.
     class ContactInformationModel {
 
@@ -60,7 +74,6 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             }
         }
     }
-
 
     // Set up options on load
     $http({
@@ -162,11 +175,12 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             });
         var form = document.getElementById("newAppForm");
         form.reset();
+        alert($scope.applicant);
     }
     $scope.recruiterViews = [
-        // This has been replaced by an individual button {view:'View Applicants', url:'./utility/find-cadet/find-cadet.view.html'},
         {view:'Add Applicant', url:'./recruiter/site-addapplicant/site-addapplicant.view.html'},
-        {view:'Applicant View Test', url:'./recruiter/viewapplicant.view.html'}
+        {view: 'View Applicant', url: './recruiter/applicant-find/applicant-find.view.html'},
+        {view: 'Application Status', url: './recruiter/applicant-status/applicantstatus.view.html'}
     ];
 
     $scope.showView = function showView(item){
@@ -247,7 +261,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
         var taskShowDirectory = $http({
             method: 'GET',
-            url: './php/files_listAll.php',
+            url: './php/app_fileList.php',
             params: { directory:'mentorFiles' }
         });
         taskShowDirectory.then(function (response) {
@@ -340,12 +354,35 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         );
     };
 
-    $scope.openFindCadetView = function()
-    {
-        $window.open('./utility/find-cadet/find-cadet-index.view.html', "_blank",
-            "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=300,height=300");
+    var taskListFile = $http({
+        method: 'POST',
+        url: './php/app_fileList.php',
+        data: '',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 
-    };
+    });
+    taskListFile.then(
+        //Will use this statement once we have applicant ID functioning fully
+        //var applicantID = $scope.applicantID
+            function(result){
+                //alert("Success");
+                $scope.fileList = result.data.data;
+                    console.log(JSON.stringify($scope.fileList));
+                    //alert(JSON.stringify($scope.fileList));
+            },
+            function(result){
+                alert("Failure");
+            }
+
+
+);
+
+$scope.openFindApplicantView = function()
+{
+    $window.open('./utility/find-cadet/find-applicant-index.view.html', "_blank",
+        "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=300,height=300");
+
+};
     
     $scope.showDirectory();
 });
