@@ -5,6 +5,8 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
    // $window.localStorage.setItem("lookupTable",null);
     // Model for containing the Person to be added to tblPerson
     $scope.person = {};
+    $scope.applicant = {};
+
 
     $scope.cadets = JSON.parse($window.localStorage.getItem("cadets"));
     $scope.CadetID = $window.localStorage.getItem("CadetID");
@@ -174,10 +176,12 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             });
         var form = document.getElementById("newAppForm");
         form.reset();
+        alert($scope.applicant);
     }
     $scope.recruiterViews = [
         {view:'Add Applicant', url:'./recruiter/site-addapplicant/site-addapplicant.view.html'},
-        {view: 'View Applicant', url: './recruiter/applicant-find/applicant-find.view.html'}
+        {view: 'View Applicant', url: './recruiter/applicant-find/applicant-find.view.html'},
+        {view: 'Application Status', url: './recruiter/applicant-status/applicantstatus.view.html'}
     ];
 
     $scope.showView = function showView(item){
