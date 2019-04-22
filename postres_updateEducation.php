@@ -14,12 +14,12 @@ $PREdID = 39;
 $TableName = 'tblPREducation';
 
 if (isset($_POST['PREdID'])) {
-    $PREdID = filter_input(INPUT_POST, "PREdID",FILTER_SANITIZE_NUMBER_INT);
+    $PREdID = filter_input(INPUT_POST, "PREdID");
     unset($_POST['PREdID']);
 }
 
 if (isset($_POST['TableName'])) {
-    $TableName = filter_input(INPUT_POST, "TableName",FILTER_SANITIZE_STRING);
+    $TableName = filter_input(INPUT_POST, "TableName");
     unset($_POST['TableName']);
 }
 
@@ -38,11 +38,10 @@ if ($result = $connection->runSelectQuery($sql)) {
 
         // check to see if there is a post value
         if (isset($_POST[$fieldName])) {
-
-            $connection->sanitize($_POST[$fieldName]);
-
+        //    $fieldValue = filter_input(INPUT_POST, $fieldName);
+            //$connection->sanitize($_POST[$fieldName]);
             //$fieldValue = filter_var($fieldName,FILTER_SANITIZE_ENCODED);
-            $fieldValue = filter_var($fieldName,FILTER_SANITIZE_ENCODED);
+
             $sql = "UPDATE tblPREducation  set $fieldName = '$fieldValue' WHERE  PREdID = '$PREdID'";
 
             echo $sql;

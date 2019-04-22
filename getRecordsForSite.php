@@ -17,7 +17,7 @@ $SiteID = '1';
 
 //Replace Default values with POST parameters (Caleb: since gotten from storage, these values don't need to be sanitized)
 if (isset($_POST['TableName'])) {
-    $TableName = filter_input(INPUT_POST, "TableName",FILTER_SANITIZE_STRING);
+    $TableName = filter_input(INPUT_POST, "TableName");
 }
 
 if (isset($_POST['SiteID'])) {

@@ -39,10 +39,10 @@ if ($result = $connection->runSelectQuery($sql)) {
 
         // check to see if there is a post value
         if (isset($_POST[$fieldName])) {
-            $connection->sanitize($_POST[$fieldName]);
-            $fieldValue = filter_var($fieldName,FILTER_SANITIZE_ENCODED);
-            $sql = "UPDATE $tbl  SET  $fieldName ='$fieldValue' WHERE  $primaryKey= '$primaryValue'";
 
+            $fieldValue = filter_input(INPUT_POST, $fieldName);
+            //$connection->sanitize($_POST[$fieldName]);
+            //$fieldValue = filter_var($fieldName,FILTER_SANITIZE_ENCODED);
 
             $sql = "UPDATE tblPREmployment  set $fieldName = '$fieldValue' WHERE  PREmpID = '$PREmpID'";
             echo $sql;

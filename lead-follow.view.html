@@ -15,10 +15,10 @@
                     <thead>
                         <tr>
                             <th colspan="5">TASKS
-                                    <button id = "editButtonTasks" class="btn btnEdit" ng-disabled="!editTasks"
-                                            ng-click="editSection('tasks')"> Edit
+                                    <button id = "editButtonTasks" class="btn btnEdit" ng-disabled="!editTasks" ng-hide="!editTasks"
+                                            ng-show="editTasks" ng-click="editSection('tasks')"> Edit
                                     </button>
-                                <span id="taskSaveCancelButtons">
+                                <span id="taskSaveCancelButtons" ng-hide="editTasks" ng-show="!editTasks">
                                     <button class="btn btnSave" ng-click="saveSection('tasks')" ng-disabled="editTasks"> Save</button>
                                     <button class="btn btnCancel" ng-click="cancelUpdate('tasks')" ng-disabled="editTasks"> Cancel</button>
                                 </span>
@@ -83,15 +83,15 @@
                     <thead>
                         <tr>
                             <th colspan="6">DUTIES
-                                <button id="editButtonDuties" class="btn btnEdit" ng-disabled="!editDuty"
-                                ng-click="editSection('duties')"> Edit
+                                <button id="editButtonDuties" class="btn btnEdit" ng-hide="!editBtnDuty"
+                                 ng-show="editBtnDuty" ng-click="editSection('duties')"> Edit
                         </button>
-                                <span id="dutySaveCancelButtons"><!--2/26 - changed updateDuty() to saveSection('duties')-->
+                                <span id="dutySaveCancelButtons" ng-hide="editDuty || editBtnDuty" ng-show="!editDuty && !editBtnDuty">
                                     <button class="btn btnSave" ng-click="saveSection('duties')" ng-disabled="editDuty"> Save</button>
                                     <button class="btn btnCancel" ng-click="cancelUpdate('duties')" ng-disabled="editDuty"> Cancel</button>
                                 </span>
 
-                                <span id="saveCancelAddDutyButtons">
+                                <span id="saveCancelAddDutyButtons" ng-hide="addDuty || addBtnDuty" ng-show="!addDuty && !addBtnDuty">
                                     <button class="btn btnSave" ng-click="CreateDuty()" style="margin: 0 auto" > Save</button>
                                     <button class="btn btnCancel" ng-click="cancelAddElement('duties')" style="margin: 0 auto"> Cancel</button>
                                 </span>
@@ -147,9 +147,9 @@
                 </table>
             </div>
             <div class="text-center">
-            <button id="addDutyButton" class="btn btnCreate" ng-click="addElement('duties')" style="margin: 0 auto"> Add Duty</button>
+            <button id="addDutyButton" class="btn btnCreate" ng-hide="!addBtnDuty" ng-show="addBtnDuty" ng-click="addElement('duties')" style="margin: 0 auto"> Add Duty</button>
         </div>
-            <form id="dutyAdd">
+            <form id="dutyAdd" ng-hide="addDuty" ng-show="!addDuty">
                 <table>
                     <tr>
                         <th><label>Duties </label>
@@ -199,13 +199,14 @@
                     <thead>
                         <tr>
                             <th colspan="6">INSPECTIONS <button id="editButtonInspections" class="btn btnEdit"   ng-disabled="!editInspect"
-                                ng-click="editSection('inspections')"> Edit
+                                                                ng-hide="!editBtnInspect" ng-show="editBtnInspect"
+                                                                ng-click="editSection('inspections')"> Edit
                         </button>
-                                <span id="saveCancelAddInspectButtons">
+                                <span id="saveCancelAddInspectButtons" ng-hide="addInspect || addBtnInspect" ng-show="!addInspect && !addBtnInspect">
                                     <button class="btn btnSave" ng-click="CreateInspect()" style="margin: 0 auto" > Save</button>
                                     <button class="btn btnCancel" ng-click="cancelAddElement('inspections')" style="margin: 0 auto"> Cancel</button>
                                 </span>
-                                <span id="inspectSaveCancelButtons"><!--2/26 - changed updateInspect() to saveSection('inspection')-->
+                                <span id="inspectSaveCancelButtons" ng-hide="editInspect || editBtnInspect" ng-show="!editInspect && !editBtnInspect">
                                     <button class="btn btnSave" ng-click="saveSection('inspections')" ng-disabled="editInspect"> Save</button>
                                     <button class="btn btnCancel" ng-click="cancelUpdate('inspections')" ng-disabled="editInspect"> Cancel</button>
                                 </span>
@@ -260,9 +261,9 @@
 			    </table>
 	    	</div>
             <div class="text-center">
-            <button id="addInspectButton" class="btn btnCreate" ng-click="addElement('inspections')" style="margin: 0 auto"> Add Inspection</button>
+            <button id="addInspectButton" class="btn btnCreate" ng-hide="!addBtnInspect" ng-show="addBtnInspect" ng-click="addElement('inspections')" style="margin: 0 auto"> Add Inspection</button>
             </div>
-            <form id="inspectAdd">
+            <form id="inspectAdd" ng-hide="addInspect" ng-show="!addInspect">
                 <table style="width:100%">
                     <tr>
                         <th><label>Date: </label>
@@ -293,6 +294,7 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
                         </th>
                     </tr>
                 </table>
@@ -307,19 +309,20 @@
 
         <br>
         <!--Positions-->
-        <div class="well container infoContainer" style="border: 1px solid white"></div>    
+        <div class="well container infoContainer" style="border: 1px solid white"></div>
         <div class="well container infoContainer" style="border: 1px solid white">
                 <table class="table minerva-table">
                     <thead>
                         <tr>
-                            <th colspan="6">POSITIONS <button id="editButtonPositions" class="btn btnEdit" ng-disabled="!editPosit"
-                                ng-click="editSection('positions')"> Edit
+                            <th colspan="6">POSITIONS
+                                <button id="editButtonPositions" class="btn btnEdit" ng-hide="!editBtnPosit"
+                                ng-show="editBtnPosit" ng-click="editSection('positions')"> Edit
                         </button>
-                                <div id="saveCancelAddPositButtons">
+                                <div id="saveCancelAddPositButtons" ng-hide="addPosit || addBtnPosit" ng-show="!addPosit && !addBtnPosit">
                                     <button class="btn btnSave" ng-click="CreatePosit()" style="margin: 0 auto" > Save</button>
                                     <button class="btn btnCancel" ng-click="cancelAddElement('positions')" style="margin: 0 auto"> Cancel</button>
                                 </div>
-                                <div id="positionSaveCancelButtons">
+                                <div id="positionSaveCancelButtons" ng-hide="editPosit || editBtnPosit" ng-show="!editPosit && !editBtnPosit">
                                     <button class="btn btnSave" ng-click="saveSection('positions')" ng-disabled="editPosit"> Save</button>
                                     <button class="btn btnCancel" ng-click="cancelUpdate('positions')" ng-disabled="editPosit"> Cancel</button>
                                 </div>
@@ -381,9 +384,9 @@
                 <button class="btn btn-outline-danger" ng-click="cancelAddElement('positions')" style="margin: 0 auto">Cancel</button>
             </div>-->
             <div class="text-center">
-            <button id="addPositButton" class="btn btnCreate" ng-click="addElement('positions')" style="margin: 0 auto"> Add Position</button>
+            <button id="addPositButton" class="btn btnCreate" ng-hide="!addBtnPosit" ng-show="addBtnRank" ng-click="addElement('positions')" style="margin: 0 auto"> Add Position</button>
             </div>
-            <form id = "positAdd">
+            <form id = "positAdd" ng-hide="addPosit" ng-show="!addDuty">
                 <table style="width:100%">
                     <tr>
                         <th><label>Position: </label>
@@ -432,14 +435,14 @@
                 <table class="table minerva-table">
                     <thead>
                         <tr>
-                            <th colspan="5">RANKS <button id="editButtonRanks" class="btn btnEdit" ng-disabled="!editRank"
-                                ng-click="editSection('ranks')"> Edit
+                            <th colspan="5">RANKS <button id="editButtonRanks" class="btn btnEdit" ng-hide="!editBtnRank"
+                                ng-show="editBtnRank" ng-click="editSection('ranks')"> Edit
                         </button>
-                                <span id="saveCancelAddRankButtons">
+                                <span id="saveCancelAddRankButtons" ng-hide="addRank || addBtnRank" ng-show="!addRank && !addBtnRank">
                                     <button class="btn btnSave" ng-click="CreateRank()" style="margin: 0 auto" > Save</button>
                                     <button class="btn btnCancel" ng-click="cancelAddElement('ranks')" style="margin: 0 auto"> Cancel</button>
                                 </span>
-                                <span id="rankSaveCancelButtons">
+                                <span id="rankSaveCancelButtons" ng-hide="editRank || editBtnRank" ng-show="!editRank && !editBtnRank">
                                     <button class="btn btnSave" ng-click="saveSection('ranks')" ng-disabled="editRank"> Save</button>
                                     <button class="btn btnCancel" ng-click="cancelUpdate('ranks')" ng-disabled="editRank"> Cancel</button>
                                 </span>
@@ -495,9 +498,9 @@
                 </table>
             </div>
             <div class="text-center">
-            <button id="addRankButton" class="btn btnCreate" ng-click="addElement('ranks')" style="margin: 0 auto"> Add Rank</button>
+            <button id="addRankButton" class="btn btnCreate" ng-hide="!addBtnRank" ng-show="addBtnRank" ng-click="addElement('ranks')" style="margin: 0 auto"> Add Rank</button>
             </div>
-            <form id="rankAdd">
+            <form id="rankAdd" ng-hide="addRank" ng-show="!addRank">
                 <table style="width:100%">
                     <tr>
                         <th><label>Rank </label>

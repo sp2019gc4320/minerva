@@ -39,10 +39,10 @@ if ($result = $connection->runSelectQuery($sql)) {
 
         // check to see if there is a post value
         if (isset($_POST[$fieldName])) {
-            //$fieldValue = filter_input(INPUT_POST,"fieldName");
 
             $connection->sanitize($_POST[$fieldName]);
             $fieldValue = filter_var($fieldName,FILTER_SANITIZE_ENCODED);
+
             $sql = "UPDATE tblPRMisc  set $fieldName = '$fieldValue' WHERE  PRMiscID = '$PRMiscID'";
             echo $sql;
             $connection->runQuery($sql);

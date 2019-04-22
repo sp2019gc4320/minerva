@@ -16,7 +16,7 @@ $fkCadetID = "361";
 //Replace default with value passed in POST
 if (isset($_POST['fkCadetID'])) {
 
-    $fkCadetID = filter_input(INPUT_POST, "fkCadetID",FILTER_SANITIZE_STRING);
+    $fkCadetID = filter_input(INPUT_POST, "fkCadetID",FILTER_SANITIZE_NUMBER_INT);
 }
 
 $sql = "SELECT tblCadets.CadetID, tblPeople.PersonID, tblPeople.PersonFN, tblPeople.PersonLN, tblPeople.PDOB, tblPeople.PGender, tblCadets.fkPersonID

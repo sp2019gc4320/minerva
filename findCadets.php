@@ -38,7 +38,7 @@ function makeObject($row, $fieldNames)
 $search = "";
 $criteria =[];
 if (isset($_POST['fkSiteID'])) {
-   $str = filter_input(INPUT_POST,"fkSiteID",FILTER_SANITIZE_STRING);
+   $str = filter_input(INPUT_POST,"fkSiteID");
    $criteria[]=("fkSiteID LIKE '$str'");
 }
 if (isset($_POST['PersonLN'])) {
@@ -50,7 +50,7 @@ if (isset($_POST['PersonFN'])) {
     $criteria[] = ("PersonFN LIKE '%$str%'");
 }
 if (isset($_POST['fkCadetID'])) {
-    $str = filter_var(INPUT_POST, "fkCadetID",FILTER_SANITIZE_STRING);
+    $str = filter_var(INPUT_POST, "fkCadetID",FILTER_SANITIZE_NUMBER_STRING);
     $criteria[] = ("fkCadetID LIKE '%$str%'");
 }
 
