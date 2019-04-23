@@ -8,66 +8,71 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
-$classYear= $_POST['classYear'];
-$challengeStartDate=getRightFormat($_POST['challengeStartDate']);
-$classStartDate=getRightFormat($_POST["classStartDate"]);
-$graduationDate=getRightFormat($_POST["graduationDate"]);
-$prCompletionDate= getRightFormat($_POST["prCompletionDate"]);
-$targetGraduates= $_POST['targetGraduates'];
+$classYear= $_POST['ClassYear'];
+$challengeStartDate=getRightFormat($_POST['ChalleNGeStartDate']);
+$classStartDate=getRightFormat($_POST["ClassStartDate"]);
+$graduationDate=getRightFormat($_POST["GraduationDate"]);
+$prCompletionDate= getRightFormat($_POST["PRCompletionDate"]);
 $NGB=$_POST['NGB'];
-$classNumber=$_POST['classNumber'];
-$cycle=$_POST['cycle'];
-$meritBase=$_POST['meritBase'];
-$servAge=$_POST['servAge'];
-
+$classNumber=$_POST['SiteClassNumber'];
+$cycle=$_POST['Cycle'];
 $fkSiteID=$_POST['fkSiteID'];
 
+//tblclasses
+$sql = "INSERT INTO
+        tblClasses
+        (ClassYear,ChalleNGeStartDate,ClassStartDate,GraduationDate,PRCompletionDate,SiteClassNumber,NGB,Cycle,fkSiteID,fkClassPhaseID) 
+ VALUES ($classYear,'$challengeStartDate','$classStartDate','$graduationDate','$prCompletionDate','$classNumber','$NGB','$cycle','$fkSiteID','1');";
+$fkClassId = $conn->createRecord($sql);
 
+/*
+ * This function generates an array of date intervals in string format to be
+ * added to the database for tlkpClassWeek and tlkpPRReportMonth.
+ *
+ * - Parameters:
+ *  - $start: The first date (as a string) to create the date intervals from.
+ *  - $length: The amount of intervals to generate. This is an integer
+ *  value. 
+ *  - $intervalSize: The size of each interval. This is either a day, month,
+ *  week, year, or any other druation of time accepted by the strtotime
+ *  function for calculating intervals.
+ * - Returns: An array of objects that each contain two fields: (begin, end).
+ * Begin is the begin date of the interval while end is the last date in the
+ * time interval.
+ */
+function generateDateInvervals($start, $length, $intervalSize) {
+    $intervals = array();
+    for($i = 0; $i < $length; $i++) {
+        $beginInterval = "+".$i." ".$intervalSize;
+        $endInterval = "+".($i + 1)." ".$intervalSize;
+        $dateBeginInterval = date("Y-m-d", strtotime($beginInterval, $start));
+        $dateEndInterval = date("Y-m-d", strtotime($endInterval, $start));
 
-//Incomplete functionality
-$weeks=json_decode($_POST['weeks']);
-//$weeks=["2019-03-01","2019-03-02","2019-03-03"];
-$counter=1;
-for($i=0;$i<(count($weeks)-1);$i+=2,$counter++)
-{
-    $classWeek=$counter;
-    $weeklyStart=getRightFormat($weeks[$i]);
-    $weeklyEnd=getRightFormat($weeks[$i+1]);
-
-    //tlkpclassweek
-    $sql= "INSERT INTO
-        tlkpclassweek
-        (ClassWeek,ClassWeekStartDate,ClassWeekEndDate)
- VALUES ($classWeek,'$weeklyStart','$weeklyEnd');";
-
-    $result = $conn->runQuery($sql);
+        // Create an object to hold the begin and end interval
+        $interval = new stdClass();
+        $interval->begin = $dateBeginInterval;
+        $interval->end = $dateEndInterval;
+        array_push($intervals, $interval);
+    }
+    return $intervals;
 }
 
-//tblclasses
-$sql = "INSERT INTO
-        tblclasses
-        (ClassYear,ChalleNGeStartDate,ClassStartDate,GraduationDate,PRCompletionDate,TargetGraduates,SiteClassNumber,NGB,Cycle,MeritBase,SelServAge,fkSiteID,fkClassPhaseID) 
- VALUES ($classYear,'$challengeStartDate','$classStartDate','$graduationDate','$prCompletionDate','$targetGraduates','$classNumber','$NGB','$cycle','$meritBase','$servAge','$fkSiteID','1');";
+// Generate the date intervals starting from the first date specified, up until
+// the 22 week. 
+$tlkpClassWeeks = generateDateInvervals(strtotime($classStartDate), 22, "week");
+foreach($tlkpClassWeeks as $weekNumber => $interval) {
+    //tlkpclassweek
+    $sql= "INSERT INTO tlkpClassWeek (fkClassID, ClassWeek,ClassWeekStartDate,ClassWeekEndDate) VALUES ($fkClassId, ".($weekNumber + 1).",'".$interval->begin."','".$interval->end."');";
+    $conn->createRecord($sql);
+}
 
-/*
-//tblclasses
-$sql = "INSERT INTO
-        tblclasses
-        (ClassYear,ChalleNGeStartDate,ClassStartDate,GraduationDate,PRCompletionDate,TargetGraduates) 
- VALUES ($classYear,'$challengeStartDate','$classStartDate','$graduationDate','$prCompletionDate','$targetGraduates');";
-*/
-$result = $conn->runQuery($sql);
-
-/*
-//tlkpclassweek
-$sql= "INSERT INTO
-        tlkpclassweek
-        (ClassWeek,ClassWeekStartDate,ClassWeekEndDate)
- VALUES ($classWeek,'$weeklyStart','$weeklyEnd');";
-
-$result = $conn->runQuery($sql);
-*/
-print_r($sql);
+// Generate the date intervals starting 22 weeks after the initials start date. 
+// We need 12 months for this look up table.
+$tlkpPRReportMonths = generateDateInvervals(strtotime("+22 week", strtotime($classStartDate)), 12, "month");
+foreach($tlkpPRReportMonths as $monthNumber => $interval) {
+    $sql= "INSERT INTO tlkpPRReportMonth (fkClassID, ReportMonth, ReportMonthStartDate, ReportMonthEndDate) VALUES ($fkClassId, ".($monthNumber + 1).",'".$interval->begin."','".$interval->end."');";
+    $conn->createRecord($sql);
+}
 
 function getRightFormat($date)
 {

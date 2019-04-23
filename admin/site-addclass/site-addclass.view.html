@@ -1,22 +1,51 @@
-<form name="addClassForm" id="adminClassForm" novalidate>
+<form ng-controller="addClassController" name="addClassForm" id="adminClassForm" action="./php/admin_addClass.php"
+    method="post">
     <h5>Class Information</h5>
     <div class="form-row">
         <div class="form-group col-md-2">
             <label for="classNumber">Class No.</label>
-            <input id="classNumber" class="form-control" type="number" ng-model="classNumber" required>
+            <input id="classNumber" 
+                   name="SiteClassNumber" 
+                   class="form-control" 
+                   type="number" 
+                   ng-model="classNumber" 
+                   required>
         </div>
-        <div class="form-group col-md-3">
+        <div class="form-group col-md-2">
             <label for="classYear">Class Year</label>
-            <input id="classYear" class="form-control" type="number"
-                                                       ng-model="classYear" required>
+            <input id="classYear" 
+                   name="ClassYear"
+                   class="form-control" 
+                   type="number"
+                   ng-model="classYear" 
+                   required>
         </div>
         <div class="form-group col-md-2">
             <label for="cycleNumber">Cycle No.</label>
-            <input type="number" class="form-control" id="cycleNumber" ng-model="cycle" required>
+            <input type="number" 
+                   name="Cycle"
+                   class="form-control" 
+                   id="cycleNumber" 
+                   ng-model="cycle" 
+                   required>
         </div>
-        <div class="form-group col-md-5">
+        <div class="form-group col-md-2">
+            <label for="ngb">NGB</label>
+            <input  ng-model="ngb" 
+                    type="text"
+                    name="NGB"
+                    class="form-control" 
+                    id="ngb"
+                    required>
+        </div>
+        <div class="form-group col-md-4">
             <label for="classPhase">Class Phase</label>
-            <select ng-model="classPhase" class="form-control" id="classPhase"></select>
+            <select ng-model="classPhase" 
+                    name="fkClassPhaseID"
+                    class="form-control" 
+                    id="classPhase" 
+                    ng-options="phase as phase.ClassPhase for phase in
+                    classPhases track by phase.ClassPhaseID"></select>
         </div>
     </div>
     <h5>Class Dates</h5>
@@ -24,6 +53,7 @@
         <div class="form-group col-md-3">
             <label for="startDate">Class Start Date</label>
             <input class="form-control" 
+                   name="ClassStartDate"
                    type="date" 
                    id="startDate" 
                    ng-model="classStartDate"
@@ -33,6 +63,7 @@
         <div class="form-group col-md-3">
             <label for="challengeStartDate">ChalleNGe Start Date</label>
             <input class="form-control" 
+                   name="ChalleNGeStartDate"
                    type="date" 
                    id="challengeStartDate" 
                    ng-model="challengeStartDate"
@@ -42,6 +73,7 @@
         <div class="form-group col-md-3">
             <label for="graduationDate">Graduation Date</label>
             <input class="form-control" 
+                   name="GraduationDate"
                    type="date" 
                    id="graduationDate" 
                    ng-model="graduationDate"
@@ -51,6 +83,7 @@
         <div class="form-group col-md-3">
             <label for="prCompletionDate">Post-Residential Completion Date</label>
             <input class="form-control" 
+                   name="PRCompletionDate"
                    type="date" 
                    id="prCompletionDate" 
                    ng-model="prCompletionDate"
@@ -58,16 +91,11 @@
                    required>
         </div>
     </div>
-    <!--
-    <br>
-    <hr>
-    <br>
-    Start Date
-    End Date
-    <input type="date" ng-model="weeklyStart" ng-change="updateEndDate()">
-    <p>{{testVal}}</p>
-    <input type="date" ng-model="weeklyEnd" disabled>
-    -->
 
-    <button ng-click="createClass()" type="submit" class="btn btn-lg btn-success">Submit Class</button>
+    <input style="display:none;" name="fkSiteID" value="1">
+    <button class="btn btn-primary" 
+            type="button" 
+            ng-click="submit()"
+            name="submit" 
+            id="submit">Create Class</button>
 </form>
