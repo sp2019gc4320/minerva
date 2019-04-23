@@ -9,7 +9,8 @@
     <div ng-controller="editCoreComponentController">
         <!--name form for two way binding-->
         <form name="coreComponentForm">
-            <button class = "btn btnEdit" ng-click="showTasks()">show tasks</button>
+            <button class = "btn btnEdit" ng-click="showTasks()">Refresh</button>
+            <!--TODO Automate showing tasks once a new task is selected.-->
               <select id="selectNumber" onchange="setCoreComponent(this.value)" ng-model="list">
                 <option value = "1">Academic Excellence</option>
                 <option value = "2">Physical Fitness</option>
@@ -44,7 +45,9 @@
                 	<td><input name="TaskNumber" ng-model="task.TaskNumber"ng-disabled="!editable" ></td>
 					<td><input name="TaskName" ng-model="task.Task"ng-disabled="!editable" ></td>
                     <td><input  style="width:20px; height:20px;" name="IsActive" type="checkbox" ng-model="task.IsActive" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable"></td> 
-                    <td><button class = "btn btnDelete" ng-click="deleteTask(task.TaskNumber)" ng-disabled="!editable">Delete Task</button></td>
+                    <td><button class = "btn btnDelete" ng-click="deleteTask(task.TaskNumber)" ng-disabled="!editable">Delete</button></td>
+                    <!--TODO make tests for each task appear in a sub table. Most of the code is done in the task editing just need to apply it
+                        to new files and use the tests table instead of task table-->
                 </tr>	
                 <tr><button class = "btn btnCreate" ng-click="addNewTask(tasks.length+1)">Create</button></tr>
             </table>

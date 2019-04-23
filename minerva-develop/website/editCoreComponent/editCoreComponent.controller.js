@@ -73,7 +73,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
     }
     $scope.addNewTask= function($taskID){
         var sendData= angular.copy($scope.tasks[0]);
-
+        // Copies the first object and sets all atributes to null/default
         sendData['CoreComponentID']=$scope.list;
         sendData['TaskNumber']=$taskID;
         sendData['Task']="";
