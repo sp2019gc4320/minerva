@@ -1,5 +1,22 @@
 <?php
 
+
+	/*
+		admin_assignUser.php 
+
+		this is called from the compassign.controller.js function addUser. It is posted with parameters:
+		User - the user to be added to the companystaff table
+		Privilege - the type of user, currently limited to cadre and case managers
+		Company - this is broken down to site and company
+
+		the values for insert are:
+		companyStaffID(auto-increments and should be left NULL)
+		fkUserLoginName,
+		fkSiteID,
+		fkCompanyID,
+		fkPrivilege
+
+	 */
 	require_once 'dbcontroller.php';
 
 	$conn = new DBController();
@@ -10,8 +27,6 @@
 
 	$site = explode(" ", $siteCompany)[1];
 	$company  = explode(" ", $siteCompany)[3];
-
-	//echo "$user $site $company";
 
 
 	$sql = "INSERT INTO tblcompanystaff Values(NULL,'".$user."', '".$site."' , '".$company."','".$privilege."')";

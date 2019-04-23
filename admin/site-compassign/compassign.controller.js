@@ -28,6 +28,14 @@ angular.module('admin.compAssign').controller('companyAssignController',function
 		);
 	}
 
+	/*
+		addUser() is called by functions addCadre and addMgr which format the 
+		company, user, and privilege inputs for a user to be added to a company.
+
+		this function then sends the parameters to admin_assignUser to be added to the database
+		and lets the user know once that is complete
+	 */
+
 
 	function addUser(company, user, privilege)
 	{
@@ -49,6 +57,12 @@ angular.module('admin.compAssign').controller('companyAssignController',function
 
 		)
 	}
+
+	/*
+		addCadre() and addMgr() both do the same thing by taking input company name and the selectionID ('user'SelID)
+		and ensuring that no faulty input is provided before sending the value chosen on view and submitted with
+		the addUser button to the function addUser()
+	 */
 
 
 	$scope.addCadre = function(company,cadreSelID)
@@ -86,6 +100,14 @@ angular.module('admin.compAssign').controller('companyAssignController',function
 			addUser(company, mgr, "Case Mgr");
 		}
 	}
+
+	/*
+		linkMgrs() and linkCadre()
+
+		these functions format data from the companyStaff table and assign them to the values from the list of companies
+		that the view will sort their assignment by. This is to ensure that the staff are not assigned in the wrong location.
+		This also updates the view and user know when there are no assigned staff of a given type over a company
+	 */
 
 	function linkMgrs(companyAry)
 	{

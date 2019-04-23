@@ -1,11 +1,29 @@
 <?php
 
+
+/*
+	admin_retrieveCompany.php
+
+	this is called when the company assignment view is called. It returns the following tables:
+
+	company_list - a list of strings for each company name and site sorted by site
+	
+	companyStaffTbl - a list of all staff currently in the company staff table (sorted and linked in the js to the first table in functions linkMgrs and linkCadre)
+
+	Cadre - a table of all available cadre in tblUsers that can be assigned a company
+	
+	CaseMgrs - a table of all available case managers in tblUsers that can be assigned a company
+ */
+
 require_once 'dbcontroller.php';
 
 $conn = new DBController();
 
 $siteCompany =  array();
 $staffAry = array();
+
+
+//this section selects all available companies from each site. 
 
 $sql ="SELECT * FROM tlkpcadetcompany";
 
@@ -28,6 +46,8 @@ else{
 echo '], ';
 
 
+//this section selects all currently assigned staff from the companystaff table. It is able to select all staff types for later iterations if needed
+
 $sql = "SELECT * FROM tblcompanystaff";
 $res = $conn->runSelectQuery($sql);
 echo '"companyStaffTbl" :[';
@@ -45,6 +65,8 @@ if($res->num_rows > 0)
 	}
 
 }
+
+//this section selects all the cadre from the users table
 
 echo'],';
 
@@ -71,7 +93,7 @@ if($res->num_rows > 0)
 echo '],';
 
 
-
+//This section selects all case managers from the users table
 
 
 $sql = "SELECT * FROM tblusers WHERE (PRIVILEGE = 'Case Mgr')";
