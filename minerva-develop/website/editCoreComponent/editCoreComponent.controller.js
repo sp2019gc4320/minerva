@@ -4,7 +4,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
     $scope.showTasks= function(){
         $http({
         method: 'POST',
-        url: './php/retriveCoreTasks.php',
+        url: './php/website_retriveCoreTasks.php',
         data: Object.toparams(corecomponent),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).then(
@@ -35,7 +35,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
             sendData['CoreComponentID']=$scope.list;
 			$http ({
                 method: 'POST',
-                url: "./php/updateCoreTasks.php",
+                url: "./php/website_updateCoreTasks.php",
                 data: Object.toparams(sendData),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(
@@ -65,7 +65,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
         sendData['IsActive']="1";
         $http({
             method: 'POST',
-            url: "./php/deleteCoreTasks.php",
+            url: "./php/website_deleteCoreTasks.php",
             data: Object.toparams(sendData),
             headers:{'Content-Type': 'application/x-www-form-urlencoded'}
         })
@@ -80,7 +80,7 @@ angular.module('website.editCoreComponent').controller('editCoreComponentControl
         sendData['IsActive']="1";
         $http ({
             method: 'POST',
-            url: "./php/createCoreTask.php",
+            url: "./php/website_createCoreTask.php",
             data: Object.toparams(sendData),
             headers:{'Content-Type': 'application/x-www-form-urlencoded'}
         });
