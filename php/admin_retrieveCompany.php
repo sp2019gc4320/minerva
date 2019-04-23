@@ -45,8 +45,53 @@ if($res->num_rows > 0)
 	}
 
 }
-	
 
+echo'],';
+
+$sql = "SELECT * FROM tblusers WHERE (PRIVILEGE = 'Cadre')";
+$res = $conn->runSelectQuery($sql);
+
+$staffAry = array();
+
+echo '"Cadre" :[';
+if($res->num_rows > 0)
+{
+	while($row = $res->fetch_assoc())
+	{
+
+		$temp = $row['UserLoginName'];
+		$staffAry = array_merge($staffAry,[json_encode($temp)]);
+	}
+	foreach ($staffAry as $key => $sa) {
+		if ($key > 0) echo ',';
+		echo ($sa);
+	}
+
+}
+echo '],';
+
+
+
+
+
+$sql = "SELECT * FROM tblusers WHERE (PRIVILEGE = 'Case Mgr')";
+$res = $conn->runSelectQuery($sql);
+$staffAry = array();
+echo '"CaseMgrs" :[';
+if($res->num_rows > 0)
+{
+	while($row = $res->fetch_assoc())
+	{
+
+		$temp =  $row['UserLoginName'] ;
+		$staffAry = array_merge($staffAry,[json_encode($temp)]);
+	}
+	foreach ($staffAry as $key => $sa) {
+		if ($key > 0) echo ',';
+		echo ($sa);
+	}
+
+}
 
 
 

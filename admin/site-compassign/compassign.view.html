@@ -10,26 +10,53 @@
 	ng-controller="companyAssignController">
 
 		<h1>Assign Companies</h1>
-		<table class="table minerva-table">
-			<thead></thead>
-			<tbody ng-repeat="company in companyDisplay">
+		<table class="table minerva-table" ng-repeat="company in companyDisplay">
+			<thead>
 				<tr>
-					<th colspan="3"><h2>{{company.companies}}</h2></th>
+					<th colspan="3">{{company.companies}}</th>
 				</tr>
+			</thead>
+			<tbody >
+				
 
 				<tr ng-repeat="cadre in company.cadre track by $index">
-					<td ng-if="$first" rowspan="{{company.cadre.length}}" width="250px"><h5>Cadre Users:</h5><br><button class="btn btn-delete" ng-click="addCadre(company)">Add</button></td>
+					<td ng-if="$first" rowspan="{{company.cadre.length}}">
+						<h5>Cadre Users:</h5>
+						<br>
+						<form class="input-group">
+						  <select class="custom-select" id="{{company.cID}}cadre">
+						    <option selected>Choose...</option>
+						    <option ng-repeat="potCadre in company.potCadre track by $index" value="{{potCadre}}">{{potCadre}}</option>
+						  </select>
+						  <div class="input-group-append">
+						    <button class="btn btn-outline-secondary" type="button" ng-click="addCadre(company.companies,company.cID)">Add</button>
+						  </div>
+						</form>
+					</td>
 					<td ng-if="cadre != 'No Cadre Assigned' "><p>{{cadre}}</p></td>
 					<td ng-if="cadre == 'No Cadre Assigned' " class="bg-warning" colspan="2"><h5>{{cadre}}</h5></td>
-					<td ng-if="cadre != 'No Cadre Assigned' "> <button class="btn btn-delete">Remove</button></td>
+					<td ng-if="cadre != 'No Cadre Assigned' "> <button class="btn btn-delete" ng-click="removeUser(cadre,company.companies)">Remove</button></td>
 
 
 				</tr>
 				<tr ng-repeat="caseMgr in company.caseMgrs track by $index">
-					<td ng-if="$first" rowspan="{{company.caseMgrs.length}}" width="250px"><h5>Case Manager Users:<h5><br><button class="btn btn-delete" ng-click="addCaseManager(company)">Add</button></td>
+					<td ng-if="$first" rowspan="{{company.caseMgrs.length}}">
+						<h5>Case Manager Users:</h5>
+						<br>
+					
+						<form class="input-group">
+						  <select class="custom-select" id="{{company.cID}}mgrs">
+						    <option selected>Choose...</option>
+						    <option ng-repeat="potMgrs in company.potCaseMgrs track by $index" value="{{potMgrs}}">{{potMgrs}}</option>
+						  </select>
+						  <div class="input-group-append">
+						    <button class="btn btn-outline-secondary" type="button" ng-click="addMgr(company.companies,company.cID)">Add</button>
+						  </div>
+						</form>
+					</td>
 					<td ng-if="caseMgr != 'No Managers Assigned'"><p>{{caseMgr}}</p></td>
 					<td ng-if="caseMgr == 'No Managers Assigned'" class="bg-warning" colspan="2"><h5>{{caseMgr}}</h5></td>
-					<td ng-if="caseMgr != 'No Managers Assigned'"> <button class="btn btn-delete">Remove</button></td>
+					<td ng-if="caseMgr != 'No Managers Assigned'"> <button class="btn btn-delete" ng-click="removeUser(caseMgr,company.companies)">Remove</button></td>
 				
 				</tr>
 			
