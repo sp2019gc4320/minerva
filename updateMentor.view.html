@@ -1,0 +1,612 @@
+<script>
+    function load_query(){
+
+        var distanceQuery = document.getElementById("content");
+        distanceQuery.innerHTML='<object type="text/html" data="https://bing.com" width="95%" height="300px"></object>';
+        distanceQuery.style.display = "block";
+
+        var query = document.getElementById("search");
+        query.style.display = "block"
+    }
+    function hide_query(){
+        document.getElementById("content").style.display = "none";
+        document.getElementById("search").style.display = "none";
+    }
+
+</script>
+
+<div class="container" ng-controller="updateMentorCtrl">
+    <h1>Mentor</h1>
+    <font size="2">
+    <form name="updateMentor">
+        <fieldset class="form-group">
+            <div class="card alert-warning" ng-if="editMentorInfo">
+                    <div class="card-title">Mentor Information
+                        <button class="btn btnSave" ng-click="saveSection('info')"> Save</button>
+                        <button class="btn btnCancel" ng-click="cancelSection('info')"> Cancel</button>
+                    </div>
+                    <div class="form-row m-2">
+                        <div class="">
+                            <table class="table">
+                                <thead ng-if="mentor">
+                                <tr><th></th>
+                                <th>Mentor Name</th>
+                                <th>Hierarchy</th>
+                                <th>Prox.</th>
+                                <th>Relationship</th>
+                                <th>Status</th>
+                                <th>Status Notes</th></tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="myMentor in mentors track by $index"  ng-class="{'alert-primary':$index==mentorIndex} "ng-click="selectMentor($index)">
+                                    <td> </td>
+                                    <td > {{myMentor.PersonLN + ', ' + myMentor.PersonFN}} </td>
+                                    <td>
+                                        <select  name="MPHierarchy" ng-model="myMentor.MPHierarchy">
+                                            <option value="Primary">Primary</option>
+                                            <option value="Secondary">Secondary</option>
+                                            <option value="Alternative">Alternative</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <div class="input-group-append">
+                                            <input  type="text" class="" ng-model="myMentor.MPProximity"
+                                                    maxlength="3" size="3" />
+                                            <!---->
+                                            <span ng-if="$index==mentorIndex">
+                                            <button class=" btn"  onclick="load_query();">
+                                                <span class="oi oi-magnifying-glass"></span></button>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <select class="ml-2" ng-model="myMentor.MPRelationship">
+                                            <option value="Aunt" >Aunt</option>
+                                            <option value="Uncle">Uncle</option>
+                                            <option value="Teacher">Teacher</option>
+                                            <option value="GodParent">GodParent</option>
+                                            <option value="Other">Other</option>
+                                        </select></td>
+                                    <td>{{myMentor.MPStatus}}</td>
+                                    <td><textarea  type="text" rows="2" cols="60"  class="" size="45" ng-model="myMentor.MPStatusNote" data-toggle="modal" data-target="#statusNote{{$index}}"></textarea>
+                                        <!-- dive to pop up textarea when clicked -->
+                                        <div class="modal fade" id="statusNote{{$index}}" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h6>Note</h6>
+                                                        <div class="modal-body">
+                                                            <textarea ng-model="myMentor.MPStatusNote"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </td>
+                                    <td></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div> <!--col-->
+                    </div> <!--row-->
+            </div> <!--card-->
+            <div class="card " ng-if="!editMentorInfo">
+                <div ng-if="mentor">
+                    <div class="form-row m-2">
+                        <div class="">
+                            <table class="table minerva-table">
+                                <thead>
+                                    <tr>
+                                        <th colspan="8">MENTOR INFORMATION <button class="btn btnEdit" ng-click="editSection('info')"> Edit</button></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr ng-repeat="myMentor in mentors track by $index" ng-class="{'alert-success':$index==mentorIndex}" ng-click="selectMentor($index)"
+                                    >
+                                    <td>
+                                        <div class="input-group">
+                                            <div class="input-group-prepend">
+                                                <span ng-if="$index==mentorIndex">
+                                                    <button class="btn" ng-click="openMentorView($index)">
+                                                        <span class="oi oi-person"></span>
+                                                    </button>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td> {{myMentor.PersonLN + ', ' + myMentor.PersonFN}} </td>
+                                    <td> {{myMentor.MPHierarchy}} </td>
+                                    <td> {{myMentor.MPProximity}} </td>
+                                    <td> {{myMentor.MPRelationship}}</td>
+                                    <td>{{myMentor.MPStatus}}</td>
+                                    <td> {{myMentor.MPStatusNote}}</td>
+                                    <td><button class=" btn btnDelete" ng-click="disassociate($index)"> Delete</button></td>
+                                </tr>
+                                </tbody>
+                            </table>
+                        </div> <!--col -->
+                    </div> <!--row -->
+                </div><!-- mentor exists -->
+                <div class="form-row justify-content-center">
+                        <button class="btn btnCreate" ng-click="openSearchMentorView()"> Add Mentor</button>
+                </div>
+            </div><!--card -->
+            <div class="card bg-transparent" ng-if="disassociatedMentors.length>0" >
+                <div class="card-title">*Disassociated Mentors
+                </div>
+                <div class="form-row m-1">
+                    <div class="col-8">
+                        <table>
+                            <tbody>
+                            <tr ng-repeat="myMentor in disassociatedMentors track by $index" >
+                                <td> {{myMentor.PersonLN + ', ' + myMentor.PersonFN}} </td>
+                                <td> : </td>
+                                <td> {{myMentor.MPStatusNote}}</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div> <!--col -->
+                </div> <!--row -->
+            </div><!--card -->
+        </fieldset>
+        <div id ="search" style="display: none">
+            <button class="btn-danger btn-sm" onclick="hide_query();">
+                <span class="oi oi-x"></span>
+            </button> Search: <em>{{searchByZip}}</em> </div>
+        <div id ="content">  </div>
+
+        <div ng-if="mentor">
+            <fieldset class="form-group">
+                <div class="card alert-warning" ng-if="editPersonal">
+                <div class="card-title">Personal Status
+                    <button class="btn btnSave" ng-click="saveSection('personal')"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelSection('personal')"> Cancel</button>
+                </div>
+                <div class="form-row m-2">
+                    <table>
+                        <thead>
+                        <tr><th ></th>
+                        <th >Marital Status</th>
+                        <th >Employer</th>
+                        <th >Occupation</th>
+                        <th >Work Status</th>
+                        <th >Organization</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td> <div class="alert alert-success" ng-show=mentor.InPool>IN POOL!</div> </td>
+                            <td>
+                                <select ng-model="mentor.MMaritalStatus">
+                                    <option value="Single">Single</option>
+                                    <option value="Married">Married</option>
+                                    <option value="Divorced">Divorced</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="" ng-model="mentor.MEmployer">
+                            </td>
+                            <td>
+                                <input type="text" class="" ng-model="mentor.MOccupation">
+                               <!-- <select ng-model="mentor.MOccupation">
+                                    <option value="Teacher" >Teacher</option>
+                                    <option value="Therapist">Therapist</option>
+                                    <option value="Self-Employed">Self-Employed</option>
+                                </select> -->
+                            </td>
+                            <td>
+                                <select ng-model="mentor.MWorkStatus">
+                                    <option></option>
+                                    <option value="Deployed">Deployed</option>
+                                    <option value="Fulltime">Full Time</option>
+                                    <option value="Parttime">Part Time</option>
+                                    <option value="Retired">Retired</option>
+                                    <option value="Temporary">Temporary</option>
+                                    <option value="Unemployed">Unemployed</option>
+                                    <option value="Volunteer">Volunteer</option>
+                                </select>
+                            </td>
+                            <td>
+                                <input type="text" class="" ng-model="mentor.MOrganization">
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div> <!--form-row-->
+            </div>
+                <div class="card bg-transparent " ng-if="!editPersonal">
+                <div class="form-row m-2">
+                    <table class="table minerva-table">
+                        <thead>
+                            <tr>
+                                <th colspan="6">PERSONAL STATUS <button class="btn btnEdit" ng-click="editSection('personal')"> Edit</button></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th></th>
+                                <th>Marital Status</th>
+                                <th>Employer</th>
+                                <th>Occupation</th>
+                                <th>Work Status</th>
+                                <th >Organization</th>
+                            </tr>
+                        <tr>
+                            <td>
+                                <div class="alert alert-success" ng-show=mentor.InPool>
+                                    IN POOL!
+                                </div>
+                            </td>
+                            <td>{{mentor.MMaritalStatus}}</td>
+                            <td>{{mentor.MEmployer}}</td>
+                            <td> {{mentor.MOccupation}}</td>
+                            <td>{{mentor.MWorkStatus}}</td>
+                            <td>{{mentor.MOrganization}}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div> <!--form-row-->
+            </div><!--card-->
+            </fieldset>
+
+            <fieldset class="form-group">
+                <div class="card alert-warning" ng-if="editDates">
+                    <div class="card-title">Processing Dates
+                        <button class="btn btnSave" ng-click="saveSection('dates')"> Save</button>
+                        <button class="btn btnCancel" ng-click="cancelSection('dates')"> Cancel</button>
+                    </div>
+                  <div class="form-row m-2">
+                    <table  class="table table-bordered">
+                        <tbody>
+                        <tr>
+                            <th scope="col">Recruiting</th>
+                            <th scope="col">Screened</th>
+                            <th scope="col">Trained</th>
+                            <th scope="col">Matched</th>
+                        </tr>
+                        <tr>
+                            <td valign="top"><label>Agreement Date:
+                                <input  type="date" name="MAgreementDate"  ng-model="mentor.MAgreementDate" ng-class="taskComplete(mentor.MAgreementDate)"> </label>
+                                <hr>
+                                <div><input type="checkbox" checked name="IsLiabReleaseSigned"
+                                            ng-model="mentor.IsLiabReleaseSigned" ng-true-value="1"  ng-false-value="0" />
+                                    Agreed to Release info? (MARI)</div>
+                                <div><label><input type="checkbox" checked name="IsPosDescSigned" ng-true-value="1"  ng-false-value="0"
+                                                   ng-model="mentor.IsPosDescSigned"/>Signed Position Description</label></div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="HasDriversLic" ng-model="mentor.HasDriversLic"
+                                                  ng-true-value="1"  ng-false-value="0">Driver's License</label></div>
+                                <div class="checkbox">
+                                    <label><input type="checkbox" name="HasAutoIns" ng-model="mentor.HasAutoIns" ng-true-value="1"  ng-false-value="0">
+                                        Auto Insurance</label></div>
+                            </td>
+                            <td  valign="top"><label for="MInterviewDate">Interviewed:</label>
+
+                                <input  type="date" name="MInterviewDate" id="MInterviewDate" ng-model="mentor.MInterviewDate" ng-class="taskComplete(mentor.MInterviewDate)" >
+
+                                <hr>
+                                <div>
+                                    <label>Ref Check Date(1/2):</label> <div>
+                                    <input  type="date" name="MRefCheck1Date" ng-model="mentor.MRefCheck1Date" ng-class="taskComplete(mentor.MRefCheck1Date)" >
+                                    <input  type="date" name="MRefCheck2Date" ng-model="mentor.MRefCheck2Date" ng-class="taskComplete(mentor.MRefCheck2Date)"></div>
+                                </div>
+                                <hr>
+                                <div>
+                                    <label>Backgnd Check(Start/End):</label>
+                                    <div>
+                                        <input   type="date" name="MBackgroundCheckStartDate" ng-model="mentor.MBackgroundCheckStartDate" ng-class="taskComplete(mentor.MBackgroundCheckStartDate)">
+                                        <input   type="date" name="MBackgroundCheckEndDate" ng-model="mentor.MBackgroundCheckEndDate" ng-class="taskComplete(mentor.MBackgroundCheckEndDate)">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div> <input   type="checkbox" ng-true-value="0"  ng-false-value="1" ng-model="mentor.HasPhysAbuseHistory"> NO Physical Abuse History!</div>
+                                <div> <input class=""  type="checkbox" ng-true-value="0"  ng-false-value="1" ng-model="mentor.IsLegallyDQd"> NOT Legally Disqualified</div>
+                            </td>
+                            <td  valign="top"><label>Training:</label> <input ng-class="taskComplete(mentor.MTrainedDate1)" type="date" name="MTrainedDate1" ng-model="mentor.MTrainedDate1"></td>
+                            <td  valign="top"><label>Match Note:</label><div>
+                                <textarea class="" name="MMatchNote" ng-model="mentor.MMatchNote" rows = "5" cols="20" data-toggle="modal" data-target="#matchModal"></textarea><
+                                <div> Match Week: <input name="MatchWeek" class="" ng-model="mentor.MatchWeek" readonly /></div>
+                                <hr>
+                                <div><label>Mentee Trained:</label>
+                                    <input ng-class="taskComplete(mentor.MenteeTrainingDate)" type="date" name="MenteeTrainingDate" ng-model="mentor.MenteeTrainingDate" > </div>
+                                <!-- dive to pop up textarea when clicked -->
+                                <div class="modal fade" id="matchModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h6>Note</h6>
+                                                <div class="modal-body">
+                                                    <textarea ng-model="mentor.MMatchNote"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> <input readonly class="form-control" type="date" name="MPRecruitedDate" ng-model="mentor.MPRecruitedDate"  ng-class="recruitTaskStatus()"></td>
+                            <td> <input readonly class="form-control" type="date" name="MScreenedDate" ng-model="mentor.MScreenedDate"  ng-class="screenTaskStatus()"></td>
+                            <td> <input readonly class="form-control" type="date" name="MTrainedDate" ng-model="mentor.MTrainedDate"  ng-class="trainTaskStatus()"></td>
+                            <td> <input readonly class="form-control" type="date" name="MMatchDate" ng-model="mentor.MMatchDate"  ng-class="matchTaskStatus()"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+            </div><!-- form row -->
+        </div> <!-- card -->
+                <div class="card " ng-if="!editDates">
+                <div class="form-row m-2">
+                    <table  class="table minerva-table">
+                        <thead>
+                            <tr>
+                                <th colspan="4">PROCESSING DATES <button class="btn btnEdit" ng-click="editSection('dates')"> Edit</button></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th scope="col">Recruiting</th>
+                            <th scope="col">Screened</th>
+                            <th scope="col">Trained</th>
+                            <th scope="col">Matched</th>
+                        </tr>
+
+                        <tr>
+                            <td valign="top"><label>Agreement Date:
+                                <input readonly  type="date" name="MAgreementDate"  ng-model="mentor.MAgreementDate" ng-class="taskComplete(mentor.MAgreementDate)"> </label>
+                                <hr>
+                                <div><input  disabled="disabled" type="checkbox" checked name="IsLiabReleaseSigned"
+                                            ng-model="mentor.IsLiabReleaseSigned" ng-true-value="1"  ng-false-value="0" />
+                                    Agreed to Release info? (MARI)</div>
+                                <div><label><input  disabled="disabled" type="checkbox" checked name="IsPosDescSigned" ng-true-value="1"  ng-false-value="0"
+                                                   ng-model="mentor.IsPosDescSigned"/>Signed Position Description</label></div>
+                                <div class="checkbox">
+                                    <label><input   disabled="disabled" type="checkbox" name="HasDriversLic" ng-model="mentor.HasDriversLic"
+                                                  ng-true-value="1"  ng-false-value="0">Driver's License</label></div>
+                                <div class="checkbox">
+                                    <label><input  disabled="disabled" type="checkbox" name="HasAutoIns" ng-model="mentor.HasAutoIns" ng-true-value="1"  ng-false-value="0">
+                                        Auto Insurance</label></div>
+
+                            </td>
+                            <td  valign="top"><label for="MInterviewDate">Interviewed:</label>
+
+                                <input  readonly type="date" name="MInterviewDate"  ng-model="mentor.MInterviewDate" ng-class="taskComplete(mentor.MInterviewDate)" >
+
+                                <hr>
+                                <div>
+                                    <label>Ref Check Date(1/2):</label> <div>
+                                    <input  readonly type="date" name="MRefCheck1Date" ng-model="mentor.MRefCheck1Date" ng-class="taskComplete(mentor.MRefCheck1Date)" >
+                                    <input readonly type="date" name="MRefCheck2Date" ng-model="mentor.MRefCheck2Date" ng-class="taskComplete(mentor.MRefCheck2Date)"></div>
+                                </div>
+                                <hr>
+                                <div>
+                                    <label>Backgnd Check(Start/End):</label>
+                                    <div>
+                                        <input readonly  type="date" name="MBackgroundCheckStartDate" ng-model="mentor.MBackgroundCheckStartDate" ng-class="taskComplete(mentor.MBackgroundCheckStartDate)">
+                                        <input readonly  type="date" name="MBackgroundCheckEndDate" ng-model="mentor.MBackgroundCheckEndDate" ng-class="taskComplete(mentor.MBackgroundCheckEndDate)">
+                                    </div>
+                                </div>
+                                <hr>
+                                <div> <input   disabled="disabled" type="checkbox" ng-true-value="0"  ng-false-value="1" ng-model="mentor.HasPhysAbuseHistory"> NO Physical Abuse History!</div>
+                                <div> <input   disabled="disabled" class=""  type="checkbox" ng-true-value="0"  ng-false-value="1" ng-model="mentor.IsLegallyDQd"> Is NOT Legally Disqualified.</div>
+                            </td>
+                            <td  valign="top"><label>Training:</label> <input  readonly ng-class="taskComplete(mentor.MTrainedDate1)" type="date" name="MTrainedDate1" ng-model="mentor.MTrainedDate1"></td>
+                            <td  valign="top"><label>Match Note:</label><div>
+                                <textarea  disabled class="" name="MMatchNote" ng-model="mentor.MMatchNote" rows = "5" cols="20"></textarea></div>
+                                <div> Match Week: <input  readonly name="MatchWeek" class="" ng-model="mentor.MatchWeek" readonly /></div>
+                                <hr>
+                                <div><label>Mentee Trained:</label>
+                                    <input readonly ng-class="taskComplete(mentor.MenteeTrainingDate)" type="date" name="MenteeTrainingDate" ng-model="mentor.MenteeTrainingDate" > </div>
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> <input readonly type="date" name="MPRecruitedDate" ng-model="mentor.MPRecruitedDate"  ng-class="recruitTaskStatus()"></td>
+                            <td> <input readonly type="date" name="MScreenedDate" ng-model="mentor.MScreenedDate"  ng-class="screenTaskStatus()"></td>
+                            <td> <input readonly type="date" name="MTrainedDate" ng-model="mentor.MTrainedDate"  ng-class="trainTaskStatus()"></td>
+                            <td> <input readonly type="date" name="MMatchDate" ng-model="mentor.MMatchDate"  ng-class="matchTaskStatus()"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+                </div><!-- form row -->
+            </div> <!-- card -->
+            </fieldset><!--fieldset -->
+
+
+        <fieldset class="form-group">
+            <div class="card alert-warning" ng-if="editAppts">
+                <div class="card-title">Appointments
+                    <button class="btn btnSave" ng-click="saveSection('appts')"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelSection('appts')"> Cancel</button>
+                </div>
+                <div class="form-row m-2">
+                    <table ng-if="appts">
+                        <thead>
+                        <tr>
+                            <th >Date</th>
+                        <th >Type</th>
+                        <th >Note</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr ng-repeat="appt in appts track by appt.AppointmentID">
+                            <td>
+                                <input  type="date"  size="15" ng-model="appt.ApptDate">
+                            </td>
+                            <td>
+                            <select ng-model="appt.ApptType">
+                                <option></option>
+                                <option value="Training">Training</option>
+                                <option value="Off-site Visit">Off-sit Visit</option>
+                                <option value="On-site Visit">On-site Visit</option>
+                                <option value="PRAP Review">PRAP Review</option>
+                            </select>
+                            </td>
+                            <td>  <textarea class="" name="ApptNote" ng-model="appt.ApptNote" rows = "3" cols="100" data-toggle="modal" data-target="#appt{{$index}}"></textarea>
+                                <!-- dive to pop up textarea when clicked -->
+                                <div class="modal fade" id="appt{{$index}}" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h6>Note</h6>
+                                                <div class="modal-body">
+                                                    <textarea ng-model="appt.ApptNote"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </td>
+                            <td>
+                            <button class=" btn btnDelete" ng-click="deleteAppt($index)">Delete</button></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+            </div> <!--card -->
+            <div class="card " ng-if="!editAppts">
+                <div class="form-row m-2">
+                    <table class = "table minerva-table" ng-if="appts">
+                        <thead>
+                            <tr>
+                                <th colspan="4">APPOINTMENTS <button class="btn btnEdit" ng-click="editSection('appts')"> Edit</button></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <th>Date</th>
+                            <th>Type</th>
+                            <th>Note</th>
+                        </tr>
+                        <tr ng-repeat="appt in appts track by appt.AppointmentID">
+                            <td> <input  readonly   class="" type="date" name="ApptDate"  ng-model="appt.ApptDate"> </label>
+                            </td>
+
+                            <td> {{appt.ApptType}} </td>
+                            <td>  <textarea  disabled class="" name="ApptNote" ng-model="appt.ApptNote" rows = "3" cols="100"></textarea>
+                            </td>
+                            <td> </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="form-row justify-content-center m-3">
+                    <button class="col-xs-12 btn btnCreate " ng-click="addAppt()"> Add Appointment </button>
+                </div>
+            </div> <!--card -->
+        </fieldset>
+
+        <fieldset class="form-group">
+            <div class="card alert-warning" ng-if="editEndInfo">
+                <div class="card-title">End Of Match
+                    <button class="btn btnSave" ng-click="saveSection('endInfo')"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelSection('endInfo')"> Cancel</button>
+                </div>
+                <div class="form-row m-2">
+                    <div class="col-8">
+                        <table>
+                        <thead><tr>
+                        <th style="width: 20%">Match Status</th>
+                        <th style="width: 15%">Date</th>
+                        <th style="width: 75%">Note</th></tr>
+                        </thead>
+                        <tbody>
+                        <tr>
+                            <td> TERMINATED </td>
+                            <td> <input type="date"  name="MPTermDate" ng-model="mentor.MPTermDate"> </td>
+                            <td> <textarea type="text" class="" name="MPTermNote" rows="2" cols="100" ng-model="mentor.MPTermNote"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> FAILED MATCH </td>
+                            <td> <input type="date"  name="FailedDate" ng-model="mentor.FailedDate"> </td>
+                            <td> <textarea type="text" class="" rows="2" cols="100" name="FailedReason"ng-model="mentor.FailedReason" data-toggle="modal" data-target="#endMatch{{$index}}"> </textarea>
+                                <!-- dive to pop up textarea when clicked -->
+                                <div class="modal fade" id="endMatch{{$index}}" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h6>Note</h6>
+                                                <div class="modal-body">
+                                                    <textarea ng-model="mentor.FailedReason"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td> COMPLETED </td>
+                            <td> <input type="date"  name="MExitMeetingDate" ng-model="mentor.MExitMeetingDate"> </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    </div>
+                </div>
+            </div>
+            <div class="card " ng-if="!editEndInfo">
+                <div class="form-row m-2">
+                    <div class="col-8">
+                        <table class="table minerva-table">
+                            <thead>
+                                <tr>
+                                    <th colspan="3">END OF MATCH <button class="btn btnEdit" ng-click="editSection('endInfo')"> Edit</button></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            <tr>
+                                <th>Match Status</th>
+                                <th>Date</th>
+                                <th>Note</th>
+                            </tr>
+                            <tr>
+                                <td> TERMINATED </td>
+                                <td> <input disabled type="date" name="MPTermDate" ng-model="mentor.MPTermDate"> </td>
+                                <td> <textarea disabled type="text" class="" name="MPTermNote" rows="2" cols="100" ng-model="mentor.MPTermNote"> </textarea></td>
+                            </tr>
+                            <tr>
+                                <td> FAILED MATCH </td>
+                                <td> <input  disabled type="date"  name="FailedDate" ng-model="mentor.FailedDate"></td>
+                                <td> <textarea disabled type="text" class="" rows="2" cols="100" name="FailedReason"ng-model="mentor.FailedReason" data-toggle="modal" data-target="#failedModal"></textarea>
+                                    <!-- dive to pop up textarea when clicked -->
+                                    <div class="modal fade" id="failedModal" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h6>Note</h6>
+                                                    <div class="modal-body">
+                                                        <textarea ng-model="mentor.FailedReason"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td> COMPLETED </td>
+                                <td> <input disabled  type="date"  name="MExitMeetingDate" ng-model="mentor.MExitMeetingDate"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </fieldset>
+        </div> <!-- mentor -->
+    </form>
+    <div class="">
+    <ng-include  src="'./utility/attachments/attachments.view.html'"></ng-include>
+     <!--   <ng-include  src="'./case-manager/cadet-mentor/attachmentView.html'"></ng-include> -->
+
+    </div>
+    </font>
+</div>

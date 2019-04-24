@@ -1,0 +1,228 @@
+<!--job-skills.view.html-->
+<!--view page for JobSkills tab-->
+<!-- Programmer: Kevin Krider -->
+<!-- This code shares a scope with jobSkillsController.js -->
+<!--fields that can be updated are autoloaded with current values from the database-->
+<!-- The page takes no input other than a cadetID in local session storage. It can update the associated database.-->
+
+<div class="well container infoContainer" id="jscontainer">
+    <h3>Job Skills</h3>
+    <!--load app.controller from JobSkillsCtrl.js-->
+
+    <div ng-controller="jobSkillsController">
+        <!--name form for two way binding-->
+        <form name="JobSkillsForm">
+            <table id="JobSkillsTasks" class="table minerva-table">
+                <thead>
+                <tr>
+                    <th colspan="5">TASKS
+                    <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
+                    <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)"ng-show="editTasks"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
+                    </th>
+                </tr>
+                </thead>
+
+                    <tr>
+                    <th>Task</th>
+                    <th>Description</th>
+                    <th>Last Activity</th>
+                    <th>Pass?</th>
+                    <th>Note</th>
+                </tr>
+                <!--iterate through each instance in scope from controller-->
+                <tr ng-repeat="task in tasks">
+                    <!-- task number and task name will not be able to be changed by the user -->
+                    <td>{{task.TaskNumber}}</td>
+                    <td>{{task.Task}}</td>
+                    <td>
+                        <!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
+                        <span ng-if="!hasTests(task)"><input name="EventDate" type="date"
+                                                             ng-model="task.EventDate" ng-readonly="!editTasks"></span>
+                        <span ng-if="hasTests(task)"><input name="EventDate" type="date" ng-model="task.EventDate"
+                                                            ng-readonly="true"></span>
+                    </td>
+
+                    <!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
+                    <td ng-if="!hasTests(task) && task.DidPass == '1'" class="bg-success text-center">
+                        <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass"
+                               ng-true-value="'1'" ng-false-value="'0'"  ng-disabled="!editTasks" >
+                    </td>
+
+                    <td ng-if="!hasTests(task) && task.DidPass == '0'" class="bg-danger text-center">
+                        <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass"
+                               ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTasks">
+                    </td>
+
+
+                    <!-- Get Date and Pass Status from Tests -->
+                    <td ng-if="hasTests(task) && task.DidPass == '1'" class="bg-success text-center">
+                        <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass"
+                               ng-true-value="'1'" ng-false-value="'0'" ng-disabled="true">
+                    </td>
+
+                    <td ng-if="hasTests(task) && task.DidPass == '0'" class="bg-danger text-center">
+                        <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="task.DidPass"
+                               ng-true-value="'1'" ng-false-value="'0'" ng-disabled="true">
+                    </td>
+
+
+                    <td>
+                        <!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
+                        <span ng-if="!hasTests(task)"><input name="EventNote" type="text"
+                                                             ng-model="task.EventNote" ng-readonly="!editTasks" data-toggle="modal" data-target="#event{{$index}}">
+                            <!-- dive to pop up textarea when clicked -->
+                                    <div class="modal fade" id="event{{$index}}" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h6>Note</h6>
+                                                    <div class="modal-body">
+                                                        <textarea ng-model="task.EventNote"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                        </span>
+                        <span ng-if="hasTests(task)"> See Tests</span>
+                        <!-- <span ng-if="task.TaskNumber=='2(a)'"> See Tests</span> -->
+                    </td>
+
+
+                </tr>
+            </table>
+
+
+            <!-- Second table containing the subtests 2(a)-->
+            <table id="JobSkillsTests" class="table minerva-table">
+                <thead>
+                <tr>
+                    <th colspan="5">2(A) TESTS
+                    <button class="btn btnEdit" ng-click="makeTestsEditable()"ng-hide="editTests"> Edit</button>
+                    <button class="btn btnSave" ng-click="saveTestsUpdate(tasks)"ng-show="editTests"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelTestsUpdate()"ng-show="editTests"> Cancel</button>
+                    </th>
+                </tr>
+                </thead>
+                <tr>
+                    <th>Test Name</th>
+                    <th>Date</th>
+                    <th>Score</th>
+                    <th>Pass?</th>
+                    <th>Note</th>
+                </tr>
+                <tr ng-repeat="test in tests">
+                    <td>{{test.TaskTest}}</td>
+                    <td><input name="EventDate" type="date" ng-model="test.EventDate" ng-disabled="!editTests"></td>
+                    <td><input name="Score" type="text" ng-model="test.TestScore" ng-disabled="!editTests"></td>
+                    <td ng-if="test.DidPass == '1'" class="bg-success text-center">
+                        <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="test.DidPass"
+                               ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTests">
+                    </td>
+
+                    <td ng-if="test.DidPass == '0'" class="bg-danger text-center">
+                        <input style="width:20px; height:20px;" name="DidPass" type="checkbox" ng-model="test.DidPass"
+                               ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTests">
+                    </td>
+
+                    <td><input name="EventNote" type="text" ng-model="test.EventNote" ng-disabled="!editTests" data-toggle="modal" data-target="#testnote{{$index}}">
+                        <!-- dive to pop up textarea when clicked -->
+                        <div class="modal fade" id="testnote{{$index}}" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h6>Note</h6>
+                                        <div class="modal-body">
+                                            <textarea ng-model="test.EventNote"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+            </table>
+            <br>
+        </form>
+
+
+    <table id="ASVABTests" class="table minerva-table">
+        <thead>
+        <tr>
+            <th colspan="5"> ASVAB
+                <button class="btn btnEdit" ng-click="makeAsvabEditable()"ng-hide="editAsvab || showNewAsvab"> Edit</button>
+                <button class="btn btnSave" ng-click="saveAsvabUpdate(tasks)"ng-show="editAsvab"> Save</button>
+                <button class="btn btnCancel" ng-click="cancelAsvabUpdate()"ng-show="editAsvab"> Cancel</button>
+
+                <button class="btn btnSave" ng-click="saveAsvabCreate()"ng-show="showNewAsvab"> Save</button>
+                <button class="btn btnCancel" ng-click="cancelAsvabCreate()"ng-show="showNewAsvab"> Cancel</button>
+            </th>
+        </tr>
+        </thead>
+        <tr>
+            <th>Date</th>
+            <th>Technical Score</th>
+            <th>AFQT Score</th>
+            <th>Note</th>
+        </tr>
+        <tr ng-repeat="asvab in asvabs">
+            <td><input name="ASVABDate" type="date" ng-model="asvab.ASVABDate" ng-disabled="!editAsvab"></td>
+            <td><input name="ASVABTechScore" type="text" ng-model="asvab.ASVABTechScore"  ng-disabled="!editAsvab"></td>
+            <td><input name="AFQTScore" type="text" ng-model="asvab.AFQTScore" ng-disabled="!editAsvab"></td>
+            <td><input name="ASVABTestNotes" type="text" ng-model="asvab.ASVABTestNotes" ng-disabled="!editAsvab" data-toggle="modal" data-target="#asvabnote{{$index}}">
+                <!-- dive to pop up textarea when clicked -->
+                <div class="modal fade" id="asvabnote{{$index}}" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h6>Note</h6>
+                                <div class="modal-body">
+                                    <textarea ng-model="asvab.ASVABTestNotes"></textarea>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <button class="btn btnDelete" ng-disabled="!editAsvab"
+                        ng-click="deleteAsvab($index)"> Delete
+                </button>
+            </td>
+        </tr>
+
+    </table>
+        <!-- The third table, containing asvab scores -->
+        <button class="btn btnCreate" ng-click="addASVAB()" style="margin: 0 auto" ng-hide="showNewAsvab||editAsvab"> Add ASVAB Score</button>
+        <form id="asvabAdd"  ng-show="showNewAsvab">
+            <table style="width:100%">
+                <tr>
+                    <th><label>Date:
+                    </label><input name="ASVABDate" type="date"
+                                   ng-model="tempAsvab.ASVABDate" >
+                    </th>
+                    <th><label>Technical Score: </label>
+                        <input name="ASVABTechScore" type="text"
+                               ng-model="tempAsvab.ASVABTechScore" >
+                    </th>
+                    <th><label>AFQT Score: </label>
+                        <input name="AFQTScore" type="text"
+                               ng-model="tempAsvab.AFQTScore"></th>
+                    <th><label>Note: </label>
+                        <input name="ASVABTestNotes" type="text"
+                               ng-model="tempAsvab.ASVABTestNotes" ></th>
+                </tr>
+            </table>
+        </form>
+        <p>
+        </p>
+        <p>
+        </p>
+</div>
+
+</div>

@@ -1,0 +1,363 @@
+<!--FIle:prap.view.html
+Usesutility/attachments/attachments.view.html
+Usesprap.controller.js
+-->
+<link rel="stylesheet" type="text/css" href="../../css/site.css">
+<div class="container" id="prapContainer" ng-app="myApp" ng-controller="prapController"
+     xmlns="http://www.w3.org/1999/html">
+    <form>
+        <div>
+            <div class="col-xs-12">
+                <h1>PRAP</h1>
+            </div>
+        </div>
+
+        <table id="notesTable" class="table minerva-table">
+            <thead>
+            <tr>
+                <th colspan="3"> Notes
+                    <button class="btn btnEdit" ng-click="makeNotesEditable()" ng-hide="editNotes||showNewNote"> Edit</button>
+                    <button class="btn btnSave" ng-click="saveNotesUpdate()" ng-show="editNotes"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelNotesUpdate()" ng-show="editNotes"> Cancel</button>
+                    <button class="btn btnSave" ng-click="saveNoteCreate()"ng-show="showNewNote"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelNoteCreate()"ng-show="showNewNote"> Cancel</button>
+                </th>
+            </tr>
+            </thead>
+            <tr ng-repeat="note in prapNotes track by $index" style="outline: thin solid">
+                <!-- the attachments section is not visible until edit is clicked on -->
+                <td style="width:35%">
+                    <table>
+                        <tr>
+                            <td>
+                                <strong>Creator</strong>:<br/>
+                                <input type="text" ng-disabled="!editNotes" ng-model="note.NoteCreatedByName">
+                            </td>
+                            <td>
+                                <br/>
+                                <input type="date" ng-disabled="!editNotes" ng-model="note.NoteCreatedDate">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <strong>Editor</strong>:<br/>
+                                <input type="text" ng-disabled="!editNotes" ng-model="note.NoteEditedByName">
+                            </td>
+                            <td><br/>
+                                <input type="date" ng-disabled="!editNotes" ng-model="note.NoteEditedDate">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+                <td>
+                    <textarea rows="4" style="resize:vertical;" class="form-control" ng-disabled="!editNotes"
+                              ng-model="note.GenNote" data-toggle="modal" data-target="#gennote{{$index}}"></textarea>                            <!--NOTE 1-->
+                    <!-- dive to pop up textarea when clicked -->
+                    <div class="modal fade" id="gennote{{$index}}" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h6>Note</h6>
+                                    <div class="modal-body">
+                                        <textarea ng-model="note.GenNote"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td style="width:100px">
+                    <button ng-click="deleteNote($index)" class="btn btnDelete" ng-disabled="!editNotes">Delete</button>
+                </td>
+            </tr>
+        </table>
+        <button class="btn btnCreate" ng-click="addNote()" style="margin: 0 auto" ng-hide="showNewNote||editNotes"> Add Note</button>
+        <form id="noteAdd"  ng-show="showNewNote">
+            <table style="width:100%" ng-show="showNewNote">
+                <tr>
+                    <td style="width:35%">
+                        <table>
+                            <tr>
+                                <td>
+                                    <strong>Creator ID</strong>:<br/>
+                                    <input name="NoteCreatorID" type="text" ng-model="tempNote.NoteCreatorID" >
+                                </td>
+                                <td>
+                                    <br/>
+                                    <input name="NoteCreatedDate" type="date" ng-model="tempNote.NoteCreatedDate" >
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Editor ID</strong>:<br/>
+                                    <input name="NoteEditorID" type="text" ng-model="tempNote.NoteEditorID">
+                                </td>
+                                <td><br/>
+                                    <input name="NoteEditedDate" type="date" ng-model="tempNote.NoteEditedDate">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                    <td>
+                    <textarea rows="4" style="resize:vertical;" class="form-control"
+                              ng-model="tempNote.GenNote" data-toggle="modal" data-target="#tempgennote{{$index}}"></textarea>
+                        <!-- dive to pop up textarea when clicked -->
+                        <div class="modal fade" id="tempgennote{{$index}}" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h6>Note</h6>
+                                        <div class="modal-body">
+                                            <textarea ng-model="tempNote.GenNote"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+
+
+
+
+            </table>
+        </form>
+        <p>
+        <hr>
+        </p>
+
+
+        <table id="contactsTable" class="table minerva-table">
+            <thead>
+            <tr>
+                <th colspan="3"> Mentor Contacts
+                    <button class="btn btnEdit" ng-click="makeContactsEditable()" ng-hide="editContacts||showNewContact"> Edit</button>
+                    <button class="btn btnSave" ng-click="saveContactsUpdate()" ng-show="editContacts"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelContactsUpdate()" ng-show="editContacts"> Cancel</button>
+
+                    <button class="btn btnSave" ng-click="saveContactCreate()"ng-show="showNewContact"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelContactCreate()"ng-show="showNewContact"> Cancel</button>
+                </th>
+            </tr>
+            </thead>
+            <tr ng-repeat="contact in mentorContacts track by $index" style="outline: thin solid">
+                <td style="width:100px">
+                    <table>
+                        <!-- this input is not editable until the user clicks edit -->
+                        <input type="date" ng-disabled="!editContacts" class="form-control"
+                               ng-model="contact.ContactDate">
+
+                        <!-- this input is disabled until the user clicks edit -->
+                        <input type="text" ng-disabled="!editContacts" class="form-control"
+                               ng-model="contact.MentorContactType">
+
+                        <!-- this input is disabled until the user clicks edit -->
+                        <input type="text" ng-disabled="!editContacts" class="form-control" ng-model="contact.MentorName">
+                    </table>
+                </td>
+                <td>
+                        <textarea rows="3" style="min-width: 100%" class="form-control" ng-disabled="!editContacts"
+                                  ng-model="contact.MentorContactNote" data-toggle="modal" data-target="#mentornote{{$index}}"></textarea>
+                    <!-- dive to pop up textarea when clicked -->
+                    <div class="modal fade" id="mentornote{{$index}}" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h6>Note</h6>
+                                    <div class="modal-body">
+                                        <textarea ng-model="contact.MentorContactNote"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td style="width:100px">
+                    <button ng-click="deleteContact($index)" class="btn btnDelete" ng-disabled="!editContacts"> Delete</button>
+
+                </td>
+            </tr>
+        </table>
+
+                    <button class="btn btnCreate" ng-click="addContact()" style="margin: 0 auto" ng-hide="showNewContact||editContacts"> Add Mentor Contact</button>
+                    <form id="contactAdd"  ng-show="showNewContact">
+                        <table style="width:100%" ng-show="showNewContact">
+                            <tr>
+
+                                <td style="width:100px">
+                                    <table>
+                                        <input type="date" class="form-control" ng-model="tempContact.ContactDate">
+                                        <input type="text"  class="form-control" ng-model="tempContact.MentorContactType">
+                                        <input type="text" class="form-control" ng-model="tempContact.MentorPotentialID">
+                                    </table>
+                                </td>
+                                <td><textarea rows="3" style="min-width: 100%" class="form-control"
+                                  ng-model="tempContact.MentorContactNote" data-toggle="modal" data-target="#tempmentornote{{$index}}"></textarea>
+                                    <!-- dive to pop up textarea when clicked -->
+                                    <div class="modal fade" id="tempmentornote{{$index}}" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h6>Note</h6>
+                                                    <div class="modal-body">
+                                                        <textarea ng-model="tempContact.MentorContactNote"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                    <p>
+                    <hr>
+                    </p>
+
+        <hr>
+
+        <!-- ACTION PLAN AND GOALS -->
+        <table id="actionPlanTable" class="table minerva-table">
+            <thead>
+            <tr>
+                <th colspan="5"> Action Plan and Goals
+                    <button class="btn btnEdit" ng-click="makeGoalsEditable()" ng-hide="editGoals"> Edit</button>
+                    <button class="btn btnSave" ng-click="saveGoalsUpdate()" ng-show="editGoals"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelGoalsUpdate()" ng-show="editGoals"> Cancel</button>
+                </th>
+            </tr>
+            </thead>
+            <tr>
+                <th> Category</th>
+                <th> Sponsor</th>
+                <th> Initiated Date</th>
+                <th> Completed Date</th>
+                <th> Mentee Training Date</th>
+            </tr>
+            <tr>
+                <td>
+                    <input type="text" ng-disabled="!editGoals" class="form-control"
+                           ng-model="cadetClass.PRAPCategory">
+                </td>
+                <td>
+                    <input type="text" ng-disabled="!editGoals" class="form-control"
+                           ng-model="cadetClass.PRAPSponsorID">
+                </td>
+                <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="date" ng-disabled="!editGoals" class="form-control"
+                           ng-model="cadetClass.PRAPInitDate">
+                </td>
+                <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="date" ng-disabled="!editGoals" class="form-control"
+                           ng-model="cadetClass.PRAPCompleteDate">
+                </td>
+                <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="date" ng-disabled="!editGoals" class="form-control"
+                           ng-model="cadetClass.MenteeTrainingDate">
+                </td>
+            </tr>
+        </table>
+
+        <table id="goalsTable" class="table minerva-table">
+            <tr>
+                <th style="width:100px"> Term</th>
+                <th style="width:100px"> Date</th>
+                <th> Details</th>
+            </tr>
+
+            <tr>
+                <td> Short Term</td>
+                <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="date" ng-disabled="!editGoals" class="form-control"
+                           ng-model="cadetClass.ShortTermGoalDate">
+                </td>
+                <td>                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <textarea rows="3" style="min-width: 100%" class="form-control" ng-disabled="!editGoals"
+                              ng-model="cadetClass.ShortTermGoal" data-toggle="modal" data-target="#ShortTermGoalModal{{$index}}"></textarea>
+                    <!-- div to pop up textarea when clicked -->
+                    <div class="modal fade" id="ShortTermGoalModal{{$index}}" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h6>Note</h6>
+                                    <div class="modal-body">
+                                        <textarea ng-model="cadetClass.ShortTermGoal"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td> Intermediate Term</td>
+                <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <input type="date" ng-disabled="!editGoals" class="form-control"
+                           ng-model="cadetClass.IntermediateGoalDate">
+                </td>
+                <td>
+                    <!-- the input box is disabled until the user clicks the edit button -->
+                    <textarea rows="3" style="min-width: 100%" class="form-control" ng-disabled="!editGoals"
+                              ng-model="cadetClass.IntermediateGoal" data-toggle="modal" data-target="#IntermediateGoalModal{{$index}}"> </textarea>
+                    <!-- div to pop up textarea when clicked -->
+                    <div class="modal fade" id="IntermediateGoalModal{{$index}}" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h6>Note</h6>
+                                    <div class="modal-body">
+                                        <textarea ng-model="cadetClass.IntermediateGoal"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td> Long Term</td>
+                <td><input type="date" ng-disabled="!editGoals" class="form-control"
+                           ng-model="cadetClass.LongTermGoalDate"></td>
+                <td>   <textarea rows="3" style="min-width: 100%" class="form-control" ng-disabled="!editGoals"
+                                 ng-model="cadetClass.LongTermGoal" data-toggle="modal" data-target="#LongTermGoalModal{{$index}}"></textarea>
+                    <!-- div to pop up textarea when clicked -->
+                    <div class="modal fade" id="LongTermGoalModal{{$index}}" role="dialog">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h6>Note</h6>
+                                    <div class="modal-body">
+                                        <textarea ng-model="cadetClass.LongTermGoal"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+        <fieldset class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <ng-include src="'./utility/attachments/attachments.view.html'"></ng-include>
+                </div>
+            </div>
+        </fieldset>
+
+    </form>
+</div>
