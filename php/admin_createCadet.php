@@ -9,8 +9,7 @@
 // TODO: Sanitize POST data
 
 require_once 'dbcontroller.php';
-$db = new DBController();
-$conn = $db->connectDB();
+$conn = new DBController();
 
 // AngularJS doesn't behave well with PHP by default during POST
 // requests. Using file_get_contents gets the POST data 

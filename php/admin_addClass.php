@@ -5,24 +5,24 @@
 //connect to db controller
 require_once 'dbcontroller.php';
 
+//must get new files before completion
+
 //create connection
 $conn = new DBController();
 
-$classYear= $_POST['classYear'];
-$challengeStartDate=getRightFormat($_POST['challengeStartDate']);
-$classStartDate=getRightFormat($_POST["classStartDate"]);
-$graduationDate=getRightFormat($_POST["graduationDate"]);
-$prCompletionDate= getRightFormat($_POST["prCompletionDate"]);
-$targetGraduates= $_POST['targetGraduates'];
-$NGB=$_POST['NGB'];
-$classNumber=$_POST['classNumber'];
-$cycle=$_POST['cycle'];
-$meritBase=$_POST['meritBase'];
-$servAge=$_POST['servAge'];
+$classYear= filter_input(INPUT_POST, "classYear", FILTER_SANITIZE_NUMBER_INT);
+$challengeStartDate=$conn->getRightFormat($conn->sanitize($_POST['challengeStartDate']));
+$classStartDate=$conn->getRightFormat($conn->sanitize($_POST["classStartDate"]));
+$graduationDate=$conn->getRightFormat($conn->sanitize($_POST["graduationDate"]));
+$prCompletionDate= $conn->getRightFormat($conn->sanitize($_POST["prCompletionDate"]));
+$targetGraduates= filter_input(INPUT_POST, "targetGraduates",FILTER_SANITIZE_NUMBER_INT);
+$NGB= filter_input(INPUT_POST, "NGB",FILTER_SANITIZE_NUMBER_INT);
+$classNumber=filter_input(INPUT_POST, "classNumber",FILTER_SANITIZE_NUMBER_INT);
+$cycle=filter_input(INPUT_POST, "cycle", FILTER_SANITIZE_NUMBER_INT);
+$meritBase=filter_input(INPUT_POST, "meritBase", FILTER_SANITIZE_NUMBER_INT);
+$servAge=filter_input(INPUT_POST, "servAge",FILTER_SANITIZE_NUMBER_INT);
 
-$fkSiteID=$_POST['fkSiteID'];
-
-
+$fkSiteID=filter_input(INPUT_POST, "fkSiteID",FILTER_SANITIZE_NUMBER_INT);
 
 //Incomplete functionality
 $weeks=json_decode($_POST['weeks']);
@@ -31,8 +31,8 @@ $counter=1;
 for($i=0;$i<(count($weeks)-1);$i+=2,$counter++)
 {
     $classWeek=$counter;
-    $weeklyStart=getRightFormat($weeks[$i]);
-    $weeklyEnd=getRightFormat($weeks[$i+1]);
+    $weeklyStart=$conn->getRightFormat($weeks[$i]);
+    $weeklyEnd=$conn->getRightFormat($weeks[$i+1]);
 
     //tlkpclassweek
     $sql= "INSERT INTO
@@ -69,10 +69,4 @@ $result = $conn->runQuery($sql);
 */
 print_r($sql);
 
-function getRightFormat($date)
-{
-    $valid = strtotime($date);
-    $valid = date('Y-m-d', $valid);
-    return $valid;
-}
 ?>

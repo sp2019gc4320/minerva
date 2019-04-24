@@ -11,7 +11,7 @@ $conn = new DBController();
 
 //default for testing
 $op = 'UPDATE';
-$PositionID = $_POST['PositionID'];
+$PositionID = $conn->sanitize($_POST['PositionID']);
 
 if (isset($_POST['PositionID'])) {
     $DutyPositionID = filter_input(INPUT_POST, "PositionID");
@@ -34,8 +34,11 @@ if($op=='UPDATE') {
     $validEnd = strtotime($_POST['PosEndDate']);
     $validEnd = date('Y-m-d', $validEnd);//off by one (gets fixed when retrieving in the js)
     $PosEndDate = $validEnd;
-    $PosNote = $_POST['PosNote'];
-    $PosDidFail = $_POST['PosDidFail'];
+
+    $PosNote= $conn->sanitize($_POST['PosNote']);
+    $PosNote=filter_var($PosNote, FILTER_SANITIZE_ENCODED);
+
+    $PosDidFail= $conn->sanitize($_POST['PosDidFail']);
 
     $sql = "UPDATE tblJBPositions
 SET

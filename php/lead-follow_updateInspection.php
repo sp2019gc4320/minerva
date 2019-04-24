@@ -11,7 +11,7 @@ require_once 'dbcontroller.php';
 $conn = new DBController();
 
 $op = 'UPDATE';
-$JBInspectionID = $_POST['JBInspectionID'];
+$JBInspectionID = $conn->sanitize($_POST['JBInspectionID']);
 
 if (isset($_POST['JBInspectionID'])) {
     $JBInspectionID = filter_input(INPUT_POST, "JBInspectionID");
@@ -28,9 +28,11 @@ if($op=='UPDATE') {
     $validInspec = date('Y-m-d', $validInspec);//off by one (gets fixed when retrieving in the js)
     $InspectionDate = $validInspec;
 
-    $InspectionNote = $_POST['InspectionNote'];
-    $DidPassInspection = $_POST['DidPassInspection'];
-    $InspMeritAdj = $_POST['InspMeritAdj'];
+    $InspectionNote= $conn->sanitize($_POST['InspectionNote']);
+    $InspectionNote=filter_var($InspectionNote, FILTER_SANITIZE_ENCODED);
+
+    $DidPassInspection= $conn->sanitize($_POST['DidPassInspection']);
+    $InspMeritAdj = filter_input(INPUT_POST,"InspMeritAdj", FILTER_SANITIZE_NUMBER_INT);
 
     $sql = "UPDATE tblJBInspections
 SET

@@ -203,6 +203,12 @@ class DBController {
             }
         }
     }
+    function getRightFormat($date)
+    {
+        $valid = strtotime($date);
+        $valid = date('Y-m-d', $valid);
+        return $valid;
+    }
 }
 // in prap_gettCadetClassDetails.php originally would print an empty string because not all of the data
 // was utf8 encoded. This fixes an array to have utf8 encoding.
@@ -219,5 +225,7 @@ function utf8ize($d) {
     }
     return $d;
 }
+
+
 
 ?>

@@ -29,6 +29,9 @@ if(isset($_POST['TableName']))
       {
           $data = filter_input(INPUT_POST, "data");
 
+          //added below 4/11/19 - check to see if works??
+          $data=$connection->sanitize($data);
+
           $connection->runQuery("UPDATE tlkpWebsiteLookups set data = '$data' WHERE TableName='$TableName'");
           //$connection->runQuery("UPDATE MyLookUp set data = '$data' WHERE TableName='$TableName'");
       }
