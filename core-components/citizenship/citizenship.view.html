@@ -50,7 +50,21 @@
 							
 								<td>
 									<span ng-if="task.TaskNumber!='5'">
-										<textarea name="EventNote" type="text"  ng-model="task.EventNote" data-ng-bind="note"></textarea>
+										<textarea name="EventNote" type="text"  ng-model="task.EventNote" data-ng-bind="note" data-toggle="modal" data-target="#event{{$index}}"></textarea>
+										<!-- dive to pop up textarea when clicked -->
+                                    <div class="modal fade" id="event{{$index}}" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h6>Note</h6>
+                                                    <div class="modal-body">
+                                                        <textarea ng-model="task.EventNote"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
 									</span>
 									<span ng-if="task.TaskNumber=='5'">
 										<textarea name="EventNote" type="text" ng-model="task.EventNote" data-ng-bind="note" ng-readonly="true"></textarea>
@@ -76,7 +90,22 @@
 
 								<td><input name="TestScore" type="text" ng-model="test.TestScore" data-ng-bind="score"></td>
 
-								<td><textarea name="EventNote" type="text" ng-model="test.EventNote" data-ng-bind="note"></textarea></td>
+								<td><textarea name="EventNote" type="text" ng-model="test.EventNote" data-ng-bind="note" data-toggle="modal" data-target="#eventNote{{$index}}"></textarea>
+									<!-- dive to pop up textarea when clicked -->
+									<div class="modal fade" id="eventNote{{$index}}" role="dialog">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h6>Note</h6>
+													<div class="modal-body">
+														<textarea ng-model="test.EventNote"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>
 							</tr>
 		    			</table>
 					</div>
