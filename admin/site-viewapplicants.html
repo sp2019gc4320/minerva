@@ -1,0 +1,51 @@
+<!--view page for Admin  tab-->
+<!-- Programmer: Lauren Alibey -->
+<body id="printSectionId" ng-app="siteViewApplicants">
+<div ng-controller = "viewApplicants">
+    <div class = "row" id="print">
+        <div class="dropdown">
+            <button class="btn btnEdit" ng-click="edit()"ng-hide="editable"> Edit</button>
+            <button class="btn btnSave" ng-click="update(cadets)"ng-show="editable"> Save</button>
+            <button class="btn btnCancel" ng-click="cancelUpdate()"ng-show="editable"> Cancel</button>
+            <button class="btn btn-primary" ng-click="printToCart('print')">Print Current Roster</button>
+            <label >Search</label><input type="text" ng-model="search" placeholder="Search">
+        </div>
+    </div> <!-- row-->
+    <table class="table minerva-table">
+        <thead>
+        <tr>
+            <th>Applicants</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tr>
+            <th ng-click="sort('fname')">First Name</th>
+            <th ng-click="sort('lname')">Last Name</th>
+            <th ng-click="sort('applicantID')">Applicant ID</th>
+            <th ng-click="sort('Attendance')">Attendance</th>
+            <th ng-click="sort('AStatus')">Status</th>
+        </tr>
+        <tr dir-paginate="x in applicants|orderBy:sortKey:reverse|filter:search|itemsPerPage:15">
+            <td>{{x.fname}}</td>
+            <td>{{x.lname}}</td>
+            <td>{{x.applicantID}}</td>
+            <td> <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Present</a></li>
+                    <li><a href="#">Absent</a></li>
+                </ul>
+            </td>
+            <td>{{x.AStatus}}</td>
+        </tr>
+    </table>
+    <dir-pagination-controls
+            max-size="60"
+            direction-links="true"
+            boundary-links="true" >
+    </dir-pagination-controls>
+</div>
+</body>
