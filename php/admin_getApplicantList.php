@@ -4,12 +4,13 @@ $db = new DBController();
 $fields = "fname, lname, applicantID, Attendance, AStatus";
 $sql = "SELECT fname, lname, applicantID, AStatus 
         FROM tblApplicants";
-$results = $db->runSelectQueryArray($sql);
+$results = $db->runSelectQuery($sql);
+if(!$results)die("Query Error");
 echo '{"applicantTable": [';
-if($result->num_rows > 0)
+if($results->num_rows > 0)
 {
     $count = 0;
-    while($row = $result->fetch_assoc()){
+    while($row = $results->fetch_assoc()){
         if($count >0)
             echo ",";
         echo'{"fname": "'.$row["fname"]. '" , "lname": "'.$row["lname"]. '" , "applicantID": "'.$row["applicantID"].

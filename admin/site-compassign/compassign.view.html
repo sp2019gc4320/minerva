@@ -20,11 +20,11 @@
 							<!-- Cadre Half -->
 				<tr ng-repeat="cadre in company.cadre track by $index">
 					<!-- Each row has this as single first column -->
-					<td ng-if="$first" rowspan="{{company.cadre.length}}">
+					<td class="col-3" ng-if="$first" rowspan="{{company.cadre.length}}">
 						<h5>Cadre Users:</h5>
 						<br>
 						<!-- Select assignable cadre -->
-						<form class="input-group">
+						<div class="input-group mb-3">
 						  <select class="custom-select" id="{{company.cID}}cadre">
 						    <option selected>Choose...</option>
 						    <!-- repeats choices for each potential Cadre (potCadre) -->
@@ -34,7 +34,7 @@
 						  	<!-- this will be send the controller the company name and the id of the selected choice-->
 						    <button class="btn btn-outline-secondary" type="button" ng-click="addCadre(company.companies,company.cID)">Add</button>
 						  </div>
-						</form>
+						</div>
 					</td>
 					<td ng-if="cadre != 'No Cadre Assigned' "><p>{{cadre}}</p></td>
 					<!-- if no cadre are assigned, there is no delete button and a yellow warning background is used -->
@@ -45,7 +45,7 @@
 				</tr>
 						<!-- Case Manager Half -->
 				<tr ng-repeat="caseMgr in company.caseMgrs track by $index">
-					<td ng-if="$first" rowspan="{{company.caseMgrs.length}}">
+					<td class="col-3" ng-if="$first" rowspan="{{company.caseMgrs.length}}">
 						<h5>Case Manager Users:</h5>
 						<br>
 					  	<!-- select available case Manager-->

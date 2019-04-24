@@ -1,12 +1,28 @@
 'use strict';
+
+
 angular.module('admin.compAssign').controller('companyAssignController',function($scope, $http, $window){
 	
+
+	/*
+		refreshPage()
+		simple method to refresh page.
+		TODO - Implement in a way that refreshes the component only (Good Luck - Research $router Perhaps)
+	 */
+
+	$scope.refreshPage = function(){
+		
+
+		document.location.reload();
+	}
+
+
 
 	/*
 		removeUser()
 		takes in a user and it's assigned company from a delete button on the view and removes the user from that company
 	 */
-
+	
 	$scope.removeUser = function(user,company)
 	{
 		var params = {"user" : user, "company" : company};
@@ -20,6 +36,7 @@ angular.module('admin.compAssign').controller('companyAssignController',function
 			function(response)
 			{
 				alert(response.data);
+				$scope.refreshPage();
 				
 			},function(result)
 			{
@@ -50,6 +67,8 @@ angular.module('admin.compAssign').controller('companyAssignController',function
 			function(response)
 			{
 				alert(response.data);
+				$scope.refreshPage();
+
 			},function(result)
 			{
 				alert(result);
@@ -78,7 +97,6 @@ angular.module('admin.compAssign').controller('companyAssignController',function
 		}
 		else
 		{
-			alert(company+" will add "+cadre);
 			addUser(company, cadre, "Cadre");
 		}
 	}
@@ -96,7 +114,6 @@ angular.module('admin.compAssign').controller('companyAssignController',function
 		}
 		else
 		{
-			alert(company+" will add "+mgr);
 			addUser(company, mgr, "Case Mgr");
 		}
 	}
