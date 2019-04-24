@@ -14,17 +14,20 @@
     <table class="table minerva-table">
         <thead>
             <tr>
-                <th colspan="4">Applicants</th>
+                <th colspan="5">Applicants <input type="button" class="btn btn-primary" ng-click="addSelCadets()" value="Add Selected To Cadets"></th>
             </tr>
         </thead>
         <tr>
+            <th> Select </th>
             <th ng-click="sort('fname')">First Name</th>
             <th ng-click="sort('lname')">Last Name</th>
             <th ng-click="sort('applicantID')">Applicant ID</th>
             <!-- <th ng-click="sort('Attendance')">Attendance</th> -->
-            <th ng-click="sort('AStatus')">Status</th>
+            <!--<th ng-click="sort('AStatus')">Status</th>-->
+            <th></th>
         </tr>
         <tr dir-paginate="x in applicants|orderBy:sortKey:reverse|filter:search|itemsPerPage:15">
+            <td><input id="{{x.applicantID}}" type="checkbox" value=""></td>
             <td>{{x.fname}}</td>
             <td>{{x.lname}}</td>
             <td>{{x.applicantID}}</td>
@@ -35,7 +38,9 @@
                     <li><a href="#">Absent</a></li>
                 </ul>
             </td>-->
-            <td>{{x.AStatus}}</td>
+            <!--<td>{{x.AStatus}}</td>-->
+            <td><input type="button" class="btn btn-primary" ng-click="addSingleCadet(x.applicantID)" value="Add To Cadets"></td>
+
         </tr>
     </table>
     </div>

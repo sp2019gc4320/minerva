@@ -18,6 +18,63 @@ angular.module('admin.siteViewApplicants', ['angularUtils.directives.dirPaginati
         popupWindow.document.close();
     }
 
+    $scope.addSelCadets = function()
+    {
+        
+        var toCad = [];
+        var n=0;
+        for(var i = 0; i<$scope.applicants.length; i++)
+        { 
+            if((document).getElementById($scope.applicants[i].applicantID).checked)
+            {
+                toCad[n] = {"fname": $scope.applicants[i].fname , "lname" : $scope.applicants[i].lname, "applicantID": $scope.applicants[i].applicantID };
+                n = n+1;
+            }
+        }
+        if (n<1)
+            alert("no applicants selected"); // respond to no applicants selected
+        else
+        {
+            console.log(toCad);
+            addToCadets(toCad); // pass to main add function
+        }
+
+
+    }
+
+    $scope.addSingleCadet = function(applicantID)
+    {   
+        var i = 0;
+        var toCad = [];
+
+        while(i<$scope.applicants.length)
+        {
+            if($scope.applicants[i].applicantID == applicantID)
+            {
+                var toCad[0] = {"fname": $scope.applicants[i].fname , "lname" : $scope.applicants[i].lname, "applicantID": $scope.applicants[i].applicantID };
+                alert($scope.applicants[i].fname+$scope.applicants[i].lname+$scope.applicants[i].applicantID);
+            }
+            i = i+1;
+        }
+
+        if(!(null==toCad))
+        {
+            console.log(toCad);
+            addToCadets(toCad);
+        }
+        else
+            alert("Controller Error!");
+    }
+
+
+    function addToCadets(toCadAry)
+    {
+        //note: toCadAry is an array of associative arrays {{"fname","lname","applicantID"}}
+        alert(toCadAry);
+        // TODO - PHP to add applicants to Cadet
+    }
+
+
 
     $scope.editable = false;
     $scope.cancelUpdate = function() {
