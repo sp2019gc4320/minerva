@@ -55,7 +55,7 @@
                     <!--  Use a filter to only show certain fields without call to the server -->
                     <!--  Make the filter strict to restrict the searches to the specified attribute -->
                     <tr ng-repeat="x in cadets | filter:cadetSearch:strict "
-                        ng-click="pickCadet(x)">
+                        ng-click="pickCadet(x)" ng-click="pickCadet()">
                         <td>{{x.PersonFN}}</td>
                         <td>{{x.PersonLN}}</td>
                         <td class="text-center">{{x.fkCadetID}}</td>

@@ -7,22 +7,19 @@
             <img src="./recruiter/exampleAppPic.png" alt="Applicant Photo">
         </div>
     </div>
-    <br>
-    <!-- <input id="myFile" name="file" type="file" ng-model="fileToUpload" class="">
-                <button type="button" class="btn btn-outline-primary" ng-click="uploadFile()"> Upload</button>
-            <br>
-                <button type="button" ng-click="listFiles()">List Files</button>
-
+    
+    <!-- 
+    <input id="myFile" name="file" type="file" ng-model="fileToUpload" class="">
+                <h4>Files Received</h4>
                 <ul>
                     <li ng-repeat="user in fileList track by $index">{{fileList[$index]["File"]}}</li>
                 </ul>
+                <h4>Files Missing</h4>
+                <ul>
+                    <li ng-repeat="user in missingList track by $index">{{fileList[$index]}}</li>
+                </ul>
+        -->
 
-                    <td style="width:100px">
-                        <button ng-click="deleteContact($index)" class="btn btnDelete" ng-disabled="!editContacts"> Delete</button>
-
-                    </td>
-                </p>
-                <br> -->
         <table class="table minerva-table">
             <thead>
                 <tr>
@@ -112,5 +109,6 @@
                 <td><input id="MentalHealthHistory" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('MentalHealthHistory')"> Upload</button></td>
             </tr>
-        </table> 
+        </table>
+
 </form>

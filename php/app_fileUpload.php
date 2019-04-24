@@ -40,8 +40,8 @@ if(isset($_FILES['file'])){
     //TODO: Once applicantID's can be created, will change query. IN meantime, using cadetID for testing purposes.
 
     //SQL for inserting new file into the database.
-    $sql= "INSERT INTO `tblappdocs` (`dateUploaded`, `applicantID`, `docType`, `note`, `filePath`, `documentID`)
- VALUES ('$currentDate', '$CadetID', '$fileType', 'Testing123', '$aPath', '2');";
+    $sql= "INSERT INTO `tblappdocs` (`dateUploaded`, `applicantID`, `docType`, `note`, `filePath`)
+ VALUES ('$currentDate', '$CadetID', '$fileType', 'Testing123', '$aPath');";
     $result = $conn->runQuery($sql);
 
 }

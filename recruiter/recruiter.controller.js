@@ -24,7 +24,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
     // List of ContactInformationModels
     $scope.contactInformation = []
-    
+
     /// Model to arrange the data for ContactInformation in the post requests.
     class ContactInformationModel {
 
@@ -172,7 +172,8 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     }
     $scope.recruiterViews = [
         {view:'Add Applicant', url:'./recruiter/site-addapplicant/site-addapplicant.view.html'},
-        {view: 'View Applicant', url: './recruiter/applicant-find/applicant-find.view.html'}
+        {view: 'View Applicant', url: './recruiter/applicant-find/applicant-find.view.html'},
+        {view: 'Application Status', url: './recruiter/applicant-status/applicantstatus.view.html'}
     ];
 
     $scope.showView = function showView(item){
@@ -358,15 +359,24 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         //var applicantID = $scope.applicantID
             function(result){
                 //alert("Success");
+
                 $scope.fileList = result.data.data;
-                    console.log(JSON.stringify($scope.fileList));
-                    //alert(JSON.stringify($scope.fileList));
+
+                $scope.missingList = ["EducationPlan","BandARecods","MedicalInsurance",
+                 "Immunization","CandidateApplication",
+            "MedicalHistory","BirthCertificate","LegalHistory","MentorApplication",
+            "SocialSecurityCard","IDCard","MentalHealthHi0story"];
+
+            for (var i = 0; i < $scope.fileList.length; i++){
+                if($scope.missingList.includes(String($scope.fileList[i]["File"]))){
+                    var index = $scope.missingList.indexOf(String($scope.fileList[i]["File"]));
+                    $scope.missingList.splice(index,1);
+                }
+            }
             },
             function(result){
                 alert("Failure");
             }
-
-
 );
 
 $scope.openFindApplicantView = function()
