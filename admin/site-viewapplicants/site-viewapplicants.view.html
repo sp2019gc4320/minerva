@@ -1,7 +1,8 @@
 <!--view page for Admin  tab-->
 <!-- Programmer: Lauren Alibey -->
 <div ng-controller="viewApplicants">
-    <div class = "row" id="print">
+    <div id="print">
+    <div class = "row">
         <div class="dropdown">
             <button class="btn btnEdit" ng-click="edit()"ng-hide="editable"> Edit</button>
             <button class="btn btnSave" ng-click="update(cadets)"ng-show="editable"> Save</button>
@@ -41,6 +42,7 @@
             <td>{{x.AStatus}}</td>
         </tr>
     </table>
+    </div>
     <dir-pagination-controls
         max-size="60"
         direction-links="true"
