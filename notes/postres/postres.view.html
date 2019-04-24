@@ -6,7 +6,7 @@
 			<div class="col-xs-12">
 				<h1>Post Residential</h1>
 			</div>
-		Test with Cadet 230 for contatcs - month 7<br/>
+		Test with Cadet 230 for contacts - month 7<br/>
 		<hr>
 		<table id ="monthTable">
 			<tr>
@@ -15,6 +15,10 @@
 					<button ng-click="selectMonth($index)"
 							ng-class="{'alert-success':($index+1)==current.PlacementMonth}">
 						<span  style="font-size: 20px;">{{$index+1}}</span></button>
+
+					<div ng-hide="$index==0"><button ng-click="copyPreviousMonth($index);saveReportCopies();saveEducationCopies();saveEmploymentCopies();saveMilitaryCopies();saveMiscCopies();"
+								 			class="btn btn-small">Copy {{$index}}</button></div>
+
 				</td>
 			</tr>
 			<tr >
@@ -24,43 +28,9 @@
 		</table>
 
 
-		<table class ="" style="font-size: 12px;">
-			<tr style="">
-				<th colspan="2" style="text-align: center; outline: thin solid">Current Month</th>
-				<th style="width:50px; "></th>
-				<th colspan="4" style="text-align: center; outline: thin solid">Last Month</th>
-			</tr>
-			<tr  style="">
-				<td style="width:100px; outline: thin solid">Mentor Meets Required Contact</td>
-				<td style="width:100px; outline: thin solid">Meets Placement Criteria</td>
-				<td style="width:50px;"></td>
-				<td style="width:100px; outline: thin solid">Placement Criteria Met (LPM)</td>
-				<td style="width:100px; outline: thin solid">Contact Made  (LCM)</td>
-				<td style="width:100px; outline: thin solid">Mentor Contact Requirements Met (LMCRM)</td>
-				<td style="width:100px; outline: thin solid ">All Requirements Met??- (LRM) </td>
-			</tr>
-			<tr>
-				<td style="width:100px; outline: thin solid; text-align: center"
-				ng-class="{'bg-danger':current.MeetsRequiredContact=='0','bg-success':current.MeetsRequiredContact=='1' }">
-					<input  name="MeetsRequiredContact" type="checkbox" ng-model="current.MeetsRequiredContact" ng-true-value="'1'" ng-false-value="'0'"
-					ng-change="findStatus()">
-				</td>
-				<td style="width:100px; outline: thin solid; text-align: center"
-					ng-class="{'bg-danger':current.MeetsPlacementCriteria=='0','bg-success':current.MeetsPlacementCriteria=='1' }">
-					<input  name="MeetsPlacementCriteria" type="checkbox" ng-model="current.MeetsPlacementCriteria" ng-true-value="'1'" ng-false-value="'0'"
-							ng-change="findStatus()">
-				</td>
-
-				<td></td>
-				<td style="width:100px; outline: thin solid; text-align: center" >{{status.LastMonthPlacementCriteriaMet}}</td>
-				<td style="width:100px;outline: thin solid; text-align: center">{{status.LastMonthContactMade}}</td>
-				<td style="width:100px;outline: thin solid; text-align: center">{{status.LastMonthMentorContactRequirementsMet}}</td>
-				<td style="width:100px;outline: thin solid; text-align: center">{{status.LastMonthAllRequirementsMet}}</td>
-			</tr>
-		</table>
 		<hr>
 
-		<table id="reportsTable" class="table minerva-table">
+		<table id="reportsTable" class="table minerva-table" style="max-width: 10px;">
 			<thead>
 			<tr>
 				<th colspan="8"> Post-Residential Reports
@@ -85,8 +55,8 @@
 
 			</tr>
 			<tr ng-repeat="report in current.reports track by $index">
-				<td> <input type="text" ng-model="report.PRReportType" ng-disabled="!editReports"></td>
-				<td> <input type="text" ng-model="report.PRReporterCategory" ng-disabled="!editReports"></td>
+				<td> {{report.PRReportType}}</td>
+				<td > {{report.PRReporterCategory}}</td>
 				<td> <input type="date" ng-model="report.PRReportDate" ng-disabled="!editReports"></td>
 				<td> <input type="text" ng-model="report.PRReporterID" ng-disabled="!editReports"></td>
 
@@ -99,7 +69,22 @@
 							ng-model="report.WasMentorInvolved" ng-true-value="'1'" ng-false-value="'0'">
 				</td>
 				<td> <textarea rows="1" style="resize:vertical;" ng-model="report.PRReportNote"
-							   ng-disabled="!editReports"></textarea></td>
+							   ng-disabled="!editReports" data-toggle="modal" data-target="#PRReportNoteModal{{$index}}"></textarea>
+					<!-- div to pop up textarea when clicked -->
+					<div class="modal fade" id="PRReportNoteModal{{$index}}" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h6>Note</h6>
+									<div class="modal-body">
+										<textarea ng-model="report.PRReportNote"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
 				<td style="width:100px">
 					<button ng-click="deleteReport($index)" class="btn btnDelete" ng-disabled="!editReports">Delete</button>
 				</td>
@@ -109,7 +94,7 @@
 		<form id="reportAdd"  ng-show="showNewReport">
 			<table style="width:100%" ng-show="showNewReport">
 				<tr>
-					<th> Type</th>
+					<th> Type </th>
 					<th> Reporter Category</th>
 					<th> Date</th>
 					<th> Reporter</th>
@@ -118,9 +103,15 @@
 					<th>Note</th>
 				</tr>
 				<tr>
-					<td> <input type="text" ng-model="tempReport.PRReportType" ></td>
-					<td> <input type="text" ng-model="tempReport.PRReporterCategory" ></td>
-					<td> <input type="date" ng-model="tempReport.PRReportDate" ></td>
+					<td><select ng-model="tempReport.PRReportType"  name="PRReportType"
+								ng-options="option.PRReportType for option in ReportTypeOptions track by option.id"
+								ng-change="changeReportType(tempReport)"></select></td>
+                    <td>
+                        <select id= "p5" ng-model="tempReport.PRReporterCategory" name="PRReporterCategory"
+                                ng-options="option.PRReporterCategory for option in PRReportTypeOptions track by option.id"
+                                ng-change="changePRReporterCategory(tempReport.PRReporterCategory)"></select>
+                    </td>
+                    <td> <input type="date" ng-model="tempReport.PRReportDate" ></td>
 					<td> <input type="text" ng-model="tempReport.PRReporterID"></td>
 
 					<td ng-class="{'bg-danger':tempReport.WasContactMade=='0','bg-success':tempReport.WasContactMade=='1' }">
@@ -132,8 +123,23 @@
 						<input  name="WasMentorInvolved" type="checkbox"
 								ng-model="tempReport.WasMentorInvolved" ng-true-value="'1'" ng-false-value="'0'">
 					</td>
-					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempReport.PRReportNote"
-								   ></textarea></td>
+					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempReport.PRReportNote" data-toggle="modal" data-target="#TempPRReportNoteModal{{$index}}"
+								   ></textarea>
+						<!-- div to pop up textarea when clicked -->
+						<div class="modal fade" id="TempPRReportNoteModal{{$index}}" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h6>Note</h6>
+										<div class="modal-body">
+											<textarea ng-model="tempReport.PRReportNote"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
 
 				</tr>
 			</table>
@@ -143,14 +149,14 @@
 		</p>
 
 		<style>
-			.tableFixHead { overflow-y: auto; height: 400px; }
-			.tableFixHead th { position: sticky; top: 0; height:40px; }
+			.tableFixHead { overflow-y: scroll; height: 400px; overflow-x: hidden; }
+			.tableFixHead th { position: sticky; height:40px; }
 		</style>
-		<div class=" tableFixHead">
-		<table id="contactsTable" class="table minerva-table">
+		<div class="tableFixHead" style="width:1500px;">
+		<table id="contactsTable" class="table minerva-table" style="width: auto">
 			<thead style="height:200px;">
 			<tr>
-				<th colspan="5"> Mentor Contacts
+				<th colspan="6"> Mentor Contacts
 					<button class="btn btnEdit" ng-click="makeContactsEditable()" ng-hide="editContacts||showNewContact"> Edit</button>
 					<button class="btn btnSave" ng-click="saveContactsUpdate()" ng-show="editContacts"> Save</button>
 					<button class="btn btnCancel" ng-click="cancelContactsUpdate()" ng-show="editContacts"> Cancel</button>
@@ -165,16 +171,32 @@
 				<th>Contact Type</th>
 				<th>Placement Month</th>
 				<th>Note</th>
-				<th></th>
+				<th>Delete</th>
 			</tr>
 			</thead>
 			<tr ng-repeat="contact in contacts track by $index">
 				<td> <input type="text" ng-model="contact.fkMentorPotentialID"></td>
 				<td> <input type="date" ng-model="contact.ContactDate"></td>
-				<td> <input type="text" ng-model="contact.MentorContactType"></td>
-				<td> <input type="text" ng-model="contact.ContactPlacementMonth"></td>
-				<td> <textarea rows="1" style="resize:vertical;" ng-model="contact.MentorContactNote"></textarea></td>
-				<td style="width:100px">
+				<td>{{contact.MentorContactType}}</td>
+				<!-- <td> <input type="text" ng-model="contact.ContactPlacementMonth"></td> -->
+				<td>{{contact.ContactPlacementMonth}}</td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="contact.MentorContactNote" data-toggle="modal" data-target="#MentorContactNoteModal{{$index}}"></textarea>
+					<!-- div to pop up textarea when clicked -->
+					<div class="modal fade" id="MentorContactNoteModal{{$index}}" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h6>Note</h6>
+									<div class="modal-body">
+										<textarea ng-model="contact.MentorContactNote"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
+				<td>
 					<button ng-click="deleteContact($index)" class="btn btnDelete" ng-disabled="!editContacts">Delete</button>
 				</td>
 			</tr>
@@ -195,9 +217,33 @@
 				<tr>
 					<td> <input type="text" ng-model="tempContact.fkMentorPotentialID"></td>
 					<td> <input type="date" ng-model="tempContact.ContactDate"></td>
-					<td> <input type="text" ng-model="tempContact.MentorContactType"></td>
-					<td> <input type="text" ng-model="tempContact.ContactPlacementMonth"></td>
-					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempContact.MentorContactNote"></textarea></td>
+					<td>
+						<select id= "p2" ng-model="contact.MentorContactType" name="MentorContactType"
+								ng-options="option.MentorContactType for option in NoteTypeOptions track by option.id"
+								ng-change="changePRAPCategory(contact.MentorContactType)"></select>
+					</td>
+				<!--	<td> <input type="text" ng-model="tempContact.ContactPlacementMonth"></td> -->
+					<td>
+						<select id= "p4" ng-model="contact.ContactPlacementMonth" name="ContactPlacementMonth"
+								ng-options="option.ContactPlacementMonth for option in ContactPlacementMonthOptions track by option.id"
+								ng-change="changeContactPlacementMonth(tempContact.ContactPlacementMonth)"></select>
+					</td>
+					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempContact.MentorContactNote" data-toggle="modal" data-target="#TempMentorContactNoteModal{{$index}}"></textarea>
+						<!-- div to pop up textarea when clicked -->
+						<div class="modal fade" id="TempMentorContactNoteModal{{$index}}" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h6>Note</h6>
+										<div class="modal-body">
+											<textarea ng-model="tempContact.MentorContactNote"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
 				</tr>
 			</table>
 		</form>
@@ -227,8 +273,8 @@
 			</tr>
 			</thead>
 			<tr ng-repeat="record in current.education track by $index">
-				<td> <input type="text" ng-model="record.PREdSchoolType"></td>
-				<td> <input type="text" ng-model="record.PREdStatus"></td>
+				<td>{{record.PREdSchoolType}}</td>
+				<td>{{record.PREdStatus}}</td>
 				<td> <input type="date" ng-model="record.PREdStartDate"></td>
 				<td> <input type="date" ng-model="record.PREdEndDate"></td>
 
@@ -236,7 +282,22 @@
 					<input  name="IsPREdFullTime" type="checkbox" ng-model="record.IsPREdFullTime" ng-true-value="'1'" ng-false-value="'0'">
 				</td>
 
-				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREdNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREdNote" data-toggle="modal" data-target="#PREdNoteModal{{$index}}"></textarea>
+					<!-- div to pop up textarea when clicked -->
+					<div class="modal fade" id="PREdNoteModal{{$index}}" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h6>Note</h6>
+									<div class="modal-body">
+										<textarea ng-model="record.PREdNote"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
 				<td style="width:100px">
 					<button ng-click="deleteEducation($index)" class="btn btnDelete" ng-disabled="!editEducation">Delete</button>
 				</td>
@@ -254,8 +315,12 @@
 					<th>Note</th>
 				</tr>
 				<tr>
-					<td> <input type="text" ng-model="tempEducation.PREdSchoolType"></td>
-					<td> <input type="text" ng-model="tempEducation.PREdStatus"></td>
+                    <td><select ng-model="tempEducation.PREdSchoolType"  name="PREdSchoolType"
+                                ng-options="option.PREdSchoolType for option in PREdSchoolTypeOptions track by option.id"
+                                ng-change="changeEdSchoolType(tempEducation)"></select></td>
+                    <td><select ng-model="tempEducation.PREdStatus"  name="PREdStatus"
+                                ng-options="option.PREdStatus for option in PREdTypeOptions track by option.id"
+                                ng-change="changeEdStatusType(tempEducation)"></select></td>
 					<td> <input type="date" ng-model="tempEducation.PREdStartDate"></td>
 					<td> <input type="date" ng-model="tempEducation.PREdEndDate"></td>
 
@@ -263,7 +328,22 @@
 						<input  name="teempIsPREdFullTime" type="checkbox" ng-model="tempEducation.IsPREdFullTime" ng-true-value="'1'" ng-false-value="'0'">
 					</td>
 
-					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempEducation.PREdNote"></textarea></td>
+					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempEducation.PREdNote" data-toggle="modal" data-target="#TempPREdNoteModal{{$index}}"></textarea>
+						<!-- div to pop up textarea when clicked -->
+						<div class="modal fade" id="TempPREdNoteModal{{$index}}" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h6>Note</h6>
+										<div class="modal-body">
+											<textarea ng-model="tempEducation.PREdNote"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
 				</tr>
 			</table>
 		</form>
@@ -301,13 +381,13 @@
 			</tr>
 			</thead>
 			<tr ng-repeat="record in current.employment track by $index">
-				<td> <input type="text" ng-model="record.PREmployer"></td>
-				<td> <input type="date" ng-model="record.PREmpHireDate"></td>
-				<td> <input type="text" ng-model="record.PREmpHrsPerWeek"></td>
-				<td> <input type="text" ng-model="record.PREmpWageRate"></td>
-				<td> <input type="text" ng-model="record.PREmpWageType"></td>
-				<td> <input type="text" ng-model="record.PREmpWorkStatus"></td>
-				<td> <input type="text" ng-model="record.PREmpPOCPhone"></td>
+                <td> <input type="text" ng-model="record.PREmployer"></td>
+                <td> <input type="date" ng-model="record.PREmpHireDate"></td>
+                <td> <input type="text" ng-model="record.PREmpHrsPerWeek"></td>
+                <td> <input type="text" ng-model="record.PREmpWageRate"></td>
+                <td> {{record.PREmpWageType}}</td>
+                <td> {{record.PREmpWorkStatus}}</td>
+                <td> <input type="text" ng-model="record.PREmpPOCPhone"></td>
 				<td> <input type="text" ng-model="record.PREmpPOCName"></td>
 
 				<td ng-class="{'bg-danger':record.IsPREmpSelfEmployed=='0','bg-success':record.IsPREmpSelfEmployed=='1' }">
@@ -315,9 +395,39 @@
 				</td>
 
 
-				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpNotes"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpNotes" data-toggle="modal" data-target="#PREmpNotesModal{{$index}}"></textarea>
+					<!-- div to pop up textarea when clicked -->
+					<div class="modal fade" id="PREmpNotesModal{{$index}}" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h6>Note</h6>
+									<div class="modal-body">
+										<textarea ng-model="record.PREmpNotes"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
 				<td> <input type="date" ng-model="record.PREmpTermDate"></td>
-				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpTermNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpTermNote" data-toggle="modal" data-target="#PREmpTermNoteModal{{$index}}"></textarea>
+					<!-- div to pop up textarea when clicked -->
+					<div class="modal fade" id="PREmpTermNoteModal{{$index}}" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h6>Note</h6>
+									<div class="modal-body">
+										<textarea ng-model="record.PREmpTermNote"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
 				<td style="width:100px">
 					<button ng-click="deleteEmployment($index)" class="btn btnDelete" ng-disabled="!editEmployment">Delete</button>
 				</td>
@@ -341,13 +451,23 @@
 					<th>Term Note</th>
 				</tr>
 				<tr>
-					<td> <input type="text" ng-model="tempEmployment.PREmployer"></td>
-					<td> <input type="date" ng-model="tempEmployment.PREmpHireDate"></td>
-					<td> <input type="text" ng-model="tempEmployment.PREmpHrsPerWeek"></td>
-					<td> <input type="text" ng-model="tempEmployment.PREmpWageRate"></td>
-					<td> <input type="text" ng-model="tempEmployment.PREmpWageType"></td>
-					<td> <input type="text" ng-model="tempEmployment.PREmpWorkStatus"></td>
-					<td> <input type="text" ng-model="tempEmployment.PREmpPOCPhone"></td>
+                    <td> <input type="text" ng-model="tempEmployment.PREmployer"></td>
+                    <td> <input type="date" ng-model="tempEmployment.PREmpHireDate"></td>
+                    <td> <input type="text" ng-model="tempEmployment.PREmpHrsPerWeek"></td>
+                    <td> <input type="text" ng-model="tempEmployment.PREmpWageRate"></td>
+                    <td><!------------------------ADD WageType------------------------------------------>
+                        <select id= "p4" ng-model="tempEmployment.WageType" name="WageType"
+                                ng-options="option.WageType for option in CategoryOptions3 track by option.id"
+                                ng-change="changePostResCategory(tempEmployment.WageType)"></select>
+                    </td>
+
+
+                    <td><!------------------------ADD WorkStatus------------------------------------------>
+                        <select id= "p5" ng-model="tempEmployment.WorkStatus" name="WageType"
+                                ng-options="option.WorkStatus for option in CategoryOptions4 track by option.id"
+                                ng-change="changePostResCategory(tempEmployment.WorkStatus)"></select>
+                    </td>
+                    <td> <input type="text" ng-model="tempEmployment.PREmpPOCPhone"></td>
 					<td> <input type="text" ng-model="tempEmployment.PREmpPOCName"></td>
 
 					<td ng-class="{'bg-danger':tempEmployment.IsPREmpSelfEmployed=='0','bg-success':tempEmployment.IsPREmpSelfEmployed=='1' }">
@@ -355,9 +475,39 @@
 					</td>
 
 
-					<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpNotes"></textarea></td>
-					<td> <input type="date" ng-model="record.PREmpTermDate"></td>
-					<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpTermNote"></textarea></td>
+					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempEmployment.PREmpNotes" data-toggle="modal" data-target="#newPREmpNotesModal{{$index}}"></textarea>
+						<!-- div to pop up textarea when clicked -->
+						<div class="modal fade" id="newPREmpNotesModal{{$index}}" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h6>Note</h6>
+										<div class="modal-body">
+											<textarea ng-model="tempEmployment.PREmpNotes"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
+					<td> <input type="date" ng-model="tempEmployment.PREmpTermDate"></td>
+					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempEmployment.PREmpTermNote" data-toggle="modal" data-target="#newPREmpTermNote{{$index}}"></textarea>
+						<!-- div to pop up textarea when clicked -->
+						<div class="modal fade" id="newPREmpTermNote{{$index}}" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h6>Note</h6>
+										<div class="modal-body">
+											<textarea ng-model="tempEmployment.PREmpTermNote"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
 				</tr>
 			</table>
 		</form>
@@ -388,8 +538,14 @@
 			</tr>
 			</thead>
 			<tr ng-repeat="record in current.military track by $index">
-				<td> <input type="text" ng-model="record.PRMilStatus"></td>
-				<td> <input type="text" ng-model="record.PRMilAffiliation"></td>
+				<!----------------------------EDIT Status---------------------------------------------------->
+
+				<td>{{record.PRMilStatus}}</td>
+
+				<td>{{record.PRMilAffiliation}}</td>
+
+
+
 
 				<td ng-class="{'bg-danger':record.IsAGR=='0','bg-success':record.IsAGR=='1' }">
 					<input  name="IsAGR" type="checkbox" ng-model="record.IsAGR" ng-true-value="'1'" ng-false-value="'0'">
@@ -398,7 +554,22 @@
 				<td> <input type="date" ng-model="record.PRMilEnlistDate"></td>
 				<td> <input type="date" ng-model="record.PRMilDelayedEntryDate"></td>
 				<td> <input type="date" ng-model="record.PRMilDischargeDate"></td>
-				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PRMilNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PRMilNote" data-toggle="modal" data-target="#PRMilNoteModal{{$index}}"></textarea>
+					<!-- div to pop up textarea when clicked -->
+					<div class="modal fade" id="PRMilNoteModal{{$index}}" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h6>Note</h6>
+									<div class="modal-body">
+										<textarea ng-model="record.PRMilNote"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
 				<td style="width:100px">
 					<button ng-click="deleteMilitary($index)" class="btn btnDelete" ng-disabled="!editMilitary">Delete</button>
 				</td>
@@ -418,8 +589,20 @@
 					<th>Note</th>
 				</tr>
 				<tr>
-					<td> <input type="text" ng-model="tempMilitary.PRMilStatus"></td>
-					<td> <input type="text" ng-model="tempMilitary.PRMilAffiliation"></td>
+					<!--<td> <input type="text" ng-model="tempMilitary.PRMilStatus"></td>-->
+
+
+					<td><!------------------------ADD Status------------------------------------------>
+						<select id= "p1" ng-model="tempMilitary.MilitaryStatus" name="MilitaryStatus"
+								ng-options="option.MilitaryStatus for option in CategoryOptions track by option.id"
+								ng-change="changePostResCategory(tempMilitary.MilitaryStatus)"></select>
+					</td>
+
+					<td><!------------------------ADD Affiliation------------------------------------------>
+						<select id= "p3" ng-model="tempMilitary.MilitaryAffiliation" name="MilitaryAffiliation"
+								ng-options="option.MilitaryAffiliation for option in CategoryOptions2 track by option.id"
+								ng-change="changePostResCategory(tempMilitary.MilitaryAffiliation)"></select>
+					</td>
 
 					<td ng-class="{'bg-danger':tempMilitary.IsAGR=='0','bg-success':tempMilitary.IsAGR=='1' }">
 						<input  name="IsAGR" type="checkbox" ng-model="tempMilitary.IsAGR" ng-true-value="'1'" ng-false-value="'0'">
@@ -428,7 +611,22 @@
 					<td> <input type="date" ng-model="tempMilitary.PRMilEnlistDate"></td>
 					<td> <input type="date" ng-model="tempMilitary.PRMilDelayedEntryDate"></td>
 					<td> <input type="date" ng-model="tempMilitary.PRMilDischargeDate"></td>
-					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempMilitary.PRMilNote"></textarea></td>
+					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempMilitary.PRMilNote" data-toggle="modal" data-target="#tempPRMilNoteModal{{$index}}"></textarea>
+						<!-- div to pop up textarea when clicked -->
+						<div class="modal fade" id="tempPRMilNoteModal{{$index}}" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h6>Note</h6>
+										<div class="modal-body">
+											<textarea ng-model="tempMilitary.PRMilNote"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
 				</tr>
 			</table>
 		</form>
@@ -457,11 +655,26 @@
 			</tr>
 			</thead>
 			<tr ng-repeat="record in current.misc track by $index">
-				<td> <input type="text" ng-model="record.PRMiscPlacementType"></td>
+				<td>{{record.PRMiscPlacementType}}</td>
 				<td> <input type="date" ng-model="record.PRMiscStartDate"></td>
 				<td> <input type="date" ng-model="record.PRMiscEndDate"></td>
 				<td> <input type="text" ng-model="record.PRMiscHrs"></td>
-				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PRMiscNote"></textarea></td>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PRMiscNote" data-toggle="modal" data-target="#PRMiscNoteModal{{$index}}"></textarea>
+					<!-- div to pop up textarea when clicked -->
+					<div class="modal fade" id="PRMiscNoteModal{{$index}}" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h6>Note</h6>
+									<div class="modal-body">
+										<textarea ng-model="record.PRMiscNote"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
 				<td style="width:100px">
 					<button ng-click="deleteMisc($index)" class="btn btnDelete" ng-disabled="!editMisc">Delete</button>
 				</td>
@@ -478,11 +691,31 @@
 					<th>Note</th>
 				</tr>
 				<tr>
-					<td> <input type="text" ng-model="tempMisc.PRMiscPlacementType"></td>
+				<!--	<td> <input type="text" ng-model="tempMisc.PRMiscPlacementType"></td> -->
+					<td>
+						<select id= "p6" ng-model="tempMisc.PRMiscPlacementType" name="PRMiscPlacementType"
+								ng-options="option.PRMiscPlacementType for option in PlacementTypeOptions track by option.id"
+								ng-change="changePlacementType(tempMisc.PRMiscPlacementType)"></select>
+					</td>
 					<td> <input type="date" ng-model="tempMisc.PRMiscStartDate"></td>
 					<td> <input type="date" ng-model="tempMisc.PRMiscEndDate"></td>
 					<td> <input type="text" ng-model="tempMisc.PRMiscHrs"></td>
-					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempMisc.PRMiscNote"></textarea></td>
+					<td> <textarea rows="1" style="resize:vertical;" ng-model="tempMisc.PRMiscNote" data-toggle="modal" data-target="#tempPRMiscNoteModal{{$index}}"></textarea>
+						<!-- div to pop up textarea when clicked -->
+						<div class="modal fade" id="tempPRMiscNoteModal{{$index}}" role="dialog">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<button type="button" class="close" data-dismiss="modal">&times;</button>
+										<h6>Note</h6>
+										<div class="modal-body">
+											<textarea ng-model="tempMisc.PRMiscNote"></textarea>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</td>
 				</tr>
 			</table>
 		</form>
