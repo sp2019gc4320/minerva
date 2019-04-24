@@ -1,0 +1,31 @@
+<div class="table minerva-table">
+    <style>
+        h2 {color:white; background-color: #000080}
+    </style>
+    <h2>Create a new Service to Community</h2></h2>
+    <form action="./s2cHandler.php" method="POST">
+        <div>
+            <table>
+                <tr>
+                    <th>Service Site</th>
+                    <th>Description</th>
+                    <th>Reporting Group</th>
+                    <th>Active</th>
+
+
+                </tr>
+                <tr>
+                    <td><input type="text"  name="serviceSite" required></td>
+                    <td><input type="text" name="descript"></td>
+                    <td><input type="text" name="rGroup" size="5"></td>
+                    <td><input type="hidden" name="isActive" value="0"></td>
+                    <td><input type="checkbox" name="isActive" value="1"></td>
+
+                </tr>
+            </table>
+        </div>
+        <p style="text-align:left">
+            <button ng-click="createS2C()" type="submit" class="btn btn-lg btn-success" style="text-align: center">Submit S2C</button>
+        </p>
+    </form>
+</div>
