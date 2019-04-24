@@ -1,4 +1,4 @@
-<form ng-submit="submit()" ng-controller="recController">
+<form id = newAppForm ng-submit="submit()" ng-controller="recController">
     <div class="container" >
         <div id="personal-info-container">
             <h5>Personal Information</h5>
@@ -317,13 +317,28 @@
             <h5>Education</h5>
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label>Grade</label>
-                    <input type="text" placeholder="Grade">
+                    <label for="grade">Grade</label>
+                    <input type="text"
+                           class="form-control"
+                           id="grade"
+                           placeholder="Grade"
+                           ng-model="applicant.StudentClassification">
                 </div>
-
+                <div class="form-group col-md-2">
+                    <label for="credits">Academic Credits</label>
+                    <input type="text"
+                           class="form-control"
+                           id="credits"
+                           placeholder="Academic Credits"
+                           ng-model="applicant.AcademicCredits">
+                </div>
                 <div class="form-group col-md-3">
-                    <label>Academic Credits</label>
-                    <input type="text" placeholder="Credits">
+                    <label for="schoolName">Last</label>
+                    <input type="text"
+                           class="form-control"
+                           id="schoolName"
+                           placeholder="School Name"
+                           ng-model="applicant.SchoolName">
                 </div>
             </div>
         </div>
