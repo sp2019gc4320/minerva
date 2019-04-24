@@ -1,0 +1,213 @@
+<!--FIle:fileSubmission.view.html
+Uses fileSubmission.controller.js
+-->
+
+<link rel="stylesheet" type="text/css" href="../../css/site.css">
+<!--<div class="container" id="fileSubmissionContainer" ng-app="myApp" ng-controller="fileSubmission"
+     xmlns="http://www.w3.org/1999/html">-->
+    <!--<ng-include src="'./views/pagination.html'"></ng-include>-->
+
+<div class="container"  ng-controller="fileSubmissionController">
+    <!--<form>
+        <div>
+            <div class="col-xs-12">
+                <h1>Pending Documents</h1>
+            </div>
+        </div>
+
+        <fieldset class="form-group">
+            <div class="row">
+                <div class="col-md-12">
+                    <ng-include src="'./utility/attachments/attachments.view.html'"></ng-include>
+                </div>
+            </div>
+        </fieldset>
+    </form>-->
+    <!--example from find-cadet.view
+                     <tr ng-repeat="x in cadets | filter:cadetSearch:strict "
+                        ng-click="pickCadet(x)">
+                        <td align="center"
+                            class="text-center">
+                            <input type="checkbox"
+                                   class="checkbox form-check-input td-center-checkbox"
+                                   ng-model="checkedCadets[x.fkCadetID]">
+                        </td>
+                        <td>{{x.PersonFN}}</td>
+                        <td>{{x.PersonLN}}</td>
+                        <td class="text-center">{{x.fkClassID}}</td>
+                        <td class="text-center">{{x.CadetRosterNumber}}</td>
+                        <td class="text-center">{{x.fkCadetID}}</td>
+                        <td class="text-center">{{x.fkMentorID}}</td>
+                        <td class="text-center">{{x.fkSiteID}}</td>
+                    </tr>
+
+
+        SAMPLE FOR FILESUBMISSION USE
+
+                    <tr ng-repeat="x in documents"
+                        ng-click="pickDocument(x)">
+                        <td align="center"
+                            class="text-center">
+                            <input type="checkbox"
+                                   class="checkbox form-check-input td-center-checkbox"
+                                   ng-model="checkedDocuments[x.fkCadetID]">
+                        </td>
+                        <td>{{x.DocumentName}}</td>
+                        <td>{{x.DocumentType}}</td>
+                        <td>{{x.DocumentNote}}</td>
+                    </tr>
+                    -->
+    <h1>Manage Documents</h1>
+    <table id="goalsTable" class="table minerva-table">
+        <thead>
+        <tr>
+            <th colspan="4"> Manage Documents
+                <button class="btn btnSave"  > Save</button><!--ng-click="saveDocsUpdate()"-->
+                <button class="btn btnCancel"  > Cancel</button><!--ng-click="cancelDocssUpdate()"-->
+            </th>
+        </tr>
+        </thead>
+        <tr>
+            <th>Required Documents</th>
+            <th>Document</th>
+            <th>Type</th>
+            <th>Notes</th>
+        </tr>
+
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Education plan documentation</td>
+            <td>PDF</td>
+            <td>note</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>School Behavioral & Attendance Records</td>
+            <td>PDF</td>
+            <td>note</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Medical Insurance Forms</td>
+            <td>PDF</td>
+            <td>note</td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Immunization Records</td>
+            <td>PDF</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Unofficial Academic  Transcript</td>
+            <td>PDF</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Candidate Application Document Form</td>
+            <td>PDF</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Medical History Form</td>
+            <td>PDF</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Copy of Birth Certificate</td>
+            <td>PDF</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Legal History Form</td>
+            <td>PDF</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Mentor Application</td>
+            <td>PDF</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Copy of Social Security Card</td>
+            <td>PDF</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Government Issued ID</td>
+            <td>PDF</td>
+            <td></td>
+        </tr>
+        <tr>
+            <td><input type="checkbox"></td>
+            <td>Mental Health Information Form</td>
+            <td>PDF</td>
+            <td></td>
+        </tr>
+
+    </table>
+
+
+</div>
+
+
+
+
+
+
+<!--<table>
+    </thead>
+    <tr ng-repeat="name in testData track by $index" style="outline: thin solid">
+        <td>{{name}}</td>
+    </tr>
+</table>-->
+
+    <!-- <form>
+         <div>
+             <div class="col-xs-12">
+                 <h1>file submission</h1>
+             </div>
+         </div>
+
+         <fieldset class="form-group">
+             <div class="row">
+                 <div class="col-md-12">
+                     <ng-include src="'./utility/attachments/attachments.view.html'"></ng-include>
+                 </div>
+             </div>
+         </fieldset>
+     </form>
+
+     <table>
+         </thead>
+         <tr ng-repeat="contact in mentorContacts track by $index" style="outline: thin solid">
+             <td style="width:100px">
+                 <table>
+                     <input type="date" ng-disabled="!editContacts" class="form-control"
+                            ng-model="contact.ContactDate">
+
+                     <input type="text" ng-disabled="!editContacts" class="form-control"
+                            ng-model="contact.MentorContactType">
+
+                     <input type="text" ng-disabled="!editContacts" class="form-control" ng-model="contact.MentorName">
+                 </table>
+             </td>
+             <td>
+                         <textarea rows="3" style="min-width: 100%" class="form-control" ng-disabled="!editContacts"
+                                   ng-model="contact.MentorContactNote"></textarea>
+             </td>
+             <td style="width:100px">
+                 <button ng-click="deleteContact($index)" class="btn btnDelete" ng-disabled="!editContacts"> Delete</button>
+
+             </td>
+         </tr>
+     </table>
+ </div>-->
