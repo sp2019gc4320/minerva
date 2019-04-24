@@ -10,24 +10,6 @@ require_once 'dbcontroller.php';
 $db = new DBController();
 $conn = $db->connectDB();
 
-//Set empty variables to be filled from form
-$ApplicantID = "";
-$Income = 0;
-$ReferralSource = "";
-$PrevSchool = "";
-$PrevSchoolCity = "";
-$PrevSchoolState = "";
-$StudentClassification = "";
-$AcademicCredits = "";
-$Withdrawl = '0';
-$HighestEducation = "";
-$EmploymentStatus = "";
-$LegalStatus = "";
-$LivingWith = "";
-$Status = "";
-$fkPersonID = "";
-$fkApplicantID = "";
-
 // AngularJS doesn't behave well with PHP by default during POST
 // requests. Using file_get_contents gets the POST data
 // https://stackoverflow.com/questions/15485354/angular-http-post-to-php-and-undefined
@@ -38,22 +20,6 @@ $decoded_postdata = (array)json_decode($postdata);
 $people_data = (array)$decoded_postdata["peopleData"];
 $applicants_data = (array)$decoded_postdata["applicantsData"];
 $contact_info_data = (array)$decoded_postdata["contactInformationData"];
-
-$Income = $applicants_data["Income"];
-$ReferralSource = $applicants_data['ReferralSource'];
-$PrevSchool = $applicants_data['PrevSchool'];
-$PrevSchoolCity = $applicants_data['PrevSchoolCity'];
-$PrevSchoolState = $applicants_data['PrevSchoolState'];
-$StudentClassification = $applicants_data['StudentClassification'];
-$AcademicCredits= $applicants_data['AcademicCredits'];
-$Withdrawl = $applicants_data['Withdrawl'];
-$HighestEducation = $applicants_data['HighestEducation'];
-$EmploymentStatus = $applicants_data['EmploymentStatus'];
-$LegalStatus = $applicants_data['LegalStatus'];
-$LivingWith = $applicants_data['LivingWith'];
-$Status = "Sumbitted";
-
-
 
 /**
  * Creates the insertion string given column names, data values, and a table.
@@ -90,7 +56,13 @@ if($conn->query($people_insert_query) == TRUE) {
     $applicants_data = array(
         "fkPersonID" => $people_id
     );
-    $fkPersonID = $people_id;
+    $applicant_insert_query = create_insertion_string("tblApplicants", $applicants_data);
+    if($conn->query($applicant_insert_query) == TRUE) {
+
+    } else {
+        echo "Failed insertion to applicant ";
+        echo $conn->error;
+    }
 
     //
     // MARK: - Add all the Applicants contact information
@@ -112,11 +84,5 @@ if($conn->query($people_insert_query) == TRUE) {
     echo "Failed insertion to people ";
     echo $conn->error;
 };
-$sql = "INSERT INTO `tblApplicants`(`fkPersonID`, `Income`, `ReferralSource`, `PrevSchool`, `PrevSchoolCity`, `PrevSchoolState`, `StudentClassification`, `AcademicCredits`, `Withdrawl`, `HighestEducation`, `EmploymentStatus`, `LegalStatus`, `LivingWith`, `Status`) VALUES ('$fkPersonID', '$Income', '$ReferralSource', '$PrevSchool', '$PrevSchoolCity', '$PrevSchoolState', '$StudentClassification', '$AcademicCredits', '$Withdrawl', '$HighestEducation', '$EmploymentStatus', '$LegalStatus', '$LivingWith', '$Status')";
-if ($conn->query($sql) === TRUE) {
-    echo "New record created successfully";
-} else {
-    echo "Error: " . $sql . "<br>" . $conn->error;
-}
 
 ?>
