@@ -8,9 +8,6 @@
 <div ng-controller = "viewCadets">
     <div class = "row">
         <div class="dropdown">
-            <button class="btn btnEdit" ng-click="edit()"ng-hide="editable"> Edit</button>
-            <button class="btn btnSave" ng-click="update(cadets)"ng-show="editable"> Save</button>
-            <button class="btn btnCancel" ng-click="cancelUpdate()"ng-show="editable"> Cancel</button>
             <button class="btn btn-primary" ng-click="printToCart('print')">Print Current Roster</button>
             <label >Search</label><input type="text" ng-model="search" placeholder="Search">
         </div>
@@ -41,15 +38,16 @@
             <td> {{x.fkClassID}}</td>
             <td>{{x.CadetRosterNumber}}</td>
             <td>{{x.fkCadetID}}</td>
-            <td> <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                <span class="caret"></span></button>
-                <ul class="dropdown-menu">
-                    <li><a href="#">Cadet</a></li>
-                    <li><a href="#">Graduate</a></li>
-                </ul>
-            </td>
+            <td>
+             <div class = "input-group-append">
+                <select class = "custom-select" id ="{{x.fkCadetID}}">
+                    <option selected>Cadet</option>
+                    <option>Graduate</option>
+                </select>
+                <button class="btn btn-primary" ng-click = "update(x.fkCadetID,x.PersonFn,x.PersonLN,x.fkClassID,x.CadetRosterNumber)">Update</button>
+             </div>
+           </td>
         </tr>
-
     </table>
 </div>
 </div>

@@ -11,6 +11,7 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
     }).then(function (response) {
         console.log(response.data);
         $scope.cadets = response.data.cadetTable;
+
     });
 
 
@@ -23,78 +24,22 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
         popupWindow.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
         popupWindow.document.close();
     }
-
-
-    $scope.editable = false;
-    $scope.update = function()
-    {
-        //copy first row of table
-        $scope.show=true;
-        for (var j=0; j<$scope.tasks.length; j++)
-        {
-            $scope.numSaved=0;
-            var sendData=angular.copy($scope.tasks[j]);//date comes in as date w time
-
-            if(sendData.EventDate!==null) {//IF A DATE IS ENTERED
-                sendData.EventDate = convertToSqlDate(sendData.EventDate);
-
-                if($scope.tasks[j].DidPass==="1")
-                {
-                    $scope.tasks[j].PF="Pass";
-                }
-                else {
-                    $scope.tasks[j].PF = "Fail";
-                    $scope.show=false;
-                }
-
-                delete sendData.Task;
-                delete sendData.TaskNumber;
-            }
-            else{//IF NO DATE ENTERED
-                $scope.tasks[j].dateNoTime ="None";
-                sendData.EventDate="";
-                sendData.DidPass="0";
-                $scope.tasks[j].PF="Fail";
-                $scope.show=false;
-            }
-            $http ({
-                method: 'POST',
-                url: './php/site-viewcadets.php',
-
-                
-                data: Object.toparams(sendData),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).then(
-                function(response)
-                {
-                    if(response.data) {
-
-                        //this only needs to be saved once all changes are saved.
-                        $scope.numSaved++;
-                        if($scope.numSaved == $scope.tasks.length)
-                            alert("Changes Saved.");
-                    }
-                    //location.reload(true);
-                },function(result){
-                    alert("Failed");
-                });
-        }
-        $scope.editable = false;
-    };
-    $scope.cancelUpdate = function() {
-        $scope.editable = false;
-        $scope.cadets = angular.copy($scope.cadetsBackup);
-    };
-    $scope.edit = function() {
-        $scope.editable = true;
-        $scope.show=false;
-
-        //backup data
-        $scope.cadetsBackup = angular.copy($scope.cadets);
-    };
     $scope.sort = function(keyname){
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
+    }
+    $scope.update = function(id, firstname,lastname,classid,rosternum){
+        var cadetStatus = (document).getElementById(id+"").value;
+        var params = {"cadetid":id, "firstname":firstname, "lasttname":lastname,"classid":classid, "rosternumber":rosternum, "cadetstatus": cadetStatus};
+        $http({
+            method: 'POST',
+            url: './php/site-updatetograduates.php',
+            data: Object.toparams(params),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function (response) {
+            console.log(response.data);
+            $scope.cadets = response.data.cadetTable;
+        });
     }
 });
 
