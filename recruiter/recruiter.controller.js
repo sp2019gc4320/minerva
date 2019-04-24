@@ -7,7 +7,6 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.person = {};
     $scope.applicant = {};
 
-
     $scope.cadets = JSON.parse($window.localStorage.getItem("cadets"));
     $scope.CadetID = $window.localStorage.getItem("CadetID");
     $scope.CadetName = $window.localStorage.getItem("CadetName");
@@ -25,9 +24,9 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.hasSameMailingAddress = false;
 
     // List of ContactInformationModels
-    $scope.contactInformation = []
+    $scope.contactInformation = [];
 
-    $scope.age = 0
+    $scope.age = 0;
   
     /// Model to arrange the data for ContactInformation in the post requests.
     class ContactInformationModel {

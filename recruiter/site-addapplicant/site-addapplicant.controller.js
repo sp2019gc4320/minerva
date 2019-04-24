@@ -11,6 +11,7 @@ angular.module('recruiter.siteAddApplicant').controller('addApplicantController'
 
     // Model for containing the Person to be added to tblPerson
     $scope.person = {};``
+    $scope.applicant = {};``
 
     // Mailing address toggle
     $scope.hasSameMailingAddress = false;
@@ -147,7 +148,7 @@ angular.module('recruiter.siteAddApplicant').controller('addApplicantController'
     }
 
     /**
-     * Submits the form data to php/admin_createCadet.php
+     * Submits the form data to php/recruiter_createApplicant.php
      */
     $scope.submit = function() {
         $http({
@@ -155,6 +156,7 @@ angular.module('recruiter.siteAddApplicant').controller('addApplicantController'
             url: "./php/recruiter_createApplicant.php",
             data: { 
                 peopleData: $scope.person,
+                applicantData: $scope.applicant,
                 contactInformationData: $scope.getContactInformationPOSTData()
             },
             headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
