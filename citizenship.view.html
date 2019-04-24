@@ -1,0 +1,185 @@
+<!-- File: citizenship.view.html
+     Used with: citizenship.controller.js
+     -->
+<div id="citizenship-outer">
+	<div class="well container infoContainer" 
+	id = "jscontainer"
+	ng-controller="citizenshipController">
+	<h1>Citizenship</h1>
+	<!--load app.controller from citizenship.controller.js-->
+		<div class="bg-transparent" ng-if="edit">
+			<form name ="CitzForm">	
+				<fieldset class="form-group">
+					<div>
+						<button class="btn btnCancel" ng-click="cancelUpdate()"> Cancel</button>
+						<button class = "btn btnSave" ng-click="update(tasks, tests)"> Save</button>
+					</div>
+					<div class="form-row m-2">
+						<table class="table table-responsive">
+							<thead>
+								<tr>
+			                        <th>Task</th>
+			                        <th>Description</th>
+			                        <th>Last Activity</th>
+			                        <th>Pass/Fail</th>
+			                        <th>Notes</th>
+								</tr>
+							</thead>
+							<!--iterate through each instance in scope from controller-->
+							<tr ng-repeat="task in tasks track by $index" class="error">
+								<td>{{task.TaskNumber}}</td>
+								<td>{{task.Task}} </td>
+
+								<td>
+									<span ng-if="task.TaskNumber!='5'">
+										<input name="EventDate" type="date" id="start" ng-model="task.EventDate">
+									</span>
+									<span ng-if="task.TaskNumber=='5'">
+										<input name="EventDate" type="date" id="start" ng-model="task.EventDate" ng-readonly="true">
+									</span>
+								</td>
+
+								<td>
+									<span ng-if="task.TaskNumber!='5'">
+										<input name="DidPass" ng-model="task.DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'">
+									</span>
+									<span ng-if="task.TaskNumber=='5'">
+										<input name="DidPass" ng-model="task.DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'" ng-readonly="true">
+									</span>
+								</td>
+							
+								<td>
+									<span ng-if="task.TaskNumber!='5'">
+										<textarea name="EventNote" type="text"  ng-model="task.EventNote" data-ng-bind="note" data-toggle="modal" data-target="#event{{$index}}"></textarea>
+										<!-- dive to pop up textarea when clicked -->
+                                    <div class="modal fade" id="event{{$index}}" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h6>Note</h6>
+                                                    <div class="modal-body">
+                                                        <textarea ng-model="task.EventNote"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+									</span>
+									<span ng-if="task.TaskNumber=='5'">
+										<textarea name="EventNote" type="text" ng-model="task.EventNote" data-ng-bind="note" ng-readonly="true"></textarea>
+									</span>
+								</td>
+							</tr>
+						</table>
+
+						<table class="table table-responsive">
+							<tr>
+								<th>Test</th>
+								<th>Last Activity</th>
+								<th>Pass/Fail</th>
+								<th>Score</th>
+								<th>Note</th>
+							</tr> 
+							<!--iterate through each instance in scope from controller-->
+							<tr ng-repeat="test in tests track by $index" class="error">
+								<td>{{test.TaskTest}}</td>
+								<td><input name="EventDate" type="date" id="testStart"  ng-model="test.EventDate"></td>
+
+								<td><input name="DidPass" style="width:20px; height:20px;" ng-model="test.DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"></td>
+
+								<td><input name="TestScore" type="text" ng-model="test.TestScore" data-ng-bind="score"></td>
+
+								<td><textarea name="EventNote" type="text" ng-model="test.EventNote" data-ng-bind="note" data-toggle="modal" data-target="#eventNote{{$index}}"></textarea>
+									<!-- dive to pop up textarea when clicked -->
+									<div class="modal fade" id="eventNote{{$index}}" role="dialog">
+										<div class="modal-dialog">
+											<div class="modal-content">
+												<div class="modal-header">
+													<button type="button" class="close" data-dismiss="modal">&times;</button>
+													<h6>Note</h6>
+													<div class="modal-body">
+														<textarea ng-model="test.EventNote"></textarea>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</td>
+							</tr>
+		    			</table>
+					</div>
+
+				</fieldset>	
+			</form>
+		</div ng-if-end>
+		<div class="card bg-transparent " ng-if="!edit">
+			<div class="form-row m-2">
+				<table class="table minerva-table">
+					<thead>
+						<tr>
+							<th colspan="5">TASKS <button class="btn btnEdit" ng-click="editSection()"> Edit</button></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<th>Task</th>
+							<th>Description</th>
+							<th>Last Activity</th>
+							<th>Pass/Fail</th>
+							<th>Note</th>
+						</tr>
+					<!--iterate through each instance in scope from controller-->
+					<tr ng-repeat="task in tasks" class="error">
+						<td>{{task.TaskNumber}}</td>
+						<td>{{task.Task}}</td>
+						<td><input disabled name="EventDate" type="date"  ng-model="task.EventDate"></td>
+						
+						<td ng-if="task.DidPass == 1" class="bg-success text-center">
+							<input type="checkbox" style="width:20px; height:20px;" value="" checked disabled>
+						</td>
+						<td ng-if="task.DidPass == 0" class="bg-danger text-center">
+							<input type="checkbox" style="width:20px; height:20px;" value="" disabled>
+						</td>
+					
+						<td>{{task.EventNote}}</td>
+					</tr>
+				</tbody>
+				</table>
+				<table class="table minerva-table">
+					<thead>
+						<tr>
+							<th colspan="5">TESTS<button class="btn btnEdit" ng-click="editSection()"> Edit</button></th>
+						</tr>
+					</thead>
+					<tr>
+						<th>Test</th>
+						<th>Last Activity</th>
+						<th>Pass/Fail</th>
+						<th>Score</th>
+						<th>Note</th>
+					</tr>
+					<!--iterate through each instance in scope from controller-->
+					<tr ng-repeat="test in tests" class="error">
+						<td>{{test.TaskTest}}</td>
+						<td>  <input disabled name="EventDate" type="date"  ng-model="test.EventDate"></td>
+						<td ng-if="test.DidPass == 1" class="bg-success text-center">
+							<input type="checkbox" style="width:20px; height:20px;" value="" checked disabled>
+						</td>
+						<td ng-if="test.DidPass == 0" class="bg-danger text-center">
+							<input type="checkbox" style="width:20px; height:20px;" value="" disabled>
+						</td>
+					<td>
+						<span ng-if="test.TaskTest!='Voted'">{{test.TestScore}}</span>
+
+						<span ng-if="test.TaskTest=='Voted'">N/A</span></td>
+						</td>
+						<td>{{test.EventNote}}</td>
+					</tr>
+				
+				</table>
+			</div> <!--form-row-->
+		</div ng-if-end><!--card-->
+
+	</div>
+</div>

@@ -1,0 +1,539 @@
+<!--lead-follow.view.html-->
+<!--view page for Lead/Follow Residental tab-->
+<!--fields that can be updated are autoloaded with current values,-->
+<!--past values for duty,inspection,position,and rank are also displayed-->
+
+<!--load app.controller from leadFollowCtrl.js-->
+<div class="well container infoContainer" id="lfContainer">
+    <h1>Lead/Follow</h1>
+    <div ng-controller="leadFollowController">
+        <!--Tasks-->
+        <div class="well">
+            <form>
+                <!--table to edit&display tasks from coreComponentTasks&cadetClassEvents-->
+                <table class="table minerva-table">
+                    <thead>
+                        <tr>
+                            <th colspan="5">TASKS
+                                    <button id = "editButtonTasks" class="btn btnEdit" ng-disabled="!editTasks"
+                                            ng-click="editSection('tasks')"> Edit
+                                    </button>
+                                <span id="taskSaveCancelButtons">
+                                    <button class="btn btnSave" ng-click="saveSection('tasks')" ng-disabled="editTasks"> Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelUpdate('tasks')" ng-disabled="editTasks"> Cancel</button>
+                                </span>
+                                </th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <th>Tasks</th>
+                        <th>Description</th>
+                        <th>Last Activity</th>
+                        <th>Pass?</th>
+                        <th>Note</th>
+                    </tr>
+                    <!--iterate through each instance in scope from controller-->
+                    <tr ng-repeat="task in tasks">
+                        <td>{{task.TaskNumber}}</td>
+                        <td class="text-left">{{task.Task}}</td>
+                        <!--editable fields for cadetClassEvents-->
+                        <td><input id="date" type="date" placeholder="MM/DD/YYYY" ng-model="task.EventDate"  ng-disabled="editTasks"></td>
+
+
+                        <td ng-if="task.DidPass == '1'" class="bg-success text-center">
+                             <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                    ng-model="task.DidPass"  ng-disabled="editTasks">
+                        </td>
+
+                        <td ng-if="task.DidPass == '0'" class="bg-danger text-center">
+                            <input  type="checkbox" ng-model="task.DidPass"
+                                    ng-true-value="'1'" ng-false-value="'0'" ng-disabled="editTasks">
+                        </td>
+
+                        <td><textarea name="EventNote" rows="1" c wrap="off" ng-model="task.EventNote"  ng-disabled="editTasks" data-toggle="modal" data-target="#example{{$index}}"></textarea>
+                            <!-- div to pop out note when clicked on -->
+                            <div class="modal fade" id="example{{$index}}" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h6>Note</h6>
+                                            <div class="modal-body">
+                                                <textarea ng-model="task.EventNote"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            </td>
+                    </tr>
+                </table>
+
+            </form>
+        </div>
+        <!--Duties-->
+        <div class="well container infoContainer" style="border: 1px solid white">
+            <!--creates new duty entry-->
+            <!--<h6 style="text-align: left;">Add Duty</h6>-->
+
+            <br>
+            <!--displays all duty instances-->
+            <div class="well container infoContainer " style="border: 1px solid white">
+                <table class="table minerva-table">
+                    <thead>
+                        <tr>
+                            <th colspan="6">DUTIES
+                                <button id="editButtonDuties" class="btn btnEdit" ng-disabled="!editDuty"
+                                ng-click="editSection('duties')"> Edit
+                        </button>
+                                <span id="dutySaveCancelButtons"><!--2/26 - changed updateDuty() to saveSection('duties')-->
+                                    <button class="btn btnSave" ng-click="saveSection('duties')" ng-disabled="editDuty"> Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelUpdate('duties')" ng-disabled="editDuty"> Cancel</button>
+                                </span>
+
+                                <span id="saveCancelAddDutyButtons">
+                                    <button class="btn btnSave" ng-click="CreateDuty()" style="margin: 0 auto" > Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelAddElement('duties')" style="margin: 0 auto"> Cancel</button>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <th>Duties</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Pass?</th>
+                        <th>Note</th>
+                    </tr>
+                    <tr ng-repeat="duty in duties">
+                        <td>{{duty.JobPosition}}</td>
+                        <td><input name="DutyStartDate" type="date" placeholder="MM/DD/YYYY"
+                                   ng-model="duty.DutyStartDate" ng-disabled="editDuty"></td>
+                        <td><input name="DutyEndDate" type="date" placeholder="MM/DD/YYYY" ng-model="duty.DutyEndDate"
+                                   ng-disabled="editDuty"></td>
+                        <td ng-if="duty.DutyDidFail == '1'" class="bg-success text-center">
+                            <input
+                                    name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                    ng-model="duty.DutyDidFail" ng-disabled="editDuty">
+                        </td>
+                        <td ng-if="duty.DutyDidFail == '0'" class="bg-danger text-center">
+                            <input
+                                    name="DutyDidFail" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                    ng-model="duty.DutyDidFail" ng-disabled="editDuty">
+                        </td>
+
+                        <td><input name="DutyNote" type="text" ng-model="duty.DutyNote" ng-disabled="editDuty"
+                                   style="width:500px" data-toggle="modal" data-target="#duty{{$index}}">
+                            <!-- div to pop up textarea when clicked -->
+                            <div class="modal fade" id="duty{{$index}}" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h6>Note</h6>
+                                            <div class="modal-body">
+                                                <textarea ng-model="duty.DutyNote"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </td>
+                        <td>
+                            <button id=deleteButton" class="btn btnDelete" ng-disabled="editDuty"
+                                    ng-click="deleteDuty($index)"> Delete
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="text-center">
+            <button id="addDutyButton" class="btn btnCreate" ng-click="addElement('duties')" style="margin: 0 auto"> Add Duty</button>
+        </div>
+            <form id="dutyAdd">
+                <table>
+                    <tr>
+                        <th><label>Duties </label>
+                            <!--dropdown options from tlkpJBDutyPosition-->
+                            <select id="1" ng-model="duty.JobPosition" name="JobPosition"
+                                    ng-options="option.DutyPosition for option in DutyPositionOptions track by option.id"
+                                    ng-change="changeJobPosition(duty.JobPosition)" ng-disabled="addDuty"></select>
+                        </th>
+                           <th><label>Start Date </label>
+                            <input class="LF-Date" id="3" name="DutyStartDate" type="date" placeholder="MM/DD/YYYY"
+                                   ng-model="duty.DutyStartDate" ng-disabled="addDuty"></th>
+                        <th><label>End Date </label>
+                            <input class="LF-Date" id="4" name="DutyEndDate" type="date" placeholder="MM/DD/YYYY"
+                                   ng-model="duty.DutyEndDate" ng-disabled="addDuty"></th>
+                        <th><label>Pass? </label>
+                            <input id="2" name="DutyDidFail: " type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="duty.DutyDidFail" ng-disabled="addDuty"></th>
+                        <th><label>Note </label>
+                            <input id="5" name="DutyNote" type="text" ng-model="duty.DutyNote" ng-disabled="addDuty"
+                                   style="width:500px" data-toggle="modal" data-target="#newDuty{{$index}}">
+                            <!-- dive to pop up textarea when clicked -->
+                            <div class="modal fade" id="newDuty{{$index}}" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h6>Note</h6>
+                                            <div class="modal-body">
+                                                <textarea ng-model="duty.DutyNote"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </th>
+                    </tr>
+                </table>
+            </form>
+
+
+        </div>
+
+        <br>
+
+        <div class="well container infoContainer" style="border: 1px solid white">
+        <div class="well container infoContainer" style="border: 1px solid white">
+			    <table class="table minerva-table">
+                    <thead>
+                        <tr>
+                            <th colspan="6">INSPECTIONS <button id="editButtonInspections" class="btn btnEdit"   ng-disabled="!editInspect"
+                                ng-click="editSection('inspections')"> Edit
+                        </button>
+                                <span id="saveCancelAddInspectButtons">
+                                    <button class="btn btnSave" ng-click="CreateInspect()" style="margin: 0 auto" > Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelAddElement('inspections')" style="margin: 0 auto"> Cancel</button>
+                                </span>
+                                <span id="inspectSaveCancelButtons"><!--2/26 - changed updateInspect() to saveSection('inspection')-->
+                                    <button class="btn btnSave" ng-click="saveSection('inspections')" ng-disabled="editInspect"> Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelUpdate('inspections')" ng-disabled="editInspect"> Cancel</button>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tr>
+					    <th>Date</th>
+					    <th>Inspection Type</th>
+					    <th>Merit Adj</th>
+                        <th>Pass?</th>
+					    <th>Note</th>
+				    </tr>
+				    <tr ng-repeat="inspect in inspections">
+					    <td><input name=InspectionDate type="date" placeholder="MM/DD/YYYY"
+                               ng-model="inspect.InspectionDate" ng-disabled="editInspect"></td>
+					    <td>{{inspect.JBInspectionType}}</td>
+					    <td>{{inspect.InspMeritAdj}}</td>
+
+                        <td ng-if="inspect.DidPassInspection == '1'" class="bg-success text-center">
+                            <input
+                                    name="DidPassInspection" type="checkbox" ng-disabled="editInspect" ng-true-value="'1'"
+                                    ng-false-value="'0'" ng-model="inspect.DidPassInspection"></td>
+                        </td>
+                        <td ng-if="inspect.DidPassInspection == '0'" class="bg-danger text-center">
+                            <input
+                                    name="DidPassInspection" type="checkbox" ng-disabled="editInspect" ng-true-value="'1'"
+                                    ng-false-value="'0'" ng-model="inspect.DidPassInspection"></td>
+                        </td>
+
+                        <td><input name="InspectionNote" type="text" ng-model="inspect.InspectionNote" ng-disabled="editInspect" data-toggle="modal" data-target="#inspect{{$index}}">
+                            <!-- dive to pop up textarea when clicked -->
+                            <div class="modal fade" id="inspect{{$index}}" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h6>Note</h6>
+                                            <div class="modal-body">
+                                                <textarea ng-model="inspect.InspectionNote"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </td>
+                        <td>
+                            <button id=deleteInspectBtn" class="btn btnDelete" ng-disabled="editInspect"
+                                ng-click="deleteInspect($index)"> Delete
+                            </button>
+                        </td>
+				    </tr>
+			    </table>
+	    	</div>
+            <div class="text-center">
+            <button id="addInspectButton" class="btn btnCreate" ng-click="addElement('inspections')" style="margin: 0 auto"> Add Inspection</button>
+            </div>
+            <form id="inspectAdd">
+                <table style="width:100%">
+                    <tr>
+                        <th><label>Date: </label>
+                            <input class="LF-Date" id="i1" name="InspectionDate" type="date" placeholder="MM/DD/YYYY"
+                                ng-model="inspect.InspectionDate" ng-disabled="addInspect"></th>
+                        <th><label>Inspection Type: </label>
+                        <!--dropdown options from tlkpJBInspectionType-->
+                        <select id="i2" ng-model="inspect.JBInspectionType" name="JBInspectionType"
+                                ng-options="option.InspectionType for option in InspectionTypeOptions track by option.id"
+                                ng-change="changeInspectionType(inspect.JBInspectionType)" ng-disabled="addInspect"></select></th>
+                        <th><label>Merit Adj: </label>
+                            <input id="i4" name="InspMeritAdj" type="text" ng-model="inspect.InspMeritAdj" ng-disabled="addInspect"></th>
+                        <th><label>Pass? </label>
+                            <input id="i3" name="DidPassInspection" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                   ng-model="inspect.DidPassInspection" ng-disabled="addInspect"></th>
+                        <th><label>Note:  </label>
+                            <input id="i5" name="InspectionNote" type="text" ng-model="inspect.InspectionNote" ng-disabled="addInspect" data-toggle="modal" data-target="#newInspect{{$index}}">
+                            <!-- dive to pop up textarea when clicked -->
+                            <div class="modal fade" id="newInspect{{$index}}" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h6>Note</h6>
+                                            <div class="modal-body">
+                                                <textarea ng-model="inspect.InspectionNote"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </th>
+                    </tr>
+                </table>
+            </form>
+
+		</div>
+    </span>
+        <hr/>
+
+        <br>
+        <!--displays all inspection instances-->
+
+        <br>
+        <!--Positions-->
+        <div class="well container infoContainer" style="border: 1px solid white"></div>    
+        <div class="well container infoContainer" style="border: 1px solid white">
+                <table class="table minerva-table">
+                    <thead>
+                        <tr>
+                            <th colspan="6">POSITIONS <button id="editButtonPositions" class="btn btnEdit" ng-disabled="!editPosit"
+                                ng-click="editSection('positions')"> Edit
+                        </button>
+                                <div id="saveCancelAddPositButtons">
+                                    <button class="btn btnSave" ng-click="CreatePosit()" style="margin: 0 auto" > Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelAddElement('positions')" style="margin: 0 auto"> Cancel</button>
+                                </div>
+                                <div id="positionSaveCancelButtons">
+                                    <button class="btn btnSave" ng-click="saveSection('positions')" ng-disabled="editPosit"> Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelUpdate('positions')" ng-disabled="editPosit"> Cancel</button>
+                                </div>
+
+                            </th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Pass?</th>
+                        <th>Note</th>
+
+                    </tr>
+                    <tr ng-repeat="posit in pos">
+                        <td>{{posit.JBPosition}}</td>
+                        <td><input name=PosStartDate type="date" ng-disabled="editPosit" ng-model="posit.PosStartDate">
+                        </td>
+                        <td><input name=PosEndDate type="date" ng-disabled="editPosit" ng-model="posit.PosEndDate"></td>
+
+                        <td ng-if="posit.PosDidFail == '1'" class="bg-success text-center">
+                            <input
+                                   name="PosDidFail" type="checkbox" ng-disabled="editPosit" ng-true-value="'1'"
+                                   ng-false-value="'0'" ng-model="posit.PosDidFail"></td>
+                        </td>
+                        <td ng-if="posit.PosDidFail == '0'" class="bg-danger text-center">
+                            <input
+                                   name="PosDidFail" type="checkbox" ng-disabled="editPosit" ng-true-value="'1'"
+                                   ng-false-value="'0'" ng-model="posit.PosDidFail"></td>
+                        </td>
+                        <td><input name="PosNote" type="text" ng-disabled="editPosit" ng-model="posit.PosNote" data-toggle="modal" data-target="#pos{{$index}}">
+                            <!-- dive to pop up textarea when clicked -->
+                            <div class="modal fade" id="pos{{$index}}" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h6>Note</h6>
+                                            <div class="modal-body">
+                                                <textarea ng-model="posit.PosNote"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </td>
+
+                        <td>
+                        <button id=deletePositbtn" class="btn btnDelete" ng-disabled="editPosit"
+                                    ng-click="deletePosit($index)"> Delete
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </form>
+            <!--
+            <div id="saveCancelAddPositButtons">
+                <button class="btn btn-outline-primary" ng-click="CreatePosit()" style="margin: 0 auto" >Save</button>
+                <button class="btn btn-outline-danger" ng-click="cancelAddElement('positions')" style="margin: 0 auto">Cancel</button>
+            </div>-->
+            <div class="text-center">
+            <button id="addPositButton" class="btn btnCreate" ng-click="addElement('positions')" style="margin: 0 auto"> Add Position</button>
+            </div>
+            <form id = "positAdd">
+                <table style="width:100%">
+                    <tr>
+                        <th><label>Position: </label>
+                            <!--dropdown options from tlkpJBPosition-->
+                            <select id= "p1" ng-model="posit.JBPosition" name="JBPosition" ng-disabled = "addPosit"
+                                    ng-options="option.JBPosition for option in JBPositionOptions track by option.id"
+                                    ng-change="changeJBPosition(posit.JBPosition)"></select></th>
+                        <th><label>Start Date: </label>
+                            <input class="LF-Date" id= "p2" name="PosStartDate" type="date" placeholder="MM/DD/YYYY" ng-disabled="addPosit"
+                                   ng-model="posit.PosStartDate"></th>
+                        <th><label>End Date: </label>
+                            <input class="LF-Date" id= "p3" name="PosEndDate" type="date" ng-disabled="addPosit" ng-model="posit.PosEndDate">
+                        </th>
+                        <th><label>Pass? </label>
+                            <input id= "p5" name="PosDidFail: " type="checkbox" ng-disabled="addPosit" ng-true-value="'1'"
+                                   ng-false-value="'0'" ng-model="posit.PosDidFail"></th>
+                        <th><label>Note: </label>
+                            <input id= "p4" name="PosNote" type="text" ng-disabled="addPosit" ng-model="posit.PosNote" data-toggle="modal" data-target="#newPos{{$index}}">
+                            <!-- dive to pop up textarea when clicked -->
+                            <div class="modal fade" id="newPos{{$index}}" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h6>Note</h6>
+                                            <div class="modal-body">
+                                                <textarea ng-model="posit.PosNote"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </th>
+
+                    </tr>
+                </table>
+            </form>
+            </div>
+        <br>
+        <hr>
+        <br>
+        <!--Ranks-->
+        <div class="well container infoContainer" style="border: 1px solid white">
+            <!--creates new rank entry-->
+            <!--dispalys all rank instances-->
+            <div class="well container infoContainer" style="border: 1px solid white">
+                <table class="table minerva-table">
+                    <thead>
+                        <tr>
+                            <th colspan="5">RANKS <button id="editButtonRanks" class="btn btnEdit" ng-disabled="!editRank"
+                                ng-click="editSection('ranks')"> Edit
+                        </button>
+                                <span id="saveCancelAddRankButtons">
+                                    <button class="btn btnSave" ng-click="CreateRank()" style="margin: 0 auto" > Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelAddElement('ranks')" style="margin: 0 auto"> Cancel</button>
+                                </span>
+                                <span id="rankSaveCancelButtons">
+                                    <button class="btn btnSave" ng-click="saveSection('ranks')" ng-disabled="editRank"> Save</button>
+                                    <button class="btn btnCancel" ng-click="cancelUpdate('ranks')" ng-disabled="editRank"> Cancel</button>
+                                </span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tr>
+                        <th>Rank</th>
+                        <th>Date Obtained</th>
+                        <th>Pass?</th>
+                        <th>Note</th>
+                    </tr>
+                    <tr ng-repeat="rEvent in rank">
+                        <td>{{rEvent.JBRank}}</td>
+                        <td><input name="RankObtainedDate" type="date" ng-disabled="editRank"
+                                   ng-model="rEvent.RankObtainedDate"></td>
+
+                        <td ng-if="rEvent.RankDidFail== '1'" class="bg-success text-center">
+                            <input
+                                    name="RankDidFail" type="checkbox" ng-disabled="editRank" ng-true-value="'1'"
+                                    ng-false-value="'0'" ng-model="rEvent.RankDidFail"></td>
+                        </td>
+                        <td ng-if="rEvent.RankDidFail == '0'" class="bg-danger text-center">
+                            <input
+                                    name="RankDidFail" type="checkbox" ng-disabled="editRank" ng-true-value="'1'"
+                                    ng-false-value="'0'" ng-model="rEvent.RankDidFail"></td>
+                        </td>
+
+
+
+                        <td><input name="RankPromotionNote" type="text" ng-disabled="editRank"
+                                   ng-model="rEvent.RankPromotionNote" data-toggle="modal" data-target="#rank{{$index}}">
+                            <!-- dive to pop up textarea when clicked -->
+                            <div class="modal fade" id="rank{{$index}}" role="dialog">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                            <h6>Note</h6>
+                                            <div class="modal-body">
+                                                <textarea ng-model="rEvent.RankPromotionNote"></textarea>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                        </td>
+                        <td>
+                            <button id=deleteRankbtn class="btn btnDelete" ng-disabled="editRank"
+                                ng-click="deleteRank($index)"> Delete
+                            </button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div class="text-center">
+            <button id="addRankButton" class="btn btnCreate" ng-click="addElement('ranks')" style="margin: 0 auto"> Add Rank</button>
+            </div>
+            <form id="rankAdd">
+                <table style="width:100%">
+                    <tr>
+                        <th><label>Rank </label>
+                            <!--dropdown options from tlkpJBRank-->
+                            <select id= "r1" ng-disabled="addRank" ng-model="rEvent.JBRank" name="JBRank"
+                                    ng-options="option.RankObtained for option in RankOptions track by option.id"
+                                    ng-change="changeRank(rEvent.JBRank)"></select></th>
+                        <th><label>Date Obtained </label>
+                            <input class="LF-Date" id= "r2" name="RankObtainedDate" type="date" ng-disabled="addRank"
+                                   ng-model="rEvent.RankObtainedDate"></th>
+                        <th><label>Pass? </label>
+                            <input id= "r4" name="RankDidFail: " type="checkbox" ng-disabled="addRank" ng-true-value="'1'"
+                                   ng-false-value="'0'" ng-model="rEvent.RankDidFail">
+                        <th><label>Note </label>
+                            <input id= "r3" name="RankPromotionNote" type="text" ng-disabled="addRank"
+                                ng-model="rEvent.RankPromotionNote" data-toggle="modal" data-target="#newRank{{$index}}">
+                        <!-- dive to pop up textarea when clicked -->
+                        <div class="modal fade" id="newRank{{$index}}" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h6>Note</h6>
+                                        <div class="modal-body">
+                                            <textarea ng-model="rEvent.RankPromotionNote"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </th>
+
+                    </tr>
+                </table>
+            </form>
+
+        </div>
+        <br>
+    </div>
+</div>
