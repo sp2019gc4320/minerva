@@ -18,7 +18,7 @@ angular.module('admin.siteViewApplicants', ['angularUtils.directives.dirPaginati
         popupWindow.document.close();
     }
 
-    $scope.addSelCadets = function()
+$scope.addSelCadets = function()
     {
         
         var toCad = [];
@@ -51,8 +51,7 @@ angular.module('admin.siteViewApplicants', ['angularUtils.directives.dirPaginati
         {
             if($scope.applicants[i].applicantID == applicantID)
             {
-                var toCad[0] = {"fname": $scope.applicants[i].fname , "lname" : $scope.applicants[i].lname, "applicantID": $scope.applicants[i].applicantID };
-                alert($scope.applicants[i].fname+$scope.applicants[i].lname+$scope.applicants[i].applicantID);
+                toCad[0] = {"fname": $scope.applicants[i].fname , "lname" : $scope.applicants[i].lname, "applicantID": $scope.applicants[i].applicantID };
             }
             i = i+1;
         }
