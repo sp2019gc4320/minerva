@@ -1,7 +1,6 @@
 <!--view page for Admin  tab-->
 <!-- Programmer: Lauren Alibey -->
-<body id="printSectionId" ng-app="siteViewApplicants">
-<div ng-controller = "viewApplicants">
+<div ng-controller="viewApplicants">
     <div class = "row" id="print">
         <div class="dropdown">
             <button class="btn btnEdit" ng-click="edit()"ng-hide="editable"> Edit</button>
@@ -13,13 +12,13 @@
     </div> <!-- row-->
     <table class="table minerva-table">
         <thead>
-        <tr>
-            <th>Applicants</th>
-            <th></th>
-            <th></th>
-            <th></th>
-            <th></th>
-        </tr>
+            <tr>
+                <th>Applicants</th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+            </tr>
         </thead>
         <tr>
             <th ng-click="sort('fname')">First Name</th>
@@ -33,7 +32,7 @@
             <td>{{x.lname}}</td>
             <td>{{x.applicantID}}</td>
             <td> <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
-                <span class="caret"></span></button>
+                    <span class="caret"></span></button>
                 <ul class="dropdown-menu">
                     <li><a href="#">Present</a></li>
                     <li><a href="#">Absent</a></li>
@@ -43,9 +42,8 @@
         </tr>
     </table>
     <dir-pagination-controls
-            max-size="60"
-            direction-links="true"
-            boundary-links="true" >
+        max-size="60"
+        direction-links="true"
+        boundary-links="true" >
     </dir-pagination-controls>
 </div>
-</body>

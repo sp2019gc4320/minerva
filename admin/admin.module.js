@@ -7,6 +7,7 @@ angular.module('admin', [
     'admin.siteAddClass',
     'admin.siteAddCadet',
     'admin.siteViewGraduates',
+    'admin.siteViewApplicants',
     'admin.compAssign',
     'admin.siteManagePermissions',
 ]);

@@ -1,6 +1,5 @@
-,'use strict';
-angular.module('admin.siteViewApplicants',['angularUtils.directives.dirPagination']).controller('viewApplicants', function($scope, $http, $window)
-{
+'use strict';
+angular.module('admin.siteViewApplicants', ['angularUtils.directives.dirPagination']).controller('viewApplicants', function($scope, $http, $window) {
     $http({
         method: 'POST',
         url: './php/admin_getApplicantList.php',
@@ -10,7 +9,7 @@ angular.module('admin.siteViewApplicants',['angularUtils.directives.dirPaginatio
         $scope.applicants = response.data.applicantTable;
     });
 
-//give the "print current roster" button functionality
+    //give the "print current roster" button functionality
     $scope.printToCart = function(printSectionId) {
         var innerContents = document.getElementById(printSectionId).innerHTML;
         var popupWindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
