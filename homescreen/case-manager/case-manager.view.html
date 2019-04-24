@@ -1,5 +1,13 @@
 <div class="panel panel-default " ng-controller="caseManagerController" >
 CASE MANAGER
+    <div>
+        <ul class="pagination pagination-lg">
+            <li class="page-item" ng-repeat="item in caseManagerViews"> <!--nav flex-row-->
+                <a class="page-link"  ng-click="showView(item)">{{item.view}}</a>
+            </li>
+        </ul>
+    </div>
+
     <div class="row">
         <!-- <button data-toggle="collapse" data-target="#sidebar">Toggle CadetInfo</button> -->
         <span onclick="openNav()"><button type="button" class="btn">Cadet Info</button></span>
@@ -23,25 +31,9 @@ CASE MANAGER
         <br/>
         <p> </p>
     </div>
-    <br><br><br>
+    <br><br>
 
-
-
-    <div class="row">
-        <div class="col-md-2">
-            <nav class="nav flex-column">
-                <button ng-repeat="item in caseManagerViews"
-                        type="button"
-                        ng-click="showView(item)"
-                        class="btn btn-outline-primary"
-                        >
-                        {{item.view}}
-                </button>
-            </nav>
-
-        </div>
-        <div class="col-md-10">
+    <div class="col-md-10">
             <ng-include src="updateDisplay"></ng-include>
-        </div>
     </div>
 </div>
