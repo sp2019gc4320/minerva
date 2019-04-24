@@ -3,28 +3,29 @@
 <!-- Programmer: Lauren Alibey -->
 <!-- This code shares a scope with site.viewCadets.controller.js -->
 <!--load app.controller from ViewCadetsController.js-->
-<body id="printSectionId" ng-app="siteViewCadets">
+<div id="printSectionId" ng-app="siteViewCadets">
+<div id = "print">
 <div ng-controller = "viewCadets">
-    <div class = "row" id="print">
+    <div class = "row">
         <div class="dropdown">
             <button class="btn btnEdit" ng-click="edit()"ng-hide="editable"> Edit</button>
             <button class="btn btnSave" ng-click="update(cadets)"ng-show="editable"> Save</button>
             <button class="btn btnCancel" ng-click="cancelUpdate()"ng-show="editable"> Cancel</button>
             <button class="btn btn-primary" ng-click="printToCart('print')">Print Current Roster</button>
-                <label >Search</label><input type="text" ng-model="search" placeholder="Search">
+            <label >Search</label><input type="text" ng-model="search" placeholder="Search">
         </div>
     </div> <!-- row-->
 
     <table class="table minerva-table">
         <thead>
-            <tr>
-                <th>Cadets</th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-            </tr>
+        <tr>
+            <th>Cadets</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
         </thead>
         <tr>
             <th ng-click="sort('PersonFN')">First Name</th>
@@ -48,11 +49,13 @@
                 </ul>
             </td>
         </tr>
+
     </table>
+</div>
+</div>
     <dir-pagination-controls
             max-size="60"
             direction-links="true"
             boundary-links="true" >
     </dir-pagination-controls>
 </div>
-</body>
