@@ -26,33 +26,26 @@ angular.module('recruiter.applicantFind').controller('applicantFindController', 
     taskListFile.then(
         //Will use this statement once we have applicant ID functioning fully
         //var applicantID = $scope.applicantID
-            function(result){
-                alert("Success");
+        function (result) {
+            alert("Yoo")
 
-                $scope.fileList = result.data.data;
 
-                alert(JSON.stringify($scope.fileList));
+            $scope.fileList = result.data.data;
+            alert(JSON.stringify($scope.fileList));
 
-                
-                $scope.missingList = ["EducationPlan","BandARecods","MedicalInsurance",
-                 "Immunization","CandidateApplication",
-            "MedicalHistory","BirthCertificate","LegalHistory","MentorApplication",
-            "SocialSecurityCard","IDCard","MentalHealthHistory"];
+            $scope.missingList = ["EducationPlan", "BandARecords", "MedicalInsurance", "Immunization", "Transcript",
+                "CandidateApplication", "MedicalHistory", "BirthCertificate", "LegalHistory",
+                "MentorApplication", "SocialSecurityCard", "IDCard", "MentalHealthHistory"];
 
-            for (var i = 0; i < $scope.fileList.length; i++){
-                if($scope.missingList.includes(String($scope.fileList[i]["File"]))){
+            for (var i = 0; i < $scope.fileList.length; i++) {
+                if ($scope.missingList.includes(String($scope.fileList[i]["File"]))) {
                     var index = $scope.missingList.indexOf(String($scope.fileList[i]["File"]));
-                    $scope.missingList.splice(index,1);
+                    $scope.missingList.splice(index, 1);
                 }
             }
-            alert(JSON.stringify($scope.missingList));
-            },
-            function(result){
-                alert("Failure");
-            }
-);
-
-    $(document).ready(function() {
-        $('#example').DataTable();
-      });
+        },
+        function (result) {
+            alert("Failure");
+        }
+    );
 });

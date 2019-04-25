@@ -33,7 +33,7 @@ if(isset($_FILES['file'])){
 
 
     move_uploaded_file($fileTmpName,  "../". $directory. "/". $CadetID .$fileName);
-    $aPath="../". $directory. "/". $CadetID .$fileName;
+    $aPath="". $directory. "/". $CadetID .$fileName;
     $currentDate=date("Y-m-d");
 
     //TODO: Assign unique documentID to each document in tableappdocs.
