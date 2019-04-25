@@ -63,22 +63,22 @@
         <td>PDF file here</td>
     </tr>
     <tr>
-        <td style="padding:0 60px">Legal History Form</td>
+        <td style="padding:0 60px">School Behavioral & Attendance Record </td>
         <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
         <td>PDF file here</td>
     </tr>
     <tr>
-        <td style="padding:0 60px">Legal History Form</td>
+        <td style="padding:0 60px">Medical Insurance Form</td>
         <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
         <td>PDF file here</td>
     </tr>
     <tr>
-        <td style="padding:0 60px">Legal History Form</td>
+        <td style="padding:0 60px">Immunization Records</td>
         <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
         <td>PDF file here</td>
     </tr>
     <tr>
-        <td style="padding:0 60px">Legal History Form</td>
+        <td style="padding:0 60px">Unofficial Academic Transcript</td>
         <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
         <td>PDF file here</td>
     </tr>
@@ -86,33 +86,33 @@
 <table border="0" class = "gfg">
     <tr>
         <th><font size="5"> Completed Documents </font></th>
-        <th style="padding:0 450px"></th>
+        <th style="padding:0 400px"></th>
         <th><font size="5"> Date Completed </font></th>
     </tr>
     <tr>
-        <td align="center">Legal History Form</td>
+        <td style="padding:0 60px">Candidate Application Document Form</td>
         <td></td>
-        <td align="center">Dates</td>
+        <td align="center">January 25, 2017</td>
     </tr>
     <tr>
-        <td align="center">Legal History Form</td>
+        <td style="padding:0 60px">Medical History Form</td>
         <td></td>
-        <td align="center">Dates</td>
+        <td align="center">January 25, 2017</td>
     </tr>
     <tr>
-        <td align="center">Legal History Form</td>
+        <td style="padding:0 60px">Copy of Birth Certificate</td>
         <td></td>
-        <td align="center">Dates</td>
+        <td align="center">January 25, 2017</td>
     </tr>
     <tr>
-        <td align="center">Legal History Form</td>
+        <td style="padding:0 60px">Mental Health Information Form</td>
         <td></td>
-        <td align="center">Dates</td>
+        <td align="center">January 25, 2017</td>
     </tr>
     <tr>
-        <td align="center">Legal History Form</td>
+        <td style="padding:0 60px">Mentor Application</td>
         <td></td>
-        <td align="center">Dates</td>
+        <td align="center">January 25, 2017</td>
     </tr>
 </table>
 
