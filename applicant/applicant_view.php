@@ -53,32 +53,32 @@
 
 <table border="0" class="gfg">
     <tr>
-        <th style="width:30%"><font size="5"> Pending Documents </font></th>
-        <th style="width:30%"> <button type="button" style="width:65px;height:35px;" class="btn btn-primary">SAVE</button> </th>
+        <th><font size="5"> Pending Documents </font> <button type="button" style="width:65px;height:35px;" class="btn btn-primary">SAVE</button></th>
+        <th style="width:30%"> </th>
         <th style="width:30%"></th>
     </tr>
     <tr>
-        <td align="center">Legal History Form</td>
+        <td style="padding:0 60px">Legal History Form</td>
         <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
         <td>PDF file here</td>
     </tr>
     <tr>
-        <td align="center">Legal History Form</td>
+        <td style="padding:0 60px">Legal History Form</td>
         <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
         <td>PDF file here</td>
     </tr>
     <tr>
-        <td align="center">Legal History Form</td>
+        <td style="padding:0 60px">Legal History Form</td>
         <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
         <td>PDF file here</td>
     </tr>
     <tr>
-        <td align="center">Legal History Form</td>
+        <td style="padding:0 60px">Legal History Form</td>
         <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
         <td>PDF file here</td>
     </tr>
     <tr>
-        <td align="center">Legal History Form</td>
+        <td style="padding:0 60px">Legal History Form</td>
         <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
         <td>PDF file here</td>
     </tr>
@@ -86,7 +86,7 @@
 <table border="0" class = "gfg">
     <tr>
         <th><font size="5"> Completed Documents </font></th>
-        <th style="padding:0 500px"></th>
+        <th style="padding:0 450px"></th>
         <th><font size="5"> Date Completed </font></th>
     </tr>
     <tr>
