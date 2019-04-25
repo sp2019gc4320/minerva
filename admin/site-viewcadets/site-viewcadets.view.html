@@ -32,7 +32,7 @@
             <th ng-click="sort('fkCadetID')">Cadet ID</th>
             <th>Status</th>
         </tr>
-        <tr dir-paginate="x in cadets|orderBy:sortKey:reverse|filter:search|itemsPerPage:15">
+        <tr dir-paginate="x in cadets|orderBy:sortKey:reverse|filter:search|itemsPerPage:20">
             <td>{{x.PersonFN}}</td>
             <td>{{x.PersonLN}}</td>
             <td> {{x.fkClassID}}</td>
@@ -44,11 +44,12 @@
                     <option selected>Cadet</option>
                     <option>Graduate</option>
                 </select>
-                <button class="btn btn-primary" ng-click = "update(x.fkCadetID,x.PersonFn,x.PersonLN,x.fkClassID,x.CadetRosterNumber)">Update</button>
+                <button class="btn btn-primary" ng-click = "update(x.PersonFn)">Update</button>
              </div>
            </td>
         </tr>
     </table>
+</div>
 </div>
 </div>
     <dir-pagination-controls

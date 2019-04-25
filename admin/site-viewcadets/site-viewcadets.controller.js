@@ -28,9 +28,10 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     }
-    $scope.update = function(id, firstname,lastname,classid,rosternum){
+    /*$scope.update = function(id, firstname,lastname,classid,rosternum){
         var cadetStatus = (document).getElementById(id+"").value;
         var params = {"cadetid":id, "firstname":firstname, "lasttname":lastname,"classid":classid, "rosternumber":rosternum, "cadetstatus": cadetStatus};
+
         $http({
             method: 'POST',
             url: './php/site-updatetograduates.php',
@@ -40,7 +41,35 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
             console.log(response.data);
             $scope.cadets = response.data.cadetTable;
         });
-    }
+    }*/
+    $scope.update = function(name){
+       // var cadetStatus = (document).getElementById(id+"").value;
+       // var params = {"cadetid":id, "firstname":firstname, "lasttname":lastname,"classid":classid, "rosternumber":rosternum, "cadetstatus": cadetStatus};
+        var index = 0;
+        var arr = eval( $scope.cadets );
+        for( var i = 0; i < arr.length; i++ ) {
+            if( arr[i].PersonFN === name ) {
+                index = i;
+                break;
+            }
+        }
+        if( index === -1 ) {
+            alert( "error" );
+        }
+        $scope.cadets.splice( index, 1 );
+        alert("Status = Graduate.");
+
+       /* $http({
+            method: 'POST',
+            url: './php/site-updatetograduates.php',
+            data: Object.toparams(params),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function (response) {
+            console.log(response.data);
+            $scope.cadets = response.data.cadetTable;
+        });
+        */
+    };
 });
 
 
