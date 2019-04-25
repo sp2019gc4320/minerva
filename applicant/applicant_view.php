@@ -114,6 +114,21 @@
         <td></td>
         <td align="center">January 25, 2017</td>
     </tr>
+    <tr>
+        <td style="padding:0 60px">Copy of Social Security Card</td>
+        <td></td>
+        <td align="center">January 25, 2017</td>
+    </tr>
+    <tr>
+        <td style="padding:0 60px">Government Issued Identification Card</td>
+        <td></td>
+        <td align="center">January 25, 2017</td>
+    </tr>
+    <tr>
+        <td style="padding:0 60px">Education Plan Documentation</td>
+        <td></td>
+        <td align="center">January 25, 2017</td>
+    </tr>
 </table>
 
 
