@@ -7,18 +7,29 @@
             <img src="./recruiter/exampleAppPic.png" alt="Applicant Photo">
         </div>
     </div>
-    
-    <!-- 
-    <input id="myFile" name="file" type="file" ng-model="fileToUpload" class="">
-                <h4>Files Received</h4>
-                <ul>
-                    <li ng-repeat="user in fileList track by $index">{{fileList[$index]["File"]}}</li>
-                </ul>
-                <h4>Files Missing</h4>
-                <ul>
-                    <li ng-repeat="user in missingList track by $index">{{fileList[$index]}}</li>
-                </ul>
-        -->
+    <br>
+    <!-- <input id="myFile" name="file" type="file" ng-model="fileToUpload" class="">
+                <button type="button" class="btn btn-outline-primary" ng-click="uploadFile()"> Upload</button>
+            <br>
+                <button type="button" ng-click="listFiles()">List Files</button>
+
+
+
+                    <td style="width:100px">
+                        <button ng-click="deleteContact($index)" class="btn btnDelete" ng-disabled="!editContacts"> Delete</button>
+
+                    </td>
+                </p>
+                <br> -->
+
+
+    <h3>Downloadable Files</h3>
+    <ul>
+
+        <li ng-repeat="user in fileList track by $index">
+            <a href="{{fileList[$index]['Path']}}" download="{{fileList[$index]['Path']}}"> {{fileList[$index]["File"]}}</a>
+        </li>
+    </ul>
 
         <table class="table minerva-table">
             <thead>
@@ -33,82 +44,83 @@
             </tr>
             <tr>
                 <td>Education Plan</td>
-                <td>Not Received</td>
+                <td><div ng-if="contains('EducationPlan')">Not</div> Received</td>
                 <td><input id="EducationPlan" name="file" type="file" ng-model="fileToUpload" class="">
-                    <button type="button" class="btn" ng-click="uploadFile('EducationPlan')"> Upload</button></td>
+                    <button type="button" class="btn" ng-click="uploadFile('EducationPlan')"> Upload</button>
+                </td>
             </tr>
             <tr>
                 <td>Behavioral and Academic Records</td>
-                <td>Received</td>
+                <td><div ng-if="contains('BandARecords')">Not</div> Received</td>
                 <td><input id="BandARecords" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('BandARecords')"> Upload</button></td>
             </tr>
             <tr>
                 <td>Medical Insurance</td>
-                <td>Not Received</td>
+                <td><div ng-if="contains('MedicalInsurance')">Not</div> Received</td>
                 <td><input id="MedicalInsurance" name=file" type="file" ng-model="fileToUpload" class="">
-                    <button type="button" class="btn" ng-click="uploadFile('MedicalInsurance')"> Upload</button></td>
+                    <button type="button" class="btn" ng-click="uploadFile('MedicalInsurance')"> Upload</button>
+                    </td>
             </tr>
             <tr>
                 <td>Immunization Records</td>
-                <td>Received</td>
+                <td><div ng-if="contains('Immunization')">Not</div> Received</td>
                 <td><input id="Immunization" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('Immunization')"> Upload</button></td>
             </tr>
             <tr>
                 <td>Unofficial Academic Transcript</td>
-                <td>Not Received</td>
+                <td><div ng-if="contains('Transcript')">Not</div> Received</td>
                 <td><input id="Transcript" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('Transcript')"> Upload</button></td>
             </tr>
             <tr>
                 <td>Candidate Application</td>
-                <td>Not Received</td>
+                <td><div ng-if="contains('CandidateApplication')">Not</div> Received</td>
                 <td><input id="CandidateApplication" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('CandidateApplication')"> Upload</button></td>
             </tr>
             <tr>
                 <td>Medical History Form</td>
-                <td>Not Received</td>
+                <td><div ng-if="contains('MedicalHistory')">Not</div> Received</td>
                 <td><input id="MedicalHistory" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('MedicalHistory')"> Upload</button></td>
             </tr>
             <tr>
                 <td>Birth Certificate</td>
-                <td>Received</td>
+                <td><div ng-if="contains('BirthCertificate')">Not</div> Received</td>
                 <td><input id="BirthCertificate" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('BirthCertificate')"> Upload</button></td>
             </tr>
             <tr>
                 <td>Legal History Form</td>
-                <td>Not Received</td>
+                <td><div ng-if="contains('LegalHistory')">Not</div> Received</td>
                 <td><input id="LegalHistory" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('LegalHistory')"> Upload</button></td>
             </tr>
             <tr>
                 <td>Mentor Application</td>
-                <td>Not Received</td>
+                <td><div ng-if="contains('MentorApplication')">Not</div> Received</td>
                 <td><input id="MentorApplication" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('MentorApplication')"> Upload</button></td>
             </tr>
             <tr>
                 <td>Social Security Card</td>
-                <td>Received</td>
+                <td><div ng-if="contains('SocialSecurityCard')">Not</div> Received</td>
                 <td><input id="SocialSecurityCard" name=file" type="file" ng-model="fileToUpload" class="">
                         <button type="button" class="btn" ng-click="uploadFile('SocialSecurityCard')"> Upload</button></td>
             </tr>
             <tr>
                 <td>Government Issued ID Card</td>
-                <td>Received</td>
+                <td><div ng-if="contains('IDCard')">Not</div> Received</td>
                 <td><input id="IDCard" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('IDCARD')"> Upload</button></td>
             </tr>
             <tr>
                 <td>Mental Health History</td>
-                <td>Received</td>
+                <td><div ng-if="contains('MentalHealthHistory')">Not</div> Received</td>
                 <td><input id="MentalHealthHistory" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('MentalHealthHistory')"> Upload</button></td>
             </tr>
-        </table>
-
+        </table> 
 </form>

@@ -7,12 +7,13 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.person = {};
     $scope.applicant = {};
 
-    $scope.cadets = JSON.parse($window.localStorage.getItem("cadets"));
+
     $scope.CadetID = $window.localStorage.getItem("CadetID");
     $scope.CadetName = $window.localStorage.getItem("CadetName");
     $scope.CadetGender = $window.localStorage.getItem("CadetGender");
     $scope.CadetDOB = $window.localStorage.getItem("CadetDOB");
-    
+
+
     $scope.cadet = {
         CadetID: $scope.CadetID,
         CadetName: $scope.CadetName,
@@ -24,9 +25,9 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.hasSameMailingAddress = false;
 
     // List of ContactInformationModels
-    $scope.contactInformation = [];
+    $scope.contactInformation = []
 
-    $scope.age = 0;
+    $scope.age = 0
   
     /// Model to arrange the data for ContactInformation in the post requests.
     class ContactInformationModel {
@@ -175,7 +176,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             });
         var form = document.getElementById("newAppForm");
         form.reset();
-        alert($scope.applicant);
+
     }
     $scope.recruiterViews = [
         {view:'Add Applicant', url:'./recruiter/site-addapplicant/site-addapplicant.view.html'},
@@ -188,19 +189,6 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         $scope.updateDisplay = item.url
     };
 
-    //Mock Data used for testing ----------------------
-    $scope.fileData = {
-        Category: "Category",
-        CadetID:"208",
-        File: "testB.html",
-        Description:"Description of File"
-    };
-    $scope.fileData2 = {
-        Category: "Category2",
-        CadetID:"208",
-        File: "File2",
-        Description:"Description of File Two"
-    };
 
     $scope.selectedFile ="";
     $scope.file = angular.copy($scope.fileData);
@@ -238,7 +226,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             //success
             function (result) {
                 alert("File Uploaded!");
-                alert("success: " + JSON.stringify(result));
+
 
                 $scope.selectedFile = result.data;
                 $scope.showDirectory();
@@ -254,41 +242,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         );
     };
 
-    // showDirectory -- Currently Lists all files in the mentorFiles -
-    // Will need to modify to only list files that match a criteria.  The directory should not be passed.
-    $scope.showDirectory = function () {
-        $scope.selectedFile ="";
 
-        var taskShowDirectory = $http({
-            method: 'GET',
-            url: './php/app_fileList.php',
-            params: { directory:'mentorFiles' }
-        });
-        taskShowDirectory.then(function (response) {
-
-            $scope.files =[];
-            var i=0;
-            var max = response.data.length;
-            while (i < max) {
-
-                if ( !(response.data[i].File == "." || response.data[i].File == "..")) {
-
-                    var option = {
-                        Category: "Category",
-                        CadetID: "208",
-                        File: "testB.html",
-                        DateAdded: "2017-04-27",
-                        Description: "Description of File"
-                    };
-                    option.File = response.data[i].name;
-
-                    var myFile = angular.copy(response.data[i]);
-                    $scope.files.push(myFile);
-                }
-                i++;
-            }
-        });
-    };
 
     //resource:
     //http://jaliyaudagedara.blogspot.com/2016/05/angularjs-download-files-by-sending.html
@@ -333,31 +287,12 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         });
     };
 
-    $scope.deleteFile = function(name){
-        var myFileObj = {file: name, directory:'mentorFiles'};
 
-        var taskDeleteFile = $http({
-            method: 'POST',
-            url: './php/files_delete.php',
-            data: Object.toparams(myFileObj),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(
-            //SUCESS
-            function(result){   //NOTE: the result needs to be checked to see if the file was deleted successfully
-                alert("File Deleted!");
-                $scope.showDirectory();
-            },
-            //ERROR
-            function(result){
-                alert("Error Deleting File." + JSON.stringify(result));
-            }
-        );
-    };
-
+    $scope.app = {AppID: $scope.CadetID};
     var taskListFile = $http({
         method: 'POST',
         url: './php/app_fileList.php',
-        data: '',
+        data: Object.toparams($scope.app),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 
     });
@@ -365,25 +300,16 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         //Will use this statement once we have applicant ID functioning fully
         //var applicantID = $scope.applicantID
             function(result){
+
+
                 //alert("Success");
-
                 $scope.fileList = result.data.data;
-
-                $scope.missingList = ["EducationPlan","BandARecods","MedicalInsurance",
-                 "Immunization","CandidateApplication",
-            "MedicalHistory","BirthCertificate","LegalHistory","MentorApplication",
-            "SocialSecurityCard","IDCard","MentalHealthHi0story"];
-
-            for (var i = 0; i < $scope.fileList.length; i++){
-                if($scope.missingList.includes(String($scope.fileList[i]["File"]))){
-                    var index = $scope.missingList.indexOf(String($scope.fileList[i]["File"]));
-                    $scope.missingList.splice(index,1);
-                }
-            }
             },
             function(result){
                 alert("Failure");
             }
+
+
 );
 
 $scope.openFindApplicantView = function()
@@ -393,5 +319,4 @@ $scope.openFindApplicantView = function()
 
 };
     
-    $scope.showDirectory();
 });

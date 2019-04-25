@@ -16,14 +16,14 @@ if(isset($_GET['directory'])){
     $directory =  basename(filter_input(INPUT_GET, "directory"));
     //  echo "$_GET:  $_GET";
 }
-if(isset($_GET['selectCadetID'])){
-    $cadetID=filter_input(INPUT_GET,"selectCadetID");
+if(isset($_POST['CadetID'])){
+    $cadetID=filter_input(INPUT_POST,"CadetID");
 }
 if(isset($_GET['selectFileType'])){
     $fileType=filter_input(INPUT_GET,"selectFileType");
 }
-
-$sql= "SELECT docType FROM tblappdocs WHERE applicantID=12";
+$CadetID=$_POST['AppID'];
+$sql= "SELECT docType,filePath FROM tblappdocs WHERE applicantID='$CadetID'";
 $result = $conn->runSelectQuery($sql);
 echo '{ "data":[';
 //print_r($result);
@@ -38,8 +38,9 @@ if ($result->num_rows > 0)
         if ($count >0 )
             echo ",";
 
-        echo '{"File": "' . $row["docType"].'"}';
+        echo '{"File": "' . $row["docType"].'",';
         $count=$count+1;
+        echo '"Path": "' . $row["filePath"].'"}';
     }
     echo '] }';
 }
