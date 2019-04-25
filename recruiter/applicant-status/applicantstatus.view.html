@@ -1,29 +1,13 @@
 <!-- first name, last name, cadet id, application status-->
 <form ng-submit="submit()" ng-controller="recController">
     <div class="container" >
-        <div id="personal-info-container">
-            <h1>
-                Application Status
-            </h1>
-            <div class = form-row>
+        <div id="personal-info-container" align="center">
+            <h1>Application Status</h1>
                 <img src = "./recruiter/applicant-status/ProgressCompleted.PNG" alt = "Progress Completed" class = "center">
-            </div>
-            <center>
                 <img src="./recruiter/exampleAppPic.png" alt="Applicant Photo" class = "center">
-            </center>
-            <div class="form-row">
-                <div class="form-group col-md-3">
-                    <label>Last, First</label>
-                </div>
-            </div>
-            <div class = "form-row">
-                <div class="form-group col-md-3">
-                    <label>Applicant ID</label>
-                </div>
-                <div class="form-group col-md-3">
-                    <label>Application Status</label>
-                </div>
-            </div>
+                <h4>{{applicant.ApplicantName}}</h4>
+                <h4>ID: {{applicant.ApplicantID}}</h4>
+                <h4>Status: Completed</h4>
         </div>
     </div>
 </form>
