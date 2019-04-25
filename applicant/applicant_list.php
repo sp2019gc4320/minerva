@@ -3,6 +3,8 @@
     <title>Applicants</title>
 
     <link rel="stylesheet" type="text/css" href="applicant_view.css">
+    <link rel="stylesheet" type="text/css" href="applicant_view2.css">
+
 
     <!-- Bootstrap 4 -->
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
@@ -12,13 +14,25 @@
     <link href="search-filter.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <?php
+    //require_once './applicant_moveToDeadpool.php';
+    require_once './applicant_listApplicants.php';
+
+    ?>
 
 <style>
 </style>
-
 </head>
+
 <body>
 <br>
+
+<div class="topnav">
+    <a class="active" href="./applicant_list.php">Home</a>
+    <a href="#candidate">Candidate</a>
+    <a href="#documents">Documents</a>
+</div>
+
 <h3 style="font-size:40px; text-indent: 20px; text-align:left">Current Applicants</h3>
 
 <hr style="height:3px;border:none;color:#333;background-color:#333;" />
@@ -54,38 +68,44 @@
     </div>
 </div>
 
-<div class="scrollingtable">
-    <div>
+<div class="container">
+    <div class="scrollingtable text-center">
         <div>
-            <table id="data-table">
-                <thead>
-                <tr>
-                    <th><div label=" "</div></th>
-                    <th><div label="Last"></div></th>
-                    <th><div label="First"></div></th>
-                    <th><div label="Date Submitted"></div></th>
-                    <th><div label="IDNumber"></div></th>
-                    <th><div label="Documents"></div></th>
-                    <th class="scrollbarhead"/> <!--extra cell at end of header row-->
-                </tr>
-                </thead>
+            <div>
+                <table id="data-table">
+                    <thead>
+                    <tr>
+                        <th><div label=" "></div></th>
+                        <th><div label="Last"></div></th>
+                        <th><div label="First"></div></th>
+                        <th><div label="Date Submitted"></div></th>
+                        <th><div label="IDNumber"></div></th>
+                        <th><div label="Documents"></div></th>
+                        <th class="scrollbarhead"/> <!--extra cell at end of header row-->
+                    </tr>
+                    </thead>
 
-                <!-- TODO pull data from SQL database (applicant - tblApplicants) to populate below table-->
-                <tbody>
-                    <?php require './applicant_listApplicants.php';
-                        listApplicants();
-                        ?>
-                </tbody>
-            </table>
+                    <tbody>
+                        <?php
+                            listApplicants();
+                            ?>
+                    </tbody>
+                </table>
+            </div>
+                <!-- submit button is just used for testing-->
+                <!--<button type="submit" value="Submit" name="submit1" onclick="">submit</button>-->
+                <button type="button" style="width: 300px;" class="btn btn-primary">Send to Candidate Pool</button>
+                <button type="button" style="width: 300px;" class="btn btn-danger">Send to Deadpool</button>
         </div>
     </div>
 </div>
 
-<br>
+
 <div class="col-md-20 text-center">
 <button type="button" style="width:100px;" class="btn btn-primary">VIEW</button>
-<button type="button" style="width:100px;" class="btn btn-danger">DEADPOOL</button>
+<button type="button" style="width:100px;" class="btn btn-danger" onClick="window.open('./deadpool_list.php');">DEADPOOL</button>
 </div>
 
 </body>
+
 </html>
