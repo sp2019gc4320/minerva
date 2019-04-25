@@ -5,20 +5,13 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
    // $window.localStorage.setItem("lookupTable",null);
     // Model for containing the Person to be added to tblPerson
     $scope.person = {};
-    $scope.applicant = {};
-
-
-    $scope.CadetID = $window.localStorage.getItem("CadetID");
-    $scope.CadetName = $window.localStorage.getItem("CadetName");
-    $scope.CadetGender = $window.localStorage.getItem("CadetGender");
-    $scope.CadetDOB = $window.localStorage.getItem("CadetDOB");
-
-
-    $scope.cadet = {
-        CadetID: $scope.CadetID,
-        CadetName: $scope.CadetName,
-        CadetGender: $scope.CadetGender,
-        CadetDOB: $scope.CadetDOB
+    $scope.applicants = JSON.parse($window.localStorage.getItem("applicants"));
+    $scope.ApplicantID = $window.localStorage.getItem("ApplicantID");
+    $scope.ApplicantName = $window.localStorage.getItem("ApplicantName");
+    
+    $scope.applicant = {
+        ApplicantID: $scope.ApplicantID,
+        ApplicantName: $scope.ApplicantName
     };
 
     // Mailing address toggle
@@ -79,7 +72,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     // Set up options on load
     $http({
         method: "GET",
-        url: "./php/admin_createCadetFormOptions.php",
+        url: "./php/admin_createApplicantFormOptions.php",
         headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
     }).then(function(response) {
         var data = response.data;
@@ -119,7 +112,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
     /**
      * Calculates the age given a person's DOB in MM/DD/YYYY format. Used in the
-     * view to tell the person what age a cadet is.
+     * view to tell the person what age a Applicant is.
      *
      * - Parameters:
      *   - dateString: The string containing the person's birth date
@@ -155,7 +148,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     }
 
     /**
-     * Submits the form data to php/admin_createCadet.php
+     * Submits the form data to php/admin_createApplicant.php
      */
     $scope.submit = function() {
         $http({
@@ -189,18 +182,17 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         $scope.updateDisplay = item.url
     };
 
-
     $scope.selectedFile ="";
     $scope.file = angular.copy($scope.fileData);
     $scope.files = [];
     $scope.files[0] = $scope.file;
     $scope.files[1] = angular.copy($scope.fileData2);
-    //Set Cadet ID to value stored in local storage
+    //Set Applicant ID to value stored in local storage
 
-    //TODO: Once this is changed to applicantID, send to backend in place of cadet
-    $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
+    //TODO: Once this is changed to applicantID, send to backend in place of Applicant
+    $scope.applicantID = JSON.parse($window.localStorage.getItem("ApplicantID"));
 
-    //Upload File - Specify CadetID, PATH and File
+    //Upload File - Specify ApplicantID, PATH and File
     $scope.uploadFile =  function(docType) {
         var currDirectory='mentorFiles';
 
@@ -209,7 +201,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
 
         var formData = new FormData();
-        formData.append('CadetID',$scope.cadetID);
+        formData.append('ApplicantID',$scope.applicantID);
         formData.append('directory',currDirectory);
         formData.append('fileType',docType);
         formData.append('file', myFile.files[0]);
@@ -241,7 +233,6 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             }
         );
     };
-
 
 
     //resource:
@@ -303,20 +294,72 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
 
                 //alert("Success");
+
                 $scope.fileList = result.data.data;
             },
             function(result){
                 alert("Failure");
             }
-
-
 );
 
 $scope.openFindApplicantView = function()
 {
-    $window.open('./utility/find-cadet/find-applicant-index.view.html', "_blank",
+    $window.open('./utility/find-applicant/find-applicant-index.view.html', "_blank",
         "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=300,height=300");
 
 };
     
+    $scope.showDirectory();
+
+    //To be in its own folder once controller is registered as applicantFindContoller
+    $scope.applicants = JSON.parse($window.localStorage.getItem("applicants"));
+    $scope.ApplicantID = $window.localStorage.getItem("ApplicantID");
+    $scope.ApplicantName = $window.localStorage.getItem("ApplicantName")
+   
+
+    $scope.applicant = {
+        ApplicantID: $scope.ApplicantID,
+        ApplicantName: $scope.ApplicantName
+    };
+
+
+    var taskListFile = $http({
+        method: 'POST',
+        url: './php/app_fileList.php',
+        data: '',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+
+    });
+    taskListFile.then(
+        //Will use this statement once we have applicant ID functioning fully
+        //var applicantID = $scope.applicantID
+        function(result){
+            alert("Success");
+
+            $scope.fileList = result.data.data;
+
+            alert(JSON.stringify($scope.fileList));
+
+
+            $scope.missingList = ["EducationPlan","BandARecods","MedicalInsurance",
+                "Immunization","CandidateApplication",
+                "MedicalHistory","BirthCertificate","LegalHistory","MentorApplication",
+                "SocialSecurityCard","IDCard","MentalHealthHistory"];
+
+            for (var i = 0; i < $scope.fileList.length; i++){
+                if($scope.missingList.includes(String($scope.fileList[i]["File"]))){
+                    var index = $scope.missingList.indexOf(String($scope.fileList[i]["File"]));
+                    $scope.missingList.splice(index,1);
+                }
+            }
+            alert(JSON.stringify($scope.missingList));
+        },
+        function(result){
+            alert("Failure");
+        }
+    );
+
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
 });

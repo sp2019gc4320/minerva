@@ -1,9 +1,9 @@
 <!-- first name, last name, cadet id, application status-->
-<form ng-submit="submit()" ng-controller="applicantFindController">
+<form ng-submit="submit()" ng-controller="recController">
     <div class="container">
         <div id="personal-info-container" align = "center">
-            <h3>{{cadet.CadetName}}</h3>
-            <h3>{{cadet.CadetID}}</h3>
+            <h3>{{applicant.ApplicantName}}</h3>
+            <h3>{{applicant.ApplicantID}}</h3>
             <img src="./recruiter/exampleAppPic.png" alt="Applicant Photo">
         </div>
     </div>
@@ -122,5 +122,6 @@
                 <td><input id="MentalHealthHistory" name=file" type="file" ng-model="fileToUpload" class="">
                     <button type="button" class="btn" ng-click="uploadFile('MentalHealthHistory')"> Upload</button></td>
             </tr>
-        </table> 
+        </table>
+
 </form>
