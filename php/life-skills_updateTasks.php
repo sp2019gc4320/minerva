@@ -41,7 +41,7 @@ SET
   DidPass = '$DidPass',
   EventNote = '$EventNote'
 WHERE
-   fkTaskID = '$fkTaskID' AND 
+   fkTaskTestEventID = '$fkTaskTestEventID' AND 
    fkClassDetailID= '$fkClassDetailID'" ;
 // AND fkTaskTestEventID = '$fkTaskTestEventID'"; //fkTaskTest should be null - perhaps this can be removed.
 

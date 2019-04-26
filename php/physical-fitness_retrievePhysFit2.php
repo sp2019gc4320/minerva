@@ -10,6 +10,7 @@ require_once 'dbcontroller.php';
 $conn = new DBController();
 $tests = array();
 $tasks = array();
+$PTDetails = array();
 
 //A "cadetID" should be sent when calling this php file -- store this value in $curCadetID
 $cadetID = $_POST['cadet'];
@@ -88,6 +89,7 @@ if($tempResult->num_rows > 0) {
                 $detailSQL = "SELECT * FROM tblPTDetails WHERE fkPTID = '$ptID'";
                 $detailResult = $conn->runSelectQueryArrayNotEncoded($detailSQL);
                 $physical->details = $detailResult;
+                $PTDetails[] = $detailResult;
 
 
                 //create array to store the test type of each detail.
@@ -119,6 +121,6 @@ if($tempResult->num_rows > 0) {
     }
 }
 
-echo '{"tasks":' . (json_encode($tasks)) . ' , "data":' . (json_encode($data)) . '}';
+echo '{"tasks":' . (json_encode($tasks)) . ' , "data":' . (json_encode($data)) . ',"PTDetails":' . (json_encode($PTDetails)) . '}';
 
 ?>

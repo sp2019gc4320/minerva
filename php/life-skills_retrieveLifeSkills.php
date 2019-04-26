@@ -58,16 +58,23 @@ if ($result->num_rows > 0) {
     }
 }
 
-$sql = "SELECT tlkpCoreComponentTasks.TaskNumber, tlkpCoreComponentTasks.Task, tlkpTaskTests.TaskTest, tblCadetClassEvents.EventDate, tblCadetClassEvents.EventNote, tblCadetClassEvents.DidPass
-FROM (tlkpCoreComponentTasks INNER JOIN tlkpTaskTests ON tlkpCoreComponentTasks.TaskID = tlkpTaskTests.fkTaskID) INNER JOIN ((tblCadets INNER JOIN tblClassDetails ON tblCadets.CadetID = tblClassDetails.fkCadetID) INNER JOIN tblCadetClassEvents ON tblClassDetails.ClassDetailID = tblCadetClassEvents.fkClassDetailID) ON tlkpTaskTests.TaskTestID = tblCadetClassEvents.fkTaskTestEventID
-WHERE (((tlkpCoreComponentTasks.CoreComponentID)=8) AND ((tblClassDetails.fkCadetID)='$cadetID'))";
+$sql =
+    "SELECT tlkpCoreComponentTasks.CoreComponentID, 
+tlkpCoreComponentTasks.TaskID, tlkpCoreComponentTasks.TaskNumber, tlkpCoreComponentTasks.Task,
+tlkpTaskTests.TaskTestID, tlkpTaskTests.TaskTest, tblCadetClassEvents.* 
+FROM (( tlkpCoreComponent 
+INNER JOIN tlkpCoreComponentTasks ON tlkpCoreComponent.CoreComponentID = tlkpCoreComponentTasks.CoreComponentID) 
+INNER JOIN tlkpTaskTests ON tlkpCoreComponentTasks.TaskID = tlkpTaskTests.fkTaskID) 
+INNER JOIN tblCadetClassEvents ON tlkpTaskTests.TaskTestID =tblCadetClassEvents.fkTaskTestEventID 
+INNER JOIN tblClassDetails ON tblClassDetails.ClassDetailID = tblCadetClassEvents.fkClassDetailID 
+WHERE (( tblClassDetails.fkCadetID = '$cadetID') AND tlkpCoreComponentTasks.CoreComponentID = 8) 
+ORDER By tlkpCoreComponentTasks.TaskID, tlkpCoreComponentTasks.CoreComponentID,tlkpTaskTests.TaskTest";
 
+//sending the sql statement
 $result = $connection->runSelectQuery($sql);
-if ($result->num_rows > 0) {
 
-    //Store the tasks WITHOUT any associated tests in the tasks array.
-    while ($row = $result->fetch_assoc())
-    {
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
         $tests[] = $row;
     }
 }

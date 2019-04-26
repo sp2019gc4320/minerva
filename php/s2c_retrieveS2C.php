@@ -1,8 +1,8 @@
 <?php
-// File: s2c_retrieveS2C.php
-// Pulls info for Service to Community from the database
-// Prints JSON array
-// Needs CadetID 
+// File: retrieveJobSkills.php
+// Pulls info for JobSkills from the database
+// Input is a cadetID from the post function in the jobSkillsCtrl.js it will echo a JSON array back to the jobSkillsCtrl
+//Programmer: Kevin Krider
 
 //connect to db controller
 require_once 'dbcontroller.php';
@@ -10,36 +10,75 @@ require_once 'dbcontroller.php';
 //create connection
 $connection = new DBController();
 
-//TODO this file has not been fully tested. May not work.
-
 //A "cadetID" should be sent when calling this php file -- store this value in $curCadetID
-//$cadetID = $_POST['cadet']; 
-$cadetID = '36';
 
-$sql = "SELECT DISTINCT tlkpCoreComponentTasks.TaskNumber, tlkpCoreComponentTasks.Task, tblCadetClassEvents.EventDate, tblCadetClassEvents.DidPass, tblCadetClassEvents.EventNote, tblClassDetails.fkCadetID
-FROM (tblClassDetails INNER JOIN tblCadetClassEvents ON tblClassDetails.ClassDetailID = tblCadetClassEvents.fkClassDetailID) INNER JOIN (tlkpCoreComponent INNER JOIN tlkpCoreComponentTasks ON tlkpCoreComponent.CoreComponentID = tlkpCoreComponentTasks.CoreComponentID) ON tblCadetClassEvents.fkTaskID = tlkpCoreComponentTasks.TaskID
-WHERE (((tlkpCoreComponent.CoreComponentID)=4) AND ((tblClassDetails.fkCadetID)='$cadetID'));";
+
+if (isset($_POST['cadetID'])) {
+
+    $cadetID = filter_input(INPUT_POST, 'cadetID');
+}
+
+//Create and empty array for tests
+$tests = array();
+$tasks = array();
+
+
+//TASKS
+$sql =
+    "SELECT tblCadetClassEvents.*, tlkpCoreComponentTasks.TaskNumber, tlkpCoreComponentTasks.Task 
+FROM
+ (tblCadets INNER JOIN tblClassDetails ON tblCadets.CadetID =tblClassDetails.fkCadetID) 
+ INNER JOIN (tlkpCoreComponentTasks 
+ INNER JOIN tblCadetClassEvents ON tlkpCoreComponentTasks.TaskID = tblCadetClassEvents.fkTaskID)
+  ON tblClassDetails.ClassDetailID = tblCadetClassEvents.fkClassDetailID 
+WHERE(((tlkpCoreComponentTasks.CoreComponentID)=4) AND ((tblClassDetails.fkCadetID)='$cadetID'))";
+
+//sending the sql statement
 $result = $connection->runSelectQuery($sql);
 
-echo '{ "taskTbl":[';
-//print_r($result);
-if ($result->num_rows > 0) 
-{
-    $count=0;
+if ($result->num_rows > 0) {
 
-    // output data on each row
-    while($row = $result->fetch_assoc()) {
-        
-        //display comma
-        if ($count >0 )
-            echo ",";
-      
-        //format output as an object -- specify each field along with its value
-        echo '{"TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "EventDate":"' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "EventNote":"' . $row["EventNote"]. '"}';
-       
-        $count = $count+1;
+    //Store the tasks WITHOUT any associated tests in the tasks array.
+    while ($row = $result->fetch_assoc()) {
+
+        //if fkTaskTestEventID is null, this task does NOT have tests associated with it.
+        if (strlen($row['fkTaskTestEventID']) == 0)
+            $tasks[] = $row;
+        else {
+            //Store the ID of the task that have associated tests in the testIDS array.
+            if (!in_array($row['fkTaskID'], $testIDs)) {
+                //Keep track of fkTaskIDs that are in a different table
+                $testIDs[] = $row['fkTaskID'];
+
+                //Store only the first task - there could be multiple tests for this task.
+                $tasks[] = $row;
+            }
+        }
     }
 }
-echo ']} ';
+
+
+//TESTS  Store all the tests in the tests array.
+$sql =
+    "SELECT tlkpCoreComponentTasks.CoreComponentID, 
+tlkpCoreComponentTasks.TaskID, tlkpCoreComponentTasks.TaskNumber, tlkpCoreComponentTasks.Task,
+tlkpTaskTests.TaskTestID, tlkpTaskTests.TaskTest, tblCadetClassEvents.* 
+FROM (( tlkpCoreComponent 
+INNER JOIN tlkpCoreComponentTasks ON tlkpCoreComponent.CoreComponentID = tlkpCoreComponentTasks.CoreComponentID) 
+INNER JOIN tlkpTaskTests ON tlkpCoreComponentTasks.TaskID = tlkpTaskTests.fkTaskID) 
+INNER JOIN tblCadetClassEvents ON tlkpTaskTests.TaskTestID =tblCadetClassEvents.fkTaskTestEventID 
+INNER JOIN tblClassDetails ON tblClassDetails.ClassDetailID = tblCadetClassEvents.fkClassDetailID 
+WHERE (( tblClassDetails.fkCadetID = '$cadetID') AND tlkpCoreComponentTasks.CoreComponentID = 4)";
+
+//sending the sql statement
+$result = $connection->runSelectQuery($sql);
+
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $tests[] = $row;
+    }
+}
+
+echo '{"taskTbl":' . (json_encode($tasks)) . ', "testTbl":' . (json_encode($tests)) . '}';
 
 ?>

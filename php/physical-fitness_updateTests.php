@@ -50,7 +50,7 @@ SET
   PTAward = '$PTAward',
   PTBodyFat = '$PTBodyFat',
   PTHeight = '$PTHeight',
-  PTWeight = '$PTHeight'
+  PTWeight = '$PTWeight'
 WHERE
    PTID = '$PTID' AND 
    fkClassDetailID= '$fkClassDetailID'";
