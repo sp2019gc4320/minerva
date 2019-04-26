@@ -48,10 +48,12 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
                 data: Object.toparams(params),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function (response) {
-                console.log(response);
+                alert(response.data);
                 $scope.loadCadetsIntoView();
-            });
-    }
+            }, function(error) {
+                alert(error);
+            }); 
+        }
         
     };
 });
