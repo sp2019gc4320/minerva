@@ -10,19 +10,16 @@ angular.module('admin.siteAddS2C').component('addS2C',{
             $scope.siteDescript;
             $scope.reportCode;
             $scope.siteStatus;
-            $scope.siteID;
 
 
             $scope.createS2C =function () {
              //by this point, all the above variables are updated through 'ng-bind'
                 var sendData=
                     {
-                        serviceSite: $scope.serviceSite,
-                        siteDescript: $scope.siteDescript,
-                        reportCode: $scope.reportCode,
-                        siteStatus: $scope.siteStatus,
-                        siteID: $scope.siteID
-                    };
+                        serviceSite:$scope.serviceSite;
+                        siteDescript:$scope.siteDescript;
+                        reportCode:$scope.reportCode;
+                        siteStatus:$scope.siteStatus;
 
                 $http ({
                     method: 'POST',

@@ -6,31 +6,17 @@
         <h4 style="font-family:sans-serif; color:darkslateblue;">General Information</h4>
         <table style="width:100%">
             <tr>
-                <!--
-                ServiceSite
-                ServiceSiteDesc
-                ReportingCode, not sure if we need this one or not
-                IsActive
-                fkSiteID
-
-                $serviceSite,
-                $siteDescript,
-                $reportCode,
-                $siteStatus,
-                $siteID
-                -->
                 <th>Site</th>
                 <th>Description</th>
                 <th>Report Code</th>
                 <th>Status</th>
-                <th>Site ID</th>
             </tr>
             <tr>
                 <td><input type="text" ng-model="serviceSite" required></td>
                 <td><input type="text" ng-model="siteDescript" ></td>
                 <td><input type="text" ng-model="reportCode" ></td>
-                <td><input type="text" ng-model="siteStatus" ></td>
-                <td><input type="text" ng-model="siteID"></td>
+                <td><input type="hidden" ng-model="siteStatus" value="0"></td>
+                <td><input type="checkbox" ng-model="siteStatus" value="1"></td>
             </tr>
         </table>
     </div>
