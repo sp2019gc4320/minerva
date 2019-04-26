@@ -5,20 +5,13 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
    // $window.localStorage.setItem("lookupTable",null);
     // Model for containing the Person to be added to tblPerson
     $scope.person = {};
-    $scope.applicant = {};
-
-
-    $scope.cadets = JSON.parse($window.localStorage.getItem("cadets"));
-    $scope.CadetID = $window.localStorage.getItem("CadetID");
-    $scope.CadetName = $window.localStorage.getItem("CadetName");
-    $scope.CadetGender = $window.localStorage.getItem("CadetGender");
-    $scope.CadetDOB = $window.localStorage.getItem("CadetDOB");
+    $scope.applicants = JSON.parse($window.localStorage.getItem("applicants"));
+    $scope.ApplicantID = $window.localStorage.getItem("ApplicantID");
+    $scope.ApplicantName = $window.localStorage.getItem("ApplicantName");
     
-    $scope.cadet = {
-        CadetID: $scope.CadetID,
-        CadetName: $scope.CadetName,
-        CadetGender: $scope.CadetGender,
-        CadetDOB: $scope.CadetDOB
+    $scope.applicant = {
+        ApplicantID: $scope.ApplicantID,
+        ApplicantName: $scope.ApplicantName
     };
 
     // Mailing address toggle
@@ -79,7 +72,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     // Set up options on load
     $http({
         method: "GET",
-        url: "./php/admin_createCadetFormOptions.php",
+        url: "./php/admin_createApplicantFormOptions.php",
         headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
     }).then(function(response) {
         var data = response.data;
@@ -119,7 +112,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
     /**
      * Calculates the age given a person's DOB in MM/DD/YYYY format. Used in the
-     * view to tell the person what age a cadet is.
+     * view to tell the person what age a Applicant is.
      *
      * - Parameters:
      *   - dateString: The string containing the person's birth date
@@ -155,7 +148,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     }
 
     /**
-     * Submits the form data to php/admin_createCadet.php
+     * Submits the form data to php/admin_createApplicant.php
      */
     $scope.submit = function() {
         $http({
@@ -176,7 +169,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             });
         var form = document.getElementById("newAppForm");
         form.reset();
-        alert($scope.applicant);
+
     }
     $scope.recruiterViews = [
         {view:'Add Applicant', url:'./recruiter/site-addapplicant/site-addapplicant.view.html'},
@@ -189,43 +182,31 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         $scope.updateDisplay = item.url
     };
 
-    //Mock Data used for testing ----------------------
-    $scope.fileData = {
-        Category: "Category",
-        CadetID:"208",
-        File: "testB.html",
-        Description:"Description of File"
-    };
-    $scope.fileData2 = {
-        Category: "Category2",
-        CadetID:"208",
-        File: "File2",
-        Description:"Description of File Two"
-    };
-
     $scope.selectedFile ="";
     $scope.file = angular.copy($scope.fileData);
     $scope.files = [];
+    alert($scope.file);
     $scope.files[0] = $scope.file;
     $scope.files[1] = angular.copy($scope.fileData2);
-    //Set Cadet ID to value stored in local storage
+    //Set Applicant ID to value stored in local storage
 
-    //TODO: Once this is changed to applicantID, send to backend in place of cadet
-    $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
+    //TODO: Once this is changed to applicantID, send to backend in place of Applicant
+    $scope.applicantID = JSON.parse($window.localStorage.getItem("ApplicantID"));
 
-    //Upload File - Specify CadetID, PATH and File
+    //Upload File - Specify ApplicantID, PATH and File
     $scope.uploadFile =  function(docType) {
         var currDirectory='mentorFiles';
 
         var myFile = "#"+docType;
         var myFile = document.querySelector(myFile);
 
-
+        alert($scope.ApplicantID);
         var formData = new FormData();
-        formData.append('CadetID',$scope.cadetID);
+        formData.append('ApplicantID',$scope.ApplicantID);
         formData.append('directory',currDirectory);
         formData.append('fileType',docType);
         formData.append('file', myFile.files[0]);
+        alert(formData.data);
         for (var key of formData.keys()) {
             console.log(key);
         }
@@ -239,10 +220,9 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             //success
             function (result) {
                 alert("File Uploaded!");
-                alert("success: " + JSON.stringify(result));
+
 
                 $scope.selectedFile = result.data;
-                $scope.showDirectory();
 
                 //Clear the name from the "Choose File" input element
                 var myFile = document.querySelector('#myFile');
@@ -255,41 +235,6 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         );
     };
 
-    // showDirectory -- Currently Lists all files in the mentorFiles -
-    // Will need to modify to only list files that match a criteria.  The directory should not be passed.
-    $scope.showDirectory = function () {
-        $scope.selectedFile ="";
-
-        var taskShowDirectory = $http({
-            method: 'GET',
-            url: './php/app_fileList.php',
-            params: { directory:'mentorFiles' }
-        });
-        taskShowDirectory.then(function (response) {
-
-            $scope.files =[];
-            var i=0;
-            var max = response.data.length;
-            while (i < max) {
-
-                if ( !(response.data[i].File == "." || response.data[i].File == "..")) {
-
-                    var option = {
-                        Category: "Category",
-                        CadetID: "208",
-                        File: "testB.html",
-                        DateAdded: "2017-04-27",
-                        Description: "Description of File"
-                    };
-                    option.File = response.data[i].name;
-
-                    var myFile = angular.copy(response.data[i]);
-                    $scope.files.push(myFile);
-                }
-                i++;
-            }
-        });
-    };
 
     //resource:
     //http://jaliyaudagedara.blogspot.com/2016/05/angularjs-download-files-by-sending.html
@@ -334,31 +279,12 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         });
     };
 
-    $scope.deleteFile = function(name){
-        var myFileObj = {file: name, directory:'mentorFiles'};
 
-        var taskDeleteFile = $http({
-            method: 'POST',
-            url: './php/files_delete.php',
-            data: Object.toparams(myFileObj),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(
-            //SUCESS
-            function(result){   //NOTE: the result needs to be checked to see if the file was deleted successfully
-                alert("File Deleted!");
-                $scope.showDirectory();
-            },
-            //ERROR
-            function(result){
-                alert("Error Deleting File." + JSON.stringify(result));
-            }
-        );
-    };
-
+    $scope.app = {AppID: $scope.ApplicantID};
     var taskListFile = $http({
         method: 'POST',
         url: './php/app_fileList.php',
-        data: '',
+        data: Object.toparams($scope.app),
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 
     });
@@ -366,24 +292,92 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         //Will use this statement once we have applicant ID functioning fully
         //var applicantID = $scope.applicantID
             function(result){
-                //alert("Success");
+
+
+                alert("Success");
+
                 $scope.fileList = result.data.data;
-                    console.log(JSON.stringify($scope.fileList));
-                    //alert(JSON.stringify($scope.fileList));
             },
             function(result){
                 alert("Failure");
             }
-
-
 );
 
 $scope.openFindApplicantView = function()
 {
-    $window.open('./utility/find-cadet/find-applicant-index.view.html', "_blank",
+    $window.open('./utility/find-applicant/find-applicant-index.view.html', "_blank",
         "toolbar=yes,scrollbars=yes,resizable=yes,top=500,left=300,height=300");
 
 };
-    
+
+    //To be in its own folder once controller is registered as applicantFindContoller
+    $scope.applicants = JSON.parse($window.localStorage.getItem("applicants"));
+    $scope.ApplicantID = $window.localStorage.getItem("ApplicantID");
+    $scope.ApplicantName = $window.localStorage.getItem("ApplicantName")
+   
+
+    $scope.applicant = {
+        ApplicantID: $scope.ApplicantID,
+        ApplicantName: $scope.ApplicantName
+    };
+
+
+    $scope.app = {AppID: $scope.ApplicantID};
+    var taskListFile = $http({
+        method: 'POST',
+        url: './php/app_fileList.php',
+        data: Object.toparams($scope.app),
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+
+    });
+    taskListFile.then(
+        //Will use this statement once we have applicant ID functioning fully
+        //var applicantID = $scope.applicantID
+        function(result){
+            $scope.fileList = result.data.data;
+
+            alert(JSON.stringify($scope.missingList));
+        },
+        function(result){
+            alert("Failure");
+        }
+    );
+
+    $(document).ready(function() {
+        $('#example').DataTable();
+    });
+    $scope.showDirectory = function () {
+        $scope.selectedFile ="";
+
+        var taskShowDirectory = $http({
+            method: 'GET',
+            url: './php/app_fileList.php',
+            params: { directory:'mentorFiles' }
+        });
+        taskShowDirectory.then(function (response) {
+
+            $scope.files =[];
+            var i=0;
+            var max = response.data.length;
+            while (i < max) {
+
+                if ( !(response.data[i].File == "." || response.data[i].File == "..")) {
+
+                    var option = {
+                        Category: "Category",
+                        CadetID: "208",
+                        File: "testB.html",
+                        DateAdded: "2017-04-27",
+                        Description: "Description of File"
+                    };
+                    option.File = response.data[i].name;
+
+                    var myFile = angular.copy(response.data[i]);
+                    $scope.files.push(myFile);
+                }
+                i++;
+            }
+        });
+    };
     $scope.showDirectory();
 });
