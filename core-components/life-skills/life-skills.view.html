@@ -34,8 +34,14 @@
                     <td>{{task.TaskNumber}}</td>
                     <td class="text-left">{{task.Task}}</td>
                     <!--editable fields for cadetClassEvents-->
-                    <td><input id="TaskDate" type="date" placeholder="MM/DD/YYYY" ng-model="task.EventDate"  ng-readonly="!editTasks"></td>
-                    <td><textarea name="PTTestNote" rows="1" c wrap="off" ng-model="task.EventNote"  ng-readonly="!editTasks"></textarea></td>
+                    <td><input id="EventDate" type="date" placeholder="MM/DD/YYYY" ng-model="task.EventDate"  ng-readonly="!editTasks"></td>
+                    <td>
+                        <!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
+                        <span ng-if="!hasTests(task)"><input name="EventNote" type="text"
+                                                             ng-model="task.EventNote" ng-readonly="!editTasks"></span>
+                        <span ng-if="hasTests(task)"> See Tests</span>
+                        <!-- <span ng-if="task.TaskNumber=='2(a)'"> See Tests</span> -->
+                    </td>
                     <td ng-if="task.DidPass == '1'" class="bg-success text-center">
                         <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
                                 ng-model="task.DidPass"  ng-disabled="!editTasks">
@@ -54,7 +60,7 @@
                 <tr>
                     <th colspan="5">TESTS
                         <button class="btn btnEdit" ng-click="makeTestsEditable()" ng-hide="editTests"> Edit</button>
-                        <button class="btn btnSave" ng-click="saveTestsUpdate(tests)" ng-show="editTests"> Save</button>
+                        <button class="btn btnSave" ng-click="saveTestsUpdate(tasks)" ng-show="editTests"> Save</button>
                         <button class="btn btnCancel" ng-click="cancelTestsUpdate()" ng-show="editTests"> Cancel</button>
                     </th>
                 </tr>
@@ -72,7 +78,7 @@
                     <td class="text-left">{{test.TaskTest}}</td>
                     <!--editable fields for cadetClassEvents-->
                     <td><input id="TestDate" type="date" placeholder="MM/DD/YYYY" ng-model="test.EventDate"  ng-readonly="!editTests"></td>
-                    <td><textarea name="EventNote" rows="1" c wrap="off" ng-model="test.EventNote"  ng-readonly="!editTests"></textarea></td>
+                    <td><input name="EventNote" type="text" ng-model="test.EventNote" ng-disabled="!editTests"></td>
                     <td ng-if="test.DidPass == '1'" class="bg-success text-center">
                         <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
                                 ng-model="test.DidPass"  ng-disabled="!editTests">

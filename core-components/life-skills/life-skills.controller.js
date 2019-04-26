@@ -1,12 +1,4 @@
-//File: job-skills.controller.js
-//This code is the controller for the job skills main view: job-skills.view.html
-//This code uses job-skills.view.html, job-skills_retrieveJobSkills.php,
-// job_skills_updateTasks.php, job-skills_updatejobTests.php job-skills_updateAsvab.php
-//  job-skills_createdASVAB.php
-//This will take the input of a cadetID via local storage
-//This code will output post requests and put data into the scope
-//This code takes jsons as input from retrieveJobSkills.php
-//This code also has an update function that is invoked in jsView.html
+
 
 angular.module('core-components.life-skills').controller('lifeSkillsController', function($scope, $http, $window) {
 
@@ -15,7 +7,7 @@ angular.module('core-components.life-skills').controller('lifeSkillsController',
 //Hardcoded in for now. Once a cadetID is stored in localStorage, switch the two statments below.
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
 
-    alert("Testing  with Cadet 7 - William Bowles to see sample data");
+
     //$scope.cadetID = "7"; //with data
     //alert("setting cadetID  for testing: " +$scope.cadetID);
 
@@ -43,7 +35,7 @@ angular.module('core-components.life-skills').controller('lifeSkillsController',
         for (var j=0; j<$scope.tasks.length; j++)
         {
             //Only send tasks that do not have tests associated with them
-            if($scope.tasks[j].fkTaskTestEventID == null) {
+            if($scope.tasks[j].fkTaskTestEventID != null) {
                 var sendData = angular.copy($scope.tasks[j]);
 
                 delete sendData.Task;
@@ -61,7 +53,30 @@ angular.module('core-components.life-skills').controller('lifeSkillsController',
                         //only show saved message after last task saved.
                         numSaved++;
                         if (numSaved === $scope.tasks.length)
-                            alert("Tasks Update");
+                            alert("Life Skills Tasks Updated!");
+                    }, function (result) {
+                        alert("Error saving tasks");
+                    });
+            }
+            else {
+                var sendData = angular.copy($scope.tasks[j]);
+
+                delete sendData.Task;
+                delete sendData.TaskNumber;
+                sendData.EventDate = convertToSqlDate(sendData.EventDate);
+
+                //send the json object to the correct update*.php file
+                $http({
+                    method: 'POST',
+                    url: "./php/life-skills_updateTasksByID.php",
+                    data: Object.toparams(sendData),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(
+                    function (response) {
+                        //only show saved message after last task saved.
+                        numSaved++;
+                        if (numSaved === $scope.tasks.length)
+                            alert("Life Skills Tasks Updated!");
                     }, function (result) {
                         alert("Error saving tasks");
                     });
@@ -97,27 +112,29 @@ angular.module('core-components.life-skills').controller('lifeSkillsController',
         //copy rows of Task table
         for (var j=0; j<$scope.tests.length; j++)
         {
-            var sendData = angular.copy($scope.tests[j]);
 
-            delete sendData.Task;
-            delete sendData.TaskNumber;
-            sendData.EventDate = convertToSqlDate(sendData.EventDate);
+                var sendData = angular.copy($scope.tests[j]);
 
-            //send the json object to the correct update*.php file
-            $http({
-                method: 'POST',
-                url: "./php/life-skills_updateTests.php",
-                data: Object.toparams(sendData),
-                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            }).then(
-                function (response) {
-                    //only show saved message after last task saved.
-                    numSaved++;
-                    if (numSaved === $scope.tests.length)
-                        alert("Life Skill Tests Updated");
-                }, function (result) {
-                    alert("Error saving tests.");
-                });
+                delete sendData.Task;
+                delete sendData.TaskNumber;
+                sendData.EventDate = convertToSqlDate(sendData.EventDate);
+
+                //send the json object to the correct update*.php file
+                $http({
+                    method: 'POST',
+                    url: "./php/life-skills_updateTests.php",
+                    data: Object.toparams(sendData),
+                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                }).then(
+                    function (response) {
+                        //only show saved message after last task saved.
+                        numSaved++;
+                        if (numSaved === $scope.tests.length)
+                            alert("Life Skill Tests Updated!");
+                    }, function (result) {
+                        alert("Error saving tests.");
+                    });
+
         }
 
     };
