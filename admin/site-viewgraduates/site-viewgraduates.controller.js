@@ -9,7 +9,7 @@ angular.module('admin.siteViewGraduates').controller('viewGraduates',  function(
         url: './php/site-viewgraduates.php',
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
     }).then(function (response) {
-        $scope.graduates = response.data.data;
+        $scope.graduates = response.data.cadetTable;
     });
     $scope.printToCart = function(printSectionId) {
         var innerContents = document.getElementById(printSectionId).innerHTML;
@@ -33,4 +33,28 @@ angular.module('admin.siteViewGraduates').controller('viewGraduates',  function(
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     }
+    $scope.update = function(id){
+        var cadetStatus = (document).getElementById(id+"").value;
+        if(cadetStatus == "Graduate")
+        {
+            alert("Graduate is already Graduate");
+        }
+        else
+        {
+            var params = {"fkCadetID":id ,"cadetStatus": "Enrolled"};
+
+            console.log(params);
+            $http({
+                method: 'POST',
+                url: './php/admin_cadetGraduateChange.php',
+                data: Object.toparams(params),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (response) {
+                console.log(response);
+                alert(response.data);
+                document.location.reload();
+            });
+    }
+        
+    };
 });

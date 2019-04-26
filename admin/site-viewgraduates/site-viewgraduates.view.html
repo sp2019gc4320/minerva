@@ -40,12 +40,13 @@
             <td>{{x.fkCadetID}}</td>
             <td>
                 <div class = "input-group-append">
-                    <select class = "custom-select" id ="{{}}">
-                        <option selected>Graduate</option>
-                        <option>Cadet</option>
-                    </select>
-                    <button class="btn btn-primary">Update</button>
-                </div>
+                <select class = "custom-select" id ="{{x.fkCadetID}}">
+                    <option selected>Graduate</option>
+                    <option>Cadet</option>
+                </select>
+                <button class="btn btn-primary" ng-click = "update(x.fkCadetID)">Update</button>
+             </div>
+
             </td>
         </tr>
     </table>

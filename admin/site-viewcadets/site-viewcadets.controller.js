@@ -42,33 +42,29 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
             $scope.cadets = response.data.cadetTable;
         });
     }*/
-    $scope.update = function(name){
-       // var cadetStatus = (document).getElementById(id+"").value;
-       // var params = {"cadetid":id, "firstname":firstname, "lasttname":lastname,"classid":classid, "rosternumber":rosternum, "cadetstatus": cadetStatus};
-        var index = 0;
-        var arr = eval( $scope.cadets );
-        for( var i = 0; i < arr.length; i++ ) {
-            if( arr[i].PersonFN === name ) {
-                index = i;
-                break;
-            }
+    $scope.update = function(id){
+        var cadetStatus = (document).getElementById(id+"").value;
+        if(cadetStatus == "Cadet")
+        {
+            alert("Cadet is already Cadet");
         }
-        if( index === -1 ) {
-            alert( "error" );
-        }
-        $scope.cadets.splice( index, 1 );
-        alert("Status = Graduate.");
+        else
+        {
+            var params = {"fkCadetID":id ,"cadetStatus":cadetStatus};
 
-       /* $http({
-            method: 'POST',
-            url: './php/site-updatetograduates.php',
-            data: Object.toparams(params),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function (response) {
-            console.log(response.data);
-            $scope.cadets = response.data.cadetTable;
-        });
-        */
+            console.log(params);
+            $http({
+                method: 'POST',
+                url: './php/admin_cadetGraduateChange.php',
+                data: Object.toparams(params),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (response) {
+                console.log(response);
+                alert(response.data);
+                document.location.reload();
+            });
+    }
+        
     };
 });
 
