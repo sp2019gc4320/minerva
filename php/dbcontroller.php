@@ -4,14 +4,16 @@
 //
 class DBController {
 
+
      ///Needs to be changed based on hosting conditions.
 	private $host = "localhost";
 	private $user = "root";
 	private $password = "";
 	private $database = "minerva";
-	private $conn; 
+	private $conn;
 
-    /*
+
+/*
 	private $host = "localhost";
 	private $user = "s93gccodec";
 	private $password = "CSCI4320_A";
