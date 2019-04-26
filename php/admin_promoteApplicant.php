@@ -93,6 +93,7 @@ foreach($applicants as $i) {
                 $class_detail_data = array(
                     "fkClassID" => 1, // TEMPORARY VALUE
                     "fkCadetID" => $cadet_id,
+                    "CadetStatus" => "Enrolled",
                     "CadetRosterNumber" => 1 // TEMPORARY VALUE
                 );
                 $class_detail_insert_query = create_insertion_string("tblClassDetails", $class_detail_data);
