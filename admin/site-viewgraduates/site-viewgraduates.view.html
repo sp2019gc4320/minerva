@@ -1,0 +1,59 @@
+<!--site-viewgraduates.html-->
+<!--view page for Admin  tab-->
+<!-- Programmer: Lauren Alibey -->
+<!-- This code shares a scope with site.viewgraduates.controller.js -->
+<!--load app.controller from ViewGraduatesController.js-->
+
+<div ng-controller = "viewGraduates">
+    <div id = "print">
+    <div class = "row">
+        <div class="dropdown">
+            <button class="btn btn-primary" ng-click="printToCart('print')">Print Current Roster</button>
+            <label >Search</label><input type="text" ng-model="search" placeholder="Search">
+        </div>
+    </div> <!-- row-->
+    <table class="table minerva-table">
+        <thead>
+        <tr>
+            <th>Graduates</th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tr>
+            <th ng-click="sort('PersonFN')">First Name</th>
+            <th ng-click="sort('PersonLN')">Last Name</th>
+            <th ng-click="sort('fkClassID')">Class ID</th>
+            <th ng-click="sort('CadetRosterNumber')">Roster Number</th>
+            <th ng-click="sort('CadetID')">Cadet ID</th>
+            <th>Status</th>
+
+        </tr>
+        <tr dir-paginate="x in graduates|orderBy:sortKey:reverse|filter:search|itemsPerPage:15">
+            <td>{{x.PersonFN}}</td>
+            <td>{{x.PersonLN}}</td>
+            <td> {{x.fkClassID}}</td>
+            <td>{{x.CadetRosterNumber}}</td>
+            <td>{{x.fkCadetID}}</td>
+            <td>
+                <div class = "input-group-append">
+                <select class = "custom-select" id ="{{x.fkCadetID}}">
+                    <option selected>Graduate</option>
+                    <option>Cadet</option>
+                </select>
+                <button class="btn btn-primary" ng-click = "update(x.fkCadetID)">Update</button>
+             </div>
+
+            </td>
+        </tr>
+    </table>
+    </div>
+    <dir-pagination-controls
+            max-size="60"
+            direction-links="true"
+            boundary-links="true" >
+    </dir-pagination-controls>
+</div>
