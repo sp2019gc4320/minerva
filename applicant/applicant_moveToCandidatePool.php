@@ -13,13 +13,11 @@ function moveToCandidatepool($value, $dumpy)
     $result = $connection->connectDB();
     if (!$connection) die("Unable to connect to the database!");
 
-    //TODO function needs to add candidate to candidate then delete from table
-
 
     $sqlAdd = "INSERT INTO tblCandidatePool (applicantID, fName, lName) VALUES ('" . $dumpy['applicantID'] . "','" . $dumpy['fName'] . "','" . $dumpy['lName'] . "')";    //,".$dumpy['PGender'].",".$dumpy['AStatus'].",".$dumpy['AGenQual'].",".$dumpy['AEmail'].",".$dumpy['guardianEmail']."
 
     //delete candidate from applicant once it has been moved to Candidate Pool
-    //$sqlDelete = "DELETE FROM tblApplicants WHERE applicantID = ".$value;
+    $sqlDelete = "DELETE FROM tblApplicants WHERE applicantID = ".$value;
 
 
     //throws an error if you need it
@@ -32,9 +30,6 @@ function moveToCandidatepool($value, $dumpy)
 
     mysqli_query($result, $sqlAdd);
 
-    //var dump is used to test
-    //var_dump($sqlAdd);
-
     //DANGER DELETES FROM DATABASE
-    //mysqli_query($result, $sqlDelete);
+    mysqli_query($result, $sqlDelete);
 }

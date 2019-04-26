@@ -96,8 +96,6 @@
             $checked_arr = explode(",", $fetch_result['applicantID']);
         }
 
-        //this should post all selected values as an alert
-        //TODO once this function works it will change from an alert to updating selected rows to Deadpool
 
         if(isset($_POST['submitDead'])){
             if(!empty($_POST['id'])){
@@ -147,29 +145,19 @@
                     $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID = $value");
                     $dumpy = mysqli_fetch_assoc($sql);
 
-                    //moveToDeadpool($value, $dumpy);
                     moveToCandidatepool($value, $dumpy);
 
-                    //test dumping values
-                    //var_dump($dumpy['AStatus']);
                 }
 
                 //INSERT and UPDATE database
                 //$checkEntries = mysqli_query($result, "SELECT * FROM tblApplicants");
-
-                //TODO IF the database is empty then inserts
-                //if(mysqli_num_rows($checkEntries)==0){mysqli_query($result, "INSERT INTO tblApplicants")};
-
             }
         }
 
-        //if(isset($_GET['alert'])){
-        //  post_alert();
-        //}
                             ?>
                     </tbody>
                 </table>
-                <!--</form>-->
+                </form>
             </div>
                 <!-- submit button is just used for testing-->
                 <!--<button type="submit" value="Submit" name="submit">submit</button>-->
