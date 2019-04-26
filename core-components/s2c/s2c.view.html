@@ -2,53 +2,58 @@
    used with s2c.controller
  -->
 
- <div class="well container infoContainer " id="stcContainer">
-	<h1>Service to Community</h1>
-	<!--load app.controller from healthHygCtrl.js-->
+<div class="well container infoContainer" id="jscontainer">
+	<h3>Service to Community</h3>
+	<!--load app.controller from JobSkillsCtrl.js-->
+
 	<div ng-controller="s2cController">
-	<table class="table minerva-table">
-		<thead>
-			<tr>
-				<th colspan="5">TASKS </th>
-			</tr>
-		</thead>
-		<tr>
-			<th>Task</th>
-			<th>Description</th>
-			<th>Last Activity</th>
-			<th>Pass/Fail</th>
-			<th>Note</th>
-		</tr> 
-		<!--iterate through each instance in scope from controller-->
-		<tr ng-repeat="task in tasks" class="error"> 
-			<td>{{task.TaskNumber}}</td>
-			<td>{{task.Task}}</td>
-			<td>{{task.EventDate}}</td>
-			<td>{{task.DidPass}}</td>
-			<td>{{task.EventNote}}</td>
-		</tr>
-	</table>
-	<table class="table minerva-table">
-		<thead>
-			<tr>
-				<th colspan="5">TESTS </th>
-			</tr>
-		</thead>
-		<tr>
-			<th>Test</th>
-			<th>Last Activity</th>
-			<th>Pass/Fail</th>
-			<th>Score</th>
-			<th>Note</th>
-		</tr> 
-		<!--iterate through each instance in scope from controller-->
-		<tr ng-repeat="test in tests" class="error"> 
-			<td>{{test.TaskTest}}</td>
-			<td>{{test.EventDate}}</td>
-			<td>{{test.DidPass}}<input type="checkbox" ng-true-value="1" ng-false-value="0"></td>
-			<td>{{test.TestScore}}</td>
-			<td>{{test.EventNote}}</td>
-		</tr>
-	</table>
+		<!--name form for two way binding-->
+		<form name="LifeSkillsForm">
+			<table class="table minerva-table" id = "LifeSkillsTaskTable">
+				<thead>
+				<tr>
+					<th colspan="5">TASKS
+						<button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
+						<button class="btn btnSave" ng-click="saveTasksUpdate(tasks)"ng-show="editTasks"> Save</button>
+						<button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
+					</th>
+				</tr>
+				</thead>
+				<tr>
+					<th>Tasks</th>
+					<th>Description</th>
+					<th>Last Activity</th>
+					<th>Note</th>
+					<th>Completion</th>
+				</tr>
+				<!--iterate through each instance in scope from controller-->
+				<tr ng-repeat="task in tasks">
+					<td>{{task.TaskNumber}}</td>
+					<td class="text-left">{{task.Task}}</td>
+					<!--editable fields for cadetClassEvents-->
+					<td><input id="EventDate" type="date" placeholder="MM/DD/YYYY" ng-model="task.EventDate"  ng-readonly="!editTasks"></td>
+					<td>
+						<!--Task 2(a) can only be updated from the second table, otherwise funky wierd stuff happens -->
+						<span ng-if="!hasTests(task)"><input name="EventNote" type="text"
+															 ng-model="task.EventNote" ng-readonly="!editTasks"></span>
+						<span ng-if="hasTests(task)"> See Tests</span>
+						<!-- <span ng-if="task.TaskNumber=='2(a)'"> See Tests</span> -->
+					</td>
+					<td ng-if="task.DidPass == '1'" class="bg-success text-center">
+						<input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+								ng-model="task.DidPass"  ng-disabled="!editTasks">
+					</td>
+
+					<td ng-if="task.DidPass == '0'" class="bg-danger text-center">
+						<input  type="checkbox" ng-model="task.DidPass"
+								ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTasks">
+					</td>
+					<!--<td><button ng-click="showTest(task.taskNumber)"  ng-show = "(task.taskNumber == '2(a)' || task.taskNumber == '2(b)' || task.taskNumber == '2(c)')">Show Tests</button></td>-->
+				</tr>
+			</table>
+		</form>
+
+
 	</div>
+
 </div>
