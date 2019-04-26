@@ -7,6 +7,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
 
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
     var cadet = {CadetID: $scope.cadetID};
+    $scope.showAllB=true;
 
 
     //1. Get Cadet's PostRes sql
@@ -295,6 +296,11 @@ angular.module('notes.postres').controller('postresController', function($scope,
 
        $scope.current.dateRange = dateRange;
     };
+
+    $scope.monthFilter = function(item) {
+      var status = (item.ContactPlacementMonth === $scope.currentIndex+1);
+      return (item.ContactPlacementMonth == $scope.currentIndex+1);
+    }
 
     $scope.copyPreviousMonth = function(index)
     {
@@ -909,7 +915,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
         }
         for (var j = 0; j < copies.length; j++) {
             var sendData = angular.copy(copies[j]);
-            sendData.tbl = 'Report';
+            sendData.tbl = 'Education';
 
             //Convert all Dates to sql format
             for (var fieldName in sendData) {
@@ -1120,7 +1126,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
         }
         for (var j = 0; j < copies.length; j++) {
             var sendData = angular.copy(copies[j]);
-            sendData.tbl = 'Report';
+            sendData.tbl = 'Employment';
 
             //Convert all Dates to sql format
             for (var fieldName in sendData) {
@@ -1227,11 +1233,11 @@ angular.module('notes.postres').controller('postresController', function($scope,
                     $scope.updatedReportType = true;
                 }
 
-                if(sendData.PREmpWageRate.PREmpWageRate != undefined) {
-
-                    sendData.PREmpWageRate = sendData.PREmpWageRate.PREmpWageRate;
-                    $scope.updatedReportType = true;
-                }
+                // if(sendData.PREmpWageRate.PREmpWageRate != undefined) {
+                //
+                //     sendData.PREmpWageRate = sendData.PREmpWageRate.PREmpWageRate;
+                //     $scope.updatedReportType = true;
+                // }
             }
 
             //send the json object along with specified table to  update*.php file
@@ -1331,7 +1337,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
         }
         for (var j = 0; j < copies.length; j++) {
             var sendData = angular.copy(copies[j]);
-            sendData.tbl = 'Report';
+            sendData.tbl = 'Military';
 
             //Convert all Dates to sql format
             for (var fieldName in sendData) {
@@ -1518,7 +1524,7 @@ angular.module('notes.postres').controller('postresController', function($scope,
         }
         for (var j = 0; j < copies.length; j++) {
             var sendData = angular.copy(copies[j]);
-            sendData.tbl = 'Report';
+            sendData.tbl = 'Misc';
 
             //Convert all Dates to sql format
             for (var fieldName in sendData) {
@@ -1548,14 +1554,12 @@ angular.module('notes.postres').controller('postresController', function($scope,
                 });
         }
     };
-
     //saves selection from MentorContactNoteType dropdown
     $scope.changeMentorContactNoteType = function (MentorContactType) {
         if (MentorContactType != null) {
             $scope.contact.MentorContactType.value = MentorContactType.MentorContactType;
         }
     };
-
 
     //saves selection from ContactPlacementMonth dropdown
     $scope.changeContactPlacementMonth = function (ContactPlacementMonth) {
