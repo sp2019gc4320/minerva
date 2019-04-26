@@ -55,7 +55,11 @@ function listPending () {
         "Candidate Application Document Form"=>"5", "Medical History Form"=>"6", "Copy of Birth Certificate"=>"7", "Legal History Form"=>"8", "Mentor Application"=>"9", "Copy of Social Security Card"=>"10",
         "Government Issued ID"=>"11", "Mental Health Information Form"=>"12");
 
-
+    /*while ($row = mysqli_fetch_array($query)) {
+        if() {
+            
+        }
+    }*/
 
     while ($row = mysqli_fetch_array($query)) {
 
