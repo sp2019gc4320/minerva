@@ -14,7 +14,7 @@ require_once 'dbcontroller.php';
 $connection = new DBController();
 
 //A "cadetID" should be sent when calling this php file -- store this value in $curCadetID
-$cadetID = $_POST['cadet'];
+$cadetID = $connection->sanitize($_POST['cadet']);
 //$cadetID = '361';
 
 $sql = "SELECT tlkpCoreComponentTasks.TaskNumber, tlkpCoreComponentTasks.Task, tblCadetClassEvents.EventDate, tblCadetClassEvents.DidPass, tblCadetClassEvents.EventNote, tblClassDetails.fkCadetID, tblCadetClassEvents.fkTaskID
@@ -36,7 +36,7 @@ if ($result->num_rows > 0)
         	echo ",";
       
       	//format output as an object -- specify each field along with its value
-        echo '{"TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "EventDate":"' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "EventNote":"' . $row["EventNote"]. '", "fkCadetID":"' . $row["fkCadetID"]. '", "fkTaskID":"' . $row["fkTaskID"]. '"}';
+        echo '{"TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "EventDate":"' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "EventNote":"' . urldecode($row["EventNote"]). '", "fkCadetID":"' . $row["fkCadetID"]. '", "fkTaskID":"' . $row["fkTaskID"]. '"}';
        
         $count = $count+1;
     }

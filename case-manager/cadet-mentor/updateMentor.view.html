@@ -68,7 +68,21 @@
                                             <option value="Other">Other</option>
                                         </select></td>
                                     <td>{{myMentor.MPStatus}}</td>
-                                    <td><textarea  type="text" rows="2" cols="60"  class="" size="45" ng-model="myMentor.MPStatusNote"></textarea></td>
+                                    <td><textarea  type="text" rows="2" cols="60"  class="" size="45" ng-model="myMentor.MPStatusNote" data-toggle="modal" data-target="#statusNote{{$index}}"></textarea>
+                                        <!-- dive to pop up textarea when clicked -->
+                                        <div class="modal fade" id="statusNote{{$index}}" role="dialog">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                        <h6>Note</h6>
+                                                        <div class="modal-body">
+                                                            <textarea ng-model="myMentor.MPStatusNote"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                    </td>
                                     <td></td>
                                 </tr>
                                 </tbody>
@@ -289,11 +303,26 @@
                             </td>
                             <td  valign="top"><label>Training:</label> <input ng-class="taskComplete(mentor.MTrainedDate1)" type="date" name="MTrainedDate1" ng-model="mentor.MTrainedDate1"></td>
                             <td  valign="top"><label>Match Note:</label><div>
-                                <textarea class="" name="MMatchNote" ng-model="mentor.MMatchNote" rows = "5" cols="20"></textarea></div>
+                                <textarea class="" name="MMatchNote" ng-model="mentor.MMatchNote" rows = "5" cols="20" data-toggle="modal" data-target="#matchModal"></textarea><
                                 <div> Match Week: <input name="MatchWeek" class="" ng-model="mentor.MatchWeek" readonly /></div>
                                 <hr>
                                 <div><label>Mentee Trained:</label>
                                     <input ng-class="taskComplete(mentor.MenteeTrainingDate)" type="date" name="MenteeTrainingDate" ng-model="mentor.MenteeTrainingDate" > </div>
+                                <!-- dive to pop up textarea when clicked -->
+                                <div class="modal fade" id="matchModal" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h6>Note</h6>
+                                                <div class="modal-body">
+                                                    <textarea ng-model="mentor.MMatchNote"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </td>
                         </tr>
                         <tr>
@@ -415,7 +444,22 @@
                                 <option value="PRAP Review">PRAP Review</option>
                             </select>
                             </td>
-                            <td>  <textarea class="" name="ApptNote" ng-model="appt.ApptNote" rows = "3" cols="100"></textarea>
+                            <td>  <textarea class="" name="ApptNote" ng-model="appt.ApptNote" rows = "3" cols="100" data-toggle="modal" data-target="#appt{{$index}}"></textarea>
+                                <!-- dive to pop up textarea when clicked -->
+                                <div class="modal fade" id="appt{{$index}}" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h6>Note</h6>
+                                                <div class="modal-body">
+                                                    <textarea ng-model="appt.ApptNote"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
                             </td>
                             <td>
                             <button class=" btn btnDelete" ng-click="deleteAppt($index)">Delete</button></td>
@@ -475,12 +519,28 @@
                         <tr>
                             <td> TERMINATED </td>
                             <td> <input type="date"  name="MPTermDate" ng-model="mentor.MPTermDate"> </td>
-                            <td> <textarea type="text" class="" name="MPTermNote" rows="2" cols="100" ng-model="mentor.MPTermNote"> </textarea></td>
+                            <td> <textarea type="text" class="" name="MPTermNote" rows="2" cols="100" ng-model="mentor.MPTermNote"></textarea>
+                            </td>
                         </tr>
                         <tr>
                             <td> FAILED MATCH </td>
                             <td> <input type="date"  name="FailedDate" ng-model="mentor.FailedDate"> </td>
-                            <td> <textarea type="text" class="" rows="2" cols="100" name="FailedReason"ng-model="mentor.FailedReason"> </textarea></td>
+                            <td> <textarea type="text" class="" rows="2" cols="100" name="FailedReason"ng-model="mentor.FailedReason" data-toggle="modal" data-target="#endMatch{{$index}}"> </textarea>
+                                <!-- dive to pop up textarea when clicked -->
+                                <div class="modal fade" id="endMatch{{$index}}" role="dialog">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                <h6>Note</h6>
+                                                <div class="modal-body">
+                                                    <textarea ng-model="mentor.FailedReason"></textarea>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </td>
                         </tr>
                         <tr>
                             <td> COMPLETED </td>
@@ -514,7 +574,22 @@
                             <tr>
                                 <td> FAILED MATCH </td>
                                 <td> <input  disabled type="date"  name="FailedDate" ng-model="mentor.FailedDate"></td>
-                                <td> <textarea disabled type="text" class="" rows="2" cols="100" name="FailedReason"ng-model="mentor.FailedReason"> </textarea></td>
+                                <td> <textarea disabled type="text" class="" rows="2" cols="100" name="FailedReason"ng-model="mentor.FailedReason" data-toggle="modal" data-target="#failedModal"></textarea>
+                                    <!-- dive to pop up textarea when clicked -->
+                                    <div class="modal fade" id="failedModal" role="dialog">
+                                        <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                    <h6>Note</h6>
+                                                    <div class="modal-body">
+                                                        <textarea ng-model="mentor.FailedReason"></textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <td> COMPLETED </td>

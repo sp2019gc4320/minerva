@@ -21,19 +21,19 @@ $SearchValue = "3";
 
 //replace defaults with values passed as POST parameter
 if (isset($_POST['TableName'])) {
-    $TableName = filter_input(INPUT_POST, 'TableName');
+    $TableName = filter_input(INPUT_POST, 'TableName', FILTER_SANITIZE_STRING);
 }
 if (isset($_POST['SiteID'])) {
-    $SiteID = filter_input(INPUT_POST, 'SiteID');
+    $SiteID = filter_input(INPUT_POST, 'SiteID', FILTER_SANITIZE_NUMBER_INT);
 }
 if (isset($_POST['SearchField'])) {
-    $SearchField = filter_input(INPUT_POST, 'SearchField');
+    $SearchField = filter_input(INPUT_POST, 'SearchField', FILTER_SANITIZE_STRING);
 }
 if (isset($_POST['op'])) {
-    $op = filter_input(INPUT_POST, 'op');
+    $op = filter_input(INPUT_POST, 'op', FILTER_SANITIZE_STRING);
 }
 if (isset($_POST['SearchValue'])) {
-    $SearchValue = filter_input(INPUT_POST, 'SearchValue');
+    $SearchValue = filter_input(INPUT_POST, 'SearchValue', FILTER_SANITIZE_NUMBER_INT);
 }
 
 
@@ -55,7 +55,7 @@ else if ($op == "Update") {
 
             //check to see if there is a post value
             if (isset($_POST[$fieldName])) {
-                $fieldValue = filter_input(INPUT_POST, $fieldName);
+                $fieldValue = filter_input(INPUT_POST, $fieldName, FILTER_SANITIZE_STRING);
                 $sanitizedFieldValue = $connection->sanitize($fieldValue);
                 $sql = "UPDATE $TableName  set $fieldName = '$sanitizedFieldValue' WHERE $SearchField = '$SearchValue'";
                 $connection->runQuery($sql);

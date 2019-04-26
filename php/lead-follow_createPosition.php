@@ -21,22 +21,23 @@ $PosEndDate="";
 //then if isset to something, reset to the value passed in
 
 if (isset($_POST['JBPosition'])) {
-    $JBPosition= $_POST['JBPosition'];
+    $JBPosition= filter_input(INPUT_POST, "JBPosition", FILTER_SANITIZE_STRING);
 }
 if (isset($_POST['PosDidFail'])) {
-    $PosDidFail= $_POST['PosDidFail'];
+    $PosDidFail= $conn->sanitize($_POST['PosDidFail']);
 }
 if (isset($_POST['fkClassDetailID'])) {
-    $fkClassDetailID= $_POST['fkClassDetailID'];
+    $fkClassDetailID= filter_input(INPUT_POST, "fkClassDetailID", FILTER_SANITIZE_NUMBER_INT);
 }
 if (isset($_POST['PosNote'])) {
-    $PosNote= $_POST['PosNote'];
+    $PosNote= $conn->sanitize($_POST['PosNote']);
+    $PosNote=filter_var($PosNote, FILTER_SANITIZE_ENCODED);
 }
 if (isset($_POST['PosStartDate'])) {
-    $PosStartDate= $_POST['PosStartDate'];
+    $PosStartDate= $conn->getRightFormat($conn->sanitize($_POST['PosStartDate']));
 }
 if (isset($_POST['PosEndDate'])) {
-    $PosEndDate= $_POST['PosEndDate'];
+    $PosEndDate= $conn->getRightFormat($conn->sanitize($_POST['PosEndDate']));
 }
 
 $sql = "INSERT INTO tblJBPositions(fkClassDetailID,JBPosition,PosStartDate,PosEndDate,PosNote,PosDidFail) 

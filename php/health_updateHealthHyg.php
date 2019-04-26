@@ -13,7 +13,7 @@ require_once 'dbcontroller.php';
 $conn = new DBController();
 
 //A "cadetID" should be sent when calling this php file -- store this value in $curCadetID
-$fkCadetID = $_POST['fkCadetID'];
+$fkCadetID = $conn->sanitize($_POST['fkCadetID']);
 if ($_POST["EventDate"!=""]) {
     $valid = strtotime($_POST["EventDate"]);
     $valid = date('Y-m-d', $valid);//off by one (gets fixed when retrieving in the js)
@@ -22,9 +22,12 @@ if ($_POST["EventDate"!=""]) {
 else{
     $EventDate=$_POST["EventDate"];
 }
-$DidPass= $_POST['DidPass'];
-$EventNote= $_POST['EventNote'];
-$fkTaskID= $_POST['fkTaskID'];
+$DidPass= $conn->sanitize($_POST['DidPass']);
+
+$EventNote= $conn->sanitize($_POST['EventNote']);
+$EventNote=filter_var($EventNote, FILTER_SANITIZE_ENCODED);
+
+$fkTaskID= $conn->sanitize($_POST['fkTaskID']);
 
 
 
