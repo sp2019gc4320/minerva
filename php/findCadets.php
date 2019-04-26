@@ -3,11 +3,7 @@
 // echos a JSON  array with all records in Site Table
 //
 
-
-
-
 require_once 'dbcontroller.php';
-
 
 function makeObject($row, $fieldNames)
 {
@@ -68,7 +64,6 @@ while ($index < count($criteria)) {
     ++$index;
 }
 
-
 //Create connection
 $connection = new DBController();
 
@@ -78,12 +73,9 @@ echo '{ "data":[';
 //Create Field List
 
 //Edit PGender, PDOB added to fields and first sql statement, this gets the gender and dob from the database to be used in the citizenship tab
-$fields = "PersonFN, PersonLN, fkClassID, CadetRosterNumber, fkCadetID, fkMentorID, PGender, PDOB, fkSiteID";
-$sql = "SELECT tblPeople.PersonID, tblPeople.PersonFN, tblPeople.PersonLN, tblPeople.PGender, tblPeople.PDOB,
-               tblClasses.fkSiteID, tblClasses.SiteClassNumber,
-               tblClassDetails.fkCadetID, tblClassDetails.ClassDetailID, tblClassDetails.fkClassID,
-               tblClassDetails.CadetRosterNumber, tblMentorPotential.fkMentorID ";
-$sql =  $sql." FROM tblMentorPotential RIGHT JOIN (tblPeople INNER JOIN (tblCadets INNER JOIN (tblClassDetails INNER JOIN tblClasses ON tblClassDetails.fkClassID = tblClasses.ClassID) ON tblCadets.CadetID = tblClassDetails.fkCadetID) ON tblPeople.PersonID = tblCadets.fkPersonID) ON tblMentorPotential.fkClassDetailID = tblClassDetails.ClassDetailID
+$fields = "PersonFN, PersonLN, fkClassID, CadetRosterNumber, fkCadetID, fkMentorID, PGender, PDOB, fkSiteID, ApplicantID";
+$sql = "SELECT *";
+$sql =  $sql." FROM tblApplicants, tblMentorPotential RIGHT JOIN (tblPeople INNER JOIN (tblCadets INNER JOIN (tblClassDetails INNER JOIN tblClasses ON tblClassDetails.fkClassID = tblClasses.ClassID) ON tblCadets.CadetID = tblClassDetails.fkCadetID) ON tblPeople.PersonID = tblCadets.fkPersonID) ON tblMentorPotential.fkClassDetailID = tblClassDetails.ClassDetailID
                $whereClause";
 
 $result = $connection->runSelectQuery($sql);
@@ -96,7 +88,6 @@ if ($result->num_rows > 0)
     //Create JSON object
     while($row = $result->fetch_assoc()) {
 
-
         //display comma
         if ($count >0 )
             echo ",";
@@ -105,14 +96,7 @@ if ($result->num_rows > 0)
 
          $count = $count+1;
     }
-
-
 }
 
 echo '] }';
 ?>
-
-
-
-
-

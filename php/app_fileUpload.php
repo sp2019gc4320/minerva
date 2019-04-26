@@ -6,18 +6,13 @@
 require_once 'dbcontroller.php';
 $conn = new DBController();
 $directory= "datas";
-if(isset($_POST['directory'])){
+//if(isset($_POST['directory'])){
     $directory = filter_input(INPUT_POST, 'directory');
-}
+//}
 
-$CadetID="gita";
-if(isset($_POST['CadetID'])){
-    $CadetID = filter_input(INPUT_POST, 'CadetID');
-}
+$ApplicantID = $_POST['ApplicantID'];
 
-
-if(isset($_FILES['file'])){
-
+/*
     //echo 'Yay! File was received by server!';0
     $fileName = $_FILES['file']['name'];
     $fileSize = $_FILES['file']['size'];
@@ -25,28 +20,21 @@ if(isset($_FILES['file'])){
     $fileType = $_POST['fileType'];
     $fileExtension = strtolower(end(explode('.', $_FILES['file']['name'])));
 
-    // print_r($_FILES);
-    $nameForDatabase=$CadetID.$fileName;
+     print_r($_FILES);
+    $nameForDatabase=$ApplicantID.$fileName;
     //now move file to new location
     // move_uploaded_file($fileTmpName, "../datas/gita".$fileName);
 
 
 
-    move_uploaded_file($fileTmpName,  "../". $directory. "/". $CadetID .$fileName);
-    $aPath="../". $directory. "/". $CadetID .$fileName;
+    move_uploaded_file($fileTmpName,  "../". $directory. "/". $ApplicantID .$fileName);
+    $aPath="". $directory. "/". $ApplicantID .$fileName;
+*/
     $currentDate=date("Y-m-d");
 
-    //TODO: Assign unique documentID to each document in tableappdocs.
-    //TODO: Once applicantID's can be created, will change query. IN meantime, using cadetID for testing purposes.
-
     //SQL for inserting new file into the database.
-    $sql= "INSERT INTO `tblappdocs` (`dateUploaded`, `applicantID`, `docType`, `note`, `filePath`)
- VALUES ('$currentDate', '$CadetID', '$fileType', 'Testing123', '$aPath');";
+    $sql= "INSERT INTO `tblAppDocs` (`dateUploaded`, `applicantID`, `docType`, `note`, `filePath`) VALUES ('$currentDate', '$ApplicantID', 'BirthCertificate', 'Testing123', 'yoo/yoo');";
     $result = $conn->runQuery($sql);
 
-}
-else
-{
-    echo 'no $_FILES object was detected';
-}
+
 ?>
