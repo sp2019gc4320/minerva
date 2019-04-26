@@ -21,6 +21,10 @@
             border-collapse: separate;
             border-spacing: 0 30px;
         }
+        .gfg2 {
+            border-collapse: separate;
+            border-spacing: 0 50px;
+        }
         #main {
             width: 650px;
         }
@@ -57,78 +61,15 @@
         <th style="width:30%"> </th>
         <th style="width:30%"></th>
     </tr>
-    <tr>
-        <td style="padding:0 60px">Legal History Form</td>
-        <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
-        <td>PDF file here</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">School Behavioral & Attendance Record </td>
-        <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
-        <td>PDF file here</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">Medical Insurance Form</td>
-        <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
-        <td>PDF file here</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">Immunization Records</td>
-        <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
-        <td>PDF file here</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">Unofficial Academic Transcript</td>
-        <td><button type="button" style="width:100px;" class="btn btn-success">Upload File</button></td>
-        <td>PDF file here</td>
-    </tr>
+    <?php require_once "./applicant_documents.php"; listPending(); ?>
 </table>
-<table border="0" class = "gfg">
+<table border="0" class = "gfg2">
     <tr>
         <th><font size="5"> Completed Documents </font></th>
-        <th style="padding:0 400px"></th>
+        <th style="padding:0 500px"></th>
         <th><font size="5"> Date Completed </font></th>
     </tr>
-    <tr>
-        <td style="padding:0 60px">Candidate Application Document Form</td>
-        <td></td>
-        <td align="center">January 25, 2017</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">Medical History Form</td>
-        <td></td>
-        <td align="center">January 25, 2017</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">Copy of Birth Certificate</td>
-        <td></td>
-        <td align="center">January 25, 2017</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">Mental Health Information Form</td>
-        <td></td>
-        <td align="center">January 25, 2017</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">Mentor Application</td>
-        <td></td>
-        <td align="center">January 25, 2017</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">Copy of Social Security Card</td>
-        <td></td>
-        <td align="center">January 25, 2017</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">Government Issued Identification Card</td>
-        <td></td>
-        <td align="center">January 25, 2017</td>
-    </tr>
-    <tr>
-        <td style="padding:0 60px">Education Plan Documentation</td>
-        <td></td>
-        <td align="center">January 25, 2017</td>
-    </tr>
+    <?php require_once "./applicant_documents.php"; listCompleted(); ?>
 </table>
 
 
