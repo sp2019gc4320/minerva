@@ -8,9 +8,9 @@
 require_once 'dbcontroller.php'; 
 session_start(); 
 $connection = new DBController(); 
-$email = filter_input(INPUT_POST, 'email');
-$email = $_POST['email'];
-$password = $_POST['password']; 
+$email = filter_input(INPUT_POST, 'email', FILTER_SANITIZE_EMAIL);
+//$email = $_POST['email'];
+$password = $connection->sanitize($_POST['password']);
 
 $rowCount = $connection->numRows("SELECT * FROM users WHERE email = '$email' AND password = '$password'"); //Puts rowCount equal to the amount of users with that specific information
 

@@ -11,11 +11,14 @@ require_once 'dbcontroller.php';
 $conn = new DBController();
 
 //A "cadetID" should be sent when calling this php file
-$fkCadetID = $_POST['fkCadetID']; 
-$EventDate= $_POST['EventDate'];
-$DidPass= $_POST['DidPass'];
-$EventNote= $_POST['EventNote'];
-$fkTaskID= $_POST['fkTaskID'];
+$fkCadetID = $conn->sanitize($_POST['fkCadetID']);
+$EventDate= $conn->getRightFormat($conn->sanitize($_POST['EventDate']));
+$DidPass= $conn->sanitize($_POST['DidPass']);
+
+$EventNote= $conn->sanitize($_POST['EventNote']);
+$EventNote=filter_var($EventNote, FILTER_SANITIZE_ENCODED);
+
+$fkTaskID= $conn->sanitize($_POST['fkTaskID']);
 
 $sql = "UPDATE tblCadetClassEvents
     INNER JOIN tblClassDetails ON tblClassDetails.ClassDetailID = tblCadetClassEvents.fkClassDetailID

@@ -12,10 +12,11 @@ $conn = new DBController();
 
 //default for testing
 $op = 'UPDATE';
-$DutyPositionID = $_POST['DutyPositionID'];
+$DutyPositionID = $conn->sanitize($_POST['DutyPositionID']);
 
+//do i need to sanitize here too???????
 if (isset($_POST['DutyPositionID'])) {
-    $DutyPositionID = filter_input(INPUT_POST, "DutyPositionID");
+    $DutyPositionID = filter_input(INPUT_POST, "DutyPositionID", FILTER_VALIDATE_INT);
     unset($_POST['DutyPositionID']);
 }
 
@@ -37,8 +38,10 @@ if($op=='UPDATE') {
     $validEnd = date('Y-m-d', $validEnd);//off by one (gets fixed when retrieving in the js)
     $DutyEndDate = $validEnd;
 
-    $DutyNote = $_POST['DutyNote'];
-    $DutyDidFail = $_POST['DutyDidFail'];
+    $DutyNote= $conn->sanitize($_POST['DutyNote']);
+    $DutyNote=filter_var($DutyNote, FILTER_SANITIZE_ENCODED);
+
+    $DutyDidFail= $conn->sanitize($_POST['DutyDidFail']);
 
     $sql = "UPDATE tblJBDuties
 SET

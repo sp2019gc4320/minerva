@@ -11,8 +11,8 @@ require_once 'dbcontroller.php';
 session_start(); 
 $connection = new DBController();
 
-$username = $_POST['username'];
-$password = $_POST['password'];
+$username = $conn->sanitize($_POST['username']);
+$password = $conn->sanitize($_POST['password']);
 
 
 $sql = "SELECT * FROM tblUsers WHERE UserLoginName = '$username' AND UserPW = '$password'";

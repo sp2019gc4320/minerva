@@ -11,7 +11,7 @@ $conn = new DBController();
 
 
 $op = 'UPDATE';
-$JBRankID = $_POST['JBRankID'];
+$JBRankID = $conn->sanitize($_POST['JBRankID']);
 
 
 if (isset($_POST['JBRankID'])) {
@@ -31,8 +31,10 @@ if($op=='UPDATE') {
     $validRankDate = date('Y-m-d', $validRankDate);//off by one (gets fixed when retrieving in the js)
     $RankObtainedDate = $validRankDate;
 
-    $RankPromotionNote= $_POST['RankPromotionNote'];
-    $RankDidFail= $_POST['RankDidFail'];
+    $RankPromotionNote= $conn->sanitize($_POST['RankPromotionNote']);
+    $RankPromotionNote=filter_var($RankPromotionNote, FILTER_SANITIZE_ENCODED);
+
+    $RankDidFail= $conn->sanitize($_POST['RankDidFail']);
 
     $sql = "UPDATE tblJBRanks
 SET
