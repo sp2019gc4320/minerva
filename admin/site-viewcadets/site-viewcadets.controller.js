@@ -61,7 +61,7 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
             }).then(function (response) {
                 console.log(response);
                 alert(response.data);
-                document.location.reload();
+                //document.location.reload();
             });
     }
         

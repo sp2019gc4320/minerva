@@ -1,13 +1,18 @@
 'use strict';
 angular.module('admin.siteViewApplicants', ['angularUtils.directives.dirPagination']).controller('viewApplicants', function($scope, $http, $window) {
-    $http({
-        method: 'POST',
-        url: './php/admin_getApplicantList.php',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    }).then(function (response) {
-        console.log(response.data);
-        $scope.applicants = response.data.applicantTable;
-    });
+
+    $scope.loadApplicantList = function() {
+        $http({
+            method: 'POST',
+            url: './php/admin_getApplicantList.php',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function (response) {
+            console.log(response.data);
+            $scope.applicants = response.data.applicantTable;
+        });
+    }
+
+    $scope.loadApplicantList()
 
     //give the "print current roster" button functionality
     $scope.printToCart = function(printSectionId) {
@@ -18,9 +23,9 @@ angular.module('admin.siteViewApplicants', ['angularUtils.directives.dirPaginati
         popupWindow.document.close();
     }
 
-$scope.addSelCadets = function()
+    $scope.addSelCadets = function()
     {
-        
+
         var toCad = [];
         var n=0;
         for(var i = 0; i<$scope.applicants.length; i++)
@@ -69,8 +74,23 @@ $scope.addSelCadets = function()
     function addToCadets(toCadAry)
     {
         //note: toCadAry is an array of associative arrays {{"fname","lname","applicantID"}}
-        alert(toCadAry);
-        // TODO - PHP to add applicants to Cadet
+        var applicantIds = toCadAry.map(a => a.applicantID);
+        console.log(applicantIds);
+        $http({
+            method: 'POST',
+            url: "./php/admin_promoteApplicant.php",
+            data: Object.toparams({"applicants": applicantIds}),
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(
+            function(response)
+            {
+                console.log(response.data);
+                $scope.loadApplicantList();
+                alert("Applicants moved to cadets successfully!");
+            },function(result){
+                alert("Error moving cadets.");
+            }
+        );
     }
 
 
