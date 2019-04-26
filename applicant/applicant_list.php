@@ -29,8 +29,8 @@
 
 <div class="topnav">
     <a class="active" href="./applicant_list.php">Home</a>
-    <a href="./candidate_list.php">Candidate</a>
-    <a href="#documents">Documents</a>
+    <a href="./candidate_list.php">Candidates</a>
+    <a href="./deadpool_list.php">Dead Pool</a>
 </div><br>
 
 <div class="container">
@@ -40,7 +40,7 @@
                 <form action="applicant_search.php" method="post">
                     <input id="text_input" name="text_search" type="text" class="form-control" aria-label="Text input with segmented button dropdown" style="display: block;  width: 250px; height: 34px; margin: 0px; padding: 0px; float: left;">
                     <div class="input-group-btn" >
-                        <button id="searchBtn" type="submit" class="btn btn-secondary btn-search" style="float:right;"><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
+                        <button id="searchBtn" type="submit" class="btn btn-secondary btn-search" style="display: block;  width: 100px; height: 34px; margin: 0px; padding: 0px; float: right;"><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
                     </div>
                 </form>
             </div>
@@ -169,11 +169,6 @@
     </div>
 </form>
 
-
-<div class="col-md-20 text-center">
-    <button type="button" style="width:100px;" class="btn btn-primary">VIEW</button>
-    <button type="button" style="width:100px;" class="btn btn-danger" onClick="document.location.href='./deadpool_list.php'">DEADPOOL</button>
-</div>
 
 </body>
 

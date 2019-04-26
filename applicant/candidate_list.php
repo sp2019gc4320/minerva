@@ -28,8 +28,8 @@
 
 <div class="topnav">
     <a href="./applicant_list.php">Home</a>
-    <a class="active" href="./candidate_list.php">Candidate</a>
-    <a href="#documents">Documents</a>
+    <a class="active" href="./candidate_list.php">Candidates</a>
+    <a href="./deadpool_list.php">Dead Pool</a>
 </div><br>
 
 

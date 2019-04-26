@@ -9,7 +9,7 @@ function listCompleted() {
     $connection = new DBController();
     if (!$connection) die("Unable to connect to the database!");
 
-    $sql = "SELECT tblappdocs.docType, tblappdocs.dateUploaded FROM tblappdocs INNER JOIN tblApplicants ON tblApplicants.applicantID = tblappdocs.applicantID WHERE tblApplicants.applicantID = $appID";
+    $sql = "SELECT tblappdocs.docType, tblappdocs.dateUploaded FROM tblappdocs INNER JOIN tblCandidatePool ON tblCandidatePool.applicantID = tblappdocs.applicantID WHERE tblCandidatePool.applicantID = $appID";
 
     $result = $connection->connectDB();
     if (!$result)
@@ -38,7 +38,7 @@ function listPending () {
     $connection = new DBController();
     if (!$connection) die("Unable to connect to the database!");
 
-    $sql = "SELECT tblappdocs.docType, tblappdocs.documentID, tblappdocs.dateUploaded FROM tblappdocs INNER JOIN tblApplicants ON tblApplicants.applicantID = tblappdocs.applicantID WHERE tblApplicants.applicantID = $appID";
+    $sql = "SELECT tblappdocs.docType, tblappdocs.documentID, tblappdocs.dateUploaded FROM tblappdocs INNER JOIN tblCandidatePool ON tblCandidatePool.applicantID = tblappdocs.applicantID WHERE tblCandidatePool.applicantID = $appID";
 
     $result = $connection->connectDB();
     if (!$result)
@@ -69,9 +69,8 @@ function listPending () {
     }
     foreach($arr as $s => $s_value){
         echo "<tr>";
-        echo "<td style='padding:0 60px'>".$s."</td>";
+        echo "<td style='padding:0 60px; color:red;' >".$s."</td>";
         echo "<td><button type='button' style='width:100px;' class='btn btn-success'>Upload File</button></td>";
-        echo "<td>PDF file here</td>";
         echo "</tr>";
     }
 

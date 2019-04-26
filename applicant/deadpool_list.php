@@ -4,6 +4,7 @@
 
     <link rel="stylesheet" type="text/css" href="applicant_view.css">
     <link rel="stylesheet" type="text/css" href="applicant_view2.css">
+    <link rel="stylesheet" type="text/css" href="../css/site.css">
 
 
     <!-- Bootstrap 4 -->
@@ -28,8 +29,8 @@
 
 <div class="topnav">
     <a class="active" href="./applicant_list.php">Home</a>
-    <a href="./candidate_list.php">Candidate</a>
-    <a href="./applicant_documents.php">Documents</a>
+    <a href="./candidate_list.php">Candidates</a>
+    <a href="./deadpool_list.php">Dead Pool</a>
 </div><br>
 
 

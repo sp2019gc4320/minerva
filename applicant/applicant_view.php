@@ -1,8 +1,10 @@
 <head>
     <meta charset="UTF-8">
-    <title>Applicants</title>
+    <title>Documents and Forms</title>
 
     <link rel="stylesheet" type="text/css" href="applicant_view.css">
+    <link rel="stylesheet" type="text/css" href="applicant_view2.css">
+
 
     <!-- Bootstrap 4 -->
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
@@ -49,11 +51,15 @@
 <body>
 <br>
 <div id="main">
-    <h1>Documents & Forms</h1>
-    <button type="button" style="width:300px;" class="btn btn-danger">INELIGIBLE FOR REVIEW</button>
-</div>
+    <h3 style="font-size:40px; text-indent: 20px; text-align:left">Documents and Forms</h3></div>
 
-<hr style="height:3px;border:none;color:#333;background-color:#333;" />
+<hr style="height:3px;border:none;color:#333;background-color:#333;margin-bottom: 0px" />
+<div class="topnav">
+    <a class="active" href="./applicant_list.php">Home</a>
+    <a href="./candidate_list.php">Candidates</a>
+    <a href="./deadpool_list.php">Dead Pool</a>
+</div><br>
+<button type="button" style="width:300px;" class="btn btn-danger">INELIGIBLE FOR REVIEW</button>
 
 <table border="0" class="gfg">
     <tr>
@@ -63,10 +69,12 @@
     </tr>
     <?php require_once "./applicant_documents.php"; listPending(); ?>
 </table>
+<hr style="height:3px;border:none;color:#333;background-color:#333;" />
+
 <table border="0" class = "gfg2">
     <tr>
         <th><font size="5"> Completed Documents </font></th>
-        <th style="padding:0 500px"></th>
+        <th style="padding:0 150px"></th>
         <th><font size="5"> Date Completed </font></th>
     </tr>
     <?php require_once "./applicant_documents.php"; listCompleted(); ?>
