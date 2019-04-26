@@ -9,6 +9,7 @@ controller('ctrl_homeOptions', function($scope, $http, $window) {
     $scope.adminViews = [
         {view:'Add Class', url:'./admin/site-addclass/site-addclass.view.html'},
         {view:'Add Cadet', url:'./admin/site-addcadet/site-addcadet.view.html'},
+        {view:'Add S2C', url:'./admin/site-adds2c/site-adds2c.view.html'},
     ]
 
     $scope.showView = function showView(item){
