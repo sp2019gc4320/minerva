@@ -12,11 +12,12 @@ $ADDPERMISSIONS_KEY = 'AddPermissions';
 $REMOVEPERMISSIONS_KEY = 'RemovePermissions';
 
 if($_SERVER['REQUEST_METHOD'] === 'POST') {
+
     // For POST requests, the user will be passing in a UserId, a list of
     // permissions that need to be added (AddPermissions), and a list of
     // permissions that should be removed (RemovePermissions).     
-    if(!isset($_POST[$USERID_KEY])) { echo "{ 'error': 'A user must be selected
-        before permissions can be changed.' }";
+    if(!isset($_POST[$USERID_KEY])) { 
+        echo "{ 'error': 'A user must be selected before permissions can be changed.' }";
     } else {
         $user_id = $_POST[$USERID_KEY];
         echo "User Id: $user_id\n";

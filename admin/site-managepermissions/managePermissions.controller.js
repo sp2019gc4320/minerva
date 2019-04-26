@@ -100,7 +100,8 @@ angular.module('admin.siteManagePermissions').controller('managePermissionsContr
             headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'}
         }).then(function(response) {
             var objectData = response.data;
-            $scope.enabledPermissions = objectData.map(item => item.PermissionName)
+            console.log(response.data);
+            $scope.enabledPermissions = objectData.map(item => item.fkPermissionId)
             $scope.updatePermissionCheckboxes();
         }, function(error) {
             // Handle errors
