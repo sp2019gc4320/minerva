@@ -1,31 +1,41 @@
-<div class="table minerva-table">
-    <style>
-        h2 {color:white; background-color: #000080}
-    </style>
-    <h2>Create a new Service to Community</h2></h2>
-    <form action="./s2cHandler.php" method="POST">
-        <div>
-            <table>
-                <tr>
-                    <th>Service Site</th>
-                    <th>Description</th>
-                    <th>Reporting Group</th>
-                    <th>Active</th>
+<div>
+    <!--<h2>Adding A New Service to Community</h2></h2>-->
+    <form name="addS2CForm" class="form-inline" id="adminS2CForm" novalidate>
+        <h1 style="background-color:lightgreen; font-family:Impact; text-align:center;">Create A Service to Community</h1>
+        <div class="jumbotron table-responsive ">
+        <h4 style="font-family:sans-serif; color:darkslateblue;">General Information</h4>
+        <table style="width:100%">
+            <tr>
+                <!--
+                ServiceSite
+                ServiceSiteDesc
+                ReportingCode, not sure if we need this one or not
+                IsActive
+                fkSiteID
 
-
-                </tr>
-                <tr>
-                    <td><input type="text"  name="serviceSite" required></td>
-                    <td><input type="text" name="descript"></td>
-                    <td><input type="text" name="rGroup" size="5"></td>
-                    <td><input type="hidden" name="isActive" value="0"></td>
-                    <td><input type="checkbox" name="isActive" value="1"></td>
-
-                </tr>
-            </table>
-        </div>
-        <p style="text-align:left">
-            <button ng-click="createS2C()" type="submit" class="btn btn-lg btn-success" style="text-align: center">Submit S2C</button>
-        </p>
+                $serviceSite,
+                $siteDescript,
+                $reportCode,
+                $siteStatus,
+                $siteID
+                -->
+                <th>Site</th>
+                <th>Description</th>
+                <th>Report Code</th>
+                <th>Status</th>
+                <th>Site ID</th>
+            </tr>
+            <tr>
+                <td><input type="text" ng-model="serviceSite" required></td>
+                <td><input type="text" ng-model="siteDescript" ></td>
+                <td><input type="text" ng-model="reportCode" ></td>
+                <td><input type="text" ng-model="siteStatus" ></td>
+                <td><input type="text" ng-model="siteID"></td>
+            </tr>
+        </table>
+    </div>
+    <p style="text-align:center">
+        <button ng-click="createS2C()" type="submit" class="btn btn-lg btn-success" style="text-align: center">Submit Service</button>
+    </p>
     </form>
 </div>
