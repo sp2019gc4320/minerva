@@ -6,10 +6,10 @@
 angular.module('core-components.physical-fitness').controller('physicalFitnessController', function($scope, $http, $window) {
 
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
-    alert("Test Citizenship with Cadet 361 - Jennifer Avila to see sample dates");
 
     $scope.tasks=[];
     $scope.tests=[];
+    $scope.PTDetails=[];
     $scope.editTasks = false;
     $scope.editTests = false;
     $scope.editPTDetails = false;
@@ -86,7 +86,7 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
                         //only show saved message after last task saved.
                         numSaved++;
                         if (numSaved === $scope.tasks.length)
-                            alert("Physical Fitness tasks updated");
+                            alert("Physical Fitness Tasks Updated!");
                     }, function (result) {
                         alert("Error saving tasks");
                     });
@@ -134,7 +134,7 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
                     //only show saved message after last task saved.
                     numSaved++;
                     if (numSaved === $scope.tests.length)
-                        alert("Physical Fitness Tests Updated");
+                        alert("Physical Fitness Tests Updated!");
                 }, function (result) {
                     alert("Error saving tests.");
                 });
@@ -152,50 +152,48 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
     {
         $scope.editPTDetails = true;
         //create backup of tasks
-        $scope.testsBackup = angular.copy($scope.tests);
+        $scope.ptDetailsBackup = angular.copy($scope.PTDetails);
 
     };
-    /* $scope.saveTasksUpdate = function()
+
+    $scope.savePTDetailsUpdate = function()
     {
-        var numSaved = 0;
+
         //
-        $scope.editTasks = false;
+        $scope.editPTDetails = false;
 
         //copy rows of Task table
-        for (var j=0; j<$scope.tasks.length; j++)
+        for (var a=0; a < $scope.tests.length; a++)
         {
-            //Only send tasks that do not have tests associated with them
-            if($scope.tasks[j].fkTaskTestEventID == null) {
-                var sendData = angular.copy($scope.tasks[j]);
+            var numSaved = 0;
+            for (var b = 0; b < $scope.tests[a].details.length; b++)
+            {
+                    var sendData = angular.copy($scope.tests[a].details[b]);
 
-                delete sendData.Task;
-                delete sendData.TaskNumber;
-                sendData.EventDate = convertToSqlDate(sendData.EventDate);
-
-                //send the json object to the correct update*.php file
-                $http({
-                    method: 'POST',
-                    url: "./php/physical-fitness_updateTasks.php",
-                    data: Object.toparams(sendData),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                }).then(
-                    function (response) {
-                        //only show saved message after last task saved.
-                        numSaved++;
-                        if (numSaved === $scope.tasks.length)
-                            alert("Physical Fitness tasks updated");
-                    }, function (result) {
-                        alert("Error saving tasks");
-                    });
+                    //send the json object to the correct update*.php file
+                    $http({
+                        method: 'POST',
+                        url: "./php/physical-fitness_updatePTDetails.php",
+                        data: Object.toparams(sendData),
+                        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+                    }).then(
+                        function (response) {
+                            //only show saved message after last task saved.
+                            numSaved++;
+                            if (numSaved === $scope.tests.length)
+                                alert("PT Details Updated!");
+                        }, function (result) {
+                            alert("Error saving tests.");
+                        });
             }
         }
 
     };
-*/
+
     $scope.cancelPTDetailsUpdate = function()
     {
         $scope.editPTDetails = false;
-        $scope.tests = angular.copy($scope.testsBackup);
+        $scope.PTDetails = angular.copy($scope.ptDetailsBackup);
     };
 
 
@@ -210,11 +208,12 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
     }).then(
         function(result)
         {
-            alert("updated: [physical-fitness_retrievePhysFit2.php" + JSON.stringify(result));
+            //alert("updated: [physical-fitness_retrievePhysFit2.php" + JSON.stringify(result));
 
             //split result into variables
             $scope.tasks=result.data.tasks;
             $scope.tests=result.data.data;
+            $scope.PTDetails=result.data.PTDetails;
 
 
 

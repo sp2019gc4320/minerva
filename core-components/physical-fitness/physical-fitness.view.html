@@ -48,7 +48,7 @@
                     <tr>
                         <th colspan="7">TESTS
                             <button class="btn btnEdit" ng-click="makeTestsEditable()"ng-hide="editTests"> Edit</button>
-                            <button class="btn btnSave" ng-click="saveTestsUpdate(tasks)"ng-show="editTests"> Save</button>
+                            <button class="btn btnSave" ng-click="saveTestsUpdate(tests)"ng-show="editTests"> Save</button>
                             <button class="btn btnCancel" ng-click="cancelTestsUpdate()"ng-show="editTests"> Cancel</button>
                         </th>
                     </tr>
@@ -57,7 +57,6 @@
                         <th>Date</th>
                         <th>Test Type</th>
                         <th>Award</th>
-                        <th>Body Fat</th>
                         <th>Height</th>
                         <th>Weight</th>
                         <th>BMI</th>
@@ -68,7 +67,6 @@
                         <td><input type="date" placeholder="MM/DD/YYYY" ng-model="test.PTDate" ng-disabled="!editTests"></td>
                         <td><input type="text" ng-model="test.PTTestType" disabled></td>
                         <td><input type="text" ng-model="test.PTAward" ng-disabled="!editTests"></td>
-                        <td><input type="text" ng-model="test.PTBodyFat" ng-disabled="!editTests"></td>
                         <td><input type="text" ng-model="test.PTHeight" ng-disabled="!editTests"></td>
                         <td><input type="text" ng-model="test.PTWeight" ng-disabled="!editTests"></td>
                         <td><input type = "text" ng-value = "calcBMI(test.PTHeight, test.PTWeight)" disabled></td>
@@ -78,10 +76,9 @@
                 <table class="table minerva-table" ng-show="showTable($index)">
                 <thead>
                 <tr>
-                    <th
-                            colspan="5">PT Details
+                    <th colspan="3">PT Details
                             <button class="btn btnEdit" ng-click="makePTDetailsEditable()"ng-hide="editPTDetails"> Edit</button>
-                            <button class="btn btnSave" ng-click="saveTestsUpdate(tasks)"ng-show="editPTDetails"> Save</button>
+                            <button class="btn btnSave" ng-click="savePTDetailsUpdate(test.details)"ng-show="editPTDetails"> Save</button>
                             <button class="btn btnCancel" ng-click="cancelPTDetailsUpdate()"ng-show="editPTDetails"> Cancel</button>
                     </th>
                 </tr>
@@ -89,21 +86,26 @@
                 <tr>
                     <th>Test</th>
                     <th>Result</th>
+                    <th>Add Waiver</th>
                 </tr>
 
 
                 <tr ng-repeat="row in test.details track by $index">
-                    <td>
+                    <td class = "w-25">
                         <input type = "text" ng-model = "test.tests[$index].TaskEvent" disabled>
                     </td>
-                    <td><input type="text" ng-model="test.details[$index].PTDetailResult" ng-disabled="!editPTDetails"></td>
-                    <td><button class="btn" ng-click=""> Add Waiver</button></td>
+                    <td class = "w-25">
+                        <input type="text" ng-model="test.details[$index].PTDetailResult" ng-disabled="!editPTDetails">
+                    </td>
+                    <td class = "w-50">
+                       <ng-include src="'./utility/attachments/addWaiver.view.html'"></ng-include>
+                    </td>
                 </tr>
                 </table>
+
                 </div>
-            </div>
-            </form>
     </div>
     </div>
+</div>
 </div>
 <!--End of Physcial Fitness-->
