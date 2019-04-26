@@ -3,6 +3,15 @@
 
 angular.module('findApp').controller("showApplicantViewController", function($scope, $http, $window){
 
+    $scope.person = {};
+    $scope.applicants = JSON.parse($window.localStorage.getItem("applicants"));
+    $scope.ApplicantID = $window.localStorage.getItem("ApplicantID");
+    $scope.ApplicantName = $window.localStorage.getItem("ApplicantName");
+
+    $scope.applicant = {
+        ApplicantID: $scope.ApplicantID,
+        ApplicantName: $scope.ApplicantName
+    };
     $scope.loadView = function() {
         $scope.ApplicantID = $window.localStorage.getItem("AppID");
         $scope.myApplicant = {ApplicantID: $scope.ApplicantID};

@@ -23,7 +23,7 @@ angular.module('utility.findApplicant').component('findApplicant', {
                     $window.sessionStorage.setItem("ApplicantID", applicant.ApplicantID);
                     $window.sessionStorage.setItem("theApplicant", applicant.ApplicantID);
                     $window.localStorage.setItem("theApplicant", applicant.ApplicantID);
-                    $window.localStorage.setItem("ApplicantID", applicant.ApplicantID);
+                    $window.localStorage.setItem("AppID", applicant.ApplicantID);
                     $window.localStorage.setItem("ApplicantName", applicant.PersonFN + " " + applicant.PersonLN);
 
                     $scope.myApplicant = {ApplicantID: applicant.ApplicantID};
