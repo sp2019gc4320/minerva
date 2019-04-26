@@ -4,17 +4,18 @@
 'use strict';
 angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination']).controller('viewCadets', function($scope, $http, $window)
 {
-    $http({
-        method: 'POST',
-        url: './php/site-viewcadets.php',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    }).then(function (response) {
-        console.log(response.data);
-        $scope.cadets = response.data.cadetTable;
+    $scope.loadCadetsIntoView = function() {
+        $http({
+            method: 'POST',
+            url: './php/site-viewcadets.php',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function (response) {
+            console.log(response.data);
+            $scope.cadets = response.data.cadetTable;
+        });
+    }
 
-    });
-
-
+    $scope.loadCadetsIntoView();
 
     //give the "print current roster" button functionality
     $scope.printToCart = function(printSectionId) {
@@ -24,24 +25,12 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
         popupWindow.document.write('<html><head><link rel="stylesheet" type="text/css" href="style.css" /></head><body onload="window.print()">' + innerContents + '</html>');
         popupWindow.document.close();
     }
+
     $scope.sort = function(keyname){
         $scope.sortKey = keyname;   //set the sortKey to the param passed
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     }
-    /*$scope.update = function(id, firstname,lastname,classid,rosternum){
-        var cadetStatus = (document).getElementById(id+"").value;
-        var params = {"cadetid":id, "firstname":firstname, "lasttname":lastname,"classid":classid, "rosternumber":rosternum, "cadetstatus": cadetStatus};
 
-        $http({
-            method: 'POST',
-            url: './php/site-updatetograduates.php',
-            data: Object.toparams(params),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-        }).then(function (response) {
-            console.log(response.data);
-            $scope.cadets = response.data.cadetTable;
-        });
-    }*/
     $scope.update = function(id){
         var cadetStatus = (document).getElementById(id+"").value;
         if(cadetStatus == "Cadet")
@@ -60,8 +49,7 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function (response) {
                 console.log(response);
-                alert(response.data);
-                //document.location.reload();
+                $scope.loadCadetsIntoView();
             });
     }
         
