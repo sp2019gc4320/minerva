@@ -28,7 +28,7 @@
 
 <div class="topnav">
     <a class="active" href="./applicant_list.php">Home</a>
-    <a href="#candidate">Candidate</a>
+    <a href="./candidate_list.php">Candidate</a>
     <a href="#documents">Documents</a>
 </div><br>
 
