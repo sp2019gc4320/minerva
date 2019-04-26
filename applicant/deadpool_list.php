@@ -3,6 +3,8 @@
     <title>Dead Pool</title>
 
     <link rel="stylesheet" type="text/css" href="applicant_view.css">
+    <link rel="stylesheet" type="text/css" href="applicant_view2.css">
+
 
     <!-- Bootstrap 4 -->
     <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
@@ -22,8 +24,13 @@
 
 <h3 style="font-size:40px; text-indent: 20px; text-align:left">Dead Pool</h3>
 
-<hr style="height:3px;border:none;color:#333;background-color:#333;" />
+<hr style="height:3px;border:none;color:#333;background-color:#333;margin-bottom: 0px" />
 
+<div class="topnav">
+    <a class="active" href="./applicant_list.php">Home</a>
+    <a href="#candidate">Candidate</a>
+    <a href="#documents">Documents</a>
+</div><br>
 
 <div class="scrollingtable">
     <div>

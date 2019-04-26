@@ -7,14 +7,14 @@ require_once 'applicant_list.php';
 
 function search()
 {
-    $search = $_POST['text_search'];
-
     $connection = new DBController();
+    $result = $connection->connectDB();
     if (!$connection) die("Unable to connect to the database!");
 
-    $sql = "SELECT lName, fName, AppSubmitDate, applicantID, documentID FROM tblApplicants WHERE lName LIKE '$search' OR fName LIKE '$search' OR applicantID LIKE '$search'";
+    $search = mysqli_real_escape_string($result,$_POST["text_search"]);
 
-    $result = $connection->connectDB();
+    $sql = "SELECT lName, fName, AppSubmitDate, applicantID, documentID FROM tblApplicants WHERE lName LIKE '%$search%' OR fName LIKE '%$search%' OR applicantID LIKE '%$search%'";
+
     if (!$result)
         die("Unable to perform query!");
 

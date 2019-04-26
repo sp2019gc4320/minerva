@@ -14,11 +14,6 @@
     <link href="search-filter.css" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <?php
-    //require_once './applicant_moveToDeadpool.php';
-    require_once './applicant_listApplicants.php';
-
-    ?>
 
 <style>
 </style>
@@ -27,25 +22,24 @@
 <body>
 <br>
 
+<h3 style="font-size:40px; text-indent: 20px; text-align:left">Current Applicants</h3>
+
+<hr style="height:3px;border:none;color:#333;background-color:#333;margin-bottom:0px"/>
+
 <div class="topnav">
     <a class="active" href="./applicant_list.php">Home</a>
     <a href="#candidate">Candidate</a>
     <a href="#documents">Documents</a>
-</div>
-
-<h3 style="font-size:40px; text-indent: 20px; text-align:left">Current Applicants</h3>
-
-<hr style="height:3px;border:none;color:#333;background-color:#333;" />
-
+</div><br>
 
 <div class="container">
     <div class="row searchFilter" >
         <div class="col-sm-6" >
             <div class="input-group" >
                 <form action="applicant_search.php" method="post">
-                    <input id="text_input" name="text_search" type="text" class="form-control" aria-label="Text input with segmented button dropdown" >
+                    <input id="text_input" name="text_search" type="text" class="form-control" aria-label="Text input with segmented button dropdown" style="display: block;  width: 250px; height: 34px; margin: 0px; padding: 0px; float: left;">
                     <div class="input-group-btn">
-                        <button id="searchBtn" type="submit" class="btn btn-secondary btn-search" ><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
+                        <button id="searchBtn" type="submit" class="btn btn-secondary btn-search" style="float:right;"><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
                     </div>
                 </form>
             </div>
@@ -56,24 +50,25 @@
 <div class="container">
     <div class="scrollingtable text-center">
         <div>
-            <table id="data-table">
+            <div>
+                <table id="data-table">
                 <thead>
                 <tr>
                     <th><div label=" "</div></th>
-        <th><div label="Last"></div></th>
-        <th><div label="First"></div></th>
-        <th><div label="Date Submitted"></div></th>
-        <th><div label="IDNumber"></div></th>
-        <th><div label="Documents"></div></th>
-        <th class="scrollbarhead"/> <!--extra cell at end of header row-->
-        </tr>
-        </thead>
+                    <th><div label="Last"></div></th>
+                    <th><div label="First"></div></th>
+                    <th><div label="Date Submitted"></div></th>
+                    <th><div label="IDNumber"></div></th>
+                    <th><div label="Documents"></div></th>
+                    <th class="scrollbarhead"/> <!--extra cell at end of header row-->
+                </tr>
+                </thead>
 
         <!-- Pulls data from SQL database (applicant - tblApplicants) to populate table-->
         <tbody>
         <?php require_once './applicant_listApplicants.php';
         require_once './applicant_search.php';
-        if(empty($_POST))
+        if(empty($_POST['text_search']))
             listApplicants();
         else
             search();
@@ -87,7 +82,7 @@
 
 <div class="col-md-20 text-center">
     <button type="button" style="width:100px;" class="btn btn-primary">VIEW</button>
-    <button type="button" style="width:100px;" class="btn btn-danger" onClick="window.open('./deadpool_list.php');">DEADPOOL</button>
+    <button type="button" style="width:100px;" class="btn btn-danger" onClick="document.location.href='./deadpool_list.php'">DEADPOOL</button>
 </div>
 
 </body>
