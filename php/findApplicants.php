@@ -50,7 +50,8 @@ if (isset($_POST['PersonFN'])) {
 }
 if (isset($_POST['ApplicantID'])) {
     $str = filter_input(INPUT_POST, "ApplicantID");
-    $criteria[] = ("ApplicantID LIKE '%$str%'");
+    $strVal = intval($str);
+    $criteria[] = ("ApplicantID = %$strVal%");
 }
 
 $whereClause = "";
@@ -76,7 +77,7 @@ echo '{ "data":[';
 //Edit PGender, PDOB added to fields and first sql statement, this gets the gender and dob from the database to be used in the citizenship tab
 $fields = "PersonID, PersonFN, PersonLN, ApplicantID";
 $sql = "SELECT tblPeople.PersonID, tblPeople.PersonFN, tblPeople.PersonLN,
-               tblApplicants.ApplicantID FROM tblPeople INNER JOIN tblApplicants ON tblPeople.PersonID = tblApplicants.fkPersonID;";
+               tblApplicants.ApplicantID FROM tblPeople INNER JOIN tblApplicants ON tblPeople.PersonID = tblApplicants.fkPersonID $whereClause;";
 
 $result = $connection->runSelectQuery($sql);
 

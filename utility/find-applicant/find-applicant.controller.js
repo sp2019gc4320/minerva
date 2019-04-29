@@ -46,14 +46,11 @@ angular.module('findApp').controller("FindApplicantController", function FindApp
             headers: {'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(function (response) {
             $scope.applicants = response.data.data;
-            //$scope.applicants = $scope.applicants.split(",");
-            alert($scope.applicants);
             var i;
             for(i = 0; i < $scope.applicants.length; i++)
             {
                 $scope.applicants[i] = (JSON.parse(JSON.stringify($scope.applicants[i])));
             }
-            alert($scope.applicants[1].PersonFN)
 
         });
     };
@@ -168,13 +165,13 @@ angular.module('findApp').controller("FindApplicantController", function FindApp
     };
 
     $scope.pickApplicant = function (applicant) {
-        alert('Something happened');
         //Storing ApplicantID to be used by another view
         //CLEAN UP -- only needs to store ApplicantID to localStorage
         $window.sessionStorage.setItem("ApplicantID", applicant.ApplicantID);
         $window.localStorage.setItem("ApplicantID", applicant.ApplicantID);
         $window.sessionStorage.setItem("ApplicantID", applicant.ApplicantID);
         $window.sessionStorage.setItem("theApplicant", applicant.ApplicantID);
+        $window.localStorage.setItem("Applicant", applicant);
         $window.localStorage.setItem("theApplicant", applicant.ApplicantID);
         $window.localStorage.setItem("ApplicantID", applicant.ApplicantID);
         $window.localStorage.setItem("ApplicantName", applicant.PersonFN + " " + applicant.PersonLN);
@@ -193,6 +190,7 @@ angular.module('findApp').controller("FindApplicantController", function FindApp
         );
 
         $scope.selectApplicant(applicant);
+        $scope.saveAndClose();
     }
 });
 

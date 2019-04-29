@@ -11,7 +11,7 @@ require_once 'dbcontroller.php';
 $connection = new DBController();
 
 //Default values for testing if nothing is passed as POST parameter
-$ApplicantID = "1";
+$ApplicantID = "11";
 
 //Replace default with value passed in POST
 if (isset($_POST['ApplicantID'])) {
@@ -21,7 +21,7 @@ if (isset($_POST['ApplicantID'])) {
 
 $sql = "SELECT tblApplicants.ApplicantID, tblPeople.PersonID, tblPeople.PersonFN, tblPeople.PersonLN, tblApplicants.fkPersonID
        FROM tblPeople INNER JOIN tblApplicants ON tblPeople.PersonID = tblApplicants.fkPersonID
-       WHERE  (((tblApplicants.ApplicantID)='" . $ApplicantID . "'))";
+       WHERE  tblApplicants.ApplicantID ='" . $ApplicantID . "'";
 
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
 echo '{"data":' . (json_encode($result)) . "} ";

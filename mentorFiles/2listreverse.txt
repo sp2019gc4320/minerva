@@ -1,0 +1,12 @@
+(print  "We are going to try to reverse this list.")
+(defun revlist(L)
+    (if (null L)
+        nil
+        (if (listp (car L))
+            (append (revlist(cdr L)) (revlist(car L)))
+            (append (revlist(cdr L)) (list(car L)))
+        )
+    )
+)
+(print (revlist '(1 2 3 4 5 6 7 8)))
+(print (revlist '(1 (2 3) (4 (5 6)) (7 (8 (9 10))))))
