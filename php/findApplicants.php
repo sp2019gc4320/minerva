@@ -76,8 +76,8 @@ echo '{ "data":[';
 
 //Edit PGender, PDOB added to fields and first sql statement, this gets the gender and dob from the database to be used in the citizenship tab
 $fields = "PersonID, PersonFN, PersonLN, ApplicantID";
-$sql = "SELECT tblPeople.PersonID, tblPeople.PersonFN, tblPeople.PersonLN,
-               tblApplicants.ApplicantID FROM tblPeople INNER JOIN tblApplicants ON tblPeople.PersonID = tblApplicants.fkPersonID $whereClause;";
+$sql = "SELECT tblPeople2.PersonID, tblPeople2.PersonFN, tblPeople2.PersonLN,
+               tblApplicants.ApplicantID FROM tblPeople2 INNER JOIN tblApplicants ON tblPeople2.PersonID = tblApplicants.fkPersonID $whereClause;";
 
 $result = $connection->runSelectQuery($sql);
 

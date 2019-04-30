@@ -6,7 +6,7 @@ require_once 'dbcontroller.php';
 $conn = new DBController();
 
 $directory= "datas";
-$applicantID=12;
+$ApplicantID=12;
 
 $fileType=NULL;
 if(isset($_POST['directory'])){
@@ -23,7 +23,8 @@ if(isset($_GET['selectFileType'])){
     $fileType=filter_input(INPUT_GET,"selectFileType");
 }
 $ApplicantID=$_POST['AppID'];
-$sql= "SELECT docType,filePath FROM tblappdocs WHERE applicantID='$ApplicantID'";
+//$sql= "SELECT docType,filePath FROM tblappdocs WHERE applicantID='$ApplicantID'";
+$sql = "SELECT `docType`, `filePath` FROM `tblAppDocs` WHERE applicantID= '$ApplicantID'";
 $result = $conn->runSelectQuery($sql);
 echo '{ "data":[';
 //print_r($result);

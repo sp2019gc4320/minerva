@@ -12,7 +12,7 @@ $directory= "datas";
 
 $ApplicantID = $_POST['ApplicantID'];
 
-/*
+
     //echo 'Yay! File was received by server!';0
     $fileName = $_FILES['file']['name'];
     $fileSize = $_FILES['file']['size'];
@@ -29,11 +29,11 @@ $ApplicantID = $_POST['ApplicantID'];
 
     move_uploaded_file($fileTmpName,  "../". $directory. "/". $ApplicantID .$fileName);
     $aPath="". $directory. "/". $ApplicantID .$fileName;
-*/
+
     $currentDate=date("Y-m-d");
 
     //SQL for inserting new file into the database.
-    $sql= "INSERT INTO `tblAppDocs` (`dateUploaded`, `applicantID`, `docType`, `note`, `filePath`) VALUES ('$currentDate', '$ApplicantID', 'BirthCertificate', 'Testing123', 'yoo/yoo');";
+    $sql= "INSERT INTO `tblAppDocs` (`dateUploaded`, `applicantID`, `docType`, `note`, `filePath`) VALUES ('$currentDate', '$ApplicantID', '$fileType', '$fileName', '$aPath');";
     $result = $conn->runQuery($sql);
 
 

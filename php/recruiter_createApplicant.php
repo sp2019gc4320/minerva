@@ -78,7 +78,7 @@ function create_insertion_string($table_name, $data) {
 // MARK: - Add the person to the database
 //
 
-$people_insert_query = create_insertion_string("tblPeople", $people_data);
+$people_insert_query = create_insertion_string("tblPeople2", $people_data);
 if($conn->query($people_insert_query) == TRUE) {
 
     //
@@ -96,12 +96,12 @@ if($conn->query($people_insert_query) == TRUE) {
     // MARK: - Add all the Applicants contact information
     //
 
-    // Data for inserting into tblPersonContacts
+    // Data for inserting into tblAppContacts
     foreach($contact_info_data as $value) {
         $value->fkPersonID = $people_id;
-        $contact_info_insert_query = create_insertion_string("tblPersonContacts", (array)$value);
+        $contact_info_insert_query = create_insertion_string("tblAppContacts", (array)$value);
         if($conn->query($contact_info_insert_query) == TRUE) {
-            echo "Success";
+            echo "CI Success";
         } else {
             echo "Failed to insert contact info ";
             echo $conn->error;
