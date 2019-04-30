@@ -229,7 +229,7 @@
         </div>
 
         <div id="contact-container">
-            <h5>Guardian Information</h5>
+            <h5>Contact Information</h5>
             <div class="form-row">
                 <label class="col-md-2">Type</label>
                 <label class="col-md-3 offset-md-3">Value</label>
@@ -291,7 +291,7 @@
             <div class="form-row" id="add-contact-btn">
                 <button type="button" 
                         class="btn btnCreate"
-                        ng-click="addContactInformation()" > Add New Guardian</button>
+                        ng-click="addContactInformation()" > Add New Contact</button>
             </div>
         </div>
         <div id="location-container">
@@ -299,11 +299,9 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="county">County</label>
-                    <select id="county"
-                            class="custom-select form-control"
+                    <input type = "text" id="county" placeholder="County"
+                            class="form-control"
                             ng-model="person.PCounty">
-                        <option selected></option>
-                    </select>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="urbanization">Urbanization</label>
@@ -431,6 +429,6 @@
                 </div>
             </div>
         </div>
-        <input type="submit" class="btn btn-primary"></input>
+        <input type="submit" class="btn btn-primary">
     </div>
 </form>

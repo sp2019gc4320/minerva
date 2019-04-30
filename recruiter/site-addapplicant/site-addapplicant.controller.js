@@ -1,14 +1,11 @@
 'use strict';
 
 // TODO: Extend the form to work with multiple addresses (similar to contacts)
-// TODO: Form sanitization
-// TODO: Ensure the person accessing this page has admin priveleges
-// TODO: Make sure mandatory fields must be filled out before submitting
 // TODO: Make sure drop down fields send the right values to the database
 // TODO: Set up redirect after submit
 
 angular.module('recruiter.siteAddApplicant').controller('addApplicantController', function($scope, $http, $window) {
-
+    alert("Something 1");
     // Model for containing the Person to be added to tblPerson
     $scope.person = {};``
     $scope.applicant = {};``
@@ -68,22 +65,26 @@ angular.module('recruiter.siteAddApplicant').controller('addApplicantController'
         }
     }
 
-
+    $scope.loadDropdowns = function()
+    {
+        $http({
+            method: "GET",
+            url: "./php/recruiter_createApplicantFormOptions.php",
+            headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
+        }).then(function(response) {
+            alert("SOMETHING");
+            var data = response.data;
+            // Extract data
+            $scope.urbanizationOptions = data.urbanization.map(a => a.Urbanization);
+            $scope.stateOptions = data.state;
+            $scope.salutationOptions = data.salutation.map(a => a.Salutation);
+            $scope.genqualOptions = data.genqual.map(a => a.GenQual);
+            $scope.raceOptions = data.race;
+        }, function(error){
+        });
+    }
     // Set up options on load
-    $http({
-        method: "GET",
-        url: "./php/admin_createCadetFormOptions.php",
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
-    }).then(function(response) {
-        var data = response.data;
-        // Extract data
-        $scope.urbanizationOptions = data.urbanization.map(a => a.Urbanization);
-        $scope.stateOptions = data.state
-        $scope.salutationOptions = data.salutation.map(a => a.Salutation);
-        $scope.genqualOptions = data.genqual.map(a => a.PersonGenQual);
-        $scope.raceOptions = data.race;
-    }, function(error){
-    });
+    $scope.loadDropdowns();
 
     /**
      * Creates a new ContactInformationModel to correspond with the row being

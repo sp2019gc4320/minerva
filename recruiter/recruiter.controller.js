@@ -19,6 +19,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
     // List of ContactInformationModels
     $scope.contactInformation = []
+    $scope.postInfo = [];
 
     $scope.age = 0
   
@@ -31,6 +32,8 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         constructor() {
             this.ContactType = "phone"
             this.ContactTypeExt = "home"
+            this.Value = ""
+            this.Description = ""
             this.IsPreferred = 0
         }
 
@@ -72,7 +75,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     // Set up options on load
     $http({
         method: "GET",
-        url: "./php/admin_createApplicantFormOptions.php",
+        url: "./php/recruiter_createApplicantFormOptions.php",
         headers: { 'Content-Type': 'application/x-www-form-urlencoded'},
     }).then(function(response) {
         var data = response.data;
@@ -91,6 +94,8 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
      */
     $scope.addContactInformation = function() {
         $scope.contactInformation.push(new ContactInformationModel());
+        alert($scope.contactInformation);
+
     }
 
     /**
@@ -144,7 +149,15 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
      * the contact information put into the format for posting objects.
      */
     $scope.getContactInformationPOSTData = function() {
-        return $scope.contactInformation.map(ci => ci.asPOSTObject());
+        var i = 0;
+        var len = $scope.contactInformation.length;
+        for(; i < len;){
+            $scope.postInfo[i] = $scope.contactInformation[i].asPOSTObject();
+            alert($scope.postInfo[i]);
+            console.log($scope.postInfo[i]);
+            i++;
+        }
+        return $scope.postInfo;
     }
 
     /**
@@ -169,6 +182,8 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             });
         var form = document.getElementById("newAppForm");
         form.reset();
+        //Add this in when things work properly and alerts no longer need to show
+        //window.location.reload();
 
     }
     $scope.recruiterViews = [
@@ -224,7 +239,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
                 //Clear the name from the "Choose File" input element
                 var myFile = document.querySelector('#myFile');
-                myFile.value = "";
+                //myFile.value = "";
             },
             //error
             function (result) {

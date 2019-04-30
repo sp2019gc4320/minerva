@@ -5,14 +5,10 @@ angular.module('recruiter.applicantFind').controller('applicantFindController', 
     $scope.applicants = JSON.parse($window.localStorage.getItem("applicants"));
     $scope.ApplicantID = $window.localStorage.getItem("ApplicantID");
     $scope.ApplicantName = $window.localStorage.getItem("ApplicantName");
-    $scope.ApplicantGender = $window.localStorage.getItem("ApplicantGender");
-    $scope.ApplicantDOB = $window.localStorage.getItem("ApplicantDOB");
 
     $scope.applicant = {
         ApplicantID: $scope.ApplicantID,
-        ApplicantName: $scope.ApplicantName,
-        ApplicantGender: $scope.ApplicantGender,
-        ApplicantDOB: $scope.ApplicantDOB
+        ApplicantName: $scope.ApplicantName
     };
 
     $scope.app = {AppID: $scope.ApplicantID};
@@ -27,6 +23,7 @@ angular.module('recruiter.applicantFind').controller('applicantFindController', 
         //Will use this statement once we have applicant ID functioning fully
         //var applicantID = $scope.applicantID
         function (result) {
+            alert(result.data);
             $scope.fileList = result.data.data;
 
             $scope.missingList = ["EducationPlan","BandARecords","MedicalInsurance",
