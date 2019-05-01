@@ -68,7 +68,7 @@
                 listSelected();
                 ?>
                 </tbody>
-            </table>
+            </table><br>
             <button type="submit" name="submitCandidate" style="width: 150px; float:left;" class="btn btn-success">
                 Generate Forms
             </button>
@@ -84,7 +84,15 @@ From
 Us
     </textarea>
     </div>
+</div>
 
+<div class="container-fluid " style="float:right; margin-right: 265px;">
+    <button type="submit" name="submitCandidate" style="width: 150px; float:left;" class="btn btn-primary">
+        Email Forms
+    </button>
+    <button type="submit" name="submitCandidate" style="width: 150px; float:left;" class="btn btn-success">
+        Download Forms
+    </button>
 </div>
 
 
