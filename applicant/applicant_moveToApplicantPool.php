@@ -17,7 +17,6 @@ function moveToApplicantPool($value, $dumpy)
     $sqlAdd = "INSERT INTO tblapplicants (applicantID, fName, lName) VALUES ('" . $dumpy['applicantID'] . "','" . $dumpy['fName'] . "','" . $dumpy['lName'] . "')";    //,".$dumpy['PGender'].",".$dumpy['AStatus'].",".$dumpy['AGenQual'].",".$dumpy['AEmail'].",".$dumpy['guardianEmail']."
 
     //delete candidate from both pools once it has been moved to applicant
-    // $sqlDelete = "DELETE FROM tblDeadpool WHERE applicantID = ".$value;
     $sqlDeleteCandidate = "DELETE * FROM tblcandidatepool WHERE applicantID = ".$value;
     $sqlDeleteDeadpool = "DELETE * FROM tbldeadpool WHERE applicantID = ".$value;
     
