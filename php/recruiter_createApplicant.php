@@ -38,6 +38,7 @@ $decoded_postdata = (array)json_decode($postdata);
 $people_data = (array)$decoded_postdata["peopleData"];
 $applicants_data = (array)$decoded_postdata["applicantsData"];
 $contact_info_data = (array)$decoded_postdata["contactInformationData"];
+$guardian_data = (array)$decoded_postdata["guardianData"];
 
 $Income = $applicants_data["Income"];
 $ReferralSource = $applicants_data['ReferralSource'];
@@ -114,7 +115,23 @@ if($conn->query($people_insert_query) == TRUE) {
 };
 $sql = "INSERT INTO `tblApplicants`(`fkPersonID`, `Income`, `ReferralSource`, `PrevSchool`, `PrevSchoolCity`, `PrevSchoolState`, `StudentClassification`, `AcademicCredits`, `Withdrawl`, `HighestEducation`, `EmploymentStatus`, `LegalStatus`, `LivingWith`, `Status`) VALUES ('$fkPersonID', '$Income', '$ReferralSource', '$PrevSchool', '$PrevSchoolCity', '$PrevSchoolState', '$StudentClassification', '$AcademicCredits', '$Withdrawl', '$HighestEducation', '$EmploymentStatus', '$LegalStatus', '$LivingWith', '$Status')";
 if ($conn->query($sql) === TRUE) {
+
+    $app_id = $conn->insert_id;
+    echo $app_id;
+    $ApplicantID = $app_id;
+
     echo "New record created successfully";
+    //Insert the Guardians entered into tblGuardians
+    foreach ($guardian_data as $value) {
+        $value->ApplicantID = $app_id;
+        $guardian_info_insert_query = create_insertion_string("tblAppGuardians", (array)$value);
+        if ($conn->query($guardian_info_insert_query) == TRUE) {
+            echo "Guardian Success";
+        } else {
+            echo "Failed to insert guardian info ";
+            echo $conn->error;
+        }
+    }
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
