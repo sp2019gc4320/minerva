@@ -7,15 +7,6 @@
     <link rel="stylesheet" type="text/css" href="../css/site.css">
 
 
-    <!-- Bootstrap 4 -->
-    <!-- <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
-    <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="./searchjs.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="search-filter.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
     <style>
     </style>
 </head>
@@ -58,12 +49,12 @@
                             <thead>
                             <tr>
                                 <th><div label=" "></div></th>
-                                <th><div label="Last"></div></th>
-                                <th><div label="First"></div></th>
-                                <th><div label="Date Submitted"></div></th>
-                                <th><div label="IDNumber"></div></th>
-                                <th><div label="Documents"></div></th>
-                                <th class="scrollbarhead"/> <!--extra cell at end of header row-->
+                                <th><div label="Last"></div>Last</th>
+                                <th><div label="First"></div>First</th>
+                                <th><div label="Date Submitted">Date Submitted</div></th>
+                                <th><div label="IDNumber"></div>IDNumber</th>
+                                <th><div label="Documents"></div>Documents</th>
+                                <!-- <th class="scrollbarhead"/> extra cell at end of header row -->
                             </tr>
                             </thead>
 
@@ -112,7 +103,7 @@
                                             $checked = "checked";
                                         }
 
-                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tbldeadpool WHERE applicantID =".$value);
+                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID =$value");
                                         $dumpy = mysqli_fetch_assoc($sql);
 
                                         moveToDeadpool($value, $dumpy);
@@ -134,7 +125,7 @@
                                             $checked = "checked";
                                         }
 
-                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tbldeadpool WHERE applicantID =".$value);
+                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID =$value");
                                         $dumpy = mysqli_fetch_assoc($sql);
 
                                         moveToCandidatepool($value, $dumpy);

@@ -15,8 +15,8 @@ function moveToDeadpool($value,$dumpy){
     $sqlAdd = "INSERT INTO tblDeadPool (applicantID, fName, lName) VALUES ('".$dumpy['applicantID']."','".$dumpy['fName']."','".$dumpy['lName']."')";    //,".$dumpy['PGender'].",".$dumpy['AStatus'].",".$dumpy['AGenQual'].",".$dumpy['AEmail'].",".$dumpy['guardianEmail']."
 
     //delete candidate from applicant once it has been moved to Deadpool
-    $sqlDeleteApplicant = "DELETE * FROM tblapplicants WHERE applicantID = ".$value;
-    $sqlDeleteCandidate = "DELETE * FROM tblcandidatepool WHERE applicantID = ".$value;
+    $sqlDeleteApplicant = "DELETE * FROM tblApplicants WHERE applicantID = $value";
+    $sqlDeleteCandidate = "DELETE * FROM tblCandidatePool WHERE applicantID = $value";
 
     mysqli_query($result, $sqlAdd);
 

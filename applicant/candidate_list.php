@@ -20,6 +20,22 @@
 </div><br>
 
 
+<!--TODO search function -->
+<!-- <div class="container">
+    <div class="row searchFilter" >
+        <div class="col-sm-6" >
+            <div class="input-group" >
+                <form action="applicant_search.php" method="post">
+                    <input id="text_input" name="text_search" type="text" class="form-control" aria-label="Text input with segmented button dropdown" style="display: block;  width: 250px; height: 34px; margin: 0px; padding: 0px; float: left;">
+                    <div class="input-group-btn" >
+                        <button id="searchBtn" type="submit" class="btn btn-secondary btn-search" style="display: block;  width: 100px; height: 34px; margin: 0px; padding: 0px; float: right;"><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> -->
+
 <form method="post" action="">
     <div class="container">
         <div class="scrollingtable text-center">
@@ -29,12 +45,12 @@
                     <table id="data-table" class="minerva-table">
                             <thead>
                             <tr>
-                                <th><div label=" "></div></th>
-                                <th><div label="Last"></div></th>
-                                <th><div label="First"></div></th>
-                                <th><div label="IDNumber"></div></th>
-                                <th><div label="Email"></div></th>
-                                <th class="scrollbarhead"/> <!--extra cell at end of header row-->
+                                <th><div label=" "></div> </th>
+                                <th><div label="Last"></div>Last</th>
+                                <th><div label="First"></div>First</th>
+                                <th><div label="IDNumber"></div>IDNumber</th>
+                                <!-- <th><div label="Email"></div>Email</th> -->
+                                <!-- <th class="scrollbarhead"/> extra cell at end of header row -->
                             </tr>
                             </thead>
 
@@ -45,8 +61,10 @@
                             require_once './applicant_moveToDeadpool.php';
                             require_once './applicant_viewCandidates.php';
 
-                            listCandidates();
-
+                            if(empty($_POST['text_search']))
+                                listCandidates();
+                            else
+                                search();
 
                             $checked_arr = array();
 
@@ -58,7 +76,7 @@
 
                             //$sql = "SELECT * FROM tblApplicants";
                             //fetch checked values
-                            $fetch = mysqli_query($result, "SELECT * FROM tblApplicants");
+                            $fetch = mysqli_query($result, "SELECT * FROM tblCandidatePool");
                             if(mysqli_num_rows($fetch)>0) {
                                 $fetch_result = mysqli_fetch_assoc($fetch);
                                 $checked_arr = explode(",", $fetch_result['applicantID']);
@@ -79,7 +97,7 @@
                                             $checked = "checked";
                                         }
 
-                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tbldeadpool WHERE applicantID =".$value);
+                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblCandidatePool WHERE applicantID =$value");
                                         $dumpy = mysqli_fetch_assoc($sql);
 
 
@@ -107,7 +125,7 @@
                                             $checked = "checked";
                                         }
 
-                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tbldeadpool WHERE applicantID =".$value);
+                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblCandidatePool WHERE applicantID =$value");
                                         $dumpy = mysqli_fetch_assoc($sql);
 
 

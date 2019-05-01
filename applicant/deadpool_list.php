@@ -43,6 +43,7 @@
                                     require_once './applicant_viewDeadPool.php';
                                     require_once './applicant_moveToCandidatePool.php';
                                     require_once './applicant_moveToApplicantPool.php';
+
                                         listDeadPool();
 
                                     $checked_arr = array();
@@ -55,7 +56,7 @@
 
                                     //$sql = "SELECT * FROM tblApplicants";
                                     //fetch checked values
-                                    $fetch = mysqli_query($result, "SELECT * FROM tblApplicants");
+                                    $fetch = mysqli_query($result, "SELECT * FROM tblDeadPool");
                                     if(mysqli_num_rows($fetch)>0) {
                                         $fetch_result = mysqli_fetch_assoc($fetch);
                                         $checked_arr = explode(",", $fetch_result['applicantID']);
@@ -78,7 +79,7 @@
                                                     $checked = "checked";
                                                 }
 
-                                                $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tbldeadpool WHERE applicantID =".$value);
+                                                $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblDeadPool WHERE applicantID =$value");
                                                 $dumpy = mysqli_fetch_assoc($sql);
 
                                                 moveToCandidatepool($value, $dumpy);
@@ -103,7 +104,7 @@
                                                     $checked = "checked";
                                                 }
 
-                                                $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tbldeadpool WHERE applicantID =".$value);
+                                                $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblDeadPool WHERE applicantID =$value");
                                                 $dumpy = mysqli_fetch_assoc($sql);
 
                                                 moveToApplicantPool($value, $dumpy);

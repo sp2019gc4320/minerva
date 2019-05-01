@@ -14,11 +14,11 @@ function moveToApplicantPool($value, $dumpy)
     if (!$connection) die("Unable to connect to the database!");
 
     //use variables to get values of selected candidate
-    $sqlAdd = "INSERT INTO tblapplicants (applicantID, fName, lName) VALUES ('" . $dumpy['applicantID'] . "','" . $dumpy['fName'] . "','" . $dumpy['lName'] . "')";    //,".$dumpy['PGender'].",".$dumpy['AStatus'].",".$dumpy['AGenQual'].",".$dumpy['AEmail'].",".$dumpy['guardianEmail']."
+    $sqlAdd = "INSERT INTO tblApplicants (applicantID, fName, lName) VALUES ('" . $dumpy['applicantID'] . "','" . $dumpy['fName'] . "','" . $dumpy['lName'] . "')";    //,".$dumpy['PGender'].",".$dumpy['AStatus'].",".$dumpy['AGenQual'].",".$dumpy['AEmail'].",".$dumpy['guardianEmail']."
 
     //delete candidate from both pools once it has been moved to applicant
-    $sqlDeleteCandidate = "DELETE * FROM tblcandidatepool WHERE applicantID = ".$value;
-    $sqlDeleteDeadpool = "DELETE * FROM tbldeadpool WHERE applicantID = ".$value;
+    $sqlDeleteCandidate = "DELETE * FROM tblCandidatePool WHERE applicantID = $value";
+    $sqlDeleteDeadpool = "DELETE * FROM tblDeadPool WHERE applicantID = $value";
     
     //ADDS to database
     mysqli_query($result, $sqlAdd);
