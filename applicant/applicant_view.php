@@ -64,6 +64,8 @@
 </div><br>
 <button type="button" style="width:300px;" class="btn btn-danger">INELIGIBLE FOR REVIEW</button>
 
+<font size="5"><?php require_once "./applicant_documents.php"; displayName(); ?></font>
+    
 <table border="0" class="gfg">
     <tr>
         <th><font size="5"> Pending Documents </font> <button type="button" style="width:65px;height:35px;" class="btn btn-primary">SAVE</button></th>
