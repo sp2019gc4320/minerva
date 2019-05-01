@@ -18,10 +18,13 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.hasSameMailingAddress = false;
 
     // List of ContactInformationModels
-    $scope.contactInformation = []
+    $scope.contactInformation = [];
     $scope.postInfo = [];
 
-    $scope.age = 0
+    $scope.guardianInformation = [];
+    $scope.guardianPost = [];
+
+    $scope.age = 0;
   
     /// Model to arrange the data for ContactInformation in the post requests.
     class ContactInformationModel {
@@ -30,11 +33,11 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
          * Sets the ContactInformationModel to its default values
          */
         constructor() {
-            this.ContactType = "phone"
-            this.ContactTypeExt = "home"
-            this.Value = ""
-            this.Description = ""
-            this.IsPreferred = 0
+            this.ContactType = "phone";
+            this.ContactTypeExt = "home";
+            this.Value = "";
+            this.Description = "";
+            this.IsPreferred = 0;
         }
 
         /**
@@ -71,6 +74,47 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             }
         }
     }
+    class GuardianInformationModel {
+
+        /**
+         * Sets the ContactInformationModel to its default values
+         */
+        constructor() {
+            this.FName = "";
+            this.LName = "";
+            //this.ApplicantID = $scope.ApplicantID;
+            this.Relationship = "";
+            this.PhoneNum = "";
+            this.Email = "";
+            this.IsLegalGuard = 0;
+        }
+
+        /**
+         * Defines the data used in the POST object for when the form is
+         * submitted. It's important to specify this because when contact
+         * information is added to the field, some of the field values aren't
+         * included when the contact type differs. For example, Ext (Extension)
+         * is not needed when the Contact Type is a social media account.
+         *
+         * - Returns:
+         *   - An object containing the necessary fields for this object to be
+         *   added to the database
+         */
+        asGuardPOSTObject() {
+
+            // Fields used in all cases
+            var postObject = {
+                //ApplicantID: this.ApplicantID,
+                fName: this.FName,
+                lName: this.LName,
+                Relationship: this.Relationship,
+                PhoneNum: this.PhoneNum,
+                Email: this.Email,
+                IsLegalGuard: this.IsLegalGuard
+            }
+            return postObject;
+        }
+    }
 
     // Set up options on load
     $http({
@@ -81,7 +125,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         var data = response.data;
         // Extract data
         $scope.urbanizationOptions = data.urbanization.map(a => a.Urbanization);
-        $scope.stateOptions = data.state
+        $scope.stateOptions = data.state;
         $scope.salutationOptions = data.salutation.map(a => a.Salutation);
         $scope.genqualOptions = data.genqual.map(a => a.PersonGenQual);
         $scope.raceOptions = data.race;
@@ -94,9 +138,11 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
      */
     $scope.addContactInformation = function() {
         $scope.contactInformation.push(new ContactInformationModel());
-        alert($scope.contactInformation);
 
-    }
+    };
+    $scope.addGuardian = function(){
+        $scope.guardianInformation.push(new GuardianInformationModel());
+    };
 
     /**
      * Removes the selected row from the ContactInformation section of the form.
@@ -113,7 +159,16 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             }
         }
 
-    }
+    };
+    $scope.removeGuardian = function(elem){
+        console.log(elem.$$hashKey);
+        console.log(elem.asGuardPOSTObject());
+        for(var i = 0; i < $scope.guardianInformation.length; i++) {
+            if($scope.guardianInformation[i].$$hashKey == elem.$$hashKey) {
+                $scope.guardianInformation.splice(i, 1);
+            }
+        }
+    };
 
     /**
      * Calculates the age given a person's DOB in MM/DD/YYYY format. Used in the
@@ -158,7 +213,16 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             i++;
         }
         return $scope.postInfo;
-    }
+    };
+    $scope.getGuardianPOSTData = function(){
+        var i = 0;
+        var len = $scope.guardianInformation.length;
+        for(; i < len;){
+            $scope.guardianPost[i] = $scope.guardianInformation[i].asGuardPOSTObject();
+            i++
+        }
+        return $scope.guardianPost;
+    };
 
     /**
      * Submits the form data to php/admin_createApplicant.php
@@ -170,12 +234,14 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             data: {
                 peopleData: $scope.person,
                 applicantsData: $scope.applicant,
-                contactInformationData: $scope.getContactInformationPOSTData()
+                contactInformationData: $scope.getContactInformationPOSTData(),
+                guardianData: $scope.getGuardianPOSTData()
             },
             headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(
             function(response) {
                 console.log("Response: " + response.data);
+                alert($scope.guardianInformation.length);
             },
             function(error) {
                 console.log("Error: " + error);
@@ -183,7 +249,7 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         var form = document.getElementById("newAppForm");
         form.reset();
         //Add this in when things work properly and alerts no longer need to show
-        //window.location.reload();
+        window.location.reload();
 
     }
     $scope.recruiterViews = [
