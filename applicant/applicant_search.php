@@ -13,7 +13,11 @@ function search()
 
     $search = mysqli_real_escape_string($result,$_POST["text_search"]);
 
-    $sql = "SELECT lName, fName, AppSubmitDate, applicantID, documentID FROM tblApplicants WHERE lName LIKE '%$search%' OR fName LIKE '%$search%' OR applicantID LIKE '%$search%'";
+    $sql = "SELECT lName, fName, AppSubmitDate, applicantID, documentID 
+            FROM tblApplicants W
+            HERE lName LIKE '%$search%' AND AStatus = 0 
+            OR fName LIKE '%$search%' AND AStatus = 0 
+            OR applicantID LIKE '%$search%' AND AStatus = 0";
 
     if (!$result)
         die("Unable to perform query!");
@@ -21,8 +25,9 @@ function search()
     $query = mysqli_query($result, $sql);
 
     while ($row = mysqli_fetch_array($query)) {
+        $value = $row['applicantID'];
         echo "<tr>";
-        echo "<td>" . "<input type='checkbox' name=$row[applicantID]/>&nbsp;</td>";
+        echo "<td>" . "<input type='checkbox' name='id[]' value=$value/>&nbsp;</td>";
         echo "<td>" . $row['lName'] . "</td>";
         echo "<td>" . $row['fName'] . "</td>";
         echo "<td>" . $row['AppSubmitDate'] . "</td>";
