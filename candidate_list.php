@@ -2,22 +2,8 @@
     <meta charset="UTF-8">
     <title>Candidate Pool</title>
 
-    <link rel="stylesheet" type="text/css" href="applicant_view.css">
     <link rel="stylesheet" type="text/css" href="applicant_view2.css">
-
-
-    <!-- Bootstrap 4 -->
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
-    <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="./searchjs.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="search-filter.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <style>
-    </style>
-
+    <link rel="stylesheet" type="text/css" href="../css/site.css">
 </head>
 
 <body>
@@ -40,13 +26,14 @@
             <div>
                 <div>
                     <form method="post" action = "">
-                        <table id="data-table">
+                    <table id="data-table" class="minerva-table">
                             <thead>
                             <tr>
                                 <th><div label=" "></div></th>
                                 <th><div label="Last"></div></th>
                                 <th><div label="First"></div></th>
                                 <th><div label="IDNumber"></div></th>
+                                <th><div label="Email"></div></th>
                                 <th class="scrollbarhead"/> <!--extra cell at end of header row-->
                             </tr>
                             </thead>
@@ -57,6 +44,7 @@
                             require_once './applicant_moveToApplicantPool.php';
                             require_once './applicant_moveToDeadpool.php';
                             require_once './applicant_viewCandidates.php';
+
                             listCandidates();
 
 
@@ -78,17 +66,22 @@
 
                             //Function that sends the selected to Dead
                             if(isset($_POST['submitDead'])){
-                                if(!empty($_POST['id'])){
+                                if(count($_POST)>1){
                                     $rows = mysqli_fetch_array($fetch);
 
-                                    foreach($_POST['id'] as $value){
+                                    //removes the button post from the array $ids
+                                    $ids=$_POST;
+                                    unset($ids['submitDead']);
+
+                                    foreach($ids as $value){
                                         $checked = "";
                                         if(in_array($value,$checked_arr)){
                                             $checked = "checked";
                                         }
 
-                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID = $value");
+                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tbldeadpool WHERE applicantID =".$value);
                                         $dumpy = mysqli_fetch_assoc($sql);
+
 
                                         moveToDeadpool($value, $dumpy);
 
@@ -101,17 +94,22 @@
 
                             //Function that sends the selected to Applicant
                             if(isset($_POST['submitApplicant'])){
-                                if(!empty($_POST['id'])){
+                                if(count($_POST)>1){
                                     $rows = mysqli_fetch_array($fetch);
 
-                                    foreach($_POST['id'] as $value){
+                                    //removes the button post from the array $ids
+                                    $ids=$_POST;
+                                    unset($ids['submitApplicant']);
+
+                                    foreach($ids as $value){
                                         $checked = "";
                                         if(in_array($value,$checked_arr)){
                                             $checked = "checked";
                                         }
 
-                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID = $value");
+                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tbldeadpool WHERE applicantID =".$value);
                                         $dumpy = mysqli_fetch_assoc($sql);
+
 
                                         moveToApplicantPool($value, $dumpy);
 
