@@ -1,3 +1,4 @@
+
 //File: site-viewcadets.controller.js
 //This code is the controller for the viewcadets main view: viewcadets.view.html
 //This code uses viewcadets.view.html, site-viewcadets.php,
@@ -31,7 +32,74 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
         $scope.reverse = !$scope.reverse; //if true make it false and vice versa
     }
 
-    $scope.update = function(id){
+    $scope.addSeltoGrads = function()
+    {
+
+        var toGrad = [];
+        var n=0;
+        for(var i = 0; i<$scope.cadets.length; i++)
+        {
+            if((document).getElementById($scope.cadets[i].applicantID).checked)
+            {
+                toGrad[n] = {"PersonFN": $scope.cadets[i].PersonFN, "PersonLN": $scope.cadets[i].PersonLN, "fkClassID": $scope.cadets[i].fkClassID, "CadetRosterNumber": $scope.cadets[i].CadetRosterNumber,
+                    "fkCadetID": $scope.cadets[i].fkCadetID
+                };
+                n = n+1;
+            }
+        }
+        if (n<1)
+            alert("No Cadetss Selected!"); // respond to no cadets selected
+        else
+        {
+            console.log(toGrad);
+            addToGrads(toGrad); // pass to main add function
+        }
+    }
+
+    $scope.addCadetToGrad = function(fkCadetID) {
+        var i = 0;
+        var toGrad = [];
+
+        while (i < $scope.cadets.length) {
+            if ($scope.cadets[i].fkCadetID == fkCadetID) {
+                toGrad[0] = {
+                    "PersonFN": $scope.cadets[i].PersonFN,
+                    "PersonLN": $scope.cadets[i].PersonLN,
+                    "fkClassID": $scope.cadets[i].fkClassID,
+                    "CadetRosterNumber": $scope.cadets[i].CadetRosterNumber,
+                    "fkCadetID": $scope.cadets[i].fkCadetID
+                };
+            }
+            i = i + 1;
+        }
+
+        if (!(null == toGrad)) {
+            console.log(toGrad);
+            addToGrads(toGrad);
+        } else
+            alert("Controller Error!");
+
+    }
+        function addToGrads(toGradAry) {
+            var cadetIds = toGradAry.map(a => a.fkCadetID);
+            console.log(cadetIds);
+            $http({
+                method: 'POST',
+                url: './php/admin_cadetGraduateChange.php',
+                data: Object.toparams(params),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(function (response) {
+                    alert(response.data);
+                    $scope.loadCadetsIntoView();
+                }, function (error) {
+                    alert(error);
+                }
+            );
+        }
+
+});
+
+    /*$scope.update = function(id){
         var cadetStatus = (document).getElementById(id+"").value;
         if(cadetStatus == "Cadet")
         {
@@ -52,10 +120,12 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
                 $scope.loadCadetsIntoView();
             }, function(error) {
                 alert(error);
-            }); 
+            });
         }
-        
+
     };
 });
+*/
+
 
 
