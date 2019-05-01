@@ -1,15 +1,16 @@
 
-<!--<div class="container" id="fileSubmissionContainer" ng-app="myApp" ng-controller="fileSubmission"
-     xmlns="http://www.w3.org/1999/html">-->
+<!--Created By Graham Schunk
+    This is the html document that has tables to store tasks and tests for each core component. It allows you to add, edit, and delete both tasks and tests-->
 
 <div class="well container infoContainer" id="editCoreContainer">
     <h3>Edit CoreComponent Tasks</h3>
+    <h4>After Creating a task,test, or task event please press save.</h4>
     <!--load app.controller from JobSkillsCtrl.js-->
 
     <div ng-controller="editCoreComponentController">
         <!--name form for two way binding-->
         <form name="coreComponentForm">
-            <button class = "btn btnEdit" ng-click="showTasks()">Refresh</button>
+            <button class = "btn btnView" ng-click="showTasks()">ViewTasks</button>
             <!--TODO Automate showing tasks once a new task is selected.-->
               <select id="selectNumber" onchange="setCoreComponent(this.value)" ng-model="list">
                 <option value = "1">Academic Excellence</option>
@@ -31,24 +32,84 @@
                 <tr>
                     <th colspan="5">TASKS
                     <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editable"> Edit</button>
-                    <button class="btn btnSave" ng-click="update(tasks)"ng-show="editable"> Save</button>
-                    <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editable"> Cancel</button>
+                    <button class="btn btnSave" ng-click="update(tasks);showTasks()"ng-show="editable"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelTasksUpdate();showTasks()"ng-show="editable"> Cancel</button>
+                    <button class = "btn btnCreate" ng-click="addNewTask(tasks.length+1); showTasks()"ng-show="editable">Create</button>
                     </th>
                 </tr>
                 </thead>
                 <tr>
+                    <th></th>
                 	<th>Task Number</th>
                 	<th>Task Name</th>
                 	<th>Is Active</th>
                 </tr>
-                <tr ng-repeat="task in tasks track by $index">
+                <tr ng-repeat="task in tasks track by $index"ng-class="current($index)">
+                    <!--Added on click functions to select the task to retrive tests for -->
+                    <td><button class = "btn btnView"ng-click="showTests(task.TaskID);store($index);setCurrTask(task);setCurrTest();showTaskEvents()">View Tests</button>
                 	<td><input name="TaskNumber" ng-model="task.TaskNumber"ng-disabled="!editable" ></td>
 					<td><input name="TaskName" ng-model="task.Task"ng-disabled="!editable" ></td>
                     <td><input  style="width:20px; height:20px;" name="IsActive" type="checkbox" ng-model="task.IsActive" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editable"></td> 
-                    <td><button class = "btn btnDelete" ng-click="deleteTask(task.TaskNumber)" ng-disabled="!editable">Delete</button></td>
+                    <td><button class = "btn btnDelete" ng-click="deleteTask($index)" ng-disabled="!editable">Delete</button></td>
                     <!--TODO make tests for each task appear in a sub table. Most of the code is done in the task editing just need to apply it
                         to new files and use the tests table instead of task table-->
                 </tr>	
-                <tr><button class = "btn btnCreate" ng-click="addNewTask(tasks.length+1)">Create</button></tr>
+            </table>
+            <table id="TaskTestsTable" class= "table minerva-table">
+            <thead>
+                <tr>
+                    <th colspan="5">
+                    <text>{{this.currTask.Task}}</text>    
+                    <button class="btn btnEdit" ng-click="makeTestsEditable()"ng-hide="editableTests"> Edit</button>
+                    <button class="btn btnSave" ng-click="updateTests(tests);showTests(this.currTask.TaskID)"ng-show="editableTests"> Save</button>
+                    <button class="btn btnCancel" ng-click="cancelTestsUpdate();showTests(this.currTask.TaskID)"ng-show="editableTests"> Cancel</button>
+                    <button class="btn btnCreate" ng-click="addNewTest(this.currTask.TaskID); showTests(this.currTask.TaskID)" ng-show="editableTests">Create</button>
+                    </th>
+                </tr>
+            </thead>    
+                <tr>
+                    <th></th>
+                    <th>Test Number</th>
+                    <th>Test Name</th>
+                    <th>Is Active</th>
+                </tr>
+                <tr ng-repeat="test in tests track by $index"ng-class="currentTaskTest($index)">
+                    <td><button class="btn btnView"ng-click="showTaskEvents(test.TaskTestID);storeTaskTest($index);setCurrTest(test)">View TaskEvents</button></td>
+                    <td>{{test.TaskTestID}}</td>
+                    <td><input name="TestName" ng-model="test.TaskTest"ng-disabled="!editableTests" ></td>
+                    <td><input  style="width:20px; height:20px;" name="IsActive" type="checkbox" ng-model="test.IsActive" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editableTests"></td> 
+                    <td><button class = "btn btnDelete" ng-click="deleteTest($index)" ng-disabled="!editableTests">Delete</button></td>
+                </tr>
+            </table>
+            <table id="TestEventsTable" class= "table minerva-table">
+                <thead>
+                    <tr>
+                        <th colspan="6">
+                        <text>{{this.currTest.TaskTest}}</text>     
+                        <button class="btn btnEdit" ng-click="makeTaskEventsEditable()"ng-hide="editableTaskEvents"> Edit</button>
+                        <button class="btn btnSave" ng-click="updateTaskEvents(taskevents);showTaskEvents(this.currTest.TaskTestID)"ng-show="editableTaskEvents"> Save</button>
+                        <button class="btn btnCancel" ng-click="cancelTaskEventsUpdate();showTaskEvents(this.currTest.TaskTestID)"ng-show="editableTaskEvents"> Cancel</button>
+                        <button class="btn btnCreate" ng-click="addNewTaskEvent(this.currTest.TaskTestID); showTaskEvents(this.currTest.TaskTestID)" ng-show="editableTaskEvents">Create</button>
+                        </th>
+                    </tr>                    
+                </thead>
+                <tr>
+                    <th>TaskTestEventID</th>
+                    <th>TaskEvent</th>
+                    <th>IsActive</th>
+                    <th>TaskEventMeas</th>
+                    <th>TaskEventFormat</th>
+                </tr>
+                <tr ng-repeat="taskevent in taskevents track by $index">
+                    <td>{{taskevent.TaskTestEventID}}</td>
+                    <td><input name="TaskEvent"ng-model="taskevent.TaskEvent"ng-disabled="!editableTaskEvents"></td>
+                    <td><input  style="width:20px; height:20px;" name="IsActive" type="checkbox" ng-model="taskevent.IsActive" ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editableTaskEvents"></td>
+                    <td><input name="TaskEventMeas"ng-model="taskevent.TaskEventMeas"ng-disabled="!editableTaskEvents"></td>
+                    <td><input name="TaskEventFormat"ng-model="taskevent.TaskEventFormat"ng-disabled="!editableTaskEvents"></td>
+                    <td><button class = "btn btnDelete" ng-click="deleteTaskEvent($index)" ng-disabled="!editableTaskEvents">Delete</button></td>
+                </tr>    
+
             </table>
         </form>
+    </div>
+</div>
