@@ -18,6 +18,8 @@
     require_once './forms_functions.php';
     ?>
 
+    <script src="forms.js"></script>
+
     <style>
     </style>
 </head>
@@ -75,7 +77,23 @@
         </form>
     </div>
 
-    <div class="container-fluid" style="float:right;">
+    <!-- Form tabs -->
+    <div class="tab">
+        <button class="tablinks" onclick="openCity(event, 'template')">Template</button>
+    </div>
+
+    <!-- Tab content -->
+    <div id="template" class="tabcontent">
+        <textarea rows="5" cols="50" name="text_field" wrap="soft" style="width:650px; height:500px; float:right;">
+Dear (first-name),
+    Congratulations! You have been accepted.
+
+From
+Us
+        </textarea>
+    </div>
+
+    <!--<div class="container-fluid" style="float:right;">
     <textarea rows="5" cols="50" name="text_field" wrap="soft" style="width:650px; height:500px;">
 Dear (first-name),
     Congratulations! You have been accepted.
@@ -83,7 +101,8 @@ Dear (first-name),
 From
 Us
     </textarea>
-    </div>
+    </div>-->
+
 </div>
 
 <div class="container-fluid " style="float:right; margin-right: 265px;">
