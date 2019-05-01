@@ -2,45 +2,31 @@
     <meta charset="UTF-8">
     <title>Dead Pool</title>
 
-    <link rel="stylesheet" type="text/css" href="applicant_view.css">
     <link rel="stylesheet" type="text/css" href="applicant_view2.css">
     <link rel="stylesheet" type="text/css" href="../css/site.css">
-
-
-    <!-- Bootstrap 4 -->
-    <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
-    <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="./searchjs.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="search-filter.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <style>
-    </style>
-
 </head>
 
 <body>
+<br>
 
 <h3 style="font-size:40px; text-indent: 20px; text-align:left">Dead Pool</h3>
 
 <hr style="height:3px;border:none;color:#333;background-color:#333;margin-bottom: 0px" />
 
 <div class="topnav">
-    <a class="active" href="./applicant_list.php">Home</a>
+    <a href="./applicant_list.php">Home</a>
     <a href="./candidate_list.php">Candidates</a>
-    <a href="./deadpool_list.php">Dead Pool</a>
+    <a class="active" href="./deadpool_list.php">Dead Pool</a>
 </div><br>
 
 
 <form method="post" action="">
     <div class="container">
-        <div class="scrollingtable text-center">
+        <div class="scrollingtable">
             <div>
                 <div>
                     <form method="post" action = "">
-                        <table id="data-table">
+                        <table id="data-table" class="minerva-table">
                             <thead>
                             <tr>
                                 <th><div label=" "></div></th>
@@ -56,7 +42,7 @@
                                     <?php
                                     require_once './applicant_viewDeadPool.php';
                                     require_once './applicant_moveToCandidatePool.php';
-                                    require_once './applicant_moveToDeadpool.php';
+                                    require_once './applicant_moveToApplicantPool.php';
                                         listDeadPool();
 
                                     $checked_arr = array();
@@ -78,55 +64,49 @@
 
                                     //Function that sends the selected to Candidate
                                     if(isset($_POST['submitCandidate'])){
-                                        if(!empty($_POST['id'])){
+                                        //checks if anything is selected
+                                        if(count($_POST)>1){
                                             $rows = mysqli_fetch_array($fetch);
 
-                                            foreach($_POST['id'] as $value){
+                                            //removes the button post from the array $ids
+                                            $ids=$_POST;
+                                            unset($ids['submitCandidate']);
+
+                                            foreach($ids as $value){
                                                 $checked = "";
                                                 if(in_array($value,$checked_arr)){
                                                     $checked = "checked";
                                                 }
 
-                                                //this is a test alert
-                                                /*echo "<script type='text/javascript'> alert('<?php echo  $value?>');</script>";*/
-
-
-                                                $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID = $value");
+                                                $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tbldeadpool WHERE applicantID =".$value);
                                                 $dumpy = mysqli_fetch_assoc($sql);
 
-                                                //moveToDeadpool($value, $dumpy);
                                                 moveToCandidatepool($value, $dumpy);
-
-                                                //test dumping values
-                                                //var_dump($dumpy['AStatus']);
                                             }
-
-                                            //INSERT and UPDATE database
-                                            //$checkEntries = mysqli_query($result, "SELECT * FROM tblApplicants");
-
-                                            //TODO IF the database is empty then inserts
-                                            //if(mysqli_num_rows($checkEntries)==0){mysqli_query($result, "INSERT INTO tblApplicants")};
 
                                         }
                                     }
 
 
                                     //Function that sends the selected to Applicant
+                                   
                                     if(isset($_POST['submitApplicant'])){
-                                        if(!empty($_POST['id'])){
+                                        //checks if anything is selected
+                                        if(count($_POST)>1){
                                             $rows = mysqli_fetch_array($fetch);
-
-                                            foreach($_POST['id'] as $value){
+                                            
+                                            $ids=$_POST;
+                                            unset($ids['submitApplicant']);
+                                            foreach($ids as $value){
                                                 $checked = "";
                                                 if(in_array($value,$checked_arr)){
                                                     $checked = "checked";
                                                 }
 
-                                                $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID = $value");
+                                                $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tbldeadpool WHERE applicantID =".$value);
                                                 $dumpy = mysqli_fetch_assoc($sql);
 
                                                 moveToApplicantPool($value, $dumpy);
-
                                             }
                                         }
                                     }

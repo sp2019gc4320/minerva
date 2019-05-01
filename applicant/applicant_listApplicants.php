@@ -14,14 +14,16 @@ function listApplicants() {
     $result = $connection -> connectDB();
     $query = mysqli_query($result, $sql);
 
+    $i=0;
     while($row = mysqli_fetch_array($query)) {
         echo "<tr>";
-        echo "<td>"."<input type='checkbox' name=$row[applicantID]/>&nbsp;</td>";
+        echo "<td>"."<input type='checkbox' name='id$i' value=".$row['applicantID'].">&nbsp;</td>";
         echo "<td>".$row['lName']."</td>";
         echo "<td>".$row['fName']."</td>";
         echo "<td>".$row['AppSubmitDate']."</td>";
         echo "<td>".$row['applicantID']."</td>";
         echo "<td>".$row['documentID']."</td>";
         echo "</tr>";
+        $i++;
     }
 }
