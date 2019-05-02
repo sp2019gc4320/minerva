@@ -94,8 +94,7 @@ EOT;
     }
 }
 
-function generateSelectedForms()
-{
+function generateSelectedForms() {
 
 }
 
@@ -123,13 +122,16 @@ EOT;
 
 function createNewForm($text, $name) {
     $connection = new DBController();
+    $result = $connection->connectDB();
+    $text = mysqli_escape_string($result, $text);
+    $name = mysqli_escape_string($result, $name);
+
     if (!$connection) die("Unable to connect to the database!");
 
     // retrieve applicant info
     $sql = "INSERT INTO tblApplicantForms 
             (`formName`, `formText`)
             VALUES ('$name', '$text')";
-    $result = $connection->connectDB();
     $query = mysqli_query($result, $sql);
     if (!$query) die("Unable to perform query.");
 }
@@ -137,28 +139,31 @@ function createNewForm($text, $name) {
 function deleteForm($id)
 {
     $connection = new DBController();
+    $result = $connection->connectDB();
+    $id = mysqli_escape_string($result, $id);
+
     if (!$connection) die("Unable to connect to the database!");
 
     // retrieve applicant info
     $sql = "DELETE FROM tblApplicantForms 
             WHERE formID = '$id'";
-    $result = $connection->connectDB();
     $query = mysqli_query($result, $sql);
     if (!$query) die("Unable to perform query.");
-
-    header("location: forms.php");
 }
 
 function saveForm($text, $id)
 {
     $connection = new DBController();
+    $result = $connection->connectDB();
+    $text = mysqli_escape_string($result, $text);
+    $id = mysqli_escape_string($result, $id);
+
     if (!$connection) die("Unable to connect to the database!");
 
     // retrieve applicant info
     $sql = "UPDATE tblApplicantForms 
             SET formText = '$text'
             WHERE formID = '$id'";
-    $result = $connection->connectDB();
     $query = mysqli_query($result, $sql);
     if (!$query) die("Unable to perform query.");
 

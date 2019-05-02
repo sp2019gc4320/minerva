@@ -86,9 +86,6 @@
 
     <?php
         if(isset($_POST['createForm'])){
-            echo '<script type="text/javascript">',
-            'createFormPageJS();',
-            '</script>';
             createFormPage();
         }
         if(empty($_POST['generateSelected']) && !isset($_POST['createForm'])) {
@@ -100,6 +97,16 @@
          else
             generateSelectedForms();
 
+        $checked_arr = array();
+
+        $conn = new DBController();
+        $result = $conn -> connectDB();
+        //$new_result= $conn -> connectDB();
+        if(!$conn) die("Unable to connect to the database!");
+
+
+        //fetch checked values
+        $fetch = mysqli_query($result, "SELECT * FROM tblApplicants");
         if(isset($_POST['generateSelected'])){
             if(!empty($_POST['id'])){
                 $rows = mysqli_fetch_array($fetch);

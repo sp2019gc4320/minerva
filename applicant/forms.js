@@ -62,7 +62,11 @@ function deleteFormJS() {
     }
 }
 
-function createFormPageJS() {
+function generateSelectedFormsJS() {
+
+}
+
+/*function createFormPageJS() {
     // Declare all variables
     var i, tabcontent, tablinks, formID, formName, formText, func, button;
     func = 'create';
@@ -97,7 +101,7 @@ function createFormPageJS() {
             alert("Creating new form.");
         }
     });
-}
+}*/
 
 function saveNewFormJS() {
     var formName, formText, func;
