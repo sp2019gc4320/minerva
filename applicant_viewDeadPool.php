@@ -1,18 +1,17 @@
 <?php
-// File: applicant_viewCandidates.php
-// Outputs an HTML table that includes fName, lName, idNumber, and a button to view documents
+// File: applicant_viewDocuments.php
+// This file returns a new view which contains a table for all dead pool occupants
 //
 
 require_once '../php/dbcontroller.php';
 
-function listCandidates() {
+function listDeadPool() {
     $connection = new DBController();
-    if(!$connection) die("Unable to connect to the database!");
+    if (!$connection) die("Unable to connect to the database!");
 
-    // retrieve applicant info
-    $sql = "SELECT lName, fName, applicantID 
-            FROM tblApplicants 
-            WHERE AStatus = 2";
+    //retrieve dead pool population
+    $sql = "SELECT lName, fName, applicantID FROM tblApplicants WHERE AStatus = 3";
+
     $result = $connection -> connectDB();
     $query = mysqli_query($result, $sql);
 

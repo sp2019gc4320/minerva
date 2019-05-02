@@ -54,13 +54,18 @@
     <h3 style="font-size:40px; text-indent: 20px; text-align:left">Documents and Forms</h3></div>
 
 <hr style="height:3px;border:none;color:#333;background-color:#333;margin-bottom: 0px" />
+
 <div class="topnav">
-    <a class="active" href="./applicant_list.php">Home</a>
+    <a href="./applicant_list.php">Home</a>
     <a href="./candidate_list.php">Candidates</a>
     <a href="./deadpool_list.php">Dead Pool</a>
+    <a class="active"  href="./applicant_view.php">Documents</a>
+    <a href="./forms.php">Form Management</a>
 </div><br>
 <button type="button" style="width:300px;" class="btn btn-danger">INELIGIBLE FOR REVIEW</button>
 
+<font size="5"><?php require_once "./applicant_documents.php"; displayName(); ?></font>
+    
 <table border="0" class="gfg">
     <tr>
         <th><font size="5"> Pending Documents </font> <button type="button" style="width:65px;height:35px;" class="btn btn-primary">SAVE</button></th>
