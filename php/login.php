@@ -30,7 +30,7 @@ if($rowCount) //If there is a user with that information, this signs them in
 
     $permission_map = function($permission) {
         return $permission->fkPermissionId;
-    }
+    };
     $permission_query = "SELECT * FROM tblUserPermissions WHERE fkUserId='$username'";
     $permissions = array_map($permission_map, $connection->runSelectQueryArray($permission_query));
 
