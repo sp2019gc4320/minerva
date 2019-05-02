@@ -17,11 +17,8 @@
     <?php
     require_once './forms_functions.php';
     ?>
-
     <script src="forms.js"></script>
 
-    <style>
-    </style>
 </head>
 
 <body>
@@ -67,45 +64,64 @@
                 <!-- Pulls data from SQL database (applicant - tblApplicants) to populate table-->
                 <tbody>
                 <?php
-                listSelected();
+                    listSelected();
                 ?>
                 </tbody>
-            </table><br>
-            <button type="submit" name="submitCandidate" style="width: 150px; float:left;" class="btn btn-success">
+            </table>
+            <button type="submit" name="generateSelected" style="width: 150px; float:left;" class="btn btn-success">
                 Generate Forms
+            </button><br><br><br><br><br><br>
+            <button type="submit" name="createForm" style="width: 150px; float:left;" class="btn btn-success">
+                New Form
             </button>
-        </form>
+        </form><br><br>
+            <button type="submit" name="saveForm" style="width: 150px; height: 40px; float:left;" class="btn btn-primary">
+                Save Current Form
+            </button>
+            <button type="submit" name="deleteForm" style="width: 150px; height: 40px; float:left;" class="btn btn-danger">
+                Delete Current Form
+            </button>
     </div>
 
-    <!-- Form tabs -->
-    <div class="tab">
-        <button class="tablinks" onclick="openCity(event, 'template')">Template</button>
-    </div>
+    <?php
+        if(empty($_POST['generateSelected']))
+            generateDefaultForm();
+        else
+            generateSelectedForms();
 
+        if(isset($_POST['generateSelected'])){
+            if(!empty($_POST['id'])){
+                $rows = mysqli_fetch_array($fetch);
+
+                foreach($_POST['id'] as $value){
+                    $checked = "";
+                    if(in_array($value,$checked_arr)){
+                        $checked = "checked";
+                    }
+                    $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID = '$value'");
+                    $dumpy = mysqli_fetch_assoc($sql);
+
+                    moveToCandidatepool($value, $dumpy);
+                }
+
+                //INSERT and UPDATE database
+                //$checkEntries = mysqli_query($result, "SELECT * FROM tblApplicants");
+            }
+        }
+    ?>
     <!-- Tab content -->
-    <div id="template" class="tabcontent">
-        <textarea rows="5" cols="50" name="text_field" wrap="soft" style="width:650px; height:500px; float:right;">
+    <!--<div id="template" class="tabcontent">
+        <textarea rows="5" cols="50" name="text_field" wrap="soft" style="width:750px; height:500px; float:right;">
 Dear (first-name),
     Congratulations! You have been accepted.
 
 From
 Us
         </textarea>
-    </div>
-
-    <!--<div class="container-fluid" style="float:right;">
-    <textarea rows="5" cols="50" name="text_field" wrap="soft" style="width:650px; height:500px;">
-Dear (first-name),
-    Congratulations! You have been accepted.
-
-From
-Us
-    </textarea>
     </div>-->
-
 </div>
 
-<div class="container-fluid " style="float:right; margin-right: 265px;">
+<div class="container-fluid " style="float:right; margin-right: 275px;">
     <button type="submit" name="submitCandidate" style="width: 150px; float:left;" class="btn btn-primary">
         Email Forms
     </button>
@@ -114,4 +130,7 @@ Us
     </button>
 </div>
 
+<script>
+    document.getElementById("1").click();
+</script>
 

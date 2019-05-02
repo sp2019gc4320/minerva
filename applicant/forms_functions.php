@@ -24,3 +24,65 @@ function listSelected() {
         echo "</tr>";
     }
 }
+
+function generateDefaultForm() {
+    $connection = new DBController();
+    if(!$connection) die("Unable to connect to the database!");
+
+    // retrieve applicant info
+    $sql = "SELECT * 
+            FROM tblApplicantForms
+            ORDER BY formName;";
+    $result = $connection -> connectDB();
+    $query = mysqli_query($result, $sql);
+
+    echo <<< EOT
+    <div class='tab'>
+        <select>
+EOT;
+    while($row = mysqli_fetch_array($query)) {
+        $name = $row['formName'];
+        $id = $row['formID'];
+        echo <<< EOT
+        <option id=$id class="tablinks" onclick="openForm(event, '$name')">$name</option>
+EOT;
+    }
+    echo <<< EOT
+    </select>
+</div>
+EOT;
+
+    $query = mysqli_query($result, $sql);
+    while($row = mysqli_fetch_array($query)) {
+        $name = $row['formName'];
+        $text = $row['formText'];
+        echo <<< EOT
+        <div id='$name' class='tabcontent'>
+        <textarea rows='5' cols='50' name='text_field' wrap='soft' style='width:700px; height:500px; float:right;'>
+$text
+        </textarea>
+    </div>
+
+EOT;
+    }
+}
+
+function generateSelectedForms() {
+
+}
+
+function addForm() {
+
+}
+
+function deleteForm() {
+
+}
+
+function downloadForms() {
+
+}
+
+function emailForms() {
+
+}
