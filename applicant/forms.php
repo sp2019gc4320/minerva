@@ -39,7 +39,6 @@
 
 <div class="container">
     <div class="scrollingtable text-center" style="float:left;">
-        <form method="post" action="">
             <table class="minerva-table" id="data-table">
                 <thead>
                 <tr>
@@ -71,10 +70,12 @@
             <button type="submit" name="generateSelected" style="width: 150px; float:left;" class="btn btn-success">
                 Generate Forms
             </button><br><br><br><br><br><br>
+        <form action="forms.php" method="POST">
             <button type="submit" name="createForm" style="width: 150px; float:left;" class="btn btn-success">
                 New Form
             </button>
-        </form><br><br>
+        </form>
+        <br><br>
             <button type="submit" name="saveForm" style="width: 150px; height: 40px; float:left;" class="btn btn-primary" onclick="saveFormJS()">
                 Save Current Form
             </button>
@@ -84,9 +85,19 @@
     </div>
 
     <?php
-        if(empty($_POST['generateSelected']))
+        if(isset($_POST['createForm'])){
+            echo '<script type="text/javascript">',
+            'createFormPageJS();',
+            '</script>';
+            createFormPage();
+        }
+        if(empty($_POST['generateSelected']) && !isset($_POST['createForm'])) {
             generateDefaultForm();
-        else
+            echo '<script type="text/javascript">',
+            'document.getElementById("1").click();',
+            '</script>';
+        }
+         else
             generateSelectedForms();
 
         if(isset($_POST['generateSelected'])){
@@ -109,28 +120,18 @@
             }
         }
     ?>
-    <!-- Tab content -->
-    <!--<div id="template" class="tabcontent">
-        <textarea rows="5" cols="50" name="text_field" wrap="soft" style="width:750px; height:500px; float:right;">
-Dear (first-name),
-    Congratulations! You have been accepted.
-
-From
-Us
-        </textarea>
-    </div>-->
 </div>
 
-<div class="container-fluid " style="float:right; margin-right: 275px;">
-    <button type="submit" name="submitCandidate" style="width: 150px; float:left;" class="btn btn-primary">
+<!--<div class="container-fluid " style="float:right; margin-right: 275px;">
+    <button type="submit" name="email" id="email" style="width: 150px; float:left;" class="btn btn-primary">
         Email Forms
     </button>
-    <button type="submit" name="submitCandidate" style="width: 150px; float:left;" class="btn btn-success">
+    <button type="submit" name="download" id="download" style="width: 150px; float:left;" class="btn btn-success">
         Download Forms
     </button>
-</div>
+</div>-->
 
 <script>
-    document.getElementById("1").click();
+    //document.getElementById("1").click();
 </script>
 
