@@ -3,8 +3,7 @@
 //This code is the controller for the viewcadets main view: viewcadets.view.html
 //This code uses viewcadets.view.html, site-viewcadets.php,
 'use strict';
-angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination']).controller('viewCadets', function($scope, $http, $window)
-{
+angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination']).controller('viewCadets', function($scope, $http, $window) {
     $scope.loadCadetsIntoView = function() {
         $http({
             method: 'POST',
@@ -39,11 +38,17 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
         var n=0;
         for(var i = 0; i<$scope.cadets.length; i++)
         {
-            if((document).getElementById($scope.cadets[i].applicantID).checked)
+            var elem = document.getElementById($scope.cadets[i].fkCadetID);
+            if(elem != undefined && elem.checked)
             {
-                toGrad[n] = {"PersonFN": $scope.cadets[i].PersonFN, "PersonLN": $scope.cadets[i].PersonLN, "fkClassID": $scope.cadets[i].fkClassID, "CadetRosterNumber": $scope.cadets[i].CadetRosterNumber,
-                    "fkCadetID": $scope.cadets[i].fkCadetID
-                };
+                toGrad.push({
+                    "PersonFN": $scope.cadets[i].PersonFN, 
+                    "PersonLN": $scope.cadets[i].PersonLN, 
+                    "fkClassID": $scope.cadets[i].fkClassID, 
+                    "CadetRosterNumber": $scope.cadets[i].CadetRosterNumber,
+                    "fkCadetID": $scope.cadets[i].fkCadetID,
+                    "cadetStatus": "Graduated" 
+                });
                 n = n+1;
             }
         }
@@ -62,12 +67,14 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
 
         while (i < $scope.cadets.length) {
             if ($scope.cadets[i].fkCadetID == fkCadetID) {
+                console.log($scope.cadets[i]);
                 toGrad[0] = {
                     "PersonFN": $scope.cadets[i].PersonFN,
                     "PersonLN": $scope.cadets[i].PersonLN,
                     "fkClassID": $scope.cadets[i].fkClassID,
                     "CadetRosterNumber": $scope.cadets[i].CadetRosterNumber,
-                    "fkCadetID": $scope.cadets[i].fkCadetID
+                    "fkCadetID": $scope.cadets[i].fkCadetID,
+                    "cadetStatus": "Graduated"
                 };
             }
             i = i + 1;
@@ -80,26 +87,28 @@ angular.module('admin.siteViewCadets',['angularUtils.directives.dirPagination'])
             alert("Controller Error!");
 
     }
-        function addToGrads(toGradAry) {
-            var cadetIds = toGradAry.map(a => a.fkCadetID);
-            console.log(cadetIds);
+
+    function addToGrads(toGradAry) {
+        var cadetIds = toGradAry;
+        console.log(cadetIds);
+        for (var i = 0; i < cadetIds.length; i++) {
+            var params = cadetIds[i];
             $http({
                 method: 'POST',
                 url: './php/admin_cadetGraduateChange.php',
                 data: Object.toparams(params),
                 headers: {'Content-Type': 'application/x-www-form-urlencoded'}
             }).then(function (response) {
-                    alert(response.data);
-                    $scope.loadCadetsIntoView();
-                }, function (error) {
-                    alert(error);
-                }
-            );
+                $scope.loadCadetsIntoView();
+            }, function (error) {
+                alert(error);
+            });
         }
+    }
 
 });
 
-    /*$scope.update = function(id){
+/*$scope.update = function(id){
         var cadetStatus = (document).getElementById(id+"").value;
         if(cadetStatus == "Cadet")
         {

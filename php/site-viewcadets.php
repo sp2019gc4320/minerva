@@ -14,9 +14,9 @@ $conn = new DBController();
 
 
 //Create Field List
-$fields = "PersonFN, PersonLN, fkClassDetailID, CadetRosterNumber, fkCadetID";
+$fields = "PersonFN, PersonLN, fkClassDetailID, CadetRosterNumber, fkCadetID, CadetStatus";
 
-$sql = "SELECT tblPeople.PersonID, tblPeople.PersonFN, tblPeople.PersonLN, tblClassDetails.fkCadetID, tblClassDetails.ClassDetailID, tblClassDetails.fkClassID, tblClassDetails.CadetRosterNumber
+$sql = "SELECT tblPeople.PersonID, tblPeople.PersonFN, tblPeople.PersonLN, tblClassDetails.fkCadetID, tblClassDetails.ClassDetailID, tblClassDetails.fkClassID, tblClassDetails.CadetRosterNumber, tblClassDetails.CadetStatus
        FROM tblMentorPotential RIGHT JOIN (tblPeople INNER JOIN (tblCadets INNER JOIN tblClassDetails ON tblCadets.CadetID = tblClassDetails.fkCadetID) ON tblPeople.PersonID = tblCadets.fkPersonID) ON tblMentorPotential.fkClassDetailID = tblClassDetails.ClassDetailID
        WHERE(tblClassDetails.cadetStatus = 'Enrolled')";
 
@@ -32,7 +32,7 @@ if($result->num_rows > 0)
             echo ",";
 
         echo'{"PersonFN": "'.$row["PersonFN"]. '" , "PersonLN": "'.$row["PersonLN"]. '" , "fkClassID": "'.$row["ClassDetailID"].
-            '" , "CadetRosterNumber": "'.$row["CadetRosterNumber"]. '" , "fkCadetID": "'.$row["fkCadetID"].'"}';
+            '" , "CadetRosterNumber": "'.$row["CadetRosterNumber"]. '" , "fkCadetID": "'.$row["fkCadetID"].'", "CadetStatus": "'.$row["CadetStatus"].'"}';
         $count = $count+1;
     }
 
