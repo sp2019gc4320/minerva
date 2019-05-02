@@ -268,6 +268,7 @@ angular.module('admin.compAssign').controller('companyAssignController',function
                 $scope.staff = result.data.companyStaffTbl;
                 var allCaseMgrs = result.data.CaseMgrs;
                 var allCadre = result.data.Cadre;
+                var companyname = [];
 
 
 
@@ -277,6 +278,12 @@ angular.module('admin.compAssign').controller('companyAssignController',function
                 for(var i = 0; i < companies.length; i++)
                 {
                     companyAry[i] = companies[i].split(" ")[1]+"|"+companies[i].split(" ")[3];
+                    companyname[i] = "";
+                    for (var j = 4; j < (companies[i].split(" ").length); j++)
+                        {
+                            companyname[i] += companies[i].split(" ")[j]+" ";
+                        }
+                    companyname[i] += ": "+companies[i].split(" ")[3];
                 }
 
                 // these are to link existing users in a company to their place in the array
@@ -293,7 +300,7 @@ angular.module('admin.compAssign').controller('companyAssignController',function
                 // this is the associative array assignemnt linking the data to the outer array.
                 for(var i = 0; i < companies.length; i++)
                 {
-                    $scope.companyDisplay[i] = {"companies": companies[i],"cID": companyAry[i],"caseMgrs":  companies_caseMgrs[i] , "potCaseMgrs": companies_potMgrs[i] ,"cadre": companies_cadre[i], "potCadre": companies_potCadre[i]};
+                    $scope.companyDisplay[i] = {"companies":companies[i],"companyname": companyname[i],"cID": companyAry[i],"caseMgrs":  companies_caseMgrs[i] , "potCaseMgrs": companies_potMgrs[i] ,"cadre": companies_cadre[i], "potCadre": companies_potCadre[i]};
                 }
 
             }
