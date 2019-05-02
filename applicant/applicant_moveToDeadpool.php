@@ -11,18 +11,9 @@ function moveToDeadpool($value,$dumpy){
     $result = $connection -> connectDB();
     if(!$connection) die("Unable to connect to the database!");
 
+    //query to set status to 'deadpool'
+    $sqlAdd = "UPDATE tblApplicants SET AStatus = 3 WHERE applicantID = $value";
 
-    $sqlAdd = "INSERT INTO tblDeadPool (applicantID, fName, lName) VALUES ('".$dumpy['applicantID']."','".$dumpy['fName']."','".$dumpy['lName']."')";    //,".$dumpy['PGender'].",".$dumpy['AStatus'].",".$dumpy['AGenQual'].",".$dumpy['AEmail'].",".$dumpy['guardianEmail']."
-
-    //delete candidate from applicant once it has been moved to Deadpool
-    $sqlDeleteApplicant = "DELETE * FROM tblApplicants WHERE applicantID = $value";
-    $sqlDeleteCandidate = "DELETE * FROM tblCandidatePool WHERE applicantID = $value";
-
+    //calls the query
     mysqli_query($result, $sqlAdd);
-
-    //DANGER DELETES FROM applicant
-    mysqli_query($result, $sqlDeleteApplicant);
-
-    //DANGER DELETES FROM candidate
-    mysqli_query($result, $sqlDeleteCandidate);
 }

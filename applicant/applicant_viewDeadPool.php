@@ -18,7 +18,7 @@ function listDeadPool() {
     while($row = mysqli_fetch_array($query)) {
         $value = $row['applicantID'];
         echo "<tr>";
-        echo "<td>"."<input type='checkbox' name='id[]' value=$value/>&nbsp;</td>";
+        echo "<td>"."<input type='checkbox' name='id[]' value=$value>&nbsp;</td>";
         echo "<td>".$row['lName']."</td>";
         echo "<td>".$row['fName']."</td>";
         echo "<td>".$row['applicantID']."</td>";

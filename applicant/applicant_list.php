@@ -2,14 +2,16 @@
     <meta charset="UTF-8">
     <title>Applicants</title>
 
-    <link rel="stylesheet" type="text/css" href="applicant_view.css">
+    <!-- <link rel="stylesheet" type="text/css" href="applicant_view.css"> -->
     <link rel="stylesheet" type="text/css" href="applicant_view2.css">
     <link rel="stylesheet" type="text/css" href="../css/site.css">
 
+
+    <style>
+    </style>
 </head>
 
 <body>
-<br>
 
 <h3 style="font-size:40px; text-indent: 20px; text-align:left">Current Applicants</h3>
 
@@ -44,16 +46,15 @@
             <div>
                 <div>
                     <form method="post" action ="">
-                        <table id="data-table">
+                        <table id="data-table" class="minerva-table" style="text-align:center;  width:90%;">
                             <thead>
                             <tr>
-                                <th><div label=" "></div></th>
-                                <th><div label="Last"></div></th>
-                                <th><div label="First"></div></th>
-                                <th><div label="Date Submitted"></div></th>
-                                <th><div label="IDNumber"></div></th>
-                                <th><div label="Documents"></div></th>
-                                <th class="scrollbarhead"/> <!--extra cell at end of header row-->
+                                <th><div label=" "></div> </th>
+                                <th><div label="Last"></div>Last</th>
+                                <th><div label="First"></div>First</th>
+                                <th><div label="Date Submitted">Date Submitted</div></th>
+                                <th><div label="IDNumber"></div>IDNumber</th>
+                                <th><div label="Documents"></div>Documents</th>
                             </tr>
                             </thead>
 
@@ -64,83 +65,80 @@
                             require_once './applicant_search.php';
                             require_once './applicant_moveToDeadpool.php';
                             require_once './applicant_moveToCandidatePool.php';
+                            require_once './applicant_moveToSelectedPool.php';
+
 
                             if(empty($_POST['text_search']))
                                 listApplicants();
                             else
                                 search();
 
-                            $checked_arr = array();
-
                             $conn = new DBController();
                             $result = $conn -> connectDB();
-                            //$new_result= $conn -> connectDB();
                             if(!$conn) die("Unable to connect to the database!");
 
-
-                            //$sql = "SELECT * FROM tblApplicants";
                             //fetch checked values
                             $fetch = mysqli_query($result, "SELECT * FROM tblApplicants");
                             if(mysqli_num_rows($fetch)>0) {
                                 $fetch_result = mysqli_fetch_assoc($fetch);
-                                $checked_arr = explode(",", $fetch_result['applicantID']);
                             }
 
-
+                            //changes status to dead pool
                             if(isset($_POST['submitDead'])){
-                                if(!empty($_POST['id'])){
+                                //checks if anything is selected
+                                if(count($_POST)>1){
                                     $rows = mysqli_fetch_array($fetch);
 
-                                    foreach($_POST['id'] as $value){
-                                        $checked = "";
-                                        if(in_array($value,$checked_arr)){
-                                            $checked = "checked";
-                                        }
+                                    //removes the button post from the array $ids
+                                    $ids=$_POST;
+                                    unset($ids['submitDead']);
+                                    $ids = $ids['id'];
+                                    foreach($ids as $value){
 
-                                        //this is a test alert
-                                        /*echo "<script type='text/javascript'> alert('<?php echo  $value?>');</script>";*/
-                                        $sql = mysqli_query($result, "SELECT * FROM tblApplicants WHERE applicantID = '$value'");
+                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID =$value");
                                         $dumpy = mysqli_fetch_assoc($sql);
 
                                         moveToDeadpool($value, $dumpy);
-                                        //moveToCandidatepool($value, $dumpy);
-
-                                        //test dumping values
-                                        //var_dump($dumpy['AStatus']);
                                     }
-
-                                    //INSERT and UPDATE database
-                                    //$checkEntries = mysqli_query($result, "SELECT * FROM tblApplicants");
-
-                                    //TODO IF the database is empty then inserts
-                                    //if(mysqli_num_rows($checkEntries)==0){mysqli_query($result, "INSERT INTO tblApplicants")};
-
                                 }
                             }
 
+                            //changes the status to candidate
                             if(isset($_POST['submitCandidate'])){
-                                if(!empty($_POST['id'])){
+                                if(count($_POST)>1){
                                     $rows = mysqli_fetch_array($fetch);
 
-                                    foreach($_POST['id'] as $value){
-                                        $checked = "";
-                                        if(in_array($value,$checked_arr)){
-                                            $checked = "checked";
-                                        }
+                                    //removes the button post from the array $ids
+                                    $ids=$_POST;
+                                    unset($ids['submitCandidate']);
+                                    $ids = $ids['id'];
+                                    foreach($ids as $value){
 
-                                        //this is a test alert
-                                        /*echo "<script type='text/javascript'> alert('<?php echo  $value?>');</script>";*/
-
-
-                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID = '$value'");
+                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID =$value");
                                         $dumpy = mysqli_fetch_assoc($sql);
 
                                         moveToCandidatepool($value, $dumpy);
+                                    }
+                                }
+                            }
+
+                            //changes the status to selected
+                            if(isset($_POST['submitSelected'])){
+                                if(count($_POST)>1){
+                                    $rows = mysqli_fetch_array($fetch);
+
+                                    //removes the button post from the array $ids
+                                    $ids=$_POST;
+                                    unset($ids['submitSelected']);
+                                    $ids=$ids['id'];
+                                    foreach($ids as $value){
+
+                                        $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID = $value");
+                                        $dumpy = mysqli_fetch_assoc($sql);
+
+                                        moveToSelectedPool($value, $dumpy);
 
                                     }
-
-                                    //INSERT and UPDATE database
-                                    //$checkEntries = mysqli_query($result, "SELECT * FROM tblApplicants");
                                 }
                             }
 
@@ -149,11 +147,10 @@
                         </table>
                     </form>
                 </div><br>
-                <!-- submit button is just used for testing-->
-                <!--<button type="submit" value="Submit" name="submit">submit</button>-->
                 <button type="submit" name="submitCandidate" style="width: 300px;" class="btn btn-primary">Send to Candidate Pool</button>
                 <button type="submit" name="submitDead" style="width: 300px;" class="btn btn-danger">Send to Deadpool</button>
-                <!--<a href = 'applicant_list.php?alert=true'>post alert</a>-->
+                <button type="submit" name="submitSelected" style="width: 300px;" class="btn btn-primary">Send to Selected Pool</button>
+
             </div>
         </div>
     </div>

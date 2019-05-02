@@ -11,18 +11,9 @@ function moveToCandidatepool($value, $dumpy)
     $result = $connection->connectDB();
     if (!$connection) die("Unable to connect to the database!");
 
-    $sqlAdd = "INSERT INTO tblCandidatePool (applicantID, fName, lName) VALUES ('" . $dumpy['applicantID'] . "','" . $dumpy['fName'] . "','" . $dumpy['lName'] . "')";    //,".$dumpy['PGender'].",".$dumpy['AStatus'].",".$dumpy['AGenQual'].",".$dumpy['AEmail'].",".$dumpy['guardianEmail']."
+    //query to change status to candidate
+    $sqlAdd = "UPDATE tblApplicants SET AStatus = 2 WHERE applicantID = $value";
 
-    //delete candidate from applicant once it has been moved to Candidate Pool
-    $sqlDeleteApplicants = "DELETE * FROM tblApplicants WHERE applicantID = $value";
-    $sqlDeleteDeadpool = "DELETE * FROM tblDeadPool WHERE applicantID = $value";
-
-    //ADDS 
+    //calls the query 
     mysqli_query($result, $sqlAdd);
-
-    //DELETES FROM APPLICANT
-    mysqli_query($result, $sqlDeleteApplicants);
-
-    //DELETES FROM DEADPOOL
-    mysqli_query($result, $sqlDeleteDeadpool);
 }
