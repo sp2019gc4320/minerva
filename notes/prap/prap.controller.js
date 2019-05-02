@@ -304,6 +304,11 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
 
         var update = angular.copy($scope.cadetClass);
 
+        update.PRAPCategory=$scope.cadetClass.PRAPCategory.PRAPCategory;
+
+        //dropdown
+        $scope.cadetClass.PRAPCategory = $scope.cadetClass.PRAPCategory.PRAPCategory;
+
         //Convert all Dates to sql format
         for (var fieldName in update) {
             //Check to see if property name contains Date
@@ -521,6 +526,20 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
                 }
             }
 
+            //create CategoryType dropdown
+            $http.get("./php/prap_getCategory.php").then(function (response)
+            {
+                $scope.CategoryOptions = response.data.data;
+
+                var i=0;
+                var max = $scope.CategoryOptions.length;
+                while (i < max)
+                {
+                    $scope.CategoryOptions[i].id= i;
+                    i++;
+                }
+            })
+
         },
         //ERROR
         function (result) {
@@ -693,6 +712,7 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
     $scope.saveContactCreate = function () {
         $scope.showNewContact = false;
 
+
         var sendData = angular.copy($scope.tempContact);
 
         //convert all dates to SQL
@@ -717,4 +737,11 @@ angular.module('notes.prap').controller('prapController', function ($scope, $htt
             function (result) {
             });
     }
+
+    //saves selection from PRAP Category dropdown
+    $scope.changePRAPCategory = function (PRAPCategory) {
+        if (PRAPCategory != null) {
+            $scope.cadetClass.PRAPCategory.value = PRAPCategory;
+        }
+    };
 });

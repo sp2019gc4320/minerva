@@ -11,6 +11,7 @@ require_once 'dbcontroller.php';
 $connection = new DBController();
 
 
+
 //Create Field List
 $fields = "DutyPosition";
 $sql = "SELECT ". $fields ." FROM tlkpJBDutyPosition";

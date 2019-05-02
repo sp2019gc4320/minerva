@@ -12,7 +12,7 @@ require_once 'dbcontroller.php';
 $connection = new DBController();
 
 //A "cadetID" should be sent when calling this php file
-$cadetID = $_POST['cadet']; 
+$cadetID = $connection->sanitize($_POST['cadet']);
 
 //query for tasks
 $sql = "SELECT tblClassDetails.ClassDetailID, tlkpCoreComponentTasks.TaskNumber, tlkpCoreComponentTasks.Task, tblCadetClassEvents.EventDate, tblCadetClassEvents.DidPass, tblCadetClassEvents.EventNote, tblClassDetails.fkCadetID, tblCadetClassEvents.fkTaskID
@@ -34,7 +34,7 @@ if ($result->num_rows > 0)
         	echo ",";
       
       	//format output as an object
-        echo '{"ClassDetailID": "' . $row["ClassDetailID"]. '","TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "EventDate":"' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "EventNote":"' . $row["EventNote"]. '", "fkCadetID":"' . $row["fkCadetID"]. '", "fkTaskID":"' . $row["fkTaskID"]. '"}';
+        echo '{"ClassDetailID": "' . $row["ClassDetailID"]. '","TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "EventDate":"' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "EventNote":"' . urldecode($row["EventNote"]). '", "fkCadetID":"' . $row["fkCadetID"]. '", "fkTaskID":"' . $row["fkTaskID"]. '"}';
        
         $count = $count+1;
     }
@@ -47,6 +47,7 @@ $duties ="SELECT tblJBDuties.DutyPositionID, tblJBDuties.fkClassDetailID, tblJBD
 FROM tblJBDuties INNER JOIN tblClassDetails ON tblJBDuties.fkClassDetailID=tblClassDetails.ClassDetailID
 WHERE
 tblClassDetails.fkCadetID = '$cadetID'";
+
 $result = $connection->runSelectQuery($duties);
 
 echo ' "dutiesTbl":[';
@@ -63,7 +64,7 @@ if ($result->num_rows > 0)
             echo ",";
       
         //format output as an object
-        echo '{"DutyPositionID": "' . $row["DutyPositionID"]. '", "fkClassDetailID": "' . $row["fkClassDetailID"]. '", "JobPosition":"' . $row["JobPosition"]. '", "DutyStartDate":"' . $row["DutyStartDate"]. '", "DutyEndDate":"' . $row["DutyEndDate"]. '", "DutyNote":"' . $row["DutyNote"]. '", "fkCadetID":"' . $row["fkCadetID"]. '", "DutyDidFail":"' . $row["DutyDidFail"]. '"}';
+        echo '{"DutyPositionID": "' . $row["DutyPositionID"]. '", "fkClassDetailID": "' . $row["fkClassDetailID"]. '", "JobPosition":"' . $row["JobPosition"]. '", "DutyStartDate":"' . $row["DutyStartDate"]. '", "DutyEndDate":"' . $row["DutyEndDate"]. '", "DutyNote":"' . urldecode($row["DutyNote"]). '", "fkCadetID":"' . $row["fkCadetID"]. '", "DutyDidFail":"' . $row["DutyDidFail"]. '"}';
        
         $count = $count+1;
     }
@@ -91,7 +92,7 @@ if ($result->num_rows > 0)
             echo ",";
       
         //format output as an object
-        echo '{"JBInspectionID": "' . $row["JBInspectionID"]. '", "fkClassDetailID": "' . $row["fkClassDetailID"]. '", "InspectionDate":"' . $row["InspectionDate"]. '", "JBInspectionType":"' . $row["JBInspectionType"]. '", "InspectionNote":"' . $row["InspectionNote"]. '", "DidPassInspection":"' . $row["DidPassInspection"]. '", "fkCadetID":"' . $row["fkCadetID"]. '", "InspMeritAdj":"' . $row["InspMeritAdj"]. '"}';
+        echo '{"JBInspectionID": "' . $row["JBInspectionID"]. '", "fkClassDetailID": "' . $row["fkClassDetailID"]. '", "InspectionDate":"' . $row["InspectionDate"]. '", "JBInspectionType":"' . $row["JBInspectionType"]. '", "InspectionNote":"' . urldecode($row["InspectionNote"]). '", "DidPassInspection":"' . $row["DidPassInspection"]. '", "fkCadetID":"' . $row["fkCadetID"]. '", "InspMeritAdj":"' . $row["InspMeritAdj"]. '"}';
        
         $count = $count+1;
     }
@@ -119,7 +120,7 @@ if ($result->num_rows > 0)
             echo ",";
       
         //format output as an object
-        echo '{"fkCadetID": "' . $row["fkCadetID"]. '", "PositionID": "' . $row["PositionID"]. '", "fkClassDetailID":"' . $row["fkClassDetailID"]. '", "JBPosition":"' . $row["JBPosition"]. '", "PosStartDate":"' . $row["PosStartDate"]. '", "PosEndDate":"' . $row["PosEndDate"]. '", "PosNote":"' . $row["PosNote"]. '", "PosDidFail":"' . $row["PosDidFail"]. '"}';
+        echo '{"fkCadetID": "' . $row["fkCadetID"]. '", "PositionID": "' . $row["PositionID"]. '", "fkClassDetailID":"' . $row["fkClassDetailID"]. '", "JBPosition":"' . $row["JBPosition"]. '", "PosStartDate":"' . $row["PosStartDate"]. '", "PosEndDate":"' . $row["PosEndDate"]. '", "PosNote":"' . urldecode($row["PosNote"]). '", "PosDidFail":"' . $row["PosDidFail"]. '"}';
        
         $count = $count+1;
     }
@@ -147,7 +148,7 @@ if ($result->num_rows > 0)
             echo ",";
       
         //format output as an object
-        echo '{"fkCadetID": "' . $row["fkCadetID"]. '", "JBRankID": "' . $row["JBRankID"]. '", "fkClassDetailID":"' . $row["fkClassDetailID"]. '", "JBRank":"' . $row["JBRank"]. '", "RankObtainedDate":"' . $row["RankObtainedDate"]. '", "RankPromotionNote":"' . $row["RankPromotionNote"]. '", "RankDidFail":"' . $row["RankDidFail"]. '"}';
+        echo '{"fkCadetID": "' . $row["fkCadetID"]. '", "JBRankID": "' . $row["JBRankID"]. '", "fkClassDetailID":"' . $row["fkClassDetailID"]. '", "JBRank":"' . $row["JBRank"]. '", "RankObtainedDate":"' . $row["RankObtainedDate"]. '", "RankPromotionNote":"' . urldecode($row["RankPromotionNote"]). '", "RankDidFail":"' . $row["RankDidFail"]. '"}';
        
         $count = $count+1;
     }

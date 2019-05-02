@@ -1,0 +1,31 @@
+<div ng-controller="managePermissionsController">
+    <label for="select-user-permissions">User permissions for: </label>
+    <select id="select-user-permissions" 
+            ng-options="user as user.UserLoginName for user in users"
+            ng-model="selectedUser"
+            ng-change="onChangeUser()">
+    </select>
+
+    <table ng-repeat="permissionSet in permissionSets" class="table minerva-table">
+        <thead>
+            <tr>
+                <th>{{ permissionSet.name }}</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="permission in permissionSet.permissions">
+                <td>{{ permission.PermissionName }}</td>
+                <td>
+                    <input ng-model="permission.enabled"
+                           ng-checked="permission.enabled" 
+                           ng-change="togglePermission(permission)"
+                           type="checkbox" 
+                           class="td-center-checkbox" />
+                </td>
+            </tr>
+        </tbody>
+    </table>
+    <button class="btn btn-outline-primary"
+        ng-click="updatePermissionsInDatabase()">Save</button>
+</div>

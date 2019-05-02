@@ -17,13 +17,13 @@ $searchValue = "2";
 
 //Replace defaults with values passed as POST parameters.
 if (isset($_POST['UpdateTable'])) {
-    $TableName = filter_input(INPUT_POST, 'UpdateTable');
+    $TableName = filter_input(INPUT_POST, 'UpdateTable', FILTER_SANITIZE_STRING);
 }
 if (isset($_POST['SearchField'])) {
-    $searchField = filter_input(INPUT_POST, 'SearchField');
+    $searchField = filter_input(INPUT_POST, 'SearchField', FILTER_SANITIZE_STRING);
 }
 if (isset($_POST['SearchValue'])) {
-    $searchValue = filter_input(INPUT_POST, 'SearchValue');
+    $searchValue = filter_input(INPUT_POST, 'SearchValue', FILTER_SANITIZE_NUMBER_INT);
 }
 
 //1. Find all fields from table -- get existing value -- I really just need structure
@@ -37,7 +37,7 @@ if ($result = $connection->runSelectQuery($sql)) {
 
         //check to see if there is a POST value
         if (isset($_POST[$fieldName])) {
-            $fieldValue = filter_input(INPUT_POST, $fieldName);
+            $fieldValue = filter_input(INPUT_POST, $fieldName, FILTER_SANITIZE_STRING);
             $sql = "UPDATE $TableName  set $fieldName = '$fieldValue' WHERE $searchField = '$searchValue'";
             $connection->runQuery($sql);
         }

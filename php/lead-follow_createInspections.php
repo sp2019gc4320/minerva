@@ -20,22 +20,23 @@ $InspMeritAdj="";
 
 //then if isset to something, reset to the value passed in
 if (isset($_POST['InspectionDate'])) {
-    $InspectionDate= $_POST['InspectionDate'];
+    $InspectionDate= $conn->getRightFormat($conn->sanitize($_POST['InspectionDate']));
 }
 if (isset($_POST['DidPassInspection'])) {
-    $DidPassInspection= $_POST['DidPassInspection'];
+    $DidPassInspection= $conn->sanitize($_POST['DidPassInspection']);
 }
 if (isset($_POST['fkClassDetailID'])) {
-    $fkClassDetailID= $_POST['fkClassDetailID'];
+    $fkClassDetailID= filter_input(INPUT_POST,"fkClassDetailID", FILTER_SANITIZE_NUMBER_INT, FILTER_VALIDATE_INT);
 }
 if (isset($_POST['JBInspectionType'])) {
-    $JBInspectionType= $_POST['JBInspectionType'];
+    $JBInspectionType= filter_input(INPUT_POST,"JBInspectionType", FILTER_SANITIZE_STRING);
 }
 if (isset($_POST['InspectionNote'])) {
-    $InspectionNote= $_POST['InspectionNote'];
+    $InspectionNote= $conn->sanitize($_POST['InspectionNote']);
+    $InspectionNote=filter_var($InspectionNote, FILTER_SANITIZE_ENCODED);
 }
 if (isset($_POST['InspMeritAdj'])) {
-    $InspMeritAdj = $_POST['InspMeritAdj'];
+    $InspMeritAdj = filter_input(INPUT_POST,"InspMeritAdj", FILTER_SANITIZE_NUMBER_INT, FILTER_VALIDATE_INT);
 }
 
 $sql = "INSERT INTO tblJBInspections(fkClassDetailID,InspectionDate,JBInspectionType,InspectionNote,DidPassInspection,InspMeritAdj)
