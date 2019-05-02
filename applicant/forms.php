@@ -1,6 +1,6 @@
 <head>
     <meta charset="UTF-8">
-    <title>Applicants</title>
+    <title>Form Management</title>
 
     <link rel="stylesheet" type="text/css" href="applicant_view2.css">
     <link rel="stylesheet" type="text/css" href="../css/site.css">
