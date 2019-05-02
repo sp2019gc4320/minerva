@@ -1,4 +1,4 @@
-function openCity(evt, cityName) {
+function openForm(evt, formName) {
     // Declare all variables
     var i, tabcontent, tablinks;
 
@@ -15,6 +15,49 @@ function openCity(evt, cityName) {
     }
 
     // Show the current tab, and add an "active" class to the button that opened the tab
-    document.getElementById(cityName).style.display = "block";
+    document.getElementById(formName).style.display = "block";
     evt.currentTarget.className += " active";
+}
+
+function saveFormJS() {
+    var formID, formName, formText, func;
+
+    func = 'save';
+    formID = document.getElementsByClassName("active")[1].id;
+    formName = document.getElementById(formID).value;
+    formText = document.getElementsByName(formName)[0].value;
+
+    var formData = {formID, formName, formText, func};
+
+    $.ajax({
+        url: 'forms_functions.php',
+        type: 'post',
+        data: {"data" : JSON.stringify(formData)},
+        success: function(data) {
+            alert("Saved form: "+formData.formName);
+        }
+    });
+}
+
+function deleteFormJS() {
+    var formID, formName, formText, func;
+
+    func = 'delete';
+    formID = document.getElementsByClassName("active")[1].id;
+    formName = document.getElementById(formID).value;
+    formText = document.getElementsByName(formName)[0].value;
+
+    var formData = {formID, formName, formText, func};
+    if(confirm(formName+" will be deleted, are you sure?")) {
+        $.ajax({
+            url: 'forms_functions.php',
+            type: 'post',
+            data: {"data": JSON.stringify(formData)},
+            success: function (data) {
+                alert("Deleted form: " + formData.formName);
+            }
+        });
+    } else {
+        alert(formName + " was not deleted.")
+    }
 }

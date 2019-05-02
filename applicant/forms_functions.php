@@ -2,6 +2,23 @@
 
 require_once '../php/dbcontroller.php';
 
+// JS Handler
+if(isset($_POST['data']) && !empty($_POST['data'])) {
+    $formData = json_decode($_POST["data"]);
+    $action = $formData->func;
+    $id = $formData->formID;
+    $text = $formData->formText;
+    switch ($action) {
+        case 'save':
+            saveForm($text, $id);
+            break;
+        case 'delete':
+            deleteForm($id);
+            break;
+
+    }
+}
+
 function listSelected() {
     $connection = new DBController();
     if(!$connection) die("Unable to connect to the database!");
@@ -38,6 +55,7 @@ function generateDefaultForm() {
 
     echo <<< EOT
     <div class='tab'>
+    Forms: 
         <select>
 EOT;
     while($row = mysqli_fetch_array($query)) {
@@ -58,7 +76,7 @@ EOT;
         $text = $row['formText'];
         echo <<< EOT
         <div id='$name' class='tabcontent'>
-        <textarea rows='5' cols='50' name='text_field' wrap='soft' style='width:700px; height:500px; float:right;'>
+        <textarea rows='5' cols='50' name='$name' wrap='soft' style='width:700px; height:500px; float:right;'>
 $text
         </textarea>
     </div>
@@ -75,8 +93,33 @@ function addForm() {
 
 }
 
-function deleteForm() {
+function deleteForm($id) {
+    $connection = new DBController();
+    if(!$connection) die("Unable to connect to the database!");
 
+    // retrieve applicant info
+    $sql = "DELETE FROM tblApplicantForms 
+            WHERE formID = '$id'";
+    $result = $connection -> connectDB();
+    $query = mysqli_query($result, $sql);
+    if(!$query) die("Unable to perform query.");
+
+    header("location: forms.php");
+}
+
+function saveForm($text, $id) {
+    $connection = new DBController();
+    if(!$connection) die("Unable to connect to the database!");
+
+    // retrieve applicant info
+    $sql = "UPDATE tblApplicantForms 
+            SET formText = '$text'
+            WHERE formID = '$id'";
+    $result = $connection -> connectDB();
+    $query = mysqli_query($result, $sql);
+    if(!$query) die("Unable to perform query.");
+
+    header("location: forms.php");
 }
 
 function downloadForms() {
