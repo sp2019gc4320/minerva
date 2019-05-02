@@ -32,13 +32,13 @@
                 <form action="applicant_search.php" method="post">
                     <input id="text_input" name="text_search" type="text" class="form-control" aria-label="Text input with segmented button dropdown" style="display: block;  width: 250px; height: 34px; margin: 0px; padding: 0px; float: left;">
                     <div class="input-group-btn" >
-                        <button id="searchBtn" type="submit" class="btn btn-primary btn-search" style="display: block;  width: 100px; height: 34px; margin: 0px; padding: 0px; float: right;"><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
+                        <button id="searchBtn" type="submit" class="btn btn-primary btn-search" style="display: block;  width: 100px; height: 34px; margin: 0px; padding: 0px; float: left;"><span class="glyphicon glyphicon-search" >&nbsp;</span> <span class="label-icon" >Search</span></button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</div>
+</div><br><br>
 <form method="post" action="">
 
     <div class="container">
