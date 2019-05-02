@@ -6,16 +6,6 @@
     <link rel="stylesheet" type="text/css" href="applicant_view2.css">
     <link rel="stylesheet" type="text/css" href="../css/site.css">
 
-
-    <!-- Bootstrap 4 -->
-    <!-- <link rel="stylesheet" href="lib/bootstrap/dist/css/bootstrap.css">
-    <script src="lib/bootstrap/dist/js/bootstrap.js"></script>
-    <script src="./searchjs.js"></script>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link href="search-filter.css" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> -->
-
     <style>
     </style>
 </head>

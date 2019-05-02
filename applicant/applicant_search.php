@@ -22,7 +22,7 @@ function search()
 
     while ($row = mysqli_fetch_array($query)) {
         echo "<tr>";
-        echo "<td>" . "<input type='checkbox' name=$row[applicantID]/>&nbsp;</td>";
+        echo "<td>" . "<input type='checkbox' name=$row['applicantID']>&nbsp;</td>";
         echo "<td>" . $row['lName'] . "</td>";
         echo "<td>" . $row['fName'] . "</td>";
         echo "<td>" . $row['AppSubmitDate'] . "</td>";
