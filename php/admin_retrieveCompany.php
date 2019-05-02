@@ -25,7 +25,7 @@ $staffAry = array();
 
 //this section selects all available companies from each site. 
 
-$sql ="SELECT * FROM tlkpCadetCompany";
+$sql ="SELECT tlkpCadetCompany.fkSiteID, tlkpCadetCompany.CompanyID, tlkpsite.SiteName FROM tlkpCadetCompany JOIN tlkpsite ON(tlkpsite.SiteID = tlkpCadetCompany.fkSiteID) ";
 
 $res = $conn->runSelectQuery($sql);
 echo '{ "company_list":[';
@@ -34,7 +34,7 @@ if($res->num_rows > 0)
 	
 	while($row = $res->fetch_assoc())
 	{
-		$temp = "Site ".$row['fkSiteID']." Company ".$row['CompanyID']." ";
+		$temp = "Site ".$row['fkSiteID']." Company ".$row['CompanyID']." ".$row['SiteName'];
 		$siteCompany = array_merge($siteCompany,[$temp]);
 	}
 	echo (json_encode($siteCompany));
@@ -114,6 +114,8 @@ if($res->num_rows > 0)
 	}
 
 }
+
+
 
 
 
