@@ -30,7 +30,7 @@ $result = $connection->runSelectQueryArrayNotEncoded($sql);
 // This code originally would print an empty string because not all of the data
 // was utf8 encoded. This fixes an array to have utf8 encoding.
 // https://stackoverflow.com/questions/19361282/why-would-json-encode-return-an-empty-string
-echo '{ "data":' . (json_encode(utf8ize($result))) . "} ";
+echo '{ "data":' . urldecode(json_encode(utf8ize($result))) . "} ";
 
 
 ?>

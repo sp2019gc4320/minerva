@@ -38,8 +38,10 @@ if($op=='UPDATE') {
     $validEnd = date('Y-m-d', $validEnd);//off by one (gets fixed when retrieving in the js)
     $DutyEndDate = $validEnd;
 
-    $DutyNote= $conn->sanitize($_POST['DutyNote']);
-    $DutyNote=filter_var($DutyNote, FILTER_SANITIZE_ENCODED);
+    $DutyNote1=$_POST['DutyNote'];
+    $DutyNote1=str_replace('"', "'", $DutyNote1);
+    $DutyNote1=str_replace("\\", "/", $DutyNote1);
+    $DutyNote=filter_var($DutyNote1, FILTER_SANITIZE_ENCODED);
 
     $DutyDidFail= $conn->sanitize($_POST['DutyDidFail']);
 

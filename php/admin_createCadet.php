@@ -32,8 +32,19 @@ $contact_info_data = (array)$decoded_postdata["contactInformationData"];
 function create_insertion_string($table_name, $data) {
     $keys = array_keys($data);
     $values = array_values($data);
+
+    $valarray = array();
+
+    //prevent sql injection for all input fields
+    for($i = 0; $i<sizeOf($values);$i++){
+        $values[$i]=str_replace('"', "'", $values[$i]);
+        $values[$i]=str_replace("\\", "/", $values[$i]);
+        $values[$i]=filter_var($values[$i], FILTER_SANITIZE_ENCODED);
+        array_push($valarray,$values[$i]);
+    }
+
     $keys_str = implode(", ", $keys);
-    $values_str = "\"".implode("\", \"", $values)."\"";
+    $values_str = "\"".implode("\", \"", $valarray)."\"";
     return "INSERT INTO $table_name ($keys_str) VALUES ($values_str);";
 }
 
@@ -45,41 +56,44 @@ function create_insertion_string($table_name, $data) {
 //
 
 $people_insert_query = create_insertion_string("tblPeople", $people_data);
-$people_id = $conn->createRecord($people_insert_query);
-if($people_id != false) {
-
+//if($conn->query($people_insert_query) == TRUE) {
+if($conn->runQuery($people_insert_query) == TRUE) {
     // 
     // MARK: - Add the person as a cadet
     //
 
     // Data for inserting into tblCadets
+    $people_id = $conn->insert_id;
     $cadets_data = array(
         "fkPersonID" => $people_id
     );
     $cadet_insert_query = create_insertion_string("tblCadets", $cadets_data);
-
-
-    $cadet_id = $conn->createRecord($cadet_insert_query);
-    if($cadet_id != false) {
+ //   if($conn->query($cadet_insert_query) == TRUE) {
+    if($conn->runQuery($cadet_insert_query) == TRUE) {
 
         // 
         // MARK: - Add a person to the class
         //
 
         // Data for inserting into tblClassDetails
+        $cadet_id = $conn->insert_id;
         $class_detail_data = array(
             "fkClassID" => 1, // TEMPORARY VALUE
             "fkCadetID" => $cadet_id,
             "CadetRosterNumber" => 1 // TEMPORARY VALUE
         );
         $class_detail_insert_query = create_insertion_string("tblClassDetails", $class_detail_data);
-        if($conn->createRecord($class_detail_insert_query) != false) {
+//        if($conn->query($class_detail_insert_query) == TRUE) {
+        if($conn->runQuery($class_detail_insert_query) == TRUE) {
+
             echo "Success";
         } else {
             echo "Failed insertion to class details ";
+            echo $conn->error;
         }
     } else {
         echo "Failed insertion to cadet ";
+        echo $conn->error;
     }
 
     // 
@@ -90,14 +104,19 @@ if($people_id != false) {
     foreach($contact_info_data as $value) {
         $value->fkPersonID = $people_id;
         $contact_info_insert_query = create_insertion_string("tblPersonContacts", (array)$value);
-        if($conn->query($contact_info_insert_query) != false) {
+//        if($conn->query($contact_info_insert_query) == TRUE) {
+        if($conn->runQuery($contact_info_insert_query) == TRUE) {
+
             echo "Success";
         } else {
             echo "Failed to insert contact info ";
+            echo $conn->error;
         }
     }
+
 } else {
     echo "Failed insertion to people ";
+    echo $conn->error;
 };
 
 ?>

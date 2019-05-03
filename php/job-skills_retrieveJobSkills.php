@@ -97,7 +97,7 @@ if ($result->num_rows > 0) {
 
 
 //RETURN the datea
-echo '{"taskTbl":' . (json_encode($tasks)) . ', "testIDs":' . (json_encode($testIDs)) .
-    ', "testTbl":' . (json_encode($tests)) . ', "asvabTbl":' . (json_encode($asvabs)) . '}';
+echo '{"taskTbl":' . urldecode((json_encode($tasks))) . ', "testIDs":' . urldecode(json_encode($testIDs)) .
+    ', "testTbl":' . urldecode(json_encode($tests)) . ', "asvabTbl":' .urldecode((json_encode($asvabs))) . '}';
 
 ?>
