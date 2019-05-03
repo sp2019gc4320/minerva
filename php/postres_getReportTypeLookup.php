@@ -10,7 +10,7 @@ require_once 'dbcontroller.php';
 $connection = new DBController();
 
 $fields = "PRReportType";
-$sql = "SELECT DISTINCT ". $fields ." FROM tlkpprreporttype";
+$sql = "SELECT DISTINCT ". $fields ." FROM tlkpPRReportType";
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
 echo '{"data":' . (json_encode($result)) . "} ";
 ?>
