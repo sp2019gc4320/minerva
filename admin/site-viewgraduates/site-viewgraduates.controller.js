@@ -41,7 +41,8 @@ angular.module('admin.siteViewGraduates').controller('viewGraduates',  function(
     }
     $scope.update = function(id){
         var cadetStatus = (document).getElementById(id+"").value;
-        if(cadetStatus == "Graduate")
+        console.log(cadetStatus);
+        if(cadetStatus == "Graduated")
         {
             alert("Graduate is already Graduate");
         }
