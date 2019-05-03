@@ -240,8 +240,9 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
             headers: { 'Content-Type': 'application/x-www-form-urlencoded'}
         }).then(
             function(response) {
-                console.log("Response: " + response.data);
-                alert($scope.guardianInformation.length);
+                //UNCOMMENT AFTER DUNCAN GETS IT WORKING
+                //console.log("Response: " + response.data);
+                //alert($scope.guardianInformation.length);
             },
             function(error) {
                 console.log("Error: " + error);
@@ -255,7 +256,8 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.recruiterViews = [
         {view:'Add Applicant', url:'./recruiter/site-addapplicant/site-addapplicant.view.html'},
         {view: 'View Applicant', url: './recruiter/applicant-find/applicant-find.view.html'},
-        {view: 'Application Status', url: './recruiter/applicant-status/applicantstatus.view.html'}
+        {view: 'Application Status', url: './recruiter/applicant-status/applicantstatus.view.html'},
+        {view: 'Applicants with Docs', url: './recruiter/applicant-docs/applicant-docs.view.html'}
     ];
 
     $scope.showView = function showView(item){
