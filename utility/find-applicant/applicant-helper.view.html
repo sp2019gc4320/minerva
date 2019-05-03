@@ -1,0 +1,21 @@
+<!--Sidebar Information-->
+<div class="container " id="sideInfo" ng-controller="showApplicantViewController">
+    <div class="row justify-content-center">
+        <div class="col-xs-12">
+            <img src={{applicant.Photo}} class="headshot" height="200" width="200">
+
+            <!--    <div class="labelTextColor">{{applicant.Photo}}</div> -->
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-xs-12">
+            <h3 >{{applicant.ApplicantName}}</h3>
+        </div>
+    </div>
+    <div class="row justify-content-center">
+        <div class="col-xs-12">
+            <p>ID: {{applicant.ApplicantID}}</p>
+        </div>
+    </div>
+</div>
+<hr>

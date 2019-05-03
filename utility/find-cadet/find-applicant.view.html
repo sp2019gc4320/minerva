@@ -1,0 +1,74 @@
+<div ng-controller="FindCadetController">
+    <div class="row">
+        <!-- Filters -->
+        <div class="col-md-3">
+            <!--TODO choose the correct ClassID -- is it SiteClassNumber or NGB number ?? -->
+            <hr>
+                <div class="form-group row">
+                    <label for="first-name" class="col-md-4 col-form-label
+                        col-form-label-sm">First Name</label>
+                    <div class="col-md-8">
+                        <input type="text"
+                               class="form-control form-control-sm"
+                               name="first-name"
+                               id="first-name"
+                               value=""
+                               ng-model="cadetSearch.PersonFN">
+                        <!-- The ng-model attached to each filter text box specifies which attribute to search (PersonFN)-->
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="last-name" class="col-md-4 col-form-label
+                        col-form-label-sm">Last Name</label>
+                    <div class="col-md-8">
+                        <input type="text"
+                               class="form-control form-control-sm"
+                               name="last-name"
+                               id="last-name"
+                               value=""
+                               ng-model="cadetSearch.PersonLN"> <!-- ng-model specified for PersonLN-->
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="cadet-id" class="col-md-4 col-form-label
+                        col-form-label-sm">Applicant ID</label>
+                    <div class="col-md-8">
+                        <input type="text"
+                               class="form-control form-control-sm"
+                               name="cadet-id"
+                               id="cadet-id"
+                               value=""
+                               ng-model="cadetSearch.fkCadetID"> <!-- ng-model specified for fkCadetID-->
+                    </div>
+                </div>
+            <button class="btn btn-primary" ng-click="search()">Search</button>
+            <button class="btn btn-primary" ng-click="applicantSaveAndClose()">Select Applicant</button>
+        </div>
+        <div class="col-md-6" style="margin-top: 20px; overflow:auto;">
+            <div>
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <th>First Name</th>
+                        <th>Last Name</th>
+                        <th class="text-center">Applicant ID</th>
+                    </tr>
+                    <!--  Use a filter to only show certain fields without call to the server -->
+                    <!--  Make the filter strict to restrict the searches to the specified attribute -->
+                    <tr ng-repeat="x in cadets | filter:cadetSearch:strict "
+                        ng-click="pickCadet(x)" ng-click="pickCadet()">
+                        <td>{{x.PersonFN}}</td>
+                        <td>{{x.PersonLN}}</td>
+                        <td class="text-center">{{x.fkCadetID}}</td>
+                    </tr>
+                </table>
+            </div>
+
+        </div> <!-- col-->
+
+        <div class="col-md-3">
+            <ng-include src="updateDisplay"></ng-include>
+        </div>
+    </div> <!--row-->
+</div>
+
+
