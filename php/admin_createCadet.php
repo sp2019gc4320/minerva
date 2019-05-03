@@ -9,8 +9,7 @@
 // TODO: Sanitize POST data
 
 require_once 'dbcontroller.php';
-$db = new DBController();
-$conn = $db->connectDB();
+$conn = new DBController();
 
 // AngularJS doesn't behave well with PHP by default during POST
 // requests. Using file_get_contents gets the POST data 
@@ -46,41 +45,41 @@ function create_insertion_string($table_name, $data) {
 //
 
 $people_insert_query = create_insertion_string("tblPeople", $people_data);
-if($conn->query($people_insert_query) == TRUE) {
+$people_id = $conn->createRecord($people_insert_query);
+if($people_id != false) {
 
     // 
     // MARK: - Add the person as a cadet
     //
 
     // Data for inserting into tblCadets
-    $people_id = $conn->insert_id;
     $cadets_data = array(
         "fkPersonID" => $people_id
     );
     $cadet_insert_query = create_insertion_string("tblCadets", $cadets_data);
-    if($conn->query($cadet_insert_query) == TRUE) {
+
+
+    $cadet_id = $conn->createRecord($cadet_insert_query);
+    if($cadet_id != false) {
 
         // 
         // MARK: - Add a person to the class
         //
 
         // Data for inserting into tblClassDetails
-        $cadet_id = $conn->insert_id;
         $class_detail_data = array(
             "fkClassID" => 1, // TEMPORARY VALUE
             "fkCadetID" => $cadet_id,
             "CadetRosterNumber" => 1 // TEMPORARY VALUE
         );
         $class_detail_insert_query = create_insertion_string("tblClassDetails", $class_detail_data);
-        if($conn->query($class_detail_insert_query) == TRUE) {
+        if($conn->createRecord($class_detail_insert_query) != false) {
             echo "Success";
         } else {
             echo "Failed insertion to class details ";
-            echo $conn->error;
         }
     } else {
         echo "Failed insertion to cadet ";
-        echo $conn->error;
     }
 
     // 
@@ -91,17 +90,14 @@ if($conn->query($people_insert_query) == TRUE) {
     foreach($contact_info_data as $value) {
         $value->fkPersonID = $people_id;
         $contact_info_insert_query = create_insertion_string("tblPersonContacts", (array)$value);
-        if($conn->query($contact_info_insert_query) == TRUE) {
+        if($conn->query($contact_info_insert_query) != false) {
             echo "Success";
         } else {
             echo "Failed to insert contact info ";
-            echo $conn->error;
         }
     }
-
 } else {
     echo "Failed insertion to people ";
-    echo $conn->error;
 };
 
 ?>

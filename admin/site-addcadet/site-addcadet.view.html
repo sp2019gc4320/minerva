@@ -5,7 +5,7 @@
             <div class="form-row">
                 <div class="form-group col-md-2">
                     <label class="mr-sm-2" for="salutation">Salutation</label>
-                    <select class="custom-select mr-sm-2" 
+                    <select class="form-control" 
                             id="salutation"
                             ng-model="person.PSalutation">
                         <option selected></option>
@@ -40,7 +40,7 @@
                 </div>
                 <div class="form-group col-md-2">
                     <label class="mr-sm-2" for="gen-qual">Gen Qual</label>
-                    <select class="custom-select mr-sm-2" 
+                    <select class="form-control" 
                             id="gen-qual"
                             name="gen-qual"
                             ng-model="person.PersonGenQual">
@@ -73,7 +73,7 @@
                 </div>
                 <div class="form-group col-md-3">
                     <label class="mr-sm-2" for="ethnicity">Ethnicity</label><br>
-                    <select class="custom-select mr-sm-2" 
+                    <select class="form-control" 
                             id="ethnicity">
                         <option selected></option>
                         <option ng-repeat="option in raceOptions" value="{{
@@ -238,7 +238,7 @@
             </div>
             <div class="form-row" ng-repeat="ci in contactInformation">
                 <div class="form-group col-md-2">
-                    <select class="custom-select mr-sm-2" 
+                    <select class="form-control" 
                             ng-model="ci.ContactType">
                         <option ng-value="'phone'" selected>Phone</option>
                         <option ng-value="'email'">Email</option>
@@ -246,7 +246,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-2">
-                    <select class="custom-select mr-sm-2" 
+                    <select class="form-control" 
                             ng-disabled="ci.ContactType!='phone'"
                             ng-model="ci.ContactTypeExt">
                         <option ng-value="'home'" selected>Home</option>

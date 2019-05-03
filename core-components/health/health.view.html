@@ -45,7 +45,22 @@
 						</td>
 
 
-				<td><textarea style="resize: both; overflow: auto;" name="EventNote" type="text" ng-model="task.EventNote" data-ng-bind="note"ng-disabled="!editable"></textarea></td>
+				<td><textarea style="resize: both; overflow: auto;" name="EventNote" type="text" ng-model="task.EventNote" data-ng-bind="note"ng-disabled="!editable"  data-toggle="modal" data-target="#event{{$index}}"></textarea>
+					<!-- dive to pop up textarea when clicked -->
+					<div class="modal fade" id="event{{$index}}" role="dialog">
+						<div class="modal-dialog">
+							<div class="modal-content">
+								<div class="modal-header">
+									<button type="button" class="close" data-dismiss="modal">&times;</button>
+									<h6>Note</h6>
+									<div class="modal-body">
+										<textarea ng-model="task.EventNote"></textarea>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</td>
 				</tr>
 
 				<tr>

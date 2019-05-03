@@ -10,7 +10,7 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
     $scope.cadetID = JSON.parse($window.localStorage.getItem("CadetID"));
     alert("Test Citizenship with Cadet 361 - Jennifer Avila to see sample dates");
 
-    //disallow picking dates past today
+    //disallow picking dates before today
     minDate();
 
     //array to hold backups of duties, inspections, positions, ranks, tasks
@@ -27,136 +27,85 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
     $scope.editPosit=true;
     $scope.editRank=true;
 
+    //automatically enable the edit buttons
+    $scope.editBtnDuty = true;
+    $scope.editBtnInspect = true;
+    $scope.editBtnPosit = true;
+    $scope.editBtnRank = true;
+
+    //automatically enable the add buttons
+    $scope.addBtnDuty = true;
+    $scope.addBtnInspect = true;
+    $scope.addBtnPosit = true;
+    $scope.addBtnRank = true;
+
     //automatically disable being able to add duty
     $scope.addDuty=true;
     $scope.addInspect=true;
     $scope.addPosit=true;
     $scope.addRank=true;
 
-    //automatically hide the save/cancel buttons
-    document.getElementById("dutySaveCancelButtons").style.display ="none";
-    document.getElementById("taskSaveCancelButtons").style.display ="none";
-    document.getElementById("inspectSaveCancelButtons").style.display ="none";
-    document.getElementById("positionSaveCancelButtons").style.display ="none";
-    document.getElementById("rankSaveCancelButtons").style.display ="none";
 
-    //automatically hide the add info for duty
-    document.getElementById("dutyAdd").style.display="none";
-    document.getElementById("saveCancelAddDutyButtons").style.display = "none";
-    document.getElementById("inspectAdd").style.display="none";
-    document.getElementById("saveCancelAddInspectButtons").style.display = "none";
-    document.getElementById("positAdd").style.display="none";
-    document.getElementById("saveCancelAddPositButtons").style.display = "none";
-    document.getElementById("rankAdd").style.display="none";
-    document.getElementById("saveCancelAddRankButtons").style.display = "none";
 
     $scope.addElement = function (section){
         if(section=="duties"){
-            $scope.addDuty = false;
             $scope.editDuty = true;
+            $scope.editBtnDuty = false;
+            $scope.addDuty = false;
+            $scope.addBtnDuty = false;
 
-            document.getElementById("editButtonDuties").style.display = "none";
-            document.getElementById("addDutyButton").style.display="none";
-            document.getElementById("saveCancelAddDutyButtons").style.display = "block";
-            var element1 = document.getElementById("dutyAdd");
-            if (element1.style.display == 'none') {
-                element1.style.display = 'block';
-            }
-            var element2 = document.getElementById("dutySaveCancelButtons");
-            if(element2.style.display=='block'){
-                element2.style.display='none';
-            }
         }
         else if(section=="inspections"){
-            $scope.addInspect = false;
             $scope.editInspect = true;
+            $scope.editBtnInspect = false;
+            $scope.addInspect = false;
+            $scope.addBtnInspect = false;
 
-            document.getElementById("editButtonInspections").style.display = "none";
-            document.getElementById("addInspectButton").style.display="none";
-            document.getElementById("saveCancelAddInspectButtons").style.display = "block";
-            var element1 = document.getElementById("inspectAdd");
-            if (element1.style.display == 'none') {
-                element1.style.display = 'block';
-            }
-            var element2 = document.getElementById("inspectSaveCancelButtons");
-            if(element2.style.display=='block'){
-                element2.style.display='none';
-            }
         }
         else if(section=="positions"){
             $scope.addPosit = false;
             $scope.editPosit = true;
+            $scope.editBtnPosit = false;
+            $scope.addBtnPosit = false;
 
-            document.getElementById("editButtonPositions").style.display = "none";
-            document.getElementById("addPositButton").style.display="none";
-            document.getElementById("saveCancelAddPositButtons").style.display = "block";
-            var element1 = document.getElementById("positAdd");
-            if (element1.style.display == 'none') {
-                element1.style.display = 'block';
-            }
-            var element2 = document.getElementById("positionSaveCancelButtons");
-            if(element2.style.display=='block'){
-                element2.style.display='none';
-            }
         }
         else if(section=="ranks"){
             $scope.addRank = false;
             $scope.editRank=true;
+            $scope.editBtnRank = false;
+            $scope.addBtnRank = false;
 
-            document.getElementById("editButtonRanks").style.display = "none";
-            document.getElementById("addRankButton").style.display="none";
-            document.getElementById("saveCancelAddRankButtons").style.display = "block";
-            var element1 = document.getElementById("rankAdd");
-            if (element1.style.display == 'none') {
-                element1.style.display = 'block';
-            }
-            var element2 = document.getElementById("rankSaveCancelButtons");
-            if(element2.style.display=='block'){
-                element2.style.display='none';
-            }
         }
     };
 
     $scope.cancelAddElement = function (section){
         if(section=="duties"){
+            $scope.editDuty = true;
+            $scope.editBtnDuty = true;
             $scope.addDuty = true;
-            document.getElementById("editButtonDuties").style.display = "block";
-            document.getElementById("addDutyButton").style.display="block";
-            document.getElementById("saveCancelAddDutyButtons").style.display = "none";
-            var element1 = document.getElementById("dutyAdd");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
+            $scope.addBtnDuty = true;
+
         }
         else if(section=="inspections"){
+            $scope.editInspect = true;
+            $scope.editBtnInspect = true;
             $scope.addInspect = true;
-            document.getElementById("editButtonInspections").style.display = "block";
-            document.getElementById("addInspectButton").style.display="block";
-            document.getElementById("saveCancelAddInspectButtons").style.display = "none";
-            var element1 = document.getElementById("inspectAdd");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
+            $scope.addBtnInspect = true;
+
         }
         else if(section=="positions"){
             $scope.addPosit = true;
-            document.getElementById("editButtonPositions").style.display = "block";
-            document.getElementById("addPositButton").style.display="block";
-            document.getElementById("saveCancelAddPositButtons").style.display = "none";
-            var element1 = document.getElementById("positAdd");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
+            $scope.editPosit = true;
+            $scope.editBtnPosit = true;
+            $scope.addBtnPosit = true;
+
         }
         else if(section=="ranks"){
             $scope.addRank = true;
-            document.getElementById("editButtonRanks").style.display = "block";
-            document.getElementById("addRankButton").style.display="block";
-            document.getElementById("saveCancelAddRankButtons").style.display = "none";
-            var element1 = document.getElementById("rankAdd");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
+            $scope.editRank = true;
+            $scope.editBtnRank = true;
+            $scope.addBtnRank = true;
+
         }
     }
 
@@ -168,59 +117,45 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
     $scope.editSection = function (section) {
         if(section == "duties") {
             $scope.editDuty = false;
+            $scope.editBtnDuty = false;
+            $scope.addDuty = true;
+            $scope.addBtnDuty = false;
+
             $scope.backup_duties = angular.copy($scope.duties);                        //added 2/26 - save backup before updates made
 
-            document.getElementById("addDutyButton").style.display="none";
-            document.getElementById("editButtonDuties").style.display = "none";
-            var element1 = document.getElementById("dutySaveCancelButtons");
-            if (element1.style.display == 'none') {
-                element1.style.display = 'block';
-            }
         }
         else if(section=="tasks"){
             $scope.editTasks = false;
             $scope.backup_tasks = angular.copy($scope.tasks);
 
-            document.getElementById("editButtonTasks").style.display = "none";
-            var element1 = document.getElementById("taskSaveCancelButtons");
-            if (element1.style.display == 'none') {
-                element1.style.display = 'block';
-            }
 
         }
         else if(section=="inspections"){
             $scope.editInspect = false;
-            $scope.backup_inspections = angular.copy($scope.inspections);
+            $scope.editBtnInspect = false;
+            $scope.addInspect = true;
+            $scope.addBtnInspect = false;
 
-            document.getElementById("addInspectButton").style.display="none";
-            document.getElementById("editButtonInspections").style.display = "none";
-            var element1 = document.getElementById("inspectSaveCancelButtons");
-            if (element1.style.display == 'none') {
-                element1.style.display = 'block';
-            }
+            $scope.backup_inspections = angular.copy($scope.inspections);
 
         }
         else if(section=="positions"){
             $scope.editPosit = false;
+            $scope.editBtnPosit = false;
+            $scope.addPosit = true;
+            $scope.addBtnPosit = false;
+
             $scope.backup_positions = angular.copy($scope.pos);
 
-            document.getElementById("addPositButton").style.display="none";
-            document.getElementById("editButtonPositions").style.display = "none";
-            var element1 = document.getElementById("positionSaveCancelButtons");
-            if (element1.style.display == 'none') {
-                element1.style.display = 'block';
-            }
         }
         else if(section=="ranks"){
             $scope.editRank = false;
+            $scope.editBtnRank = false;
+            $scope.addRank = true;
+            $scope.addBtnRank = false;
+
             $scope.backup_ranks = angular.copy($scope.rank);
 
-            document.getElementById("addRankButton").style.display="none";
-            document.getElementById("editButtonRanks").style.display = "none";
-            var element1 = document.getElementById("rankSaveCancelButtons");
-            if (element1.style.display == 'none') {
-                element1.style.display = 'block';
-            }
 
         }
 
@@ -246,22 +181,9 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
       {
           //make uneditable
           $scope.editDuty = true;
-
-          //display edit button, hide save/cancel buttons
-          document.getElementById("editButtonDuties").style.display = "block";
-          var element1 = document.getElementById("dutySaveCancelButtons");
-          if (element1.style.display == 'block') {
-              element1.style.display = 'none';
-          }
-
-          //clears the values in the create duty line
-          document.getElementById('1').value = '';
-          document.getElementById('2').checked = false;
-          document.getElementById('3').value = '';
-          document.getElementById('4').value = '';
-          document.getElementById('5').value = '';
-          //show addRank button
-          document.getElementById("addDutyButton").style.display="block";
+          $scope.editBtnDuty = true;
+          $scope.addDuty = true;
+          $scope.addBtnDuty = true;
 
 
           //find updated duties
@@ -324,13 +246,6 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
           //make uneditable
           $scope.editTasks = true;
 
-          //display edit button, hide save/cancel buttons
-          document.getElementById("editButtonTasks").style.display = "block";
-          var element1 = document.getElementById("taskSaveCancelButtons");
-          if (element1.style.display == 'block') {
-              element1.style.display = 'none';
-          }
-
           //loops for # rows in table
           for (var j=0; j<$scope.tasks.length; j++)
           {
@@ -369,21 +284,9 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
         {
             //make uneditable
             $scope.editInspect = true;
-
-            //display edit button, hide save/cancel buttons
-            document.getElementById("editButtonInspections").style.display = "block";
-            var element1 = document.getElementById("inspectSaveCancelButtons");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
-
-            //clears the values in the create inspection line
-            document.getElementById('i1').value = '';
-            document.getElementById('i2').value = '';
-            document.getElementById('i3').checked = false;
-            document.getElementById('i4').value = '';
-            document.getElementById('i5').value = '';
-            document.getElementById("addInspectButton").style.display="block";
+            $scope.editBtnInspect = true;
+            $scope.addInspect = true;
+            $scope.addBtnInspect = true;
 
 
             //find updated inspections
@@ -439,21 +342,10 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
 
           //make uneditable
           $scope.editPosit = true;
+          $scope.editBtnPosit = true;
+          $scope.addPosit = true;
+          $scope.addBtnPosit = true;
 
-          //display edit button, hide save/cancel buttons
-          document.getElementById("editButtonPositions").style.display = "block";
-          var element1 = document.getElementById("positionSaveCancelButtons");
-          if (element1.style.display == 'block') {
-              element1.style.display = 'none';
-          }
-
-          //clears the values in the create position line
-          document.getElementById('p1').value = '';
-          document.getElementById('p2').value = '';
-          document.getElementById('p3').value = '';
-          document.getElementById('p4').value = '';
-          document.getElementById('p5').checked = false;
-          document.getElementById("addPositButton").style.display="block";
 
 
           //find updated positions
@@ -514,20 +406,9 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
       {
           //make uneditable
           $scope.editRank = true;
-
-          //display edit button, hide save/cancel buttons
-          document.getElementById("editButtonRanks").style.display = "block";
-          var element1 = document.getElementById("rankSaveCancelButtons");
-          if (element1.style.display == 'block') {
-              element1.style.display = 'none';
-          }
-
-          //clears the values in the create rank line
-          document.getElementById('r1').value = '';
-          document.getElementById('r2').value = '';
-          document.getElementById('r3').value = '';
-          document.getElementById('r4').checked = false;
-          document.getElementById("addRankButton").style.display="block";
+          $scope.editBtnRank = true;
+          $scope.addRank = true;
+          $scope.addBtnRank = true;
 
 
           //find updated ranks
@@ -591,6 +472,10 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
     $scope.CreateDuty = function()
     {
         var sendData=angular.copy($scope.duty);
+        $scope.editDuty = true;
+        $scope.editBtnDuty = true;
+        $scope.addDuty = true;
+        $scope.addBtnDuty = true;
 
 
         //pull ClassDetailID from tasks
@@ -621,33 +506,21 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
             {
             method: 'POST',
             url: "./php/lead-follow_createDuty.php",
-            data: Object.toparams(sendData),
-            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            data: Object.toparams(sendData),     //try this
+            headers: {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8'}
             }
          ).then(
             function(response)
             {
                 if(response.data)
-                    //give new entry unique id
+                //give new entry unique id
                     sendData.DutyPositionID=response.data.id;       //this is undefined!!!!! TODO: fix this!!!!!
-
                     sendData.DutyStartDate= newDateStart;
                     sendData.DutyEndDate= newDateEnd;
 
                     //display new entry
                     $scope.duties.push(sendData);       //adding new duty to the end of the duties array
 
-
-                //clears inputs in the create duty line
-                document.getElementById('1').value = '';
-                document.getElementById('2').checked = false;
-                document.getElementById('3').value = '';
-                document.getElementById('4').value = '';
-                document.getElementById('5').value = '';
-                document.getElementById("dutyAdd").style.display="none";
-                document.getElementById("addDutyButton").style.display="block";
-                document.getElementById("saveCancelAddDutyButtons").style.display ="none";
-                document.getElementById("editButtonDuties").style.display = "block";
 
                 //added to clear the values from scope after they have been sent to DB & received
                 $scope.duty.DutyPositionID = "";
@@ -666,6 +539,11 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
     $scope.CreateInspect = function() 
     {
         var sendData=angular.copy($scope.inspect);
+
+        $scope.editInspect = true;
+        $scope.editBtnInspect = true;
+        $scope.addInspect = true;
+        $scope.addBtnInspect = true;
 
         //pull ClassDetailID from tasks
         sendData.fkClassDetailID = $scope.tasks[0].ClassDetailID;
@@ -700,16 +578,6 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
                     //$scope.backup_inspections = angular.copy($scope.inspections);                  //added 2/28 - save backup with new inspection
 
 
-                document.getElementById('i1').value = '';
-                document.getElementById('i2').value = '';
-                document.getElementById('i3').checked = false;
-                document.getElementById('i4').value = '';
-                document.getElementById('i5').value = '';
-                document.getElementById("inspectAdd").style.display="none";
-                document.getElementById("addInspectButton").style.display="block";
-                document.getElementById("saveCancelAddInspectButtons").style.display ="none";
-                document.getElementById("editButtonInspections").style.display = "block";
-
                 //added to clear the values from scope after they have been sent to DB & received
                 $scope.inspect.InspectionDate = "";
                 $scope.inspect.JBInspectionType = "";
@@ -728,7 +596,11 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
     $scope.CreatePosit = function()
     {
         var sendData=angular.copy($scope.posit);
-        
+        $scope.editPosit = true;
+        $scope.editBtnPosit = true;
+        $scope.addPosit = true;
+        $scope.addBtnPosit = true;
+
         //pull ClassDetailID from tasks
         sendData.fkClassDetailID = $scope.tasks[0].ClassDetailID;
         //pull JBPosition from dropdown
@@ -796,6 +668,11 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
     $scope.CreateRank = function() 
     {
         var sendData=angular.copy($scope.rEvent);
+        $scope.editRank = true;
+        $scope.editBtnRank = true;
+        $scope.addRank = true;
+        $scope.addBtnRank = true;
+
         sendData.fkClassDetailID = $scope.tasks[0].ClassDetailID;
         sendData.JBRank=$scope.rEvent.JBRank.RankObtained;
 
@@ -976,74 +853,46 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
         if(section=="duties")
         {
             $scope.duties = angular.copy($scope.backup_duties);                         //RESET DUTIES TO BACKUP
-            $scope.editDuty = true;                                                     //non-editable = true
-            document.getElementById("editButtonDuties").style.display = "block";
-            document.getElementById("addDutyButton").style.display="block";
-            var element1 = document.getElementById("dutySaveCancelButtons");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
-            document.getElementById('1').value = '';
-            document.getElementById('2').checked = false;
-            document.getElementById('3').value = '';
-            document.getElementById('4').value = '';
-            document.getElementById('5').value = '';
+
+            $scope.editDuty = true;
+            $scope.editBtnDuty = true;
+            $scope.addDuty = true;
+            $scope.addBtnDuty = true;
+
+
         }
         else if(section=="tasks"){
             $scope.tasks = angular.copy($scope.backup_tasks);
             $scope.editTasks = true;
-            document.getElementById("editButtonTasks").style.display = "block";
-            var element1 = document.getElementById("taskSaveCancelButtons");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
+
         }
         else if(section=="inspections")
         {
             $scope.inspections = angular.copy($scope.backup_inspections);                 //RESET INSPECTIONS TO BACKUP
-            $scope.editInspect = true;                                                     //non-editable = true
-            document.getElementById("editButtonInspections").style.display = "block";
-            document.getElementById("addInspectButton").style.display="block";
 
-            var element1 = document.getElementById("inspectSaveCancelButtons");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
-            document.getElementById('1').value = '';
-            document.getElementById('2').value = '';
-            document.getElementById('3').checked = false;
-            document.getElementById('4').value = '';
-            document.getElementById('5').value = '';
+            $scope.editInspect = true;
+            $scope.editBtnInspect = true;
+            $scope.addInspect = true;
+            $scope.addBtnInspect = true;
+
+
         }
         else if(section=="positions"){
             $scope.pos = angular.copy($scope.backup_positions);                          //RESET POSITIONS TO BACKUP
-            $scope.editPosit = true;                                                        //non-editable = true
-            document.getElementById("editButtonPositions").style.display = "block";
-            document.getElementById("addPositButton").style.display="block";
-            var element1 = document.getElementById("positionSaveCancelButtons");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
-            document.getElementById('p1').value = '';
-            document.getElementById('p2').value = '';
-            document.getElementById('p3').value = '';
-            document.getElementById('p4').value = '';
-            document.getElementById('p5').checked = false;
+            $scope.editPosit = true; //non-editable = true
+            $scope.editBtnPosit = true;
+            $scope.addPosit = true;
+            $scope.addBtnPosit = true;
+
         }
         else if(section=="ranks")
         {
             $scope.rank = angular.copy($scope.backup_ranks);                 //RESET RANKS TO BACKUP
             $scope.editRank = true;                                                     //non-editable = true
-            document.getElementById("editButtonRanks").style.display = "block";
-            document.getElementById("addRankButton").style.display="block";
-            var element1 = document.getElementById("rankSaveCancelButtons");
-            if (element1.style.display == 'block') {
-                element1.style.display = 'none';
-            }
-            document.getElementById('1').value = '';
-            document.getElementById('2').value = '';
-            document.getElementById('3').value = '';
-            document.getElementById('4').checked = false;
+            $scope.editBtnRank = true;
+            $scope.addRank = true;
+            $scope.addBtnRank = true;
+
         }
 
     };
@@ -1154,6 +1003,10 @@ angular.module('core-components.lead-follow').controller('leadFollowController',
             month="12";
         let dateString=dateArray[3]+'-'+month+'-'+dateArray[2];
         return dateString;
+    }
+
+    $scope.select = function(selected) {
+        $scope.selected = selected
     }
 });
 
