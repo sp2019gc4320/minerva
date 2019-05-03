@@ -1,9 +1,13 @@
 <?php
-// File: findCadets.php
+// File: findAoolicants.php
 // echos a JSON  array with all records in Site Table
 //
 
+
+
+
 require_once 'dbcontroller.php';
+
 
 function makeObject($row, $fieldNames)
 {
@@ -32,14 +36,10 @@ function makeObject($row, $fieldNames)
 
 }
 
-//Create WHERE clause to restrict records that are returned from seraver
-// Currently restricts by fkSiteID, Person Name and fkCadetID
+//Create WHERE clause to restrict records that are returned from server
+// Currently restricts by fkSiteID, Person Name and ApplicantID
 $search = "";
 $criteria =[];
-if (isset($_POST['fkSiteID'])) {
-   $str = filter_input(INPUT_POST, "fkSiteID");
-   $criteria[]=("fkSiteID LIKE '$str'");
-}
 if (isset($_POST['PersonLN'])) {
     $str = filter_input(INPUT_POST, "PersonLN");
     $criteria[] = ("PersonLN LIKE '%$str%'");
@@ -48,9 +48,10 @@ if (isset($_POST['PersonFN'])) {
     $str = filter_input(INPUT_POST, "PersonFN");
     $criteria[] = ("PersonFN LIKE '%$str%'");
 }
-if (isset($_POST['fkCadetID'])) {
-    $str = filter_input(INPUT_POST, "fkCadetID");
-    $criteria[] = ("fkCadetID LIKE '%$str%'");
+if (isset($_POST['ApplicantID'])) {
+    $str = filter_input(INPUT_POST, "ApplicantID");
+    $strVal = intval($str);
+    $criteria[] = ("ApplicantID = %$strVal%");
 }
 
 $whereClause = "";
@@ -64,6 +65,7 @@ while ($index < count($criteria)) {
     ++$index;
 }
 
+
 //Create connection
 $connection = new DBController();
 
@@ -73,10 +75,9 @@ echo '{ "data":[';
 //Create Field List
 
 //Edit PGender, PDOB added to fields and first sql statement, this gets the gender and dob from the database to be used in the citizenship tab
-$fields = "PersonFN, PersonLN, fkClassID, CadetRosterNumber, fkCadetID, fkMentorID, PGender, PDOB, fkSiteID, ApplicantID";
-$sql = "SELECT *";
-$sql =  $sql." FROM tblApplicants, tblMentorPotential RIGHT JOIN (tblPeople INNER JOIN (tblCadets INNER JOIN (tblClassDetails INNER JOIN tblClasses ON tblClassDetails.fkClassID = tblClasses.ClassID) ON tblCadets.CadetID = tblClassDetails.fkCadetID) ON tblPeople.PersonID = tblCadets.fkPersonID) ON tblMentorPotential.fkClassDetailID = tblClassDetails.ClassDetailID
-               $whereClause";
+$fields = "PersonID, PersonFN, PersonLN, ApplicantID";
+$sql = "SELECT tblPeople2.PersonID, tblPeople2.PersonFN, tblPeople2.PersonLN,
+               tblApplicants.ApplicantID FROM tblPeople2 INNER JOIN tblApplicants ON tblPeople2.PersonID = tblApplicants.fkPersonID $whereClause;";
 
 $result = $connection->runSelectQuery($sql);
 
@@ -88,6 +89,7 @@ if ($result->num_rows > 0)
     //Create JSON object
     while($row = $result->fetch_assoc()) {
 
+
         //display comma
         if ($count >0 )
             echo ",";
@@ -96,7 +98,14 @@ if ($result->num_rows > 0)
 
          $count = $count+1;
     }
+
+
 }
 
 echo '] }';
 ?>
+
+
+
+
+
