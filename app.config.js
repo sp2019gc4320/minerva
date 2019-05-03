@@ -19,6 +19,8 @@ angular.
 
             .when('/websiteModule',   { templateUrl: './website/website.view.html'})
             .when('/websiteDropDown', { template: '<web-dropdown></web-dropdown>'})
+            .when('/websiteFileSubmission', { templateURL: '<./website/fileSubmission/fileSubmission.view.html>'})
+            .when('/websiteFileSubmission', { templateURL: '<./website/editCoreComponent/editCoreComponent.view.html>'})
             //.when('/websiteDropDown', { templateUrl: './websiteModule/views/findLookupView.html'})
             .when('/error', { templateUrl: './views/workInProgress.html'})
 
