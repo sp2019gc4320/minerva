@@ -10,7 +10,7 @@ require_once 'dbcontroller.php';
 $connection = new DBController();
 
 $fields = "PREdSchoolType";
-$sql = "SELECT DISTINCT ". $fields ." FROM tblpreducation";
+$sql = "SELECT DISTINCT ". $fields ." FROM tblPREducation";
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
 echo '{"data":' . urldecode(json_encode($result)) . "} ";
 ?>
