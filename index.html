@@ -1,6 +1,4 @@
-<?php
-    session_start();
-?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -43,12 +41,14 @@
         loadSettings = function()
         {
             var colorScheme = {};
+
             colorScheme.PrimaryColor = window.sessionStorage.getItem('minerva_PrimaryColor');
             colorScheme.SecondaryColor = window.sessionStorage.getItem('minerva_SecondaryColor');
             colorScheme.TiertiarColor = window.sessionStorage.getItem('minerva_TertiaryColor');
             colorScheme.InputTextColor = window.sessionStorage.getItem('minerva_InputTextColor');
             colorScheme.LabelTextColor = window.sessionStorage.getItem('minerva_LabelTextColor');
             colorScheme.SiteLogo = window.sessionStorage.getItem('minerva_SiteLogo');
+
             //if values in sessionSettings add them the head
             if(colorScheme.PrimaryColor) {
                 $("<style/>", {text: ".primaryColor   { background-color: " + colorScheme.PrimaryColor + " !important;}"}).appendTo('head');
@@ -58,6 +58,7 @@
                 $("<style/>", {text: ".labelTextColor { color:" + colorScheme.LabelTextColor + ";}"}).appendTo('head');
                 $("<style/>", {text: ".logoURL        { content:url('./images/logos/" + colorScheme.SiteLogo + "')             ;}"}).appendTo('head');
             }
+
         };
         Object.toparams = function ObjecttoParams(obj) {
             var p = [];
@@ -66,14 +67,20 @@
             }
             return p.join('&');
         };
+
         $(document).ready(function(){ loadSettings(); });
+
+
         function openNav() {
             document.getElementById("mySidenav").style.width = "250px";
         }
+
         /* Set the width of the side navigation to 0 */
         function closeNav() {
             document.getElementById("mySidenav").style.width = "0";
         }
+
+
     </script>
 
     <script src="app.module.js"> </script>
@@ -119,17 +126,6 @@
     <script src="admin/site-addcadet/site-addcadet.controller.js"></script>
     <script src="admin/site-addclass/site-addclass.module.js"></script>
     <script src="admin/site-addclass/site-addclass.controller.js"></script>
-    <script src="admin/site-compassign/compassign.module.js"></script>
-    <script src="admin/site-compassign/compassign.controller.js"></script>
-    <script src="admin/site-viewcadets/site-viewcadets.module.js"></script>
-    <script src="admin/site-viewcadets/site-viewcadets.controller.js"></script>
-    <script src="admin/site-viewgraduates/site-viewgraduates.module.js"></script>
-    <script src="admin/site-viewgraduates/site-viewgraduates.controller.js"></script>
-    <script src="admin/site-managepermissions/managePermissions.module.js"></script>
-    <script src="admin/site-managepermissions/managePermissions.controller.js"></script>
-    <script src="admin/site-viewapplicants/site-viewapplicants.module.js"></script>
-    <script src="admin/site-viewapplicants/site-viewapplicants.controller.js"></script>
-    <script src="admin/dirPagination.js"></script>
 
     <script src="site/site.module.js"></script>
     <script src="site/lookups/lookups.module.js"></script>
@@ -144,16 +140,15 @@
 
     <script src="website/website.module.js"></script>
     <script src="website/website.controller.js"></script>
-
     <script src="website/fileSubmission/fileSubmission.module.js"></script>
     <script src="website/fileSubmission/fileSubmission.controller.js"></script>
     <script src="website/editCoreComponent/editCoreComponent.module.js"></script>
     <script src="website/editCoreComponent/editCoreComponent.controller.js"></script>
     <script src="website/siteSetup/siteSetup.module.js"></script>
     <script src="website/siteSetup/siteSetup.component.js"></script>
-    <script src="website/web-dropdown/web-dropdown.module.js"></script>
-    <script src="website/web-dropdown/web-dropdown.component.js"></script>
-    <script src="website/web-dropdown/web-dropdown-helper.controller.js"></script>
+
+
+
 
    <!-- <script src="case-manager/case-manager.controller.js"></script>
     -->
@@ -168,6 +163,8 @@
     <script src="recruiter/recruiter.controller.js"></script> <!-- remove after setting up controllers in proper folders -->
     <script src="recruiter/applicant-find/applicant-find.module.js"></script>
     <script src="recruiter/applicant-find/applicant-find.controller.js"></script>
+    <script src="recruiter/applicant-docs/applicant-docs.module.js"></script>
+    <script src="recruiter/applicant-docs/applicant-docs.controller.js"></script>
 
     <script src="case-manager/case-manager.module.js"></script> <!-- needed to add Mentor now -->
     <script src="case-manager/cadet-mentor/cadet-mentor.module.js"></script>
