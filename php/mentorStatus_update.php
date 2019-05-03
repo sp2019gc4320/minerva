@@ -55,12 +55,7 @@ if ($result = $connection->runSelectQuery($sql)) {
 
         // check to see if there is a post value
         if (isset($_POST[$fieldName])) {
-           // $fieldValue = filter_input(INPUT_POST, $fieldName);
-
-            $fieldValue1 = $_POST[$fieldName];
-            $fieldValue1 = str_replace('"', "'", $fieldValue1);
-            $fieldValue1 = str_replace("\\", "/", $fieldValue1);
-            $fieldValue = filter_var($fieldValue1,FILTER_SANITIZE_ENCODED);
+            $fieldValue = filter_input(INPUT_POST, $fieldName);
 
             $sql = "UPDATE $TableName  set $fieldName = '$fieldValue' WHERE  MentorPotentialID = '$MentorPotentialID'";
             $connection->runQuery($sql);

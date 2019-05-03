@@ -127,31 +127,17 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
 
         //Set the cadet for the first item in the list
         if ($scope.pickedCadets.length > 0) {
-            var list = "";
-            var chosen=0;
-            var firstChosen=$scope.pickedCadets[0];
-            let i =0;
-            while(i<$scope.pickedCadets.length){
-                list = list + (i+1) + ". " + $scope.pickedCadets[i].PersonFN + " " + $scope.pickedCadets[i].PersonLN + "\n";
-                i++;
-            }
-            if($scope.pickedCadets.length > 1) {
-                chosen = prompt("Enter the number next to the cadet that you would \nlike to use from the following list: \n" +
-                    list);
-                firstChosen = $scope.pickedCadets[chosen - 1];
-            }
+            var firstChosen = $scope.pickedCadets[0];
             $window.localStorage.setItem("CadetID", firstChosen.fkCadetID);
             $window.localStorage.setItem("CadetName", firstChosen.PersonFN + " " + firstChosen.PersonLN);
             $window.localStorage.setItem("CadetGender", firstChosen.PGender);
             $window.localStorage.setItem("CadetDOB", firstChosen.PDOB);
-            $window.localStorage.setItem("ClassDetailID", firstChosen.fkCadetID);
         }
         else {
             $window.localStorage.removeItem("CadetID");
             $window.localStorage.removeItem("CadetName");
             $window.localStorage.removeItem("CadetGender");
             $window.localStorage.removeItem("CadetDOB");
-            $window.localStorage.removeItem("ClassDetailID");
         }
 
         $window.opener.location.reload();
@@ -167,11 +153,6 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
         $window.sessionStorage.setItem("CadetID", cadet.fkCadetID);
         $window.sessionStorage.setItem("theCadet", cadet.fkCadetID);
         $window.localStorage.setItem("theCadet", cadet.fkCadetID);
-
-        //store class detail id here?
-        $window.sessionStorage.setItem("fkClassDetailID", cadet.fkCadetID);
-        $window.localStorage.setItem("fkClassDetailID", cadet.fkCadetID);
-        $window.localStorage.setItem("ClassDetailID", cadet.fkCadetID);
 
 
         $window.localStorage.setItem("CadetID", cadet.fkCadetID);

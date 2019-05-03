@@ -20,31 +20,19 @@ if (isset($_POST['fkTaskID'])) {
 }
 
 if (isset($_POST['EventDate'])) {
-    $EventDate =$conn->getRightFormat($conn->sanitize($_POST['EventDate']));
-
+    $EventDate = $_POST['EventDate'];
 }
 if (isset($_POST['DidPass'])) {
-    $DidPass= filter_input(INPUT_POST,'DidPass',FILTER_SANITIZE_NUMBER_INT);
-
+    $DidPass = $_POST['DidPass'];
 }
 if (isset($_POST['EventNote'])) {
-    //$EventNote=$conn->sanitize($_POST['EventNote']);//NOTE!!!!!!!
-    //$EventNote=filter_var($EventNote,FILTER_SANITIZE_ENCODED);
-
-    echo  $_POST['EventNote'];
-
-    $EventNote1 = $_POST['EventNote'];//technique 3
-    $EventNote1 = str_replace('"', "'", $EventNote1);
-    $EventNote1 = str_replace("\\", "/", $EventNote1);
-    $EventNote= filter_var($EventNote1,FILTER_SANITIZE_ENCODED);
+    $EventNote = $_POST['EventNote'];
 }
 
 //fkTaskTestEventID should be null for this update file.
 if (isset($_POST['$fkTaskTestEventID'])) {
     $fkTaskTestEventID = $_POST['$fkTaskTestEventID'];
 }
-
-echo $EventNote;
 //sql statement to update the correct tables
 $sql = "UPDATE
     tblCadetClassEvents

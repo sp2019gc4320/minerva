@@ -43,10 +43,7 @@ if($op == 'UPDATE')
 
             // check to see if there is a post value
             if (isset($_POST[$fieldName])) {
-                $fieldName1 = $_POST[$fieldName];
-                $fieldName1 = str_replace('"', "'", $fieldName1);
-                $fieldName1 = str_replace("\\", "/", $fieldName1);
-                $fieldValue = filter_var($fieldName1,FILTER_SANITIZE_ENCODED);
+                $fieldValue = filter_input(INPUT_POST, $fieldName);
                 $sql = "UPDATE tblMentorContacts  SET  $fieldName ='$fieldValue'
                       WHERE  MentorContactID=$mentorContactID";
                 $connection->runQuery($sql);
@@ -63,16 +60,8 @@ else if ($op=='ADD')
 
     $fkMentorPotentialID = filter_input(INPUT_POST, "fkMentorPotentialID");
     $contactDate = filter_input(INPUT_POST, "ContactDate");
-    $mentorContactType1 = $_POST['MentorContactType'];
-    $mentorContactType1 = str_replace('"', "'", $mentorContactType1);
-    $mentorContactType1 = str_replace("\\", "/", $mentorContactType1);
-    $mentorContactType = filter_var($mentorContactType1,FILTER_SANITIZE_ENCODED);
-
-    $mentorContactNote1 = $_POST['MentorContactNote'];
-    $mentorContactNote1 = str_replace('"', "'", $mentorContactNote1);
-    $mentorContactNote1 = str_replace("\\", "/", $mentorContactNote1);
-    $mentorContactNote = filter_var($mentorContactNote1,FILTER_SANITIZE_ENCODED);
-
+    $mentorContactType = filter_input(INPUT_POST, "MentorContactType");
+    $mentorContactNote = filter_input(INPUT_POST, "MentorContactNote");
     $contactPlacementMonth = filter_input(INPUT_POST, "ContactPlacementMonth");
 
     $sql = "INSERT INTO tblMentorContacts ( fkMentorPotentialID, ContactDate, MentorContactType, MentorContactNote, ContactPlacementMonth)

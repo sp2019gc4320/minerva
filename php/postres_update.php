@@ -69,11 +69,8 @@ if ($op == 'ADD') {
         $WasContactMade = filter_input(INPUT_POST, "WasContactMade", FILTER_SANITIZE_NUMBER_INT);
         $WasMentorInvolved = filter_input(INPUT_POST, "WasMentorInvolved",FILTER_SANITIZE_NUMBER_INT);
 
-        $PRReportNote1 = $_POST['PRReportNote'];
-        $PRReportNote1 = str_replace('"', "'", $PRReportNote1);
-        $PRReportNote1 = str_replace("\\", "/", $PRReportNote1);
-        $PRReportNote= filter_var($PRReportNote1,FILTER_SANITIZE_ENCODED);
-
+        $PRReportNote = $connection->sanitize($_POST["PRReportNote"]);/////////////////
+        $PRReportNote=filter_var($PRReportNote,FILTER_SANITIZE_ENCODED);
 
         $sql = "INSERT INTO $tbl 
             (fkPlacementID, PRReportType, PRReporterCategory, PRReportDate, PRReporterID,
@@ -88,10 +85,8 @@ if ($op == 'ADD') {
         $contactDate =$connection->getRightFormat($connection->sanitize($_POST['ContactDate']));
         $mentorContactType = filter_input(INPUT_POST, "MentorContactType",FILTER_SANITIZE_STRING);
 
-        $mentorContactNote1 = $_POST['MentorContactNote'];
-        $mentorContactNote1 = str_replace('"', "'", $mentorContactNote1);
-        $mentorContactNote1 = str_replace("\\", "/", $mentorContactNote1);
-        $mentorContactNote= filter_var($mentorContactNote1,FILTER_SANITIZE_ENCODED);
+        $mentorContactNote =$connection->sanitize($_POST['MentorContactNote']);
+        $mentorContactNote=filter_var($mentorContactNote,FILTER_SANITIZE_ENCODED);
 
         $contactPlacementMonth = filter_input(INPUT_POST, "ContactPlacementMonth",FILTER_SANITIZE_NUMBER_INT);
 
@@ -107,10 +102,9 @@ if ($op == 'ADD') {
         $PREdEndDate =$connection->getRightFormat($connection->sanitize($_POST['PREdEndDate']));
         $IsPREdFullTime= filter_input(INPUT_POST,'IsPREdFullTime');
 
-        $PREdNote1 = $_POST['PREdNote'];
-        $PREdNote1 = str_replace('"', "'", $PREdNote1);
-        $PREdNote1 = str_replace("\\", "/", $PREdNote1);
-        $PREdNote= filter_var($PREdNote1,FILTER_SANITIZE_ENCODED);
+        $PREdNote =$connection->sanitize($_POST['PREdNote']);
+        $PREdNote=filter_var($PREdNote,FILTER_SANITIZE_ENCODED);
+
 
         $sql = "INSERT INTO tblPREducation (fkPlacementID, PREdSchoolType, PREdStatus, PREdStartDate, PREdEndDate, IsPREdFullTime, PREdNote )
 VALUES ('$fkPlacementID', '$PREdSchoolType', '$PREdStatus', '$PREdStartDate', '$PREdEndDate', '$IsPREdFullTime', '$PREdNote' )";
@@ -118,43 +112,26 @@ VALUES ('$fkPlacementID', '$PREdSchoolType', '$PREdStatus', '$PREdStartDate', '$
     else if ($tblType == "Employment")//WORKS
     {
         $fkPlacementID = filter_input(INPUT_POST,'fkPlacementID',FILTER_SANITIZE_NUMBER_INT);
-
-        $PREmployer1 = $_POST['PREmployer'];
-        $PREmployer1 = str_replace('"', "'", $PREmployer1);
-        $PREmployer1 = str_replace("\\", "/", $PREmployer1);
-        $PREmployer= filter_var($PREmployer1,FILTER_SANITIZE_ENCODED);
-
+        $PREmployer = filter_input(INPUT_POST,'PREmployer',FILTER_SANITIZE_STRING);
         $PREmpHireDate =$connection->getRightFormat($connection->sanitize($_POST['PREmpHireDate']));
         $PREmpHrsPerWeek = filter_input(INPUT_POST,'PREmpHrsPerWeek',FILTER_SANITIZE_NUMBER_INT);
         $PREmpWageRate = filter_input(INPUT_POST,'PREmpWageRate',FILTER_SANITIZE_NUMBER_FLOAT);
         $PREmpWageType = filter_input(INPUT_POST,'PREmpWageType',FILTER_SANITIZE_STRING);
         $PREmpWorkStatus = filter_input(INPUT_POST,'PREmpWorkStatus',FILTER_SANITIZE_STRING);
-
-        $PREmpPOCPhone1 = $_POST['PREmpPOCPhone'];
-        $PREmpPOCPhone1 = str_replace('"', "'", $PREmpPOCPhone1);
-        $PREmpPOCPhone1 = str_replace("\\", "/", $PREmpPOCPhone1);
-        $PREmpPOCPhone= filter_var($PREmpPOCPhone1,FILTER_SANITIZE_ENCODED);
-
-        $PREmpPOCName1 = $_POST['PREmpPOCName'];
-        $PREmpPOCName1 = str_replace('"', "'", $PREmpPOCName1);
-        $PREmpPOCName1 = str_replace("\\", "/", $PREmpPOCName1);
-        $PREmpPOCName= filter_var($PREmpPOCName1,FILTER_SANITIZE_ENCODED);
-
+        $PREmpPOCPhone = filter_input(INPUT_POST,'PREmpPOCPhone',FILTER_SANITIZE_STRING);
+        $PREmpPOCName = filter_input(INPUT_POST,'PREmpPOCName',FILTER_SANITIZE_STRING);
         $IsPREmpSelfEmployed = filter_input(INPUT_POST,'IsPREmpSelfEmployed',FILTER_SANITIZE_NUMBER_INT);
 
 
 
         $PREmpTermDate =$connection->getRightFormat($connection->sanitize($_POST['PREmpTermDate']));//DATE
 
-        $PREmpTermNote1 = $_POST['PREmpTermNote'];
-        $PREmpTermNote1 = str_replace('"', "'", $PREmpTermNote1);
-        $PREmpTermNote1 = str_replace("\\", "/", $PREmpTermNote1);
-        $PREmpTermNote= filter_var($PREmpTermNote1,FILTER_SANITIZE_ENCODED);
+        $PREmpTermNote =$connection->sanitize($_POST['PREmpTermNote']);//NOTE!!!!!!!
+        $PREmpTermNote=filter_var($PREmpTermNote,FILTER_SANITIZE_ENCODED);
 
-        $PREmpNotes1 = $_POST['PREmpNotes'];
-        $PREmpNotes1 = str_replace('"', "'", $PREmpNotes1);
-        $PREmpNotes1 = str_replace("\\", "/", $PREmpNotes1);
-        $PREmpNotes= filter_var($PREmpNotes1,FILTER_SANITIZE_ENCODED);
+        $PREmpNotes =$connection->sanitize($_POST['PREmpNotes']);//NOTE!!!!!!!!!!
+        $PREmpNotes=filter_var($PREmpNotes,FILTER_SANITIZE_ENCODED);
+
 
         $sql = "INSERT INTO tblPREmployment (fkPlacementID, PREmployer, PREmpHireDate, PREmpHrsPerWeek, PREmpWageRate,
 PREmpWageType, PREmpWorkStatus, PREmpPOCPhone, PREmpPOCName, IsPREmpSelfEmployed,
@@ -174,10 +151,9 @@ PREmpTermDate, PREmpTermNote, PREmpNotes) VALUES
         $PRMilDelayedEntryDate =$connection->getRightFormat($connection->sanitize($_POST['PRMilDelayedEntryDate']));
         $PRMilDischargeDate =$connection->getRightFormat($connection->sanitize($_POST['PRMilDischargeDate']));
 
-        $PRMilNote1 = $_POST['PRMilNote'];
-        $PRMilNote1 = str_replace('"', "'", $PRMilNote1);
-        $PRMilNote1 = str_replace("\\", "/", $PRMilNote1);
-        $PRMilNote= filter_var($PRMilNote1,FILTER_SANITIZE_ENCODED);
+        $PRMilNote =$connection->sanitize($_POST['PRMilNote']);//NOTE!!!!!!!!!!!!!!!!
+        $PRMilNote=filter_var($PRMilNote,FILTER_SANITIZE_ENCODED);
+
 
         $sql = "INSERT INTO tblPRMilitary (fkPlacementID, PRMilStatus, PRMilAffiliation, IsAGR, PRMilEnlistDate, PRMilDelayedEntryDate, PRMilDischargeDate, PRMilNote)
  VALUES ('$fkPlacementID', '$PRMilStatus', '$PRMilAffiliation', '$IsAGR', '$PRMilEnlistDate', '$PRMilDelayedEntryDate', '$PRMilDischargeDate', '$PRMilNote')";
@@ -190,10 +166,9 @@ PREmpTermDate, PREmpTermNote, PREmpNotes) VALUES
         $PRMiscEndDate =$connection->getRightFormat($connection->sanitize($_POST['PRMiscEndDate']));
         $PRMiscHrs = filter_input(INPUT_POST,'PRMiscHrs',FILTER_SANITIZE_NUMBER_FLOAT);
 
-        $PRMiscNote1 = $_POST['PRMiscNote'];
-        $PRMiscNote1 = str_replace('"', "'", $PRMiscNote1);
-        $PRMiscNote1 = str_replace("\\", "/", $PRMiscNote1);
-        $PRMiscNote= filter_var($PRMiscNote1,FILTER_SANITIZE_ENCODED);
+        $PRMiscNote =$connection->sanitize($_POST['PRMiscNote']);//NOTE!!!!!!!!!!!!!!!!!!
+        $PRMiscNote=filter_var($PRMiscNote,FILTER_SANITIZE_ENCODED);
+
 
         $sql = "INSERT INTO tblPRMisc (fkPlacementID, PRMiscPlacementType, PRMiscStartDate, PRMiscEndDate, PRMiscHrs, PRMiscNote)
                   VALUES ('$fkPlacementID', '$PRMiscPlacementType', '$PRMiscStartDate', '$PRMiscEndDate', '$PRMiscHrs', '$PRMiscNote')";
@@ -204,6 +179,7 @@ PREmpTermDate, PREmpTermNote, PREmpNotes) VALUES
 // if operation is update, query to update tblmentorcontacts
 if ($op == 'UPDATE') {
     if (isset($_POST[$primaryKey])) {
+
         $primaryValue=filter_input(INPUT_POST, $primaryKey);
         unset($_POST[$primaryKey]);
     }
@@ -221,10 +197,8 @@ if ($op == 'UPDATE') {
 
                 // check to see if there is a post value
                 if (isset($_POST[$fieldName])) {
-                    $fieldName1 = $_POST[$fieldName];
-                    $fieldName1 = str_replace('"', "'", $fieldName1);
-                    $fieldName1 = str_replace("\\", "/", $fieldName1);
-                    $fieldValue = filter_var($fieldName1,FILTER_SANITIZE_ENCODED);
+
+                    $fieldValue = filter_input(INPUT_POST, $fieldName,FILTER_SANITIZE_ENCODED);
 
                     $sql = "UPDATE $tbl  SET  $fieldName ='$fieldValue' WHERE  $primaryKey= '$primaryValue'";
                     $connection->runQuery($sql);

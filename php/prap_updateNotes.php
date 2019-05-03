@@ -43,10 +43,7 @@ if($op == 'UPDATE')
 
             // check to see if there is a post value
             if(isset($_POST[$fieldName])){
-                $fieldValue1 = $_POST[$fieldName];
-                $fieldValue1 = str_replace('"', "'", $fieldValue1);
-                $fieldValue1 = str_replace("\\", "/", $fieldValue1);
-                $fieldValue = filter_var($fieldValue1,FILTER_SANITIZE_ENCODED);
+                $fieldValue = filter_input(INPUT_POST, $fieldName);
                 $sql = "UPDATE tblGenNotes set $fieldName = '$fieldValue' WHERE  GenNoteID=$genNoteID";
                 $connection->runQuery($sql);
             }
@@ -58,21 +55,12 @@ if($op == 'UPDATE')
 else if ($op=='ADD')
 {
     $fkClassDetailID = filter_input(INPUT_POST, "fkClassDetailID");
-
-    $genNoteTopic1 = $_POST['GenNoteTopic'];
-    $genNoteTopic1 = str_replace('"', "'", $genNoteTopic1);
-    $genNoteTopic1 = str_replace("\\", "/", $genNoteTopic1);
-    $genNoteTopic = filter_var($genNoteTopic1,FILTER_SANITIZE_ENCODED);
-
+    $genNoteTopic = filter_input(INPUT_POST, "GenNoteTopic");
     $noteCreatorID =filter_input(INPUT_POST, "NoteCreatorID");
     $noteEditorID = filter_input(INPUT_POST, "NoteEditorID");
     $noteCreatedDate = filter_input(INPUT_POST, "NoteCreatedDate");
     $noteEditedDate = filter_input(INPUT_POST, "NoteEditedDate");
-
-    $genNote1 = $_POST['GenNote'];
-    $genNote1 = str_replace('"', "'", $genNote1);
-    $genNote1 = str_replace("\\", "/", $genNote1);
-    $genNote = filter_var($genNote1,FILTER_SANITIZE_ENCODED);
+    $genNote = filter_input(INPUT_POST, "GenNote");
 
     $sql = "INSERT INTO tblGenNotes ( fkClassDetailID, GenNoteTopic, NoteCreatorID, NoteEditorID, NoteCreatedDate, NoteEditedDate, GenNote)
              VALUES ('$fkClassDetailID',  '$genNoteTopic',  '$noteCreatorID',  '$noteEditorID', '$noteCreatedDate', '$noteEditedDate', '$genNote')";

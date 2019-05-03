@@ -210,21 +210,6 @@ angular.module('notes.postres').controller('postresController', function($scope,
                 }
             })
 
-            $http.get("./php/postres_getReporterLookup.php").then(function (response)
-            {
-                $scope.CategoryOptions5 = response.data.data;
-
-
-                var i=0;
-                var max = $scope.CategoryOptions5.length;
-                while (i < max)
-                {
-                    $scope.CategoryOptions5[i].id= i;////////////////4
-                    $scope.CategoryOptions5[i].fullName=$scope.CategoryOptions5[i].PersonFN+ " "+$scope.CategoryOptions5[i].PersonLN;
-                    i++;
-                }
-            })
-
         },
         //ERROR
         function (result) {
@@ -243,14 +228,6 @@ angular.module('notes.postres').controller('postresController', function($scope,
                 $scope.tempEmployment.WageType.value=PostResCategory.WageType;
             else if(PostResCategory.WorkStatus!=undefined)
                 $scope.tempEmployment.WorkStatus.value=PostResCategory.WorkStatus;
-            else if(PostResCategory.PersonID!=undefined) {
-                $scope.tempReport.PRReporterID.value = PostResCategory.PersonID;
-                $scope.tempReport.PersonFN=PostResCategory.PersonFN;
-                $scope.tempReport.PersonLN=PostResCategory.PersonLN;
-                $scope.tempReport.PRReporterCategory=PostResCategory.PersonType;
-
-                //$scope.current.report.FName=PostResCategory.fullName;
-            }
         }
     };
 
@@ -330,12 +307,13 @@ angular.module('notes.postres').controller('postresController', function($scope,
         if(index!= 0) {
 
             $scope.current =  $scope.postres[index];
-            //$scope.reportsBackup = angular.copy($scope.current.reports);
+            $scope.reportsBackup = angular.copy($scope.current.reports);
 
             $scope.previous = $scope.postres[index - 1];
             $scope.currentIndex = index;
 
             $scope.current.fkPlacementID = Number($scope.previous.PlacementID)+1;
+            $scope.current.reports = $scope.previous.reports;
             $scope.current.education = $scope.previous.education;
             $scope.current.employment = $scope.previous.employment;
             $scope.current.military = $scope.previous.military;
@@ -343,6 +321,11 @@ angular.module('notes.postres').controller('postresController', function($scope,
 
 
             let m=0;
+            while(m<$scope.previous.reports.length){
+                $scope.current.reports[m].fkPlacementID = Number($scope.previous.PlacementID)+1;
+                m++;
+            }
+            m=0;
             while(m<$scope.previous.education.length){
                 $scope.current.education[m].fkPlacementID = Number($scope.previous.PlacementID)+1;
                 m++;
@@ -362,8 +345,6 @@ angular.module('notes.postres').controller('postresController', function($scope,
                 $scope.current.misc[m].fkPlacementID = Number($scope.previous.PlacementID)+1;
                 m++;
             }
-
-            window.location.reload();
         }
 
     };
@@ -510,8 +491,6 @@ angular.module('notes.postres').controller('postresController', function($scope,
             WasMentorInvolved:"0",
             PRReportNote:"",
             op: "ADD",
-            PersonFN: "",
-            PersonLN: "",
             tbl: "Report"
         };
 
@@ -538,14 +517,6 @@ angular.module('notes.postres').controller('postresController', function($scope,
         if($scope.tempReport.PRReporterCategory.PRReporterCategory != undefined)
             sendData.PRReporterCategory=$scope.tempReport.PRReporterCategory.PRReporterCategory;
 
-        if($scope.tempReport.PRReporterID.PersonID != undefined) {
-            sendData.PRReporterID = $scope.tempReport.PRReporterID.PersonID;
-        }
-
-
-
-
-
         //convert all dates to SQL
         $scope.convertDatesInObjectToSql(sendData);
 
@@ -566,11 +537,53 @@ angular.module('notes.postres').controller('postresController', function($scope,
 
                 $scope.convertDatesInObjectToHtml(sendData);
                 $scope.current.reports.push(sendData);
-
-
             },
             function (result) {
             });
+    };
+    $scope.saveReportCopies = function () {
+        $scope.showNewReport = false;
+
+        var numSaved=0;
+        var copy = {};
+        var copies = [];
+
+        for (let i = 0; i < $scope.current.reports.length; i++) {
+            copy = angular.copy($scope.current.reports[i]);
+            copy.op = "ADD";
+            copies.push(copy);
+        }
+        for (var j = 0; j < copies.length; j++) {
+            var sendData = angular.copy(copies[j]);
+            sendData.tbl = 'Report';
+
+            //Convert all Dates to sql format
+            for (var fieldName in sendData) {
+                //Check to see if property name contains Date
+                if (fieldName.includes("Date")) {
+                    sendData[fieldName] = convertToSqlDate(sendData[fieldName]);
+                }
+            }
+
+            //send the json object along with specified table to  update*.php file
+            $http({
+                method: 'POST',
+                url: "./php/postres_update.php",
+                data: Object.toparams(sendData),
+                headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            }).then(
+                function (response) {
+                    //only show saved message after last task saved.
+                    numSaved++;
+                    if (numSaved === copies.length) {
+                        //may not be needed since shallow copy initially
+                        //$scope.postres[currentIndex].reports = angular.copy(current.reports);
+                        alert("Reports Updated");
+                    }
+                }, function (result) {
+                    alert("Error saving Reports");
+                });
+        }
     };
 
     //saves selection from PRReportType dropdown

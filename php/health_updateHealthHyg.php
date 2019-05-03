@@ -24,10 +24,8 @@ else{
 }
 $DidPass= $conn->sanitize($_POST['DidPass']);
 
-$EventNote1=$_POST['EventNote'];
-$EventNote1=str_replace('"', "'", $EventNote1);
-$EventNote1=str_replace("\\", "/", $EventNote1);
-$EventNote=filter_var($EventNote1, FILTER_SANITIZE_ENCODED);
+$EventNote= $conn->sanitize($_POST['EventNote']);
+$EventNote=filter_var($EventNote, FILTER_SANITIZE_ENCODED);
 
 $fkTaskID= $conn->sanitize($_POST['fkTaskID']);
 

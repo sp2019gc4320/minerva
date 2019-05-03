@@ -30,10 +30,8 @@ if (isset($_POST['fkClassDetailID'])) {
     $fkClassDetailID= filter_input(INPUT_POST, "fkClassDetailID", FILTER_SANITIZE_NUMBER_INT);
 }
 if (isset($_POST['PosNote'])) {
-    $PosNote1=$_POST['PosNote'];
-    $PosNote1=str_replace('"', "'", $PosNote1);
-    $PosNote1=str_replace("\\", "/", $PosNote1);
-    $PosNote=filter_var($PosNote1, FILTER_SANITIZE_ENCODED);
+    $PosNote= $conn->sanitize($_POST['PosNote']);
+    $PosNote=filter_var($PosNote, FILTER_SANITIZE_ENCODED);
 }
 if (isset($_POST['PosStartDate'])) {
     $PosStartDate= $conn->getRightFormat($conn->sanitize($_POST['PosStartDate']));

@@ -32,10 +32,8 @@ if (isset($_POST['JBInspectionType'])) {
     $JBInspectionType= filter_input(INPUT_POST,"JBInspectionType", FILTER_SANITIZE_STRING);
 }
 if (isset($_POST['InspectionNote'])) {
-    $InspectionNote1=$_POST['InspectionNote'];
-    $InspectionNote1=str_replace('"', "'", $InspectionNote1);
-    $InspectionNote1=str_replace("\\", "/", $InspectionNote1);
-    $InspectionNote=filter_var($InspectionNote1, FILTER_SANITIZE_ENCODED);
+    $InspectionNote= $conn->sanitize($_POST['InspectionNote']);
+    $InspectionNote=filter_var($InspectionNote, FILTER_SANITIZE_ENCODED);
 }
 if (isset($_POST['InspMeritAdj'])) {
     $InspMeritAdj = filter_input(INPUT_POST,"InspMeritAdj", FILTER_SANITIZE_NUMBER_INT, FILTER_VALIDATE_INT);

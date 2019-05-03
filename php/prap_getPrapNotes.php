@@ -28,7 +28,7 @@ $sql = "SELECT GenNoteID, tblGenNotes.fkClassDetailID AS ClassDetailID,GenNoteTo
                AND tblClassDetails.ClassDetailID = tblGenNotes.fkClassDetailID";
 
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
-echo '{ "data":' . urldecode(json_encode($result)) . "} ";
+echo '{ "data":' . (json_encode($result)) . "} ";
 
 ?>
 

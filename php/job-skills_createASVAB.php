@@ -14,32 +14,17 @@ if (isset($_POST['fkClassDetailID'])) {
     $fkClassDetailID = $_POST['fkClassDetailID'];
 }
 if (isset($_POST['ASVABDate'])) {
-    //$ASVABDate = $_POST['ASVABDate'];
-    $ASVABDate =$conn->getRightFormat($conn->sanitize($_POST['ASVABDate']));
+    $ASVABDate = $_POST['ASVABDate'];
 }
 
 if (isset($_POST['ASVABTechScore'])) {
-    //$ASVABTechScore = $_POST['ASVABTechScore'];
-    $ASVABTechScore = filter_input(INPUT_POST,'ASVABTechScore',FILTER_SANITIZE_NUMBER_INT);
-
+    $ASVABTechScore = $_POST['ASVABTechScore'];
 }
 if (isset($_POST['AFQTScore'])) {
-    //$AFQTScore = $_POST['AFQTScore'];
-    $AFQTScore = filter_input(INPUT_POST,'AFQTScore',FILTER_SANITIZE_NUMBER_INT);
+    $AFQTScore = $_POST['AFQTScore'];
 }
 if (isset($_POST['ASVABTestNotes'])) {
-    //$ASVABTestNotes = $_POST['ASVABTestNotes']; no sql injection
-
-
-    //$ASVABTestNotes =$conn->sanitize($_POST['ASVABTestNotes']);//NOTE!!!!!!! techinque 1
-    //$ASVABTestNotes=filter_var($ASVABTestNotes,FILTER_SANITIZE_ENCODED);
-
-    $ASVABTestNotes1 = $_POST['ASVABTestNotes'];//technique 2
-    $ASVABTestNotes1 = str_replace('"', "'", $ASVABTestNotes1);
-    $ASVABTestNotes1 = str_replace("\\", "/", $ASVABTestNotes1);
-    $ASVABTestNotes= filter_var($ASVABTestNotes1,FILTER_SANITIZE_ENCODED);
-
-
+    $ASVABTestNotes = $_POST['ASVABTestNotes'];
 }
 
 $sql = "INSERT INTO tblASVAB 
