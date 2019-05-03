@@ -8,7 +8,7 @@ require_once 'dbcontroller.php';
 $connection = new DBController();
 
 $fields = "WorkStatus";
-$sql = "SELECT ". $fields ." FROM tlkpworkstatus ";
+$sql = "SELECT ". $fields ." FROM tlkpWorkStatus ";
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
 echo '{"data":' . (json_encode($result)) . "} ";
 ?>
