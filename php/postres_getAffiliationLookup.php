@@ -8,7 +8,7 @@ require_once 'dbcontroller.php';
 $connection = new DBController();
 
 $fields = "MilitaryAffiliation";
-$sql = "SELECT ". $fields ." FROM tlkpmilitaryaffiliation ";
+$sql = "SELECT ". $fields ." FROM tlkpMilitaryAffiliation ";
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
 echo '{"data":' . (json_encode($result)) . "} ";
 ?>
