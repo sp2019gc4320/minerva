@@ -8,7 +8,7 @@ require_once 'dbcontroller.php';
 $connection = new DBController();
 
 $fields = "WageType";
-$sql = "SELECT ". $fields ." FROM tlkpprempwagetype ";
+$sql = "SELECT ". $fields ." FROM tlkpPREmpWageType ";
 $result = $connection->runSelectQueryArrayNotEncoded($sql);
 echo '{"data":' . (json_encode($result)) . "} ";
 ?>
