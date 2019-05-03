@@ -35,8 +35,10 @@ if($op=='UPDATE') {
     $validEnd = date('Y-m-d', $validEnd);//off by one (gets fixed when retrieving in the js)
     $PosEndDate = $validEnd;
 
-    $PosNote= $conn->sanitize($_POST['PosNote']);
-    $PosNote=filter_var($PosNote, FILTER_SANITIZE_ENCODED);
+    $PosNote1=$_POST['PosNote'];
+    $PosNote1=str_replace('"', "'", $PosNote1);
+    $PosNote1=str_replace("\\", "/", $PosNote1);
+    $PosNote=filter_var($PosNote1, FILTER_SANITIZE_ENCODED);
 
     $PosDidFail= $conn->sanitize($_POST['PosDidFail']);
 

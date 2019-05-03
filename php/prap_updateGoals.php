@@ -18,19 +18,28 @@ if (isset($_POST['ShortTermGoalDate'])) {
     $ShortTermGoalDate = filter_input(INPUT_POST, "ShortTermGoalDate");
 }
 if (isset($_POST['ShortTermGoal'])) {
-    $ShortTermGoal = filter_input(INPUT_POST, "ShortTermGoal");
+    $ShortTermGoal1 = $_POST['ShortTermGoal'];
+    $ShortTermGoal1 = str_replace('"', "'", $ShortTermGoal1);
+    $ShortTermGoal1 = str_replace("\\", "/", $ShortTermGoal1);
+    $ShortTermGoal = filter_var($ShortTermGoal1,FILTER_SANITIZE_ENCODED);
 }
 if (isset($_POST['IntermediateGoalDate'])) {
     $IntermediateGoalDate = filter_input(INPUT_POST, "IntermediateGoalDate");
 }
 if (isset($_POST['IntermediateGoal'])) {
-    $IntermediateGoal = filter_input(INPUT_POST, "IntermediateGoal");
+    $IntermediateGoal1 = $_POST['IntermediateGoal'];
+    $IntermediateGoal1 = str_replace('"', "'", $IntermediateGoal1);
+    $IntermediateGoal1 = str_replace("\\", "/", $IntermediateGoal1);
+    $IntermediateGoal = filter_var($IntermediateGoal1,FILTER_SANITIZE_ENCODED);
 }
 if (isset($_POST['LongTermGoalDate'])) {
     $LongTermGoalDate = filter_input(INPUT_POST, "LongTermGoalDate");
 }
 if (isset($_POST['LongTermGoal'])) {
-    $LongTermGoal = filter_input(INPUT_POST, "LongTermGoal");
+    $LongTermGoal1 = $_POST['LongTermGoal'];
+    $LongTermGoal1 = str_replace('"', "'", $LongTermGoal1);
+    $LongTermGoal1 = str_replace("\\", "/", $LongTermGoal1);
+    $LongTermGoal = filter_var($LongTermGoal1,FILTER_SANITIZE_ENCODED);
 }
 if (isset($_POST['ClassDetailID'])) {
     $classDetailID = filter_input(INPUT_POST, "ClassDetailID");

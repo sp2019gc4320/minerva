@@ -34,7 +34,7 @@ if ($result->num_rows > 0)
         	echo ",";
       
       	//format output as an object -- specify each field along with its value
-        echo '{"TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "EventDate":"' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "EventNote":"' . $row["EventNote"]. '", "fkTaskID":"' . $row["fkTaskID"]. '", "fkCadetID":"' . $row["fkCadetID"].'"}';
+        echo '{"TaskNumber": "' . $row["TaskNumber"]. '", "Task": "' . $row["Task"]. '", "EventDate":"' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "EventNote":"' . urldecode($row["EventNote"]). '", "fkTaskID":"' . $row["fkTaskID"]. '", "fkCadetID":"' . $row["fkCadetID"].'"}';
        
         $count = $count+1;
     }
@@ -60,7 +60,7 @@ if ($result->num_rows > 0)
             echo ",";
       
         //format output as an object -- specify each field along with its value
-        echo '{"TaskTestID": "' . $row["TaskTestID"]. '","TaskTest": "' . $row["TaskTest"]. '", "EventDate": "' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "TestScore":"' . $row["TestScore"]. '", "EventNote":"' . $row["EventNote"]. '", "fkTaskTestEventID":"' . $row["fkTaskTestEventID"]. '", "ClassDetailID":"' . $row["ClassDetailID"]. '", "fkTaskID": "' . $row["fkTaskID"]. '"}';
+        echo '{"TaskTestID": "' . $row["TaskTestID"]. '","TaskTest": "' . $row["TaskTest"]. '", "EventDate": "' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "TestScore":"' . $row["TestScore"]. '", "EventNote":"' . urldecode($row["EventNote"]). '", "fkTaskTestEventID":"' . $row["fkTaskTestEventID"]. '", "ClassDetailID":"' . $row["ClassDetailID"]. '", "fkTaskID": "' . $row["fkTaskID"]. '"}';
        
         $count = $count+1;
     }
