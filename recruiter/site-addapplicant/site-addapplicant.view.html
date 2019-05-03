@@ -1,4 +1,4 @@
-<form id = newAppForm ng-submit="submit()" ng-controller="recController">
+<form id = newAppForm ng-submit="submit()" ng-controller="recController" method = "post">
     <div class="container" >
         <div id="personal-info-container">
             <h5>Personal Information</h5>
@@ -54,7 +54,7 @@
             <div class="form-row">
                 <div class="form-group col-md-3">
                     <label for="birthdate">Birthdate</label>
-                    <input type="text" 
+                    <input type="date" 
                            class="form-control"
                            id="birthdate"
                            placeholder="MM/DD/YYYY"
@@ -96,12 +96,12 @@
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" 
                                type="radio"
-                               id="gender-male" 
+                               id="gender"
                                value="male"
                                ng-model="person.PGender"
                                ng-value="'M'">
                         <label class="form-check-label"
-                               for="gender-male">Male</label>
+                               for="gender">Male</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" 
@@ -230,14 +230,9 @@
 
         <div id="contact-container">
             <h5>Contact Information</h5>
-            <div class="form-row">
-                <label class="col-md-2">Type</label>
-                <label class="col-md-3 offset-md-3">Value</label>
-                <label class="col-md-2">Description</label>
-                <label class="col-md-1">Preferred?</label>
-            </div>
             <div class="form-row" ng-repeat="ci in contactInformation">
                 <div class="form-group col-md-2">
+                    <label>Type</label>
                     <select class="custom-select mr-sm-2" 
                             ng-model="ci.ContactType">
                         <option ng-value="'phone'" selected>Phone</option>
@@ -246,6 +241,7 @@
                     </select>
                 </div>
                 <div class="form-group col-md-2">
+                    <label>Type of Phone</label>
                     <select class="custom-select mr-sm-2" 
                             ng-disabled="ci.ContactType!='phone'"
                             ng-model="ci.ContactTypeExt">
@@ -256,23 +252,34 @@
                     </select>
                 </div>
                 <div  class="form-group col-md-1">
+                    <label>Extension</label>
                     <input type="text" 
                            ng-disabled="ci.ContactType!='phone'"
                            class="form-control"
                            placeholder="Ext"
                            ng-model="ci.Ext">
                 </div>
-                <div class="form-group col-md-3">
+                <div class="form-group col-md-2">
+                    <label>Value</label>
                     <input type="text" 
                            class="form-control"
                            ng-model="ci.Value">
                 </div>
                 <div class="form-group col-md-2">
+                    <label>Description</label>
                     <input type="text" 
                            class="form-control"
                            ng-model="ci.Description">
                 </div>
+                <div class="form-group col-md-2">
+                    <label>Name</label>
+                    <input type="text"
+                           class="form-control"
+                           ng-model="ci.Name">
+                </div>
                 <div class="form-group col-md-1 text-center">
+                    <label>Preferred?</label>
+                    <br>
                     <input type="checkbox" 
                            class="form-check-input td-center-checkbox "
                            ng-model="ci.IsPreferred">
@@ -286,7 +293,7 @@
             <div class="form-row" id="add-contact-btn">
                 <button type="button" 
                         class="btn btnCreate"
-                        ng-click="addContactInformation()" > Add Contact Information</button>
+                        ng-click="addContactInformation()" > Add New Contact</button>
             </div>
         </div>
         <div id="location-container">
@@ -294,11 +301,9 @@
             <div class="form-row">
                 <div class="form-group col-md-6">
                     <label for="county">County</label>
-                    <select id="county"
-                            class="custom-select form-control"
+                    <input type = "text" id="county" placeholder="County"
+                            class="form-control"
                             ng-model="person.PCounty">
-                        <option selected></option>
-                    </select>
                 </div>
                 <div class="form-group col-md-6">
                     <label for="urbanization">Urbanization</label>
@@ -317,31 +322,168 @@
             <h5>Education</h5>
             <div class="form-row">
                 <div class="form-group col-md-3">
-                    <label for="grade">Grade</label>
+                    <label for="Income">Income</label>
                     <input type="text"
                            class="form-control"
-                           id="grade"
-                           placeholder="Grade"
-                           ng-model="applicant.StudentClassification">
+                           id="Income"
+                           name = "Income"
+                           placeholder="Income"
+                           ng-model="applicant.Income">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="ReferralSource">Referral Source</label>
+                    <input type="text"
+                           class="form-control"
+                           id="ReferralSource"
+                           name = "ReferralSource"
+                           placeholder="Referral"
+                           ng-model="applicant.ReferralSource">
                 </div>
                 <div class="form-group col-md-2">
-                    <label for="credits">Academic Credits</label>
+                    <label for="AcademicCredits">Academic Credits</label>
                     <input type="text"
                            class="form-control"
-                           id="credits"
+                           id="AcademicCredits"
+                           name = "AcademicCredits'"
                            placeholder="Academic Credits"
                            ng-model="applicant.AcademicCredits">
                 </div>
                 <div class="form-group col-md-3">
-                    <label for="schoolName">Last</label>
+                    <label for="PrevSchool">School Name</label>
                     <input type="text"
                            class="form-control"
-                           id="schoolName"
-                           placeholder="School Name"
-                           ng-model="applicant.SchoolName">
+                           id="PrevSchool"
+                           name = "PrevSchool"
+                           placeholder="Previous School"
+                           ng-model="applicant.PrevSchool">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="PrevSchoolCity">City</label>
+                    <input type="text"
+                           class="form-control"
+                           id="PrevSchoolCity"
+                           name = "PrevSchoolCity"
+                           placeholder="Previous School City"
+                           ng-model="applicant.PrevSchoolCity">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="PrevSchoolState">State</label>
+                    <input type="text"
+                           class="form-control"
+                           id="PrevSchoolState"
+                           name = "PrevSchoolState"
+                           placeholder="Previous School State"
+                           ng-model="applicant.PrevSchoolState">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="StudentClassification">Grade</label>
+                    <input type="text"
+                           class="form-control"
+                           id="StudentClassification"
+                           name = "StudentClassification"
+                           placeholder="Classification"
+                           ng-model="applicant.StudentClassification">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="Withdrawl">Withdrawl</label>
+                    <br>
+                    <input type="checkbox"
+                           class="form-check-input td-center-checkbox "
+                           id="Withdrawl"
+                           name = "Withdrawl"
+                           ng-model="applicant.Withdrawl">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="HighestEducation">Highest Level of Education</label>
+                    <input type="text"
+                           class="form-control"
+                           id="HighestEducation"
+                           name = "HighestEducation"
+                           placeholder="Education"
+                           ng-model="applicant.HighestEducation">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="EmploymentStatus">Employment Status</label>
+                    <input type="text"
+                           class="form-control"
+                           id="EmploymentStatus"
+                           name = "EmploymentStatus"
+                           placeholder="Employment Status"
+                           ng-model="applicant.EmploymentStatus">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="LegalStatus">Legal Citizen?</label>
+                    <br>
+                    <input type="checkbox"
+                           class="form-check-input td-center-checkbox "
+                           id="LegalStatus"
+                           name = "LegalStatus"
+                           placeholder="Legal Status"
+                           ng-model="applicant.LegalStatus">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="LivingWith">Living With</label>
+                    <input type="text"
+                           class="form-control"
+                           id="LivingWith"
+                           name = "LivingWith"
+                           placeholder="Name of relative"
+                           ng-model="applicant.LivingWith">
                 </div>
             </div>
         </div>
-        <input type="submit" class="btn btn-primary"></input>
+        <div id="guardian-container">
+            <h5>Guardian Information</h5>
+            <div class="form-row" ng-repeat="guard in guardianInformation">
+                <div class="form-group col-md-3">
+                    <label>First Name</label>
+                    <input type="text"
+                           class="form-control"
+                           ng-model="guard.FName">
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Last Name</label>
+                    <input type="text"
+                           class="form-control"
+                           ng-model="guard.LName">
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Relationship</label>
+                    <input type="text"
+                           class="form-control"
+                           ng-model="guard.Relationship">
+                </div>
+                <div class="form-group col-md-3">
+                    <label>Phone Number</label>
+                    <input type="text"
+                           class="form-control"
+                           ng-model="guard.PhoneNum">
+                </div>
+                <div class="form-group col-md-2">
+                    <label>Email</label>
+                    <input type="text"
+                           class="form-control"
+                           ng-model="guard.Email">
+                </div>
+                <div class="form-group col-md-2 text-center">
+                    <label>Legal Guardian?</label>
+                    <br>
+                    <input type="checkbox"
+                           class="form-check-input td-center-checkbox "
+                           ng-model="guard.IsLegalGuard">
+                </div>
+                <div class="form-group col-md-1">
+                    <button type="button"
+                            class="btn btnDelete"
+                            ng-click="removeGuardian(guard)"> Delete</button>
+                </div>
+            </div>
+            <div class="form-row" id="add-guard-btn">
+                <button type="button"
+                        class="btn btnCreate"
+                        ng-click="addGuardian()" > Add New Guardian</button>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary">
     </div>
 </form>

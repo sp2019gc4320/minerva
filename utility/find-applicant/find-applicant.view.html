@@ -1,8 +1,7 @@
-<div ng-controller="FindCadetController">
+<div ng-controller="FindApplicantController">
     <div class="row">
         <!-- Filters -->
         <div class="col-md-3">
-            <!--TODO choose the correct ClassID -- is it SiteClassNumber or NGB number ?? -->
             <hr>
                 <div class="form-group row">
                     <label for="first-name" class="col-md-4 col-form-label
@@ -13,7 +12,7 @@
                                name="first-name"
                                id="first-name"
                                value=""
-                               ng-model="cadetSearch.PersonFN">
+                               ng-model="applicantSearch.PersonFN">
                         <!-- The ng-model attached to each filter text box specifies which attribute to search (PersonFN)-->
                     </div>
                 </div>
@@ -26,19 +25,19 @@
                                name="last-name"
                                id="last-name"
                                value=""
-                               ng-model="cadetSearch.PersonLN"> <!-- ng-model specified for PersonLN-->
+                               ng-model="applicantSearch.PersonLN"> <!-- ng-model specified for PersonLN-->
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label for="cadet-id" class="col-md-4 col-form-label
+                    <label for="applicant-id" class="col-md-4 col-form-label
                         col-form-label-sm">Applicant ID</label>
                     <div class="col-md-8">
                         <input type="text"
                                class="form-control form-control-sm"
-                               name="cadet-id"
-                               id="cadet-id"
+                               name="applicant-id"
+                               id="applicant-id"
                                value=""
-                               ng-model="cadetSearch.fkCadetID"> <!-- ng-model specified for fkCadetID-->
+                               ng-model="applicantSearch.applicantID"> <!-- ng-model specified for applicantID-->
                     </div>
                 </div>
             <button class="btn btn-primary" ng-click="search()">Search</button>
@@ -50,15 +49,14 @@
                     <tr>
                         <th>First Name</th>
                         <th>Last Name</th>
-                        <th class="text-center">Applicant ID</th>
+                        <th>Applicant ID</th>
                     </tr>
                     <!--  Use a filter to only show certain fields without call to the server -->
                     <!--  Make the filter strict to restrict the searches to the specified attribute -->
-                    <tr ng-repeat="x in cadets | filter:cadetSearch:strict "
-                        ng-click="pickCadet(x)" ng-click="pickCadet()">
+                    <tr ng-repeat="x in applicants" ng-click="pickApplicant(x)" ng-click="pickApplicant()">
                         <td>{{x.PersonFN}}</td>
                         <td>{{x.PersonLN}}</td>
-                        <td class="text-center">{{x.fkCadetID}}</td>
+                        <td>{{x.ApplicantID}}</td>
                     </tr>
                 </table>
             </div>
