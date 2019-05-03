@@ -63,7 +63,37 @@ function deleteFormJS() {
 }
 
 function generateSelectedFormsJS() {
+    var selected, func, formID, formName, formText;
 
+    selected = new Array();
+    func = 'gen';
+    formID = document.getElementsByClassName("active")[1].id;
+    formName = document.getElementById(formID).value;
+    formText = document.getElementsByName(formName)[0].value;
+    $('.selected').each(function() {
+        if ($(this).find('input').is(':checked')) {
+            selected.push($(this).find('input').val());
+        }
+    });
+    //alert(JSON.stringify(selected));
+    //alert(formID);
+
+    var formData = {selected, func, formText, formID, formName};
+    //alert(JSON.stringify(formData));
+
+    if(selected.length == 0)
+        alert("No candidates selected!");
+    else {
+        $.ajax({
+            url: 'forms_functions.php',
+            type: 'post',
+            data: {"data": JSON.stringify(formData)},
+            success: function (data) {
+                alert("Generated forms using: " + formName);
+                //alert(JSON.stringify(data));
+            }
+        });
+    }
 }
 
 /*function createFormPageJS() {

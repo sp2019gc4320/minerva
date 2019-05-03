@@ -18,13 +18,12 @@
     require_once './forms_functions.php';
     ?>
     <script src="forms.js"></script>
-
 </head>
 
 <body>
 <br>
 
-<h3 style="font-size:40px; text-indent: 20px; text-align:left">Form Managment</h3>
+<h3 style="font-size:40px; text-indent: 20px; text-align:left">Form Management</h3>
 
 <hr style="height:3px;border:none;color:#333;background-color:#333;margin-bottom:0px"/>
 
@@ -39,7 +38,7 @@
 
 <div class="container">
     <div class="scrollingtable text-center" style="float:left;">
-            <table class="minerva-table" id="data-table">
+            <table class="minerva-table" id="data-table" style="width:25%">
                 <thead>
                 <tr>
                     <th>
@@ -67,9 +66,43 @@
                 ?>
                 </tbody>
             </table>
-            <button type="submit" name="generateSelected" style="width: 150px; float:left;" class="btn btn-success">
+
+        <button id="genbtn" style="width: 150px; float:left;" class="btn btn-success" onclick="post()">
                 Generate Forms
-            </button><br><br><br><br><br><br>
+            </button>
+
+        <script type="text/javascript">
+            function post() {
+                var selected, func, formID, formName, formText;
+
+                selected = new Array();
+                func = 'gen';
+                formID = document.getElementsByClassName("active")[1].id;
+                formName = document.getElementById(formID).value;
+                formText = document.getElementsByName(formName)[0].value;
+                $('.selected').each(function() {
+                    if ($(this).find('input').is(':checked')) {
+                        selected.push($(this).find('input').val());
+                    }
+                });
+
+                var formData = {selected, func, formText, formID, formName};
+
+                var form = document.createElement('form');
+                form.setAttribute('method', 'post');
+                form.setAttribute('action', 'forms.php');
+                form.style.display = 'hidden';
+                document.body.appendChild(form);
+
+                var hiddenField = document.createElement("input");
+                hiddenField.setAttribute("name", "gen");
+                hiddenField.setAttribute("value", JSON.stringify(formData));
+                form.appendChild(hiddenField);
+
+                form.submit();
+            }
+        </script>
+        <br><br><br><br><br><br>
         <form action="forms.php" method="POST">
             <button type="submit" name="createForm" style="width: 150px; float:left;" class="btn btn-success">
                 New Form
@@ -83,48 +116,22 @@
                 Delete Current Form
             </button>
     </div>
-
+    <!--<button type="submit" id="generate" name="generate" value="submit" style="width: 150px; float:left;" class="btn btn-success hidden" onclick="generateSelectedFormsJS()">
+        Generate Forms
+    </button>-->
     <?php
+        if(isset($_POST['gen'])) {
+            $formData = json_decode($_POST['gen']);
+            generateForms($formData);
+        }
         if(isset($_POST['createForm'])){
             createFormPage();
         }
-        if(empty($_POST['generateSelected']) && !isset($_POST['createForm'])) {
+        if(empty($_POST['data']) && !isset($_POST['createForm']) && !isset($_POST['gen'])) {
             generateDefaultForm();
             echo '<script type="text/javascript">',
             'document.getElementById("1").click();',
             '</script>';
-        }
-         else
-            generateSelectedForms();
-
-        $checked_arr = array();
-
-        $conn = new DBController();
-        $result = $conn -> connectDB();
-        //$new_result= $conn -> connectDB();
-        if(!$conn) die("Unable to connect to the database!");
-
-
-        //fetch checked values
-        $fetch = mysqli_query($result, "SELECT * FROM tblApplicants");
-        if(isset($_POST['generateSelected'])){
-            if(!empty($_POST['id'])){
-                $rows = mysqli_fetch_array($fetch);
-
-                foreach($_POST['id'] as $value){
-                    $checked = "";
-                    if(in_array($value,$checked_arr)){
-                        $checked = "checked";
-                    }
-                    $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID = '$value'");
-                    $dumpy = mysqli_fetch_assoc($sql);
-
-                    moveToCandidatepool($value, $dumpy);
-                }
-
-                //INSERT and UPDATE database
-                //$checkEntries = mysqli_query($result, "SELECT * FROM tblApplicants");
-            }
         }
     ?>
 </div>
