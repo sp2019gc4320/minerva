@@ -116,9 +116,6 @@
                 Delete Current Form
             </button>
     </div>
-    <!--<button type="submit" id="generate" name="generate" value="submit" style="width: 150px; float:left;" class="btn btn-success hidden" onclick="generateSelectedFormsJS()">
-        Generate Forms
-    </button>-->
     <?php
         if(isset($_POST['gen'])) {
             $formData = json_decode($_POST['gen']);
@@ -136,16 +133,4 @@
     ?>
 </div>
 
-<!--<div class="container-fluid " style="float:right; margin-right: 275px;">
-    <button type="submit" name="email" id="email" style="width: 150px; float:left;" class="btn btn-primary">
-        Email Forms
-    </button>
-    <button type="submit" name="download" id="download" style="width: 150px; float:left;" class="btn btn-success">
-        Download Forms
-    </button>
-</div>-->
-
-<script>
-    //document.getElementById("1").click();
-</script>
 
