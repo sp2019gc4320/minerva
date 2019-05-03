@@ -31,8 +31,10 @@ if($op=='UPDATE') {
     $validRankDate = date('Y-m-d', $validRankDate);//off by one (gets fixed when retrieving in the js)
     $RankObtainedDate = $validRankDate;
 
-    $RankPromotionNote= $conn->sanitize($_POST['RankPromotionNote']);
-    $RankPromotionNote=filter_var($RankPromotionNote, FILTER_SANITIZE_ENCODED);
+    $RankPromotionNote1=$_POST['RankPromotionNote'];
+    $RankPromotionNote1=str_replace('"', "'", $RankPromotionNote1);
+    $RankPromotionNote1=str_replace("\\", "/", $RankPromotionNote1);
+    $RankPromotionNote=filter_var($RankPromotionNote1, FILTER_SANITIZE_ENCODED);
 
     $RankDidFail= $conn->sanitize($_POST['RankDidFail']);
 

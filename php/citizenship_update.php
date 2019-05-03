@@ -50,7 +50,13 @@ if(isset($_POST['fkTaskTestEventID'])){
 
        // check to see if there is a post value
        if(isset($_POST[$fieldName])){
-            $fieldValue = filter_input(INPUT_POST, $fieldName);
+            //$fieldValue = filter_input(INPUT_POST, $fieldName);
+
+           $fieldValue1 = $_POST[$fieldName];//technique 2
+           $fieldValue1 = str_replace('"', "'", $fieldValue1);
+           $fieldValue1 = str_replace("\\", "/", $fieldValue1);
+           $fieldValue = filter_var($fieldValue1,FILTER_SANITIZE_ENCODED);
+
 
   
               $sql = "UPDATE tblCadetClassEvents  set $fieldName = '$fieldValue'

@@ -28,8 +28,10 @@ if($op=='UPDATE') {
     $validInspec = date('Y-m-d', $validInspec);//off by one (gets fixed when retrieving in the js)
     $InspectionDate = $validInspec;
 
-    $InspectionNote= $conn->sanitize($_POST['InspectionNote']);
-    $InspectionNote=filter_var($InspectionNote, FILTER_SANITIZE_ENCODED);
+    $InspectionNote1=$_POST['InspectionNote'];
+    $InspectionNote1=str_replace('"', "'", $InspectionNote1);
+    $InspectionNote1=str_replace("\\", "/", $InspectionNote1);
+    $InspectionNote=filter_var($InspectionNote1, FILTER_SANITIZE_ENCODED);
 
     $DidPassInspection= $conn->sanitize($_POST['DidPassInspection']);
     $InspMeritAdj = filter_input(INPUT_POST,"InspMeritAdj", FILTER_SANITIZE_NUMBER_INT);

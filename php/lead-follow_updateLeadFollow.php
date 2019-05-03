@@ -15,8 +15,10 @@ $fkCadetID = $conn->sanitize($_POST['fkCadetID']);
 $EventDate= $conn->getRightFormat($conn->sanitize($_POST['EventDate']));
 $DidPass= $conn->sanitize($_POST['DidPass']);
 
-$EventNote= $conn->sanitize($_POST['EventNote']);
-$EventNote=filter_var($EventNote, FILTER_SANITIZE_ENCODED);
+$EventNote1=$_POST['EventNote'];
+$EventNote1=str_replace('"', "'", $EventNote1);
+$EventNote1=str_replace("\\", "/", $EventNote1);
+$EventNote=filter_var($EventNote1, FILTER_SANITIZE_ENCODED);
 
 $fkTaskID= $conn->sanitize($_POST['fkTaskID']);
 

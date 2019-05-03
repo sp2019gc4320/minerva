@@ -417,13 +417,13 @@
 				<th>Wage Rate</th>
 				<th>Wage Type</th>
 				<th>Work Status</th>
-				<!--<th>POC Phone</th>
+				<th>POC Phone</th>
 				<th>POC Name</th>
 				<th>Self-Employed?</th>
 				<th>Note</th>
 				<th>Term Date</th>
 				<th>Term Note</th>
-				<th></th>-->
+				<th></th>
 			</tr>
 			</thead>
 			<tr ng-repeat="record in current.employment track by $index">
@@ -433,18 +433,6 @@
                 <td> <input type="text" ng-model="record.PREmpWageRate" ng-disabled="!editEmployment"></td>
                 <td> {{record.PREmpWageType}}</td>
                 <td> {{record.PREmpWorkStatus}}</td>
-		</tr>
-                <thead>
-                <tr>
-                <th>POC Phone</th>
-		<th>POC Name</th>
-				<th>Self-Employed?</th>
-				<th>Note</th>
-				<th>Term Date</th>
-				<th>Term Note</th>
-				</tr>
-				</thead>
-				<tr ng-repeat="record in current.employment track by $index">
                 <td> <input type="text" ng-model="record.PREmpPOCPhone" ng-disabled="!editEmployment"></td>
 				<td> <input type="text" ng-model="record.PREmpPOCName" ng-disabled="!editEmployment"></td>
 
@@ -470,7 +458,7 @@
 					</div>
 				</td>
 				<td> <input type="date" ng-model="record.PREmpTermDate" ng-disabled="!editEmployment"></td>
-				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpTermNote" data-toggle="modal" data-target="#PREmpTermNoteModal{{$index}} "ng-disabled="!editEmployment"></textarea>
+				<td> <textarea rows="1" style="resize:vertical;" ng-model="record.PREmpTermNote" data-toggle="modal" data-target="#PREmpTermNoteModal{{$index}}" ng-disabled="!editEmployment"></textarea>
 					<!-- div to pop up textarea when clicked -->
 					<div class="modal fade" id="PREmpTermNoteModal{{$index}}" role="dialog">
 						<div class="modal-dialog">
@@ -501,12 +489,12 @@
 					<th>Wage Rate</th>
 					<th>Wage Type</th>
 					<th>Work Status</th>
-				<!--	<th>POC Phone</th>
+					<th>POC Phone</th>
 					<th>POC Name</th>
 					<th>Self-Employed?</th>
 					<th>Note</th>
 					<th>Term Date</th>
-					<th>Term Note</th>-->
+					<th>Term Note</th>
 				</tr>
 				<tr>
                     <td> <input type="text" ng-model="tempEmployment.PREmployer"></td>
@@ -525,16 +513,6 @@
                                 ng-options="option.WorkStatus for option in CategoryOptions4 track by option.id"
                                 ng-change="changePostResCategory(tempEmployment.WorkStatus)"></select>
                     </td>
-			</tr>
-                        <tr>
-                    <th>POC Phone</th>
-					<th>POC Name</th>
-					<th>Self-Employed?</th>
-					<th>Note</th>
-					<th>Term Date</th>
-					<th>Term Note</th>
-                        </tr>
-                        <tr>
                     <td> <input type="text" ng-model="tempEmployment.PREmpPOCPhone"></td>
 					<td> <input type="text" ng-model="tempEmployment.PREmpPOCName"></td>
 

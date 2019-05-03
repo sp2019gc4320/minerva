@@ -19,8 +19,10 @@ $RankObtainedDateDate="";
 
 //then if isset to something, reset to the value passed in
 if (isset($_POST['RankPromotionNote'])) {
-    $RankPromotionNote= $conn->sanitize($_POST['RankPromotionNote']);
-    $RankPromotionNote=filter_var($RankPromotionNote, FILTER_SANITIZE_ENCODED);
+    $RankPromotionNote1=$_POST['RankPromotionNote'];
+    $RankPromotionNote1=str_replace('"', "'", $RankPromotionNote1);
+    $RankPromotionNote1=str_replace("\\", "/", $RankPromotionNote1);
+    $RankPromotionNote=filter_var($RankPromotionNote1, FILTER_SANITIZE_ENCODED);
 }
 if (isset($_POST['RankDidFail'])) {
     $RankDidFail= $conn->sanitize($_POST['RankDidFail']);
