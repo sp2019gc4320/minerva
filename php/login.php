@@ -11,8 +11,15 @@ require_once 'dbcontroller.php';
 session_start(); 
 $connection = new DBController();
 
-$username = $conn->sanitize($_POST['username']);
-$password = $conn->sanitize($_POST['password']);
+$username1=$_POST['username'];
+$username1=str_replace('"', "'", $username1);
+$username1=str_replace("\\", "/", $username1);
+$username=filter_var($username1, FILTER_SANITIZE_ENCODED);
+
+$password1=$_POST['password'];
+$password1=str_replace('"', "'", $password1);
+$password1=str_replace("\\", "/", $password1);
+$password=filter_var($password1, FILTER_SANITIZE_ENCODED);
 
 
 $sql = "SELECT * FROM tblUsers WHERE UserLoginName = '$username' AND UserPW = '$password'";

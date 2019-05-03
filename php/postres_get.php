@@ -65,7 +65,8 @@ if ($result->num_rows > 0)
         $placement->misc = $sectionResult;
 
         //Store Report Information
-        $sectionSQL = "SELECT * FROM tblPRReports WHERE fkPlacementID = '$placementID'";
+        //joined to grab names of reporters
+        $sectionSQL = "SELECT r.*, p.PersonFN, p.PersonLN, q.PersonType FROM tblPRReports r, tblpeople p, tblpersontypes w, tlkppersontype q WHERE fkPlacementID= '$placementID' AND r.PRReporterID = p.PersonID AND p.PersonID = w.fkPersonID AND w.fkPersonTypeID = q.PersonTypeID";
         $sectionResult = $connection->runSelectQueryArrayNotEncoded($sectionSQL);
         $placement->reports = $sectionResult;
 
@@ -90,6 +91,6 @@ $reportMonths = $connection->runSelectQueryArrayNotEncoded($sql);
 $sql = "SELECT fkMentorID, MentorPotentialID FROM tblMentorPotential WHERE fkClassDetailID = $ClassDetailID";
 $mentors = $connection->runSelectQueryArrayNotEncoded($sql);
 
-echo '{ "data":' . urldecode((json_encode($data))) . ', "contacts": ', urldecode((json_encode($contacts))) .', "mentors": '. urldecode((json_encode($mentors))).', "reportMonths": '. urldecode((json_encode($reportMonths))) .' } ';
+echo '{ "data":' . urldecode((json_encode($data))) . ', "contacts": '. urldecode((json_encode($contacts))) .', "mentors": '. urldecode((json_encode($mentors))).', "reportMonths": '. urldecode((json_encode($reportMonths))) .' } ';
 
 ?>

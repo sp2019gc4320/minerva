@@ -26,16 +26,22 @@ if (isset($_POST['fkTaskTestEventID'])) {
 // Data being updated
 
 if (isset($_POST['EventDate'])) {
-    $EventDate = $_POST['EventDate'];
+    $EventDate =$conn->getRightFormat($conn->sanitize($_POST['EventDate']));//DATE
 }
 if (isset($_POST['DidPass'])) {
-    $DidPass = $_POST['DidPass'];
+    $DidPass= filter_input(INPUT_POST,'DidPass',FILTER_SANITIZE_NUMBER_INT);
 }
 if (isset($_POST['EventNote'])) {
-    $EventNote = $_POST['EventNote'];
+    //$EventNote =$conn->sanitize($_POST['EventNote']);//NOTE!!!!!!! tech 2
+    //$EventNote=filter_var($EventNote,FILTER_SANITIZE_ENCODED);
+
+    $EventNote1 = $_POST['EventNote'];//technique 3
+    $EventNote1 = str_replace('"', "'", $EventNote1);
+    $EventNote1 = str_replace("\\", "/", $EventNote1);
+    $EventNote= filter_var($EventNote1,FILTER_SANITIZE_ENCODED);
 }
 if (isset($_POST['TestScore'])) {
-    $TestScore = $_POST['TestScore'];
+    $TestScore= filter_input(INPUT_POST,'TestScore',FILTER_SANITIZE_NUMBER_INT);
 }
 
 //sql statement to update the correct tables

@@ -22,8 +22,10 @@ $DutyEndDate="";
 //then if isset to something, reset to the value passed in
 
 if (isset($_POST['DutyNote'])) {
-    $DutyNote= $conn->sanitize($_POST['DutyNote']);
-    $DutyNote=filter_var($DutyNote, FILTER_SANITIZE_ENCODED);
+    $DutyNote1=$_POST['DutyNote'];
+    $DutyNote1=str_replace('"', "'", $DutyNote1);
+    $DutyNote1=str_replace("\\", "/", $DutyNote1);
+    $DutyNote=filter_var($DutyNote1, FILTER_SANITIZE_ENCODED);
 }
 if (isset($_POST['DutyDidFail'])) {
     $DutyDidFail= $conn->sanitize($_POST['DutyDidFail']);

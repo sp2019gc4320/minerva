@@ -15,17 +15,31 @@ $conn = new DBController();
 
 //these values should be sent when calling this php file -- store this value in $valueName = $_POST['valueName'];
 if (isset($_POST['ASVABDate'])) {
-    $ASVABDate = $_POST['ASVABDate'];
+    //$ASVABDate = $_POST['ASVABDate'];
+    $ASVABDate =$conn->getRightFormat($conn->sanitize($_POST['ASVABDate']));
+
 }
 
 if (isset($_POST['ASVABTechScore'])) {
-    $ASVABTechScore = $_POST['ASVABTechScore'];
+    //$ASVABTechScore = $_POST['ASVABTechScore'];
+    $ASVABTechScore = filter_input(INPUT_POST,'ASVABTechScore',FILTER_SANITIZE_NUMBER_INT);
+
 }
 if (isset($_POST['AFQTScore'])) {
-    $AFQTScore = $_POST['AFQTScore'];
+    //$AFQTScore = $_POST['AFQTScore'];
+    $AFQTScore = filter_input(INPUT_POST,'AFQTScore',FILTER_SANITIZE_NUMBER_INT);
 }
 if (isset($_POST['ASVABTestNotes'])) {
-    $ASVABTestNotes = $_POST['ASVABTestNotes'];
+    //$ASVABTestNotes = $_POST['ASVABTestNotes']; tech 1
+
+    //$ASVABTestNotes =$conn->sanitize($_POST['ASVABTestNotes']);//NOTE!!!!!!! tech 2
+    //$ASVABTestNotes=filter_var($ASVABTestNotes,FILTER_SANITIZE_ENCODED);
+
+    $ASVABTestNotes1 = $_POST['ASVABTestNotes'];//technique 2
+    $ASVABTestNotes1 = str_replace('"', "'", $ASVABTestNotes1);
+    $ASVABTestNotes1 = str_replace("\\", "/", $ASVABTestNotes1);
+    $ASVABTestNotes= filter_var($ASVABTestNotes1,FILTER_SANITIZE_ENCODED);
+
 }
 
 if (isset($_POST['ASVABID'])) {
