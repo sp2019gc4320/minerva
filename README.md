@@ -1,4 +1,6 @@
 # minerva
+
+**DOUBLE CHECK THAT ALL TABLE NAMES ARE TOGGLE-CASE (NOT LOWERCASE)**
 SQL statements to add new tables:
 
 For tblPeople2
