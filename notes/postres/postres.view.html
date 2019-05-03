@@ -27,7 +27,7 @@
 			</tr>
 		</table>
 		<div>
-		<button ng-click="copyPreviousMonth(currentIndex);saveReportCopies();saveEducationCopies();saveEmploymentCopies();saveMilitaryCopies();saveMiscCopies();" class = "btn btn-small">COPY PREVIOUS MONTH</button>
+		<button ng-click="copyPreviousMonth(currentIndex);saveEducationCopies();saveEmploymentCopies();saveMilitaryCopies();saveMiscCopies();" class = "btn btn-small">COPY PREVIOUS MONTH</button>
 		</div>
 
 		<hr>
@@ -47,9 +47,9 @@
 			</thead>
 			<tr>
 				<th> Type</th>
-				<th> Reporter Category</th>
 				<th> Date</th>
-				<th> Reporter</th>
+				<th> Reporter Name</th>
+				<th> Reporter Category</th>
 				<th> Contact Made? </th>
 				<th> Mentor Involved? </th>
 				<th>Note</th>
@@ -59,10 +59,10 @@
 
 			<tr ng-repeat="report in current.reports track by $index">
 				<td> {{report.PRReportType}}</td>
-				<td> {{report.PRReporterCategory}}</td>
 				<td> <input type="date" ng-model="report.PRReportDate"  ng-disabled="!editReports"></td>
-				<td> <input type="text" ng-model="report.PRReporterID" ng-disabled="!editReports"></td>
-
+				<!--<td> <input type="text" ng-model="report.PRReporterID" ng-disabled="!editReports"></td>-->
+				<td>{{report.PersonFN + " " + report.PersonLN}}</td>
+				<td> {{report.PRReporterCategory}}</td>
 				<td ng-class="{'bg-danger':report.WasContactMade=='0','bg-success':report.WasContactMade=='1' }">
 					<input  name="WasContactMade" type="checkbox"  ng-disabled="!editReports"
 							ng-model="report.WasContactMade" ng-true-value="'1'" ng-false-value="'0'">
@@ -98,9 +98,9 @@
 			<table style="width:100%" ng-show="showNewReport">
 				<tr>
 					<th> Type </th>
-					<th> Reporter Category</th>
 					<th> Date</th>
-					<th> Reporter</th>
+					<th> Reporter Name</th>
+					<th> Reporter Category</th>
 					<th> Contact Made? </th>
 					<th> Mentor Involved? </th>
 					<th>Note</th>
@@ -109,14 +109,15 @@
 					<td><select ng-model="tempReport.PRReportType"  name="PRReportType"
 								ng-options="option.PRReportType for option in ReportTypeOptions track by option.id"
 								ng-change="changeReportType(tempReport)"></select></td>
-                    <td>
-                        <select id= "p5" ng-model="tempReport.PRReporterCategory" name="PRReporterCategory"
-                                ng-options="option.PRReporterCategory for option in PRReportTypeOptions track by option.id"
-                                ng-change="changePRReporterCategory(tempReport.PRReporterCategory)"></select>
-                    </td>
                     <td> <input type="date" ng-model="tempReport.PRReportDate" ></td>
-					<td> <input type="text" ng-model="tempReport.PRReporterID"></td>
 
+					<!--<td> <input type="text" ng-model="tempReport.PRReporterID"></td>-->
+					<td>
+                        <select id= "p5" ng-model="tempReport.PRReporterID"
+                                ng-options="option.fullName for option in CategoryOptions5 track by option.id"
+                                ng-change="changePostResCategory(tempReport.PRReporterID)"></select>
+					</td>
+					<td>{{tempReport.PRReporterCategory}}</td>
 					<td ng-class="{'bg-danger':tempReport.WasContactMade=='0','bg-success':tempReport.WasContactMade=='1' }">
 						<input  name="WasContactMade" type="checkbox"
 								ng-model="tempReport.WasContactMade" ng-true-value="'1'" ng-false-value="'0'">
