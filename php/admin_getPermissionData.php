@@ -10,12 +10,17 @@
 require_once('dbcontroller.php');
 $db = new DBController();
 
-// Query strings for the db
-$user_query = "SELECT UserLoginName FROM tblUsers";
-$permissions_query = "SELECT * FROM tlkpPermissions";
+session_start();
+$fkSiteId = $_SESSION['SiteID'];
 
-// Run the queries
+// TODO: Make sure this page can't be accessed if the user is not admin or they
+// don't have the permissions
+
+// Query strings for the db
+$user_query = "SELECT UserLoginName FROM tblUsers WHERE fkSiteId=$fkSiteId";
 $users = $db->runSelectQueryArray($user_query);
+
+$permissions_query = "SELECT * FROM tlkpPermissions";
 $permissions = $db->runSelectQueryArray($permissions_query);
 
 // Return the data

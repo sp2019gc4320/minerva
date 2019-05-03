@@ -4,13 +4,19 @@
 'use strict';
 angular.module('admin.siteViewGraduates').controller('viewGraduates',  function($scope, $http, $window) {
     //request data from server
-    $http({
-        method: 'POST',
-        url: './php/site-viewgraduates.php',
-        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-    }).then(function (response) {
-        $scope.graduates = response.data.cadetTable;
-    });
+    
+    $scope.loadGraduatesIntoView = function() {
+        $http({
+            method: 'POST',
+            url: './php/site-viewgraduates.php',
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        }).then(function (response) {
+            $scope.graduates = response.data.cadetTable;
+        });
+    }
+
+    $scope.loadGraduatesIntoView();
+
     $scope.printToCart = function(printSectionId) {
         var innerContents = document.getElementById(printSectionId).innerHTML;
         var popupWinindow = window.open('', '_blank', 'width=600,height=700,scrollbars=no,menubar=no,toolbar=no,location=no,status=no,titlebar=no');
@@ -52,7 +58,7 @@ angular.module('admin.siteViewGraduates').controller('viewGraduates',  function(
             }).then(function (response) {
                 console.log(response);
                 alert(response.data);
-                document.location.reload();
+                $scope.loadGraduatesIntoView();
             });
     }
         
