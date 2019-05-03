@@ -14,9 +14,7 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
 
     // TODO: add options to quickly choose cadets for Mentor, CaseManager, Cadre etc.
 
-
     $scope.selectAll = false;
-
 
     // List of cadets picked on the Find Cadet View. This is instead of a
     // dictionary so that an order on when things are picked can be
@@ -25,7 +23,6 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
 
     // Keeps track of which of the cadets have been checked
     $scope.checkedCadets = {};
-
 
     /**
      * Retrieve only records from server that match the given search criteria. This will reduce the data
@@ -51,7 +48,6 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
             $scope.cadets = response.data.data;
         });
     };
-
 
     /**
      * Select all cadets currently matching the search criteria
@@ -121,6 +117,31 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
     };
 
     $scope.saveAndClose = function () {
+        var cadetJSON = JSON.stringify($scope.pickedCadets);
+        $window.sessionStorage.setItem("cadets", cadetJSON);
+        $window.localStorage.setItem("cadets", cadetJSON);
+
+        //Set the cadet for the first item in the list
+        if ($scope.pickedCadets.length > 0) {
+            var firstChosen = $scope.pickedCadets[0];
+            $window.localStorage.setItem("CadetID", firstChosen.fkCadetID);
+            $window.localStorage.setItem("CadetName", firstChosen.PersonFN + " " + firstChosen.PersonLN);
+            $window.localStorage.setItem("CadetGender", firstChosen.PGender);
+            $window.localStorage.setItem("CadetDOB", firstChosen.PDOB);
+        }
+        else {
+            $window.localStorage.removeItem("CadetID");
+            $window.localStorage.removeItem("CadetName");
+            $window.localStorage.removeItem("CadetGender");
+            $window.localStorage.removeItem("CadetDOB");
+        }
+
+        $window.opener.location.reload();
+        $window.close();
+
+    };
+
+    $scope.applicantSaveAndClose = function () {
         var cadetJSON = JSON.stringify($scope.pickedCadets);
         $window.sessionStorage.setItem("cadets", cadetJSON);
         $window.localStorage.setItem("cadets", cadetJSON);

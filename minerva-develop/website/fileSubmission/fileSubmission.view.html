@@ -8,49 +8,86 @@ Uses fileSubmission.controller.js
     <!--<ng-include src="'./views/pagination.html'"></ng-include>-->
 
 <div class="container"  ng-controller="fileSubmissionController">
-    <form>
-        <div>
-            <div class="col-xs-12">
-                <h1>Pending Documents</h1>
-            </div>
-        </div>
 
-        <fieldset class="form-group">
-            <div class="row">
-                <div class="col-md-12">
-                    <ng-include src="'./utility/attachments/attachments.view.html'"></ng-include>
-                </div>
-            </div>
-        </fieldset>
-    </form>
-    <h1>Completed Documents</h1>
+    <!--example from find-cadet.view
+                     <tr ng-repeat="x in cadets | filter:cadetSearch:strict "
+                        ng-click="pickCadet(x)">
+                        <td align="center"
+                            class="text-center">
+                            <input type="checkbox"
+                                   class="checkbox form-check-input td-center-checkbox"
+                                   ng-model="checkedCadets[x.fkCadetID]">
+                        </td>
+
+        SAMPLE FOR FILESUBMISSION USE
+
+                    <tr ng-repeat="x in documents"
+                        ng-click="pickDocument(x)">
+                        <td align="center"
+                            class="text-center">
+                            <input type="checkbox"
+                                   class="checkbox form-check-input td-center-checkbox"
+                                   ng-model="checkedDocuments[x.fkCadetID]">
+                        </td>
+                        <td>{{x.DocumentName}}</td>
+                        <td>{{x.DocumentType}}</td>
+                        <td>{{x.DocumentNote}}</td>
+                    </tr>
+                    -->
+    <h1>Manage Documents</h1>
     <table id="goalsTable" class="table minerva-table">
+        <thead>
         <tr>
-            <th>Completed Documents</th>
-            <th>Date Completed</th>
+            <th colspan="4"> Manage Documents
+                <button class="btn btn-outline-primary"
+                        ng-click="updatePermissionsInDatabase()">Save</button><!--ng-click="saveDocsUpdate()"-->
+                <button class="btn btnCancel"  > Cancel</button><!--ng-click="cancelDocssUpdate()"-->
+            </th>
         </tr>
+        </thead>
+        <tr>
+            <th>Required Documents</th>
+            <th>Document</th>
+            <th>Type</th>
+            <th>Notes</th>
+        </tr>
+        <!--ng-click="pickDocument(x)"--><!--class="checkbox form-check-input td-center-checkbox" ng-model="checkedDocuments[x.fkCadetID]"-->
+<tr ng-repeat="document in documents"><!--ng-click="reqDoc(x)"-->
+    <td align="center"
+        class="text-center">
+        <input ng-model="document.enabled"
+               ng-checked="document.enabled"
+               ng-change="togglePermission(document)"
+               type="checkbox"
+               class="td-center-checkbox" /><!--ng-model="checkedDocuments[x.required]"-->
+    </td>
+    <td>{{document.docName}}</td>
+    <td>{{document.type}}</td>
+    <td>{{document.note}}</td>
+</tr>
 
-        <tr>
-            <td>Document 1</td>
-            <td>01/01/2019</td>
-        </tr>
-        <tr>
-            <td>Document 2</td>
-            <td>01/02/2019</td>
-        </tr>
-        <tr>
-            <td>Document 3</td>
-            <td>01/03/2019</td>
-        </tr>
-        <tr>
-            <td>Document 4</td>
-            <td>01/04/2019</td>
-        </tr>
     </table>
 
+    <!--<button class="btn btn-outline-primary"
+            ng-click="updatePermissionsInDatabase()">Save</button>-->
 
 </div>
+<!--  <button class="btn btnCreate" ng-click="addNote()" style="margin: 0 auto" ng-hide="showNewNote"> Add Document</button>
+  <form id="noteAdd"  ng-show="showNewNote">
+      <table style="width:100%" ng-show="showNewNote">
+          <tr>
+              <td style="width:35%">
 
+              </td>
+              <td>
+              <textarea rows="4" style="resize:vertical;" class="form-control"
+                        ng-model="tempNote.GenNote"></textarea>
+              </td>
+
+          </tr>
+
+      </table>
+  </form>-->
 
 
 
