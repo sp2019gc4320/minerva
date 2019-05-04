@@ -45,7 +45,7 @@ function listSelected() {
     while ($row = mysqli_fetch_array($query)) {
         $value = $row['applicantID'];
         echo "<tr>";
-        echo "<td>" . "<label class='selected'><input type='checkbox' name='id[]' value=$value/></label>&nbsp;</td>";
+        echo "<td>" . "<label class='selected'><input type='checkbox' name='id[]' value=$value></label>&nbsp;</td>";
         echo "<td>" . $row['lName'] . "</td>";
         echo "<td>" . $row['fName'] . "</td>";
         echo "<td>" . $row['AEmail'] . "</td>";
@@ -60,14 +60,14 @@ function generateDefaultForm() {
     // retrieve applicant info
     $sql = "SELECT * 
             FROM tblApplicantForms
-            ORDER BY formName;";
+            ORDER BY formName";
     $result = $connection->connectDB();
     $query = mysqli_query($result, $sql);
 
     echo <<< EOT
     <div class='tab'>
     Forms: 
-        <select>
+    <select>
 EOT;
     while ($row = mysqli_fetch_array($query)) {
         $name = $row['formName'];
@@ -118,10 +118,10 @@ function generateForms($formData) {
 EOT;
         }
 
-        $name = $row['lName'];
+        $last_name = $row['lName'];
         $id = $row['applicantID'];
         echo <<< EOT
-        <button id=$id class="tablinks" onclick="openForm(event, '$name')">$name</button>
+        <button id=$id class="tablinks" onclick="openForm(event, '$last_name')">$last_name</button>
 EOT;
     }
     echo <<< EOT
@@ -141,31 +141,33 @@ EOT;
         $text = str_replace("{lastname}", $row['lName'], $text);
         $text = str_replace("{email}", $row['AEmail'], $text);
 
-        $name = $row['lName'];
+        $last_name = $row['lName'];
         $email = $row['AEmail'];
+
+        $name=$formData->formName;
+
         echo <<< EOT
-        <div id='$name' class='tabcontent'>
+        <div id='$last_name' class='tabcontent'>
         <p style="float:left;">Email: $email</p>
-        <textarea rows='5' cols='50' name='$name' wrap='soft' style='width:700px; height:500px; float:right;'>
-$text
-        </textarea>
+        <textarea rows='5' cols='50' name='$last_name' wrap='soft' style='width:700px; height:500px; float:right;'>$text</textarea>
     </div>
 EOT;
     }
     echo <<< EOT
     <div class="container-fluid " style="float:right; margin-right: 200px;">
-        <button type="submit" name="Email" id="email" style="width: 150px; float:left;" class="btn btn-success">
-            Email Forms
-        </button>
+        <a href="mailto:$email?subject=$name&body=$text">
+            <button type="submit" name="Email" id="email" style="width: 150px; float:left;" class="btn btn-success">Email Forms</button>
+        </a>
     </div>
         <form action="forms.php" method="POST">
-        <button type="submit" name="Cancel" id="cancel" style="width: 150px; float:right;" class="btn btn-danger">
-            Cancel
-        </button>
+        <button type="submit" name="Cancel" id="cancel" style="width: 150px; float:right;" class="btn btn-danger">Cancel</button>
         </form>
-    </div><br><br>
+    </div>
+<br>
+<br>
 EOT;
 }
+
 
 function createFormPage() {
     echo <<< EOT
@@ -189,11 +191,11 @@ function createFormPage() {
 EOT;
 }
 
-function createNewForm($text, $name) {
+function createNewForm($text, $last_name) {
     $connection = new DBController();
     $result = $connection->connectDB();
     $text = mysqli_escape_string($result, $text);
-    $name = mysqli_escape_string($result, $name);
+    $name = mysqli_escape_string($result, $last_name);
 
     if (!$connection) die("Unable to connect to the database!");
 
