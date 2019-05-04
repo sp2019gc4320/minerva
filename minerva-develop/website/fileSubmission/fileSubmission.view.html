@@ -6,42 +6,85 @@ Uses fileSubmission.controller.js
 <!--<div class="container" id="fileSubmissionContainer" ng-app="myApp" ng-controller="fileSubmission"
      xmlns="http://www.w3.org/1999/html">-->
     <!--<ng-include src="'./views/pagination.html'"></ng-include>-->
+<div ng-controller="fileSubmissionController">
 
+    <h1>{{TableDescription}}</h1>
+    <div class="alert alert-danger" ng-show="lookupError">
+        Lookup Options  failed to load ({{lookupError.status}}).
+    </div>
+
+    <table id="lookupTable" class="table minerva-table" >
+        <thead>
+        <tr> <th ng-repeat="(fieldName,value) in lookupTable[0]" ng-if="(fieldName !='fkSiteID' && fieldName !='AutoID')">
+            {{fieldName}}</th>
+            <th></th>
+        </tr>
+        </thead>
+
+        <tr ng-repeat="row in lookupTable track by $index" ng-init="parentIndex = $index"
+            ng-class="{danger:editOption && editOption.id==($index+1)}">
+
+            <td ng-repeat="(fieldName, value) in row" ng-if="(fieldName !='fkSiteID' && fieldName !='AutoID')">
+                <span ng-if="!(editOption.id && editOption.id== (parentIndex+1))">
+                    {{value}}
+                </span>
+                <span ng-if="(editOption.id==(parentIndex+1))">
+                     <input ng-model="editFields[fieldName]"  required />
+                </span>
+            </td>
+
+            <td>
+                <button ng-click="startEdit($index+1)" class="btn btnEdit"
+                        ng-hide="editOption.id">
+                    Edit
+                </button>
+                <button ng-click="deleteOption($index+1)" class="btn btnDelete"
+                        ng-hide="editOption.id">
+                    Delete
+                </button>
+
+                <button ng-show="editOption.id && editOption.id== ($index+1)"
+                        ng-click="saveChanges()"
+                        class="btn btnSave">
+                    Save
+                </button>
+                <button ng-show="editOption.id && editOption.id== ($index+1)"
+                        ng-click="cancelEdit()" class="btn btnCancel">
+                    Cancel
+                </button>
+            </td>
+
+        </tr>
+        <tr ng-class="{danger: editOption}" ng-hide="editOption.id">
+            <td ng-repeat="(fieldName, value) in editFields"  ng-if="(fieldName !='fkSiteID' && fieldName !='AutoID')">
+                <input  ng-model="editFields[fieldName]"  required />
+            </td>
+
+            <td>
+                <button ng-hide="editOption.id"
+                        ng-click="createOption()"
+                        class="btn btnCreate">
+                    Create
+                </button>
+
+            </td>
+        </tr>
+    </table>
+
+
+
+</div>
 <div class="container"  ng-controller="fileSubmissionController">
 
-    <!--example from find-cadet.view
-                     <tr ng-repeat="x in cadets | filter:cadetSearch:strict "
-                        ng-click="pickCadet(x)">
-                        <td align="center"
-                            class="text-center">
-                            <input type="checkbox"
-                                   class="checkbox form-check-input td-center-checkbox"
-                                   ng-model="checkedCadets[x.fkCadetID]">
-                        </td>
-
-        SAMPLE FOR FILESUBMISSION USE
-
-                    <tr ng-repeat="x in documents"
-                        ng-click="pickDocument(x)">
-                        <td align="center"
-                            class="text-center">
-                            <input type="checkbox"
-                                   class="checkbox form-check-input td-center-checkbox"
-                                   ng-model="checkedDocuments[x.fkCadetID]">
-                        </td>
-                        <td>{{x.DocumentName}}</td>
-                        <td>{{x.DocumentType}}</td>
-                        <td>{{x.DocumentNote}}</td>
-                    </tr>
-                    -->
+    <!--
     <h1>Manage Documents</h1>
     <table id="goalsTable" class="table minerva-table">
         <thead>
         <tr>
             <th colspan="4"> Manage Documents
                 <button class="btn btn-outline-primary"
-                        ng-click="updatePermissionsInDatabase()">Save</button><!--ng-click="saveDocsUpdate()"-->
-                <button class="btn btnCancel"  > Cancel</button><!--ng-click="cancelDocssUpdate()"-->
+                        ng-click="updatePermissionsInDatabase()">Save</button>
+                <button class="btn btnCancel"  > Cancel</button>
             </th>
         </tr>
         </thead>
@@ -51,93 +94,24 @@ Uses fileSubmission.controller.js
             <th>Type</th>
             <th>Notes</th>
         </tr>
-        <!--ng-click="pickDocument(x)"--><!--class="checkbox form-check-input td-center-checkbox" ng-model="checkedDocuments[x.fkCadetID]"-->
-<tr ng-repeat="document in documents"><!--ng-click="reqDoc(x)"-->
+
+<tr ng-repeat="document in documents">
     <td align="center"
         class="text-center">
         <input ng-model="document.enabled"
                ng-checked="document.enabled"
                ng-change="togglePermission(document)"
                type="checkbox"
-               class="td-center-checkbox" /><!--ng-model="checkedDocuments[x.required]"-->
+               class="td-center-checkbox" />
     </td>
     <td>{{document.docName}}</td>
     <td>{{document.type}}</td>
     <td>{{document.note}}</td>
 </tr>
 
-    </table>
+    </table>-->
 
     <!--<button class="btn btn-outline-primary"
             ng-click="updatePermissionsInDatabase()">Save</button>-->
 
 </div>
-<!--  <button class="btn btnCreate" ng-click="addNote()" style="margin: 0 auto" ng-hide="showNewNote"> Add Document</button>
-  <form id="noteAdd"  ng-show="showNewNote">
-      <table style="width:100%" ng-show="showNewNote">
-          <tr>
-              <td style="width:35%">
-
-              </td>
-              <td>
-              <textarea rows="4" style="resize:vertical;" class="form-control"
-                        ng-model="tempNote.GenNote"></textarea>
-              </td>
-
-          </tr>
-
-      </table>
-  </form>-->
-
-
-
-
-
-<!--<table>
-    </thead>
-    <tr ng-repeat="name in testData track by $index" style="outline: thin solid">
-        <td>{{name}}</td>
-    </tr>
-</table>-->
-
-    <!-- <form>
-         <div>
-             <div class="col-xs-12">
-                 <h1>file submission</h1>
-             </div>
-         </div>
-
-         <fieldset class="form-group">
-             <div class="row">
-                 <div class="col-md-12">
-                     <ng-include src="'./utility/attachments/attachments.view.html'"></ng-include>
-                 </div>
-             </div>
-         </fieldset>
-     </form>
-
-     <table>
-         </thead>
-         <tr ng-repeat="contact in mentorContacts track by $index" style="outline: thin solid">
-             <td style="width:100px">
-                 <table>
-                     <input type="date" ng-disabled="!editContacts" class="form-control"
-                            ng-model="contact.ContactDate">
-
-                     <input type="text" ng-disabled="!editContacts" class="form-control"
-                            ng-model="contact.MentorContactType">
-
-                     <input type="text" ng-disabled="!editContacts" class="form-control" ng-model="contact.MentorName">
-                 </table>
-             </td>
-             <td>
-                         <textarea rows="3" style="min-width: 100%" class="form-control" ng-disabled="!editContacts"
-                                   ng-model="contact.MentorContactNote"></textarea>
-             </td>
-             <td style="width:100px">
-                 <button ng-click="deleteContact($index)" class="btn btnDelete" ng-disabled="!editContacts"> Delete</button>
-
-             </td>
-         </tr>
-     </table>
- </div>-->
