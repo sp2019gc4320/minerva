@@ -45,7 +45,7 @@ function listSelected() {
     while ($row = mysqli_fetch_array($query)) {
         $value = $row['applicantID'];
         echo "<tr>";
-        echo "<td>" . "<label class='selected'><input type='checkbox' name='id[]' value=$value></label>&nbsp;</td>";
+        echo "<td>" . "<label class='selected'><input type='radio' name='id[]' value=$value></label>&nbsp;</td>";
         echo "<td>" . $row['lName'] . "</td>";
         echo "<td>" . $row['fName'] . "</td>";
         echo "<td>" . $row['AEmail'] . "</td>";
