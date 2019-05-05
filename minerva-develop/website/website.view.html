@@ -1,0 +1,55 @@
+<div ng-controller="websiteController">
+    <ng-include src="'./views/pagination.html'"></ng-include>
+
+    <h1> Website Management Services</h1>
+   <!-- <ul>
+         <li>State Specific  - Disabled Links</li>
+         <ul>
+             <li> <a href="#!/websiteState" onclick="return false" class=" alert-danger">State Listing</a></li>
+             <li><a href="#!/websiteSchool" onclick="return false" class=" alert-danger">Schools</a></li>
+             <li> <a href="#!/websiteSchoolDistrict" onclick="return false" class=" alert-danger">School Districts</a></li>
+             <li><a href="#!/websiteLegislators" onclick="return false" class=" alert-danger">Legislators</a></li>
+             <li><a href="#!/websiteZipCodes" onclick="return false" class=" alert-danger">Zip Code Listing</a></li>
+         </ul>
+
+         <li> Adding a New Location</li>
+         <ul>
+             <li> Add A New Site Record in database with initial name </li>
+             <li> Add an Admin for a New Site - - Remove Admin Access -- Access Admin Login Information  -- Manage all users</li>
+             <li> Delete a Site -- if they made an error and pressed (NO do not allow delete) --because all related data must be removed</li>
+         </ul>
+
+         <li> Website Global Settings</li>
+         <ul>
+
+             <li><a href="#!/websiteDropDown">Website DropDown Menu Options</a>
+                 (Cadet Classification, Medical, Residential, Post-Residential, People Organization,
+                 Staff Members, Post=Residential, MISC, Program Functions)</li>
+             <li> <a href="#!/websiteFileSubmission">Website File submission link</a> </li>
+         </ul>
+
+
+
+     </ul>-->
+    <div class="row">
+        <div class="col-md-2">
+            <nav class="nav flex-column">
+                <a href="#!/websiteDropDown">Website DropDown Menu Options</a>
+                <button ng-repeat="item in websiteViews"
+                        type="button"
+                        ng-click="showView(item)"
+                        class="btn btn-outline-primary"
+                >
+                    {{item.view}}
+                </button>
+            </nav>
+
+        </div>
+        <div class="col-md-10">
+            <ng-include src="updateDisplay"></ng-include>
+        </div>
+    </div>
+</div>
+
+
+
