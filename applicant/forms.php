@@ -102,6 +102,7 @@
                     hiddenField.setAttribute("value", JSON.stringify(formData));
                     form.appendChild(hiddenField);
 
+                    alert("Generated forms using: " + formName);
                     form.submit();
                 }
             }

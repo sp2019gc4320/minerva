@@ -143,14 +143,12 @@ EOT;
 
         $last_name = $row['lName'];
         $email = $row['AEmail'];
-
         $name=$formData->formName;
 
         echo <<< EOT
         <div id='$last_name' class='tabcontent'>
             <p style="float:left;">Email: $email</p>
             <textarea rows='5' cols='50' name='$last_name' wrap='soft' style='width:700px; height:500px; float:right;'>$text</textarea>
-            
             <div class="container-fluid " style="float:right; margin-right: 200px;">
                 <a name='$last_name' href="mailto:$email?subject=$name&body=$text">
                     <button type="submit" name='$last_name' id="email" style="width: 150px; float:left;" class="btn btn-success">Email Form</button>
