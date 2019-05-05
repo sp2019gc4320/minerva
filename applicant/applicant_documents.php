@@ -1,14 +1,14 @@
 <?php
 
-require_once './applicant_view.php';
+//require_once './applicant_view.php';
 require_once '../php/dbcontroller.php';
 
-//pass appID from other page into each 3 functions
-//make sure file path can open document
-//fix which tables each function is pulling from
+session_start();
 
-function displayName() {
-    $appID = 12;
+$value = $_SESSION['varName'];
+
+function displayName($value) {
+    $appID = $value;
 
     $connection = new DBController();
     if (!$connection) die("Unable to connect to the database!");
@@ -34,12 +34,12 @@ function displayName() {
 
 }
 
-function listCompleted() {
-    $appID = 12;
+function listCompleted($value) {
+    $appID = $value;
     $connection = new DBController();
     if (!$connection) die("Unable to connect to the database!");
 
-    $sql = "SELECT tblappdocs.docType, tblappdocs.dateUploaded, tblappdocs.filePath FROM tblappdocs INNER JOIN tblApplicants ON tblApplicants.applicantID = tblappdocs.applicantID WHERE tblApplicants.applicantID = $appID";
+    $sql = "SELECT tblAppDocs.docType, tblAppDocs.dateUploaded, tblAppDocs.filePath FROM tblAppDocs INNER JOIN tblApplicants ON tblApplicants.applicantID = tblAppDocs.applicantID WHERE tblApplicants.applicantID = $appID";
 
     $result = $connection->connectDB();
     if (!$result)
@@ -63,13 +63,13 @@ function listCompleted() {
     }
 }
 
-function listPending () {
-    $appID = 12;
+function listPending ($value) {
+    $appID = $value;
 
     $connection = new DBController();
     if (!$connection) die("Unable to connect to the database!");
 
-    $sql = "SELECT tblAppDocs.docType, tblAppDocs.documentID, tblAppDocs.dateUploaded FROM tblappdocs INNER JOIN tblApplicants ON tblApplicants.applicantID = tblappdocs.applicantID WHERE tblApplicants.applicantID = $appID";
+    $sql = "SELECT tblAppDocs.docType, tblAppDocs.documentID, tblAppDocs.dateUploaded FROM tblAppDocs INNER JOIN tblApplicants ON tblApplicants.applicantID = tblAppDocs.applicantID WHERE tblApplicants.applicantID = $appID";
 
     $result = $connection->connectDB();
     if (!$result)
