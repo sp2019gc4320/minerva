@@ -10,44 +10,27 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
     $scope.tasks=[];
     $scope.tests=[];
     $scope.PTDetails=[];
+    $scope.PTDetailHeaders=['2(a)',' 2(b)', '2(c)'];
     $scope.editTasks = false;
     $scope.editTests = false;
     $scope.editPTDetails = false;
-    $scope.showTest = false;
-    $scope.flags=[1,1,1];
+    $scope.showTest = true;
 
-
-    $scope.showTable = function(index)
+    $scope.showHeader = function(index)
     {
-        return $scope.flags[index] == '1';
-    };
+        //This function is for table headers when displaying PT Details tests in HTML view
+        //As this is hardcoded if tests are added or removed
+        return $scope.PTDetailHeaders[index];
+    }
 
-
-  //  minDate();
-   $scope.showTest = function(index)
+    $scope.waiveAll = function(index)
     {
-        if(index == "2(a)") {
-            if ($scope.flags[0] == 0) {
-                $scope.flags[0] = 1;
-            } else {
-                $scope.flags[0] = 0;
-            }
-        }
-        else if(index == "2(b)")
+        //added to tlbPTDetails SQL statement:
+        //ALTER TABLE `tblPTDetails` ADD `IsWaived` TINYINT(1) NOT NULL DEFAULT '0' AFTER `PTDetailResult`;
+
+        for(let i = 0; i < $scope.tests[index].details.length; i++)
         {
-            if ($scope.flags[1] == 0) {
-                $scope.flags[1] = 1;
-            } else {
-                $scope.flags[1] = 0;
-            }
-        }
-        else if(index == "2(c)")
-        {
-            if ($scope.flags[2] == 0) {
-                $scope.flags[2] = 1;
-            } else {
-                $scope.flags[2] = 0;
-            }
+            $scope.tests[index].details[i].IsWaived = 1;
         }
     };
 
@@ -228,42 +211,11 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
                 $scope.tests[j].PTDate=convertToHtmlDate($scope.tests[j].PTDate);
             }
 
-           //$scope.convertDatesInArrayToHtml(  $scope.tasks);
-           // $scope.convertDatesInArrayToHtml(  $scope.tests);
         },function(result){
             alert(result);
         });
 
 
-
-  /*  $scope.cancelUpdate = function(section) {
-        if(section=="tasks")
-        {
-            $scope.tasks = angular.copy($scope.backup_tasks);
-            $scope.editTasks = true;
-
-            document.getElementById("editButtonTasks").style.display = "block";
-
-            var element1 = document.getElementById("taskSaveCancelButtons");
-            if (element1.style.display == 'block')
-            {
-                element1.style.display = 'none';
-            }
-        }
-        else if(section=="tests")
-        {
-            $scope.tests = angular.copy($scope.backup_tests);
-            $scope.editTests = true;
-
-            document.getElementById("editButtonTests").style.display = "block";
-            var element1 = document.getElementById("testSaveCancelButtons");
-            if (element1.style.display == 'block')
-            {
-                element1.style.display = 'none';
-            }
-        }
-    };
-*/
     $scope.convertDatesInObjectToHtml = function (myObject)
     {
         for (var fieldName in myObject) {
@@ -320,68 +272,4 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
         return bmi;
     }
 
-
-
-   /* function minDate()
-    {
-        let min = new Date(),
-            day = min.getDate(),
-            month = min.getMonth() + 1, //January is 0
-            year = min.getFullYear();
-
-        if (day < 10)
-        {
-            day = '0' + day
-        }
-
-        if (month < 10)
-        {
-            month = '0' + month
-        }
-
-        min = year + '-' + month + '-' + day;
-        let today = min.toString();
-
-        let list = document.getElementsByClassName("LF-Date");
-        for (let i = 0; i < list.length; i++)
-        {
-            list[i].setAttribute("min",today);
-        }
-    }
-
-
-    function dateFormat(dateArray)
-    {
-
-        let month;
-
-        if(dateArray[1]==='Jan')
-            month="01";
-        else if(dateArray[1]==='Feb')
-            month="02";
-        else if(dateArray[1]==='Mar')
-            month="03";
-        else if(dateArray[1]==='Apr')
-            month="04";
-        else if(dateArray[1]==='May')
-            month="05";
-        else if(dateArray[1]==='Jun')
-            month="06";
-        else if(dateArray[1]==='Jul')
-            month="07";
-        else if(dateArray[1]==='Aug')
-            month="08";
-        else if(dateArray[1]==='Sep')
-            month="09";
-        else if(dateArray[1]==='Oct')
-            month="10";
-        else if(dateArray[1]==='Nov')
-            month="11";
-        else
-            month="12";
-        let dateString=dateArray[3]+'-'+month+'-'+dateArray[2];
-
-        return dateString;
-    }
-*/
 });

@@ -67,26 +67,28 @@
                         <td><input type="date" placeholder="MM/DD/YYYY" ng-model="test.PTDate" ng-disabled="!editTests"></td>
                         <td><input type="text" ng-model="test.PTTestType" disabled></td>
                         <td><input type="text" ng-model="test.PTAward" ng-disabled="!editTests"></td>
-                        <td><input type="text" ng-model="test.PTHeight" ng-disabled="!editTests"></td>
-                        <td><input type="text" ng-model="test.PTWeight" ng-disabled="!editTests"></td>
-                        <td><input type = "text" ng-value = "calcBMI(test.PTHeight, test.PTWeight)" disabled></td>
+                        <td><input type="text" size="5" ng-model="test.PTHeight" ng-disabled="!editTests"></td>
+                        <td><input type="text" size="5" ng-model="test.PTWeight" ng-disabled="!editTests"></td>
+                        <td><input type = "text" size="5" ng-value = "calcBMI(test.PTHeight, test.PTWeight)" disabled></td>
                     </tr>
                 </table>
-                <div ng-repeat="test in tests">
-                <table class="table minerva-table" ng-show="showTable($index)">
+                <div ng-repeat="test in tests track by $index">
+                <table class="table minerva-table">
                 <thead>
                 <tr>
-                    <th colspan="3">PT Details
+                    <th colspan="4"> PT Details - {{showHeader($index)}}
                             <button class="btn btnEdit" ng-click="makePTDetailsEditable()"ng-hide="editPTDetails"> Edit</button>
                             <button class="btn btnSave" ng-click="savePTDetailsUpdate(test.details)"ng-show="editPTDetails"> Save</button>
                             <button class="btn btnCancel" ng-click="cancelPTDetailsUpdate()"ng-show="editPTDetails"> Cancel</button>
+                            <button class="btn" ng-click="waiveAll($index)" ng-disabled="!editPTDetails">Waive All Test</button>
                     </th>
                 </tr>
                 </thead>
                 <tr>
                     <th>Test</th>
                     <th>Result</th>
-                    <th>Add Waiver</th>
+                    <th>Waived</th>
+                    <th>Add File</th>
                 </tr>
 
 
@@ -97,6 +99,14 @@
                     <td class = "w-25">
                         <input type="text" ng-model="test.details[$index].PTDetailResult" ng-disabled="!editPTDetails">
                     </td>
+                    <td ng-if="test.details[$index].IsWaived == '1'" class="bg-success">
+                        <input  name="Waived" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                ng-model="test.details[$index].IsWaived"  ng-disabled="!editPTDetails">
+                    </td>
+
+                    <td ng-if="test.details[$index].IsWaived == '0'">
+                        <input  type="checkbox" ng-model="test.details[$index].IsWaived"
+                                ng-true-value="'1'" ng-false-value="'0'"  ng-disabled="!editPTDetails">
                     <td class = "w-50">
                        <ng-include src="'./utility/attachments/addWaiver.view.html'"></ng-include>
                     </td>
