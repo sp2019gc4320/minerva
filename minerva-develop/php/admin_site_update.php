@@ -44,5 +44,5 @@ if ($result = $connection->runSelectQuery($sql)) {
     }
 }
 
-echo '{ "status": "finsihed updating "}';
+echo '{ "status": "finished updating "}';
 ?>
