@@ -45,7 +45,7 @@ function listSelected() {
     while ($row = mysqli_fetch_array($query)) {
         $value = $row['applicantID'];
         echo "<tr>";
-        echo "<td>" . "<label class='selected'><input type='radio' name='id[]' value=$value></label>&nbsp;</td>";
+        echo "<td>" . "<label class='selected'><input type='checkbox' name='id[]' value=$value></label>&nbsp;</td>";
         echo "<td>" . $row['lName'] . "</td>";
         echo "<td>" . $row['fName'] . "</td>";
         echo "<td>" . $row['AEmail'] . "</td>";
@@ -148,24 +148,22 @@ EOT;
 
         echo <<< EOT
         <div id='$last_name' class='tabcontent'>
-        <p style="float:left;">Email: $email</p>
-        <textarea rows='5' cols='50' name='$last_name' wrap='soft' style='width:700px; height:500px; float:right;'>$text</textarea>
-    </div>
+            <p style="float:left;">Email: $email</p>
+            <textarea rows='5' cols='50' name='$last_name' wrap='soft' style='width:700px; height:500px; float:right;'>$text</textarea>
+            
+            <div class="container-fluid " style="float:right; margin-right: 200px;">
+                <a name='$last_name' href="mailto:$email?subject=$name&body=$text">
+                    <button type="submit" name='$last_name' id="email" style="width: 150px; float:left;" class="btn btn-success">Email Form</button>
+                </a>
+            </div>
+            <div>
+                <form name='$last_name' action="forms.php" method="POST">
+                    <button type="submit" name='$last_name' id="cancel" style="width: 150px; float:right;" class="btn btn-danger">Cancel</button>
+                </form>
+            </div>
+        </div>
 EOT;
     }
-    echo <<< EOT
-    <div class="container-fluid " style="float:right; margin-right: 200px;">
-        <a href="mailto:$email?subject=$name&body=$text">
-            <button type="submit" name="Email" id="email" style="width: 150px; float:left;" class="btn btn-success">Email Forms</button>
-        </a>
-    </div>
-        <form action="forms.php" method="POST">
-        <button type="submit" name="Cancel" id="cancel" style="width: 150px; float:right;" class="btn btn-danger">Cancel</button>
-        </form>
-    </div>
-<br>
-<br>
-EOT;
 }
 
 
