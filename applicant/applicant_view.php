@@ -64,7 +64,7 @@
 </div><br>
 <button type="button" style="width:300px;" class="btn btn-danger">INELIGIBLE FOR REVIEW</button>
 
-<font size="5"><?php require_once "./applicant_documents.php"; displayName(); ?></font>
+<font size="5"><?php require_once "./applicant_documents.php"; displayName($value); ?></font>
     
 <table border="0" class="gfg">
     <tr>
@@ -72,7 +72,7 @@
         <th style="width:30%"> </th>
         <th style="width:30%"></th>
     </tr>
-    <?php require_once "./applicant_documents.php"; listPending(); ?>
+    <?php require_once "./applicant_documents.php"; listPending($value); ?>
 </table>
 <hr style="height:3px;border:none;color:#333;background-color:#333;" />
 
@@ -82,7 +82,7 @@
         <th style="padding:0 150px"></th>
         <th><font size="5"> Date Completed </font></th>
     </tr>
-    <?php require_once "./applicant_documents.php"; listCompleted(); ?>
+    <?php require_once "./applicant_documents.php"; listCompleted($value); ?>
 </table>
 
 
