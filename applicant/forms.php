@@ -38,7 +38,7 @@
 
 <div class="container">
     <div class="scrollingtable text-center" style="float:left;">
-            <table class="minerva-table" id="data-table" style="width:25%">
+            <table class="minerva-table" id="data-table" style="width:25%; text-align:center;">
                 <thead>
                 <tr>
                     <th>
@@ -86,20 +86,24 @@
                     }
                 });
 
-                var formData = {selected, func, formText, formID, formName};
+                if(selected.length == 0)
+                    alert("Please select 1 or more applicants");
+                else {
+                    var formData = {selected, func, formText, formID, formName};
 
-                var form = document.createElement('form');
-                form.setAttribute('method', 'post');
-                form.setAttribute('action', 'forms.php');
-                form.style.display = 'hidden';
-                document.body.appendChild(form);
+                    var form = document.createElement('form');
+                    form.setAttribute('method', 'post');
+                    form.setAttribute('action', 'forms.php');
+                    form.style.display = 'hidden';
+                    document.body.appendChild(form);
 
-                var hiddenField = document.createElement("input");
-                hiddenField.setAttribute("name", "gen");
-                hiddenField.setAttribute("value", JSON.stringify(formData));
-                form.appendChild(hiddenField);
+                    var hiddenField = document.createElement("input");
+                    hiddenField.setAttribute("name", "gen");
+                    hiddenField.setAttribute("value", JSON.stringify(formData));
+                    form.appendChild(hiddenField);
 
-                form.submit();
+                    form.submit();
+                }
             }
         </script>
         <br><br><br><br><br><br>
