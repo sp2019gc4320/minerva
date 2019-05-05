@@ -10,8 +10,26 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
-//these values should be sent when calling this php file -- store this value in $valueName = $_POST['valueName'];
+$task="";
+$op="";
+if(isset($_POST['TaskTestID']))
+{
+    $testID= $_POST['TaskTestID'];
+}
 
+if(isset($_POST['CadetClassEventID']))
+{
+    $CadetClassEventID= $_POST['CadetClassEventID'];
+}
+
+if(isset($_POST['TaskTest']))
+{
+    $task=$_POST['TaskTest'];
+}
+
+if(isset($_POST['op'])){
+    $op=$_POST['op'];
+}
 //Required to determine which record to update.
 if (isset($_POST['fkClassDetailID'])) {
     $fkClassDetailID = $_POST['fkClassDetailID'];
@@ -22,8 +40,6 @@ if (isset($_POST['fkTaskID'])) {
 if (isset($_POST['fkTaskTestEventID'])) {
     $fkTaskTestEventID = $_POST['fkTaskTestEventID'];
 }
-
-// Data being updated
 
 if (isset($_POST['EventDate'])) {
     $EventDate = $_POST['EventDate'];
@@ -37,20 +53,29 @@ if (isset($_POST['EventNote'])) {
 if (isset($_POST['TestScore'])) {
     $TestScore = $_POST['TestScore'];
 }
+if (isset($_POST['MaxDate'])) {
+    $MaxDate = $_POST['MaxDate'];
+}
 
+if($op=='DELETE'){
+    $sql="DELETE FROM tlkpTaskTests WHERE TaskTestID='$testID'";
+    $result=$conn->runQuery($sql);
+}
+else {
 //sql statement to update the correct tables
-$sql = "UPDATE
+    $sql = "UPDATE
     tblCadetClassEvents
 SET
   EventDate = '$EventDate',
   DidPass = '$DidPass',
   EventNote = '$EventNote',
-  TestScore = '$TestScore'
+  MaxDate = '$MaxDate'
 WHERE
-   fkTaskID = '$fkTaskID' AND 
-   fkClassDetailID= '$fkClassDetailID'
-  AND fkTaskTestEventID = '$fkTaskTestEventID'";
+   fkTaskTestEventID = $testID
+    AND CadetClassEventID = $CadetClassEventID";
 
-$result = $conn->runQuery($sql);
+    $result = $conn->runQuery($sql);
+
+}
 
 ?>
