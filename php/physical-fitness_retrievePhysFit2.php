@@ -12,9 +12,8 @@ $tests = array();
 $tasks = array();
 $PTDetails = array();
 
-//A "cadetID" should be sent when calling this php file -- store this value in $curCadetID
+//A "cadetID" should be sent when calling this php file -- store this value in $CadetID
 $cadetID = $_POST['cadet'];
-//$cadetID = "169";
 
 
 $sql = "SELECT tblCadetClassEvents.*, tlkpCoreComponentTasks.TaskNumber, tlkpCoreComponentTasks.Task
@@ -32,37 +31,9 @@ if ($result->num_rows > 0) {
     }
 }
 
-//output results as a json array of objects {"value":[{"major":"CSCI", "name":"Amy", "age":"21"} ... ], "value2":[{}]}
-/*echo '{ "taskTbl":[';
-if ($result->num_rows > 0) 
-{
-	$count=0;
-
-    // output data on each row
-    while($row = $result->fetch_assoc()) {
-    	
-    	//display comma
-        if ($count >0 )
-        	echo ",";
-      
-      	//format output as an object -- specify each field along with its value
-        //echo '{"taskNumber": "' . $row["TaskNumber"]. '", "task": "' . $row["Task"]. '", "date":"' . $row["EventDate"]. '", "note":"' . $row["PTTestNote"]. '"}';
-        echo '{"taskNumber": "' . $row["TaskNumber"]. '", "task": "' . $row["Task"]. '", "date":"' . $row["EventDate"]. '", "DidPass":"' . $row["DidPass"]. '", "note": "' . $row["EventNote"]. '"}';
-        $count = $count+1;
-    }
-} 
-
-
-//Ending first json array
-
-echo '], ';
-*/
-
-$tempSQL = "SELECT tblclassdetails.ClassDetailID FROM (tblCadets INNER JOIN tblClassDetails ON tblCadets.CadetID =tblClassDetails.fkCadetID) WHERE tblcadets.CadetID = '$cadetID'";
+$tempSQL = "SELECT tblClassDetails.ClassDetailID FROM (tblCadets INNER JOIN tblClassDetails ON tblCadets.CadetID =tblClassDetails.fkCadetID) WHERE tblcadets.CadetID = '$cadetID'";
 $tempResult = $conn->runSelectQuery($tempSQL);
-//ClassDetail for Cadet Reginald harris
-//$ClassDetailID = $_POST['cadet'];
-//$ClassDetailID = 168;
+
 if($tempResult->num_rows > 0) {
     while ($row = $tempResult->fetch_assoc()) {
         $physical = (object)$row;
