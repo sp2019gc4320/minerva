@@ -31,12 +31,11 @@
                         <td><textarea name="PTTestNote" rows="1" c wrap="off" ng-model="task.EventNote"  ng-readonly="!editTasks"></textarea></td>
                         <td ng-if="task.DidPass == '1'" class="bg-success text-center">
                             <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
-                                    ng-model="task.DidPass"  ng-disabled="!editTasks">
+                                    ng-model="task.DidPass"  disabled>
                         </td>
-
                         <td ng-if="task.DidPass == '0'" class="bg-danger text-center">
                             <input  type="checkbox" ng-model="task.DidPass"
-                                    ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTasks">
+                                    ng-true-value="'1'" ng-false-value="'0'" disabled>
                         </td>
                         <!--<td><button ng-click="showTest(task.taskNumber)"  ng-show = "(task.taskNumber == '2(a)' || task.taskNumber == '2(b)' || task.taskNumber == '2(c)')">Show Tests</button></td>-->
                     </tr>
