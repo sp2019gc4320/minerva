@@ -18,7 +18,9 @@ class Row
 //1.  Read the table structure for a specific table
 $TableName = "tlkpSite";
 $FieldName = "SiteID";
-$FieldValue = "1";
+//$FieldValue = "1";
+
+$FieldValue=($_POST['SiteID']);
 
 //$TableName = "tblClassDetails";
 //$FieldName = "ClassDetailID";
