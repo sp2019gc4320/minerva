@@ -66,7 +66,7 @@
                             require_once './applicant_moveToDeadpool.php';
                             require_once './applicant_moveToCandidatePool.php';
                             require_once './applicant_moveToSelectedPool.php';
-
+                            require_once './applicant_documents.php';
 
                             if(empty($_POST['text_search']))
                                 listApplicants();
@@ -141,6 +141,24 @@
                                     }
                                 }
                             }
+                                if (isset($_POST['viewDocuments'])) {
+                                    $ids = $_POST;
+                                    unset($ids['viewDocuments']);
+                                    $ids = $ids['id'];
+
+                                    if (count($ids) > 1) {
+                                        echo '<div style="font-size:1.25em;color:#ff0000;font-weight:bold;">TOO MANY APPLICANTS SELECTED. ONLY SELECT ONE.</div>';
+                                    } else {
+                                        $rows = mysqli_fetch_array($fetch);
+
+                                        foreach ($ids as $value) {
+
+                                            $_SESSION['varName'] = $value;
+
+                                        }
+
+                                    }
+                            }
 
                             ?>
                             </tbody>
@@ -150,7 +168,7 @@
                 <button type="submit" name="submitCandidate" style="width: 300px;" class="btn btn-primary">Send to Candidate Pool</button>
                 <button type="submit" name="submitDead" style="width: 300px;" class="btn btn-danger">Send to Deadpool</button>
                 <button type="submit" name="submitSelected" style="width: 300px;" class="btn btn-primary">Send to Selected Pool</button>
-
+                <button type="submit" name="viewDocuments" style="width: 300px;" class="btn btn-primary">View Documents</button>
             </div>
         </div>
     </div>
