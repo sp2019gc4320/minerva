@@ -4,5 +4,6 @@
 angular.module('website', [
     //'website.webDropdown',
     'website.fileSubmission',
-    'website.editCoreComponent'
+    'website.editCoreComponent',
+    'website.siteSetup'
 ]);
