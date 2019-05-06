@@ -1,8 +1,6 @@
 <?php
-// File: job-skills_updateTests.php
-// Updates Job Skills Tests (for the 2nd table in the jobskills view) in the database by sending a sql update statment.
-// Input:  all info from test table -- only the test with a fkTaskEventID will be sent.
-// Output: none
+// File: life-skills_updateTests.php
+// Updates Life Skills Tests (for the 2nd table in the life-skills view) in the database by sending a sql update statment.
 
 //connect to db controller
 require_once 'dbcontroller.php';
@@ -30,7 +28,7 @@ if(isset($_POST['TaskTest']))
 if(isset($_POST['op'])){
     $op=$_POST['op'];
 }
-//Required to determine which record to update.
+
 if (isset($_POST['fkClassDetailID'])) {
     $fkClassDetailID = $_POST['fkClassDetailID'];
 }
@@ -57,11 +55,6 @@ if (isset($_POST['MaxDate'])) {
     $MaxDate = $_POST['MaxDate'];
 }
 
-if($op=='DELETE'){
-    $sql="DELETE FROM tlkpTaskTests WHERE TaskTestID='$testID'";
-    $result=$conn->runQuery($sql);
-}
-else {
 //sql statement to update the correct tables
     $sql = "UPDATE
     tblCadetClassEvents
@@ -76,6 +69,5 @@ WHERE
 
     $result = $conn->runQuery($sql);
 
-}
 
 ?>
