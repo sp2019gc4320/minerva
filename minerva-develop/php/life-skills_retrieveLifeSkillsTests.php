@@ -29,7 +29,7 @@ ORDER BY TaskTestID";
 $result = $connection->runSelectQuery($sql);
 if ($result->num_rows > 0) {
 
-    //Store the tasks WITHOUT any associated tests in the tasks array.
+    //Store the tests of tasks with the selected Test ID from the row where "Show Tests" was clicked.
     while ($row = $result->fetch_assoc())
     {
         $tests[] = $row;
