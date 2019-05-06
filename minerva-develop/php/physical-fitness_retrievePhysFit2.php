@@ -31,7 +31,7 @@ if ($result->num_rows > 0) {
     }
 }
 
-$tempSQL = "SELECT tblClassDetails.ClassDetailID FROM (tblCadets INNER JOIN tblClassDetails ON tblCadets.CadetID =tblClassDetails.fkCadetID) WHERE tblcadets.CadetID = '$cadetID'";
+$tempSQL = "SELECT tblClassDetails.ClassDetailID FROM (tblCadets INNER JOIN tblClassDetails ON tblCadets.CadetID =tblClassDetails.fkCadetID) WHERE tblCadets.CadetID = '$cadetID'";
 $tempResult = $conn->runSelectQuery($tempSQL);
 
 if($tempResult->num_rows > 0) {
