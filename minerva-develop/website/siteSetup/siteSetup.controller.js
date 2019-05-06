@@ -4,6 +4,7 @@ angular.module('website.siteSetup').controller('siteController', function($scope
 $scope.editable = false;
 $scope.showEditButtons = false;
 $scope.newSiteButtons = false;
+$scope.newID;    
 alert("Please select a siteID")
     $http({
         method: 'GET',
@@ -14,6 +15,7 @@ alert("Please select a siteID")
 
         var i = 0;
         var max = $scope.idOptions.length;
+        $scope.newID = $scope.idOptions.length+1;
         while (i < max) {
             $scope.idOptions[i].id = i;
            // specify the defaulted siteID in the select element
@@ -261,6 +263,9 @@ $scope.newSite = function () {
 
 
     $scope.saveNewSite = function () {
+        $scope.editable = false;
+        $scope.newSiteButtons = false;
+        $scope.siteID = $scope.newID;
         var sendData =
             {
                 siteID: $scope.siteID,
