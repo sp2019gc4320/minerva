@@ -19,6 +19,35 @@ angular.module('recruiter.applicantFind').controller('applicantFindController', 
         headers: {'Content-Type': 'application/x-www-form-urlencoded'}
 
     });
+    var taskListRequired=$http({
+        method: 'POST',
+        url: './php/app_getReqDocs.php',
+        data: '',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+    });
+    taskListRequired.then(
+        function(result) {
+            $scope.requiredFileList = result.data.data;
+            for(let x = 0; x < $scope.requiredFileList.length; x++){
+
+
+                var toBeReplaced = ""+String($scope.requiredFileList[x].FileName);
+                /*      if($scope.requiredFileList[x].isRequired==1){
+                          toBeReplaced = toBeReplaced+"*";
+                      }
+      */
+
+                toBeReplaced = toBeReplaced.split(' ').join('_');
+                $scope.requiredFileList[x].FileName = toBeReplaced;
+            }
+            alert(JSON.stringify($scope.requiredFileList));
+
+        },
+        function(result){
+            alert("Failure");
+        }
+    );
+
     taskListFile.then(
         //Will use this statement once we have applicant ID functioning fully
         //var applicantID = $scope.applicantID
@@ -26,17 +55,6 @@ angular.module('recruiter.applicantFind').controller('applicantFindController', 
             alert(result.data);
             $scope.fileList = result.data.data;
 
-            $scope.missingList = ["EducationPlan","BandARecords","MedicalInsurance",
-                "Immunization","CandidateApplication",
-                "MedicalHistory","BirthCertificate","LegalHistory","MentorApplication",
-                "SocialSecurityCard","IDCard","MentalHealthHistory"];
-
-            for (var i = 0; i < $scope.fileList.length; i++){
-                if($scope.missingList.includes(String($scope.fileList[i]["File"]))){
-                    var index = $scope.missingList.indexOf(String($scope.fileList[i]["File"]));
-                    $scope.missingList.splice(index,1);
-                }
-            }
 
         },
         function (result) {
