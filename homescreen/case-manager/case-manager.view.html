@@ -24,7 +24,7 @@ CASE MANAGER
         <div>{{cadet.CadetDOB}}</div>
         <hr>
         <ul>
-            <li ng-repeat="item in cadets"><a href ng-click= "localStorageUpdate(item)">{{item.PersonLN}}, {{item.PersonFN}}</a></li>
+            <li ng-repeat="item in cadets"><a href ng-click= "localStorageUpdate(item)">{{item.PersonLN}}, {{item.PersonFN}} (Class ID: {{item.fkClassID}})</a></li>
         </ul>
         <!-- add buffer to end of list for scrolling -->
         <br/>
