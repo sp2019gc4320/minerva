@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <div ng-controller="applicantDocsController">
+        <table class="table minerva-table">
+            <thead>
+                <tr>
+                    <th colspan="3">APPLICANTS WITH DOCUMENTS</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Applicant ID</th>
+                </tr>
+                <tr ng-repeat="x in names">
+                    <td>{{ x.Name }}</td>
+                    <td>{{ x.City }}</td>
+                    <td>{{ x.Country }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</html>
