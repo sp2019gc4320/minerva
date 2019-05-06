@@ -18,8 +18,6 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
     $scope.showHeader = function(index)
     {
     //This function is for table headers when displaying PT Details tests in HTML view
-    //As this is hardcoded if tests are added or removed
-    //return $scope.PTDetailHeaders[index];
     return $scope.tests[index].PTTestType;
     };
 
