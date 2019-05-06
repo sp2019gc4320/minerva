@@ -203,10 +203,10 @@
         </button>
     </form>
     <br><br>
-    <button type="submit" name="saveForm" style="width: 150px; height: 40px; float:left;" class="btn btn-primary" onclick="saveFormJS()">
+    <button type="submit" name="saveForm" style="width: 150px; float:left;" class="btn btn-primary" onclick="saveFormJS()">
         Save Current Form
     </button>
-    <button type="submit" name="deleteForm" style="width: 150px; height: 40px; float:left;" class="btn btn-danger" onclick="deleteFormJS()">
+    <button type="submit" name="deleteForm" style="width: 150px;  float:left;" class="btn btn-danger" onclick="deleteFormJS()">
         Delete Current Form
     </button>
     </div>
