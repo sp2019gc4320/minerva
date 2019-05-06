@@ -1,70 +1,121 @@
-<script src="./core-components/physical-fitness/physical-fitness.controller.js"></script>
-
-
-<!--Physical Fitness-->
-<div class="container main text-center infoContainer" id="pfContainer">
-    <div class="row">
-        <div class="col-xs-12">
-            <h1>Physical Fitness</h1>
+<div class="well container infoContainer" id="lfContainer">
+    <h1>Physical Fitness</h1>
+    <div ng-controller="physicalFitnessController">
+        <!--Tasks-->
+        <div class="well">
             <div>
-                <button class="btn btnEdit" onclick="#" style="float: right;"> Edit</button>
+                <!--table to edit&display tasks from coreComponentTasks&cadetClassEvents-->
+                <table class="table minerva-table">
+                    <thead>
+                    <tr>
+                        <th colspan="5">TASKS
+                            <button class="btn btnEdit" ng-click="makeTasksEditable()"ng-hide="editTasks"> Edit</button>
+                            <button class="btn btnSave" ng-click="saveTasksUpdate(tasks)"ng-show="editTasks"> Save</button>
+                            <button class="btn btnCancel" ng-click="cancelTasksUpdate()"ng-show="editTasks"> Cancel</button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <th>Tasks</th>
+                        <th>Description</th>
+                        <th>Last Activity</th>
+                        <th>Note</th>
+                        <th>Completion</th>
+                    </tr>
+                    <!--iterate through each instance in scope from controller-->
+                    <tr ng-repeat="task in tasks">
+                        <td>{{task.TaskNumber}}</td>
+                        <td class="text-left">{{task.Task}}</td>
+                        <!--editable fields for cadetClassEvents-->
+                        <td><input id="date" type="date" placeholder="MM/DD/YYYY" ng-model="task.EventDate"  ng-readonly="!editTasks"></td>
+                        <td><textarea name="PTTestNote" rows="1" c wrap="off" ng-model="task.EventNote"  ng-readonly="!editTasks"></textarea></td>
+                        <td ng-if="task.DidPass == '1'" class="bg-success text-center">
+                            <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                    ng-model="task.DidPass"  ng-disabled="!editTasks">
+                        </td>
+
+                        <td ng-if="task.DidPass == '0'" class="bg-danger text-center">
+                            <input  type="checkbox" ng-model="task.DidPass"
+                                    ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTasks">
+                        </td>
+                        <!--<td><button ng-click="showTest(task.taskNumber)"  ng-show = "(task.taskNumber == '2(a)' || task.taskNumber == '2(b)' || task.taskNumber == '2(c)')">Show Tests</button></td>-->
+                    </tr>
+                </table>
             </div>
-        </div>
+            <div>
+                <table class="table minerva-table">
+                    <thead>
+                    <tr>
+                        <th colspan="7">TESTS
+                            <button class="btn btnEdit" ng-click="makeTestsEditable()"ng-hide="editTests"> Edit</button>
+                            <button class="btn btnSave" ng-click="saveTestsUpdate(tests)"ng-show="editTests"> Save</button>
+                            <button class="btn btnCancel" ng-click="cancelTestsUpdate()"ng-show="editTests"> Cancel</button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Test Type</th>
+                        <th>Award</th>
+                        <th>Height</th>
+                        <th>Weight</th>
+                        <th>BMI</th>
+                    </tr>
+
+
+                    <tr ng-repeat="test in tests">
+                        <td><input type="date" placeholder="MM/DD/YYYY" ng-model="test.PTDate" ng-disabled="!editTests"></td>
+                        <td><input type="text" ng-model="test.PTTestType" disabled></td>
+                        <td><input type="text" ng-model="test.PTAward" ng-disabled="!editTests"></td>
+                        <td><input type="text" size="5" ng-model="test.PTHeight" ng-disabled="!editTests"></td>
+                        <td><input type="text" size="5" ng-model="test.PTWeight" ng-disabled="!editTests"></td>
+                        <td><input type = "text" size="5" ng-value = "calcBMI(test.PTHeight, test.PTWeight)" disabled></td>
+                    </tr>
+                </table>
+                <div ng-repeat="test in tests track by $index">
+                <table class="table minerva-table">
+                <thead>
+                <tr>
+                    <th colspan="4"> PT Details - {{showHeader($index)}}
+                            <button class="btn btnEdit" ng-click="makePTDetailsEditable()"ng-hide="editPTDetails"> Edit</button>
+                            <button class="btn btnSave" ng-click="savePTDetailsUpdate(test.details)"ng-show="editPTDetails"> Save</button>
+                            <button class="btn btnCancel" ng-click="cancelPTDetailsUpdate()"ng-show="editPTDetails"> Cancel</button>
+                            <button class="btn" ng-click="waiveAll($index)" ng-disabled="!editPTDetails">Waive All Test</button>
+                    </th>
+                </tr>
+                </thead>
+                <tr>
+                    <th>Test</th>
+                    <th>Result</th>
+                    <th>Waived</th>
+                    <th>Add File</th>
+                </tr>
+
+
+                <tr ng-repeat="row in test.details track by $index">
+                    <td class = "w-25">
+                        <input type = "text" ng-model = "test.tests[$index].TaskEvent" disabled>
+                    </td>
+                    <td class = "w-25">
+                        <input type="text" ng-model="test.details[$index].PTDetailResult" ng-disabled="!editPTDetails">
+                    </td>
+                    <td ng-if="test.details[$index].IsWaived == '1'" class="bg-success">
+                        <input  name="Waived" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                ng-model="test.details[$index].IsWaived"  ng-disabled="!editPTDetails">
+                    </td>
+
+                    <td ng-if="test.details[$index].IsWaived == '0'">
+                        <input  type="checkbox" ng-model="test.details[$index].IsWaived"
+                                ng-true-value="'1'" ng-false-value="'0'"  ng-disabled="!editPTDetails">
+                    <td class = "w-50">
+                       <ng-include src="'./utility/attachments/addWaiver.view.html'"></ng-include>
+                    </td>
+                </tr>
+                </table>
+
+                </div>
     </div>
-    <table id="PhysicalFitnessMain">
-        <tr>
-            <th>Task</th>
-            <th>Description</th>
-            <th>Last Activity</th>
-            <th>Notes</th>
-            <th>Completion</th>
-            <th>Show Tests</th>
-        </tr>
-
-    </table>
-
-
-    <table id="pfSubContainer1" style="display:none">
-        <tr>
-            <th></th>
-            <th>Test</th>
-            <th>Type</th>
-            <th>Score</th>
-            <th>Date</th>
-            <th>Height</th>
-            <th>Weight</th>
-            <th>BMI</th>
-            <th>Note</th>
-            <th>Completion</th>
-        </tr>
-    </table>
-    <table id="pfSubContainer2" style="display:none">
-        <tr>
-            <th></th>
-            <th>Test</th>
-            <th>Type</th>
-            <th>Score</th>
-            <th>Date</th>
-            <th>Height</th>
-            <th>Weight</th>
-            <th>BMI</th>
-            <th>Note</th>
-            <th>Completion</th>
-        </tr>
-    </table>
-    <table id="pfSubContainer3" style="display:none">
-        <tr>
-            <th></th>
-            <th>Test</th>
-            <th>Type</th>
-            <th>Score</th>
-            <th>Date</th>
-            <th>Height</th>
-            <th>Weight</th>
-            <th>BMI</th>
-            <th>Note</th>
-            <th>Completion</th>
-        </tr>
-    </table>
+    </div>
+</div>
 </div>
 <!--End of Physcial Fitness-->
