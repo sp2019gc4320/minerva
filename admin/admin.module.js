@@ -4,7 +4,9 @@
 angular.module('admin', [
     'admin.siteSetup',
     'admin.siteAddClass',
-    'admin.siteAddCadet'
+    'admin.siteAddCadet',
+    'admin.siteAddS2C'
+    
     //,
     //'admin.siteDropdown'
 ]);
