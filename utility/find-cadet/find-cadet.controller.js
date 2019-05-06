@@ -96,11 +96,11 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
      *   `pickedCadets`.
      */
     $scope.selectCadet = function (cadet) {
-        if (!$scope.checkedCadets[cadet.fkCadetID]) {
+        if (!$scope.checkedCadets[cadet.ClassDetailID]) {
             $scope.pickedCadets.push(cadet);
 
             //ensure the checkbox is selected.
-            $scope.checkedCadets[cadet.fkCadetID] = true;
+            $scope.checkedCadets[cadet.ClassDetailID] = true;
         }
         else {
             var index = $scope.pickedCadets.indexOf(cadet);
@@ -108,12 +108,12 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
                 $scope.pickedCadets.splice(index, 1);
 
                 //deselect the checkbox
-                $scope.checkedCadets[cadet.fkCadetID] = false;
+                $scope.checkedCadets[cadet.ClassDetailID] = false;
             }
             else { //This only occurs if the cadet is in the list but does not have the same hashCode
                 alert("index is not found -- adding to list");
                 $scope.pickedCadets.push(cadet);
-                $scope.checkedCadets[cadet.fkCadetID] = true;
+                $scope.checkedCadets[cadet.ClassDetailID] = true;
 
             }
         }
@@ -127,24 +127,13 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
 
         //Set the cadet for the first item in the list
         if ($scope.pickedCadets.length > 0) {
-            var list = "";
-            var chosen=0;
             var firstChosen=$scope.pickedCadets[0];
-            let i =0;
-            while(i<$scope.pickedCadets.length){
-                list = list + (i+1) + ". " + $scope.pickedCadets[i].PersonFN + " " + $scope.pickedCadets[i].PersonLN + "\n";
-                i++;
-            }
-            if($scope.pickedCadets.length > 1) {
-                chosen = prompt("Enter the number next to the cadet that you would \nlike to use from the following list: \n" +
-                    list);
-                firstChosen = $scope.pickedCadets[chosen - 1];
-            }
+
             $window.localStorage.setItem("CadetID", firstChosen.fkCadetID);
             $window.localStorage.setItem("CadetName", firstChosen.PersonFN + " " + firstChosen.PersonLN);
             $window.localStorage.setItem("CadetGender", firstChosen.PGender);
             $window.localStorage.setItem("CadetDOB", firstChosen.PDOB);
-            $window.localStorage.setItem("ClassDetailID", firstChosen.fkCadetID);
+            $window.localStorage.setItem("ClassDetailID", firstChosen.ClassDetailID);
         }
         else {
             $window.localStorage.removeItem("CadetID");
@@ -152,6 +141,35 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
             $window.localStorage.removeItem("CadetGender");
             $window.localStorage.removeItem("CadetDOB");
             $window.localStorage.removeItem("ClassDetailID");
+        }
+
+        $window.opener.location.reload();
+        $window.close();
+
+    };
+
+    $scope.applicantSaveAndClose = function () {
+        var cadetJSON = JSON.stringify($scope.pickedCadets);
+        $window.sessionStorage.setItem("cadets", cadetJSON);
+        $window.localStorage.setItem("cadets", cadetJSON);
+
+        //Set the cadet for the first item in the list
+        if ($scope.pickedCadets.length > 0) {
+            var firstChosen = $scope.pickedCadets[0];
+            $window.localStorage.setItem("CadetID", firstChosen.fkCadetID);
+            $window.localStorage.setItem("CadetName", firstChosen.PersonFN + " " + firstChosen.PersonLN);
+            $window.localStorage.setItem("CadetGender", firstChosen.PGender);
+            $window.localStorage.setItem("CadetDOB", firstChosen.PDOB);
+            $window.localStorage.setItem("ClassDetailID", firstChosen.fkCadetID);
+
+        }
+        else {
+            $window.localStorage.removeItem("CadetID");
+            $window.localStorage.removeItem("CadetName");
+            $window.localStorage.removeItem("CadetGender");
+            $window.localStorage.removeItem("CadetDOB");
+            $window.localStorage.removeItem("ClassDetailID");
+
         }
 
         $window.opener.location.reload();
@@ -168,10 +186,10 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
         $window.sessionStorage.setItem("theCadet", cadet.fkCadetID);
         $window.localStorage.setItem("theCadet", cadet.fkCadetID);
 
-        //store class detail id here?
-        $window.sessionStorage.setItem("fkClassDetailID", cadet.fkCadetID);
-        $window.localStorage.setItem("fkClassDetailID", cadet.fkCadetID);
-        $window.localStorage.setItem("ClassDetailID", cadet.fkCadetID);
+        //store class detail id here
+        $window.sessionStorage.setItem("fkClassDetailID", cadet.ClassDetailID);
+        $window.localStorage.setItem("fkClassDetailID", cadet.ClassDetailID);
+        $window.localStorage.setItem("ClassDetailID", cadet.ClassDetailID);
 
 
         $window.localStorage.setItem("CadetID", cadet.fkCadetID);
