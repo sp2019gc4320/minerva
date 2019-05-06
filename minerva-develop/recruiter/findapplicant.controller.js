@@ -156,7 +156,7 @@ angular.module('recruiter').controller("FindApplicantController", function FindA
             $window.localStorage.setItem("CadetName", firstChosen.PersonFN + " " + firstChosen.PersonLN);
             $window.localStorage.setItem("CadetGender", firstChosen.PGender);
             $window.localStorage.setItem("CadetDOB", firstChosen.PDOB);
-            $window.localStorage.setItem("ClassDetailID", firstChosen.fkCadetID);
+            $window.localStorage.setItem("ClassDetailID", firstChosen.ClassDetailID);
 
         }
         else {
