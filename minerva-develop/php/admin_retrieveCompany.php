@@ -25,7 +25,7 @@ $staffAry = array();
 
 //this section selects all available companies from each site. 
 
-$sql ="SELECT tlkpCadetCompany.fkSiteID, tlkpCadetCompany.CompanyID, tlkpsite.SiteName FROM tlkpCadetCompany JOIN tlkpsite ON(tlkpsite.SiteID = tlkpCadetCompany.fkSiteID) ";
+$sql ="SELECT tlkpCadetCompany.fkSiteID, tlkpCadetCompany.CompanyID, tlkpSite.SiteName FROM tlkpCadetCompany JOIN tlkpSite ON(tlkpSite.SiteID = tlkpCadetCompany.fkSiteID) ";
 
 $res = $conn->runSelectQuery($sql);
 echo '{ "company_list":[';

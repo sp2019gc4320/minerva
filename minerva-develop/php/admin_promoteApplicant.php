@@ -59,6 +59,23 @@ function map_people_data($applicant_data) {
     );
 }
 
+function map_guardian_data($applicant_data) {
+    return array(
+        "PersonFN" => $applicant_data["guardinFName"],
+        "PersonLN" => $applicant_data["guardianLName"],
+        "PEmail" => $applicant_data["guardianEmail"],
+        "PAddress" => $applicant_data["guardianAddress"],
+        "PAddress2" => $applicant_data["guardianAddress2"],
+        "PCity" => $applicant_data["guardianCity"],
+        "PState" => $applicant_data["guardianState"],
+        "PZip" => $applicant_data["guardianZip"],
+        "PMailAddress" => $applicant_data["guardianMailAddress"],
+        "PMailCity" => $applicant_data["guardianMailCity"],
+        "PMailState" => $applicant_data["guardianMailState"],
+        "PMailZip" => $applicant_data["guardianMailZip"],
+    );
+}
+
 foreach($applicants as $i) {
     if($applicant_data = get_applicant_data($i)) {
 
@@ -97,16 +114,34 @@ foreach($applicants as $i) {
                     "CadetRosterNumber" => 1 // TEMPORARY VALUE
                 );
                 $class_detail_insert_query = create_insertion_string("tblClassDetails", $class_detail_data);
-                if($conn->createRecord($class_detail_insert_query) != false) {
+                $class_detail_id = $conn->createRecord($class_detail_insert_query);
+                if($class_detail_id != false) {
                     echo "Success";
                     $delete_query = "DELETE FROM tblApplicants WHERE applicantID=$i";
                     $conn->runDeleteQuery($delete_query);
+
+                    $guardian_data = map_guardian_data($applicant_data);
+                    $guardian_insert_query = create_insertion_string("tblPeople", $guardian_data);
+                    $guardian_id = $conn->createRecord($guardian_insert_query);
+                    if($guardian_id != false) {
+
+                        $guardian_table_data = array(
+                            "fkPersonId" => $guardian_id,
+                            "fkClassDetailId" => $class_detail_id
+                        );
+                        $guardian_insert_query = create_insertion_string("tblGuardians", $guardian_table_data);
+                        $conn->createRecord($guardian_insert_query);
+                    }
+
+
                 } else {
                     echo "Failed insertion to class details ";
                 }
             } else {
                 echo "Failed insertion to cadet ";
             }
+
+
 
         } else {
             echo "Failed insertion to people ";

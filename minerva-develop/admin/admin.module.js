@@ -5,6 +5,7 @@ angular.module('admin', [
     'admin.siteAddClass',
     'admin.siteAddCadet',
     'admin.siteAddS2C',
+    'admin.siteViewCadets',
     'admin.siteViewGraduates',
     'admin.siteViewApplicants',
     'admin.compAssign',
