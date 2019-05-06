@@ -87,7 +87,7 @@ EOT;
         $text = $row['formText'];
         echo <<< EOT
         <div id='$name' class='tabcontent'>
-        <textarea rows='5' cols='50' name='$name' wrap='soft' style='width:700px; height:500px; float:right;'>
+        <textarea rows='5' cols='50' name='$name' wrap='soft' style='width:850px; height:500px; float:right;'>
 $text
         </textarea>
     </div>
@@ -148,8 +148,8 @@ EOT;
         echo <<< EOT
         <div id='$last_name' class='tabcontent'>
             <p style="float:left;">Email: $email</p>
-            <textarea rows='5' cols='50' name='$last_name' wrap='soft' style='width:700px; height:500px; float:right;'>$text</textarea>
-            <div class="container-fluid " style="float:right; margin-right: 200px;">
+            <textarea rows='5' cols='50' name='$last_name' wrap='soft' style='width:850px; height:500px; float:right;'>$text</textarea>
+            <div class="container-fluid " style="float:right; margin-right: 0px;">
                 <a name='$last_name' href="mailto:$email?subject=$name&body=$text">
                     <button type="submit" name='$last_name' id="email" style="width: 150px; float:left;" class="btn btn-success">Email Form</button>
                 </a>
@@ -168,8 +168,8 @@ EOT;
 function createFormPage() {
     echo <<< EOT
     <div>
-        <p style="float:left; margin-left: 25px;">Form name:</p>
-        <input id="newFormName" type="text" style="float:left; margin-left:9px;">
+        <p style="float:left; margin-left: 10px;">Form name:</p>
+        <input id="newFormName" type="text" style="float:left; margin-left:20px;">
     </div>
         <div id='99'>
         <textarea id="newText" rows='5' cols='50' name='new' wrap='soft' style='width:700px; height:500px; float:right;'></textarea>

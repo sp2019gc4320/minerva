@@ -37,7 +37,6 @@
     </div>
     <br>
 
-    <form method="post" action="">
         <div class="container">
             <div class="scrollingtable text-center" style="float:left;">
                 <table class="minerva-table" id="data-table" style="width:25%">
@@ -62,88 +61,17 @@
                             <!--extra cell at end of header row-->
                         </tr>
                     </thead>
+                <tbody>
                     <!-- Pulls data from SQL database (applicant - tblApplicants) to populate table-->
                         <?php
                         listSelected();
-
-                        $conn = new DBController();
-                        $result = $conn->connectDB();
-                        if (!$conn) die("Unable to connect to the database!");
-
-                        //fetch checked values
-                        $fetch = mysqli_query($result, "SELECT * FROM tblApplicants");
-                        if (mysqli_num_rows($fetch) > 0) {
-                            $fetch_result = mysqli_fetch_assoc($fetch);
-                        }
-                        //changes status to dead pool
-                        if (isset($_POST['submitDead'])) {
-                            //checks if anything is selected
-                            if (count($_POST) > 1) {
-                                $rows = mysqli_fetch_array($fetch);
-
-                                //removes the button post from the array $ids
-                                $ids = $_POST;
-                                unset($ids['submitDead']);
-                                $ids = $ids['id'];
-                                foreach ($ids as $value) {
-
-                                    $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID =$value");
-                                    $dumpy = mysqli_fetch_assoc($sql);
-
-                                    moveToDeadpool($value, $dumpy);
-                                }
-                            }
-                        }
-
-                        //changes the status to candidate
-                        if (isset($_POST['submitCandidate'])) {
-                            if (count($_POST) > 1) {
-                                $rows = mysqli_fetch_array($fetch);
-
-                                //removes the button post from the array $ids
-                                $ids = $_POST;
-                                unset($ids['submitCandidate']);
-                                $ids = $ids['id'];
-                                foreach ($ids as $value) {
-
-                                    $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID =$value");
-                                    $dumpy = mysqli_fetch_assoc($sql);
-
-                                    moveToCandidatepool($value, $dumpy);
-                                }
-                            }
-                        }
-
-                        //Function that sends the selected to Applicant
-                        if (isset($_POST['submitApplicant'])) {
-                            // var_dump($_POST);
-                            // die();
-                            if (count($_POST) > 1) {
-                                $rows = mysqli_fetch_array($fetch);
-
-                                //removes the button post from the array $ids
-                                $ids = $_POST;
-                                unset($ids['submitApplicant']);
-                                $ids = $ids['id'];
-                                foreach ($ids as $value) {
-
-                                    $sql = mysqli_query($conn->connectDB(), "SELECT * FROM tblApplicants WHERE applicantID = $value");
-                                    $dumpy = mysqli_fetch_assoc($sql);
-
-                                    moveToApplicantPool($value, $dumpy);
-                                }
-                            }
-                        }
-
                         ?>
+                </tbody>
                 </table>
-            </div>
-        </div>
-    </form>
 
-    <button id="genbtn" style="width: 150px; float:left;" class="btn btn-success" onclick="post()">
-        Generate Forms
-    </button>
+                <button id="genbtn" style="width: 150px; float:left;" class="btn btn-success" onclick="post()">
+                    Generate Forms
+                </button>
 
     <script type="text/javascript">
         function post() {
@@ -183,10 +111,6 @@
         }
     </script>
     <br><br><br><br><br><br>
-
-        <button type="submit" name="submitCandidate" style="width: 150px;" class="btn btn-primary">Send to Candidate Pool</button>
-        <button type="submit" name="submitDead" style="width: 150px;" class="btn btn-danger">Send to Deadpool</button>
-        <button type="submit" name="submitApplicant" style="width: 150px;" class="btn btn-primary">Send to Applicant Pool</button>
 
     <form action="forms.php" method="POST">
         <button type="submit" name="createForm" style="width: 150px; float:left;" class="btn btn-success">
