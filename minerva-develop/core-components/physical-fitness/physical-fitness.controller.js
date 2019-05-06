@@ -202,7 +202,16 @@ angular.module('core-components.physical-fitness').controller('physicalFitnessCo
 
             for(var i=0; i<$scope.tasks.length; i++)
             {
-                $scope.tasks[i].EventDate=convertToHtmlDate($scope.tasks[i].EventDate);
+                if ($scope.tasks[i].EventDate !== "0000-00-00 00:00:00") {//IF DATE IS NOT NULL
+
+                    $scope.tasks[i].EventDate = convertToHtmlDate($scope.tasks[i].EventDate);
+                    $scope.tasks[i].DidPass = '1';
+
+                }
+                else {
+                    $scope.tasks[i].EventDate = new Date("");
+                    $scope.tasks[i].DidPass = '0';
+                }
             }
 
 
