@@ -23,6 +23,16 @@ CREATE TABLE `minerva`.`tblAppContacts` ( `ContactID` INT(11) NOT NULL AUTO_INCR
 
 For tblAppGuardians
 
+
+CREATE TABLE `tblAppGuardians` (`GuardianID` int(11) NOT NULL, `ApplicantID` int(11) NOT NULL, `fName` varchar(255) DEFAULT NULL,
+ `lName` varchar(255) DEFAULT NULL, `Relationship` varchar(48) DEFAULT NULL, `PhoneNum` varchar(15) DEFAULT NULL, `Email` varchar(48) DEFAULT NULL, `IsLegalGuard` tinyint(1) DEFAULT NULL) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+ALTER TABLE `tblAppGuardians`
+  ADD PRIMARY KEY (`GuardianID`);
+ALTER TABLE `tblAppGuardians`
+  MODIFY `GuardianID` int(11) NOT NULL AUTO_INCREMENT;
+COMMIT;
+
+
 CREATE TABLE `minerva`.`tblAppGuardians` ( `GuardianID` INT(11) NOT NULL AUTO_INCREMENT , `fkPersonID` INT(11) NOT NULL , `fName` VARCHAR(255) NOT NULL , `lName` VARCHAR(255) NOT NULL , `Relationship` VARCHAR(48) NOT NULL , `PhoneNum` VARCHAR(15) NOT NULL , `Email` VARCHAR(48) NOT NULL , `IsLegalGuardian` TINYINT(1) NOT NULL , PRIMARY KEY (`GuardianID`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
 
 
