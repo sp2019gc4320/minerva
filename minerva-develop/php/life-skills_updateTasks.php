@@ -1,8 +1,6 @@
 <?php
-// File: job-skills_updateTasks.php
-// Updates Job Skills Tasks (for the 1st table in the jobskills view) in the database by sending a sql update statment.
-// Input:  all info from Tasks table -- only the Tasks that do not have a fkTaskEventID will be sent.
-// Output: none
+// File: life-skills_updateTasks.php
+// Updates Life Skills Tasks (for the 1st table in the life-skills view) in the database by sending a sql update statment.
 
 //connect to db controller
 require_once 'dbcontroller.php';
@@ -12,7 +10,6 @@ $conn = new DBController();
 
 $task="";
 $op="";
-//these values should be sent when calling this php file -- store this value in $valueName = $_POST['valueName'];
 
 if(isset($_POST['TaskID'])){
     $taskID= $_POST['TaskID'];
@@ -50,17 +47,10 @@ if (isset($_POST['MaxDate'])) {
     $MaxDate = $_POST['MaxDate'];
 }
 
-//fkTaskTestEventID should be null for this update file.
 if (isset($_POST['$fkTaskTestEventID'])) {
     $fkTaskTestEventID = $_POST['$fkTaskTestEventID'];
 }
 
-/*if($op=='DELETE'){
-    $sql="DELETE FROM tlkpCoreComponentTasks WHERE TaskID='$taskID'";
-    $result=$conn->runQuery($sql);
-}
-else{
-*/
 //sql statement to update the correct tables
 $sql = "UPDATE
     tblCadetClassEvents
