@@ -1,8 +1,6 @@
 <?php
-// File: job-skills_updateTasks.php
-// Updates Job Skills Tasks (for the 1st table in the jobskills view) in the database by sending a sql update statment.
-// Input:  all info from Tasks table -- only the Tasks that do not have a fkTaskEventID will be sent.
-// Output: none
+// File: physical-fitness_updateTasks.php
+// Updates Phys Fit Tasks (for the 1st table in the Phys Fit view) in the database by sending a sql update statment.
 
 //connect to db controller
 require_once 'dbcontroller.php';
@@ -43,7 +41,6 @@ SET
 WHERE
    fkTaskID = '$fkTaskID' AND 
    fkClassDetailID= '$fkClassDetailID'" ;
-// AND fkTaskTestEventID = '$fkTaskTestEventID'"; //fkTaskTest should be null - perhaps this can be removed.
 
 $result = $conn->runQuery($sql);
 
