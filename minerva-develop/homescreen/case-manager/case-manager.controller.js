@@ -51,6 +51,8 @@ controller("caseManagerController", function($scope, $http, $window){
         $window.localStorage.setItem("CadetDOB", item.PDOB);
         $window.localStorage.setItem("fkCadetID", item.fkCadetID);
         $window.localStorage.setItem("CadetName", item.PersonFN + " " + item.PersonLN);
+        $window.localStorage.setItem("ClassDetailID", item.ClassDetailID);
+
         location.reload(true);
     }
 

@@ -73,10 +73,14 @@ echo '{ "data":[';
 //Create Field List
 
 //Edit PGender, PDOB added to fields and first sql statement, this gets the gender and dob from the database to be used in the citizenship tab
-$fields = "PersonFN, PersonLN, fkClassID, CadetRosterNumber, fkCadetID, fkMentorID, PGender, PDOB, fkSiteID, ApplicantID";
-$sql = "SELECT *";
+
+$fields = "PersonFN, PersonLN, fkClassID, CadetRosterNumber, fkCadetID, fkMentorID, PGender, PDOB, fkSiteID, ApplicantID, ClassDetailID";
+$sql = "SELECT tblPeople.PersonID, tblPeople.PersonFN, tblPeople.PersonLN, tblPeople.PGender, tblPeople.PDOB,
+               tblClasses.fkSiteID, tblClasses.SiteClassNumber,
+               tblClassDetails.fkCadetID, tblClassDetails.ClassDetailID, tblClassDetails.fkClassID,
+               tblClassDetails.CadetRosterNumber, tblMentorPotential.fkMentorID ";
 $sql =  $sql." FROM tblApplicants, tblMentorPotential RIGHT JOIN (tblPeople INNER JOIN (tblCadets INNER JOIN (tblClassDetails INNER JOIN tblClasses ON tblClassDetails.fkClassID = tblClasses.ClassID) ON tblCadets.CadetID = tblClassDetails.fkCadetID) ON tblPeople.PersonID = tblCadets.fkPersonID) ON tblMentorPotential.fkClassDetailID = tblClassDetails.ClassDetailID
-               $whereClause";
+    $whereClause";
 
 $result = $connection->runSelectQuery($sql);
 
