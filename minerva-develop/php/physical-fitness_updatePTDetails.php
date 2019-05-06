@@ -1,6 +1,6 @@
 <?php
-// File: job-skills_updateTests.php
-// Updates Job Skills Tests (for the 2nd table in the jobskills view) in the database by sending a sql update statment.
+// File: physical-fitness_updatePTDetails.php
+// Updates Phys Fit PT Tests  in the database by sending a sql update statement.
 // Input:  all info from test table -- only the test with a fkTaskEventID will be sent.
 // Output: none
 
@@ -10,8 +10,6 @@ require_once 'dbcontroller.php';
 //create connection
 $conn = new DBController();
 
-//these values should be sent when calling this php file -- store this value in $valueName = $_POST['valueName'];
-//print_r($_POST);
 //Required to determine which record to update.
 
 if (isset($_POST['fkTaskTestEventID'])) {
