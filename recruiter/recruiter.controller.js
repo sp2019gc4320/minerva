@@ -14,6 +14,15 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
         ApplicantName: $scope.ApplicantName
     };
 
+    $scope.contains = function(fileName){
+        for(var i = 0; i < $scope.fileList.length;i++){
+            if($scope.fileList[i]['File'] === fileName){
+                return false;
+            }
+        }
+        return true;
+    };
+
     // Mailing address toggle
     $scope.hasSameMailingAddress = false;
 
@@ -281,7 +290,6 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
 
         var myFile = "#"+docType;
         var myFile = document.querySelector(myFile);
-        alert(myFile);
         var formData = new FormData();
         formData.append('ApplicantID',$scope.ApplicantID);
         formData.append('directory',currDirectory);
