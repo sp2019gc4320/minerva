@@ -78,7 +78,7 @@ echo '{ "data":[';
 //Create Field List
 
 //Edit PGender, PDOB added to fields and first sql statement, this gets the gender and dob from the database to be used in the citizenship tab
-$fields = "PersonFN, PersonLN, fkClassID, CadetRosterNumber, fkCadetID, fkMentorID, PGender, PDOB, fkSiteID";
+$fields = "PersonFN, PersonLN, fkClassID, CadetRosterNumber, fkCadetID, fkMentorID, PGender, PDOB, fkSiteID, ClassDetailID";
 $sql = "SELECT tblPeople.PersonID, tblPeople.PersonFN, tblPeople.PersonLN, tblPeople.PGender, tblPeople.PDOB,
                tblClasses.fkSiteID, tblClasses.SiteClassNumber,
                tblClassDetails.fkCadetID, tblClassDetails.ClassDetailID, tblClassDetails.fkClassID,
