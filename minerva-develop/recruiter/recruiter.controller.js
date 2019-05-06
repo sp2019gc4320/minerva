@@ -180,7 +180,8 @@ angular.module('recruiter').controller('recController', function($scope, $http, 
     $scope.recruiterViews = [
         {view:'Add Applicant', url:'./recruiter/site-addapplicant/site-addapplicant.view.html'},
         {view: 'View Applicant', url: './recruiter/applicant-find/applicant-find.view.html'},
-        {view: 'Application Status', url: './recruiter/applicant-status/applicantstatus.view.html'}
+        {view: 'Application Status', url: './recruiter/applicant-status/applicantstatus.view.html'},
+        {view: 'Applicants With Docs', url: './recruiter/applicant-docs/applicant-docs.view.html'}
     ];
 
     $scope.showView = function showView(item){
