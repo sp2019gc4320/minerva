@@ -215,7 +215,22 @@
                                ng-model="tempAsvab.AFQTScore"></th>
                     <th><label>Note: </label>
                         <input name="ASVABTestNotes" type="text"
-                               ng-model="tempAsvab.ASVABTestNotes" ></th>
+                               ng-model="tempAsvab.ASVABTestNotes" data-toggle="modal" data-target="#newasvabnote{{$index}}"></th>
+                        <!-- dive to pop up textarea when clicked -->
+                        <div class="modal fade" id="newasvabnote{{$index}}" role="dialog">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                        <h6>Note</h6>
+                                        <div class="modal-body">
+                                            <textarea ng-model="tempAsvab.ASVABTestNotes"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </td>
                 </tr>
             </table>
         </form>

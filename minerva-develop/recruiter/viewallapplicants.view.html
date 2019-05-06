@@ -1,0 +1,134 @@
+<!-- as of right now, this is just a copy of find-cadet.view.html-->
+<!-- I will be attempting to edit this and customize it for view applicants -->
+
+<div ng-controller="recController">
+    <div class="row">
+        <!-- Filters -->
+        <div class="col-md-3">
+                <div class="form-group row">
+                    <label for="first-name" class="col-md-4 col-form-label
+                        col-form-label-sm">First Name</label>
+                    <div class="col-md-8">
+                        <input type="text"
+                               class="form-control form-control-sm"
+                               name="first-name"
+                               id="first-name"
+                               value=""
+                               ng-model="cadetSearch.PersonFN">
+                        <!-- The ng-model attached to each filter text box specifies which attribute to search (PersonFN)-->
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="last-name" class="col-md-4 col-form-label
+                        col-form-label-sm">Last Name</label>
+                    <div class="col-md-8">
+                        <input type="text"
+                               class="form-control form-control-sm"
+                               name="last-name"
+                               id="last-name"
+                               value=""
+                               ng-model="cadetSearch.PersonLN"> <!-- ng-model specified for PersonLN-->
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="cadet-id" class="col-md-4 col-form-label
+                        col-form-label-sm">Applicant ID</label>
+                    <div class="col-md-8">
+                        <input type="text"
+                               class="form-control form-control-sm"
+                               name="cadet-id"
+                               id="cadet-id"
+                               value=""
+                               ng-model="cadetSearch.fkCadetID"> <!-- ng-model specified for fkCadetID-->
+                    </div>
+                </div>
+            <button class="btn btn-primary" ng-click="search()">Search</button>
+            <button class="btn btn-primary"
+                    ng-click="saveAndClose()">Select Cadets
+                ({{pickedCadets.length}})
+            </button>
+        </div>
+        <table class = "table minerva-table">
+            <thead>
+                <tr>
+                        <th>Select <input type="checkbox" ng-model="selectAll" ng-change="selectGroup()"></th>
+                        <th>PersonFN</th>
+                        <th>PersonLN</th>
+                        <th class="text-center">ApplicantID</th>
+                </tr>
+            </thead>
+            <tr ng-repeat="x in cadets | filter:cadetSearch:strict "
+                ng-click="pickCadet(x)">
+                <td>
+                    class="text-center">
+                    <input type="checkbox"
+                            class="checkbox form-check-input td-center-checkbox"
+                            ng-model="checkedCadets[x.fkCadetID]">
+                </td>
+                <td>{{x.PersonFN}}</td>
+                <td>{{x.PersonLN}}</td>
+                <td class="text-center">{{x.fkCadetID}}</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" class="checkbox form-check-input td-center-checkbox"></td>
+                <td>John</td>
+                <td>Smith</td>
+                <td>123123123</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" class="checkbox form-check-input td-center-checkbox"></td>
+                <td>Tom</td>
+                <td>Riddle</td>
+                <td>432432432</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" class="checkbox form-check-input td-center-checkbox"></td>
+                <td>Brett</td>
+                <td>Favre</td>
+                <td>444444444</td>
+            </tr>
+            <tr>
+                <td><input type="checkbox" class="checkbox form-check-input td-center-checkbox"></td>
+                <td>Matt</td>
+                <td>Ryan</td>
+                <td>222222222</td>
+            </tr>
+        </table>
+        
+        
+        <div class="col-md-3">
+            <ng-include src="updateDisplay"></ng-include>
+        </div> 
+
+        <!-- Keeping this as a backup copy incase I change things above attempting to stop looping problem -->
+        <!--      <div class="col-md-6" style="margin-top: 20px; overflow:auto;">
+            <div>
+                <table class="table table-striped table-bordered">
+                    <tr>
+                        <th>Select <input type="checkbox" ng-model="selectAll" ng-change="selectGroup()"></th>
+                        <th>PersonFN</th>
+                        <th>PersonLN</th>
+                        <th class="text-center">ApplicantID</th>
+                    </tr>
+                      Use a filter to only show certain fields without call to the server
+                      Make the filter strict to restrict the searches to the specified attribute 
+                    <tr ng-repeat="x in cadets | filter:cadetSearch:strict "
+                        ng-click="pickCadet(x)">
+                        <td align="center"
+                            class="text-center">
+                            <input type="checkbox"
+                                   class="checkbox form-check-input td-center-checkbox"
+                                   ng-model="checkedCadets[x.fkCadetID]">
+                        </td>
+                        <td>{{x.PersonFN}}</td>
+                        <td>{{x.PersonLN}}</td>
+                        <td class="text-center">{{x.fkCadetID}}</td>
+                    </tr>
+                </table>
+            </div>
+        </div>  col
+        <div class="col-md-3">
+            <ng-include src="updateDisplay"></ng-include>
+        </div>
+    </div> row
+-->

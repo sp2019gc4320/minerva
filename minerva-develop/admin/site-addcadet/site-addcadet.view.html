@@ -1,0 +1,318 @@
+<form ng-submit="submit()" ng-controller="addCadetController">
+    <div class="container" >
+        <div id="personal-info-container">
+            <h5>Personal Information</h5>
+            <div class="form-row">
+                <div class="form-group col-md-2">
+                    <label class="mr-sm-2" for="salutation">Salutation</label>
+                    <select class="form-control" 
+                            id="salutation"
+                            ng-model="person.PSalutation">
+                        <option selected></option>
+                        <option ng-repeat="option in salutationOptions">
+                        {{ option }}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="fname">First</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="fname"
+                           placeholder="First"
+                           ng-model="person.PersonFN">
+                </div>
+                <div class="form-group col-md-2">
+                    <label for="mname">Middle</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="mname"
+                           placeholder="Middle"
+                           ng-model="person.PersonMN">
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="lname">Last</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="lname"
+                           placeholder="Last"
+                           ng-model="person.PersonLN">
+                </div>
+                <div class="form-group col-md-2">
+                    <label class="mr-sm-2" for="gen-qual">Gen Qual</label>
+                    <select class="form-control" 
+                            id="gen-qual"
+                            name="gen-qual"
+                            ng-model="person.PersonGenQual">
+                        <option selected></option>
+                        <option ng-repeat="option in genqualOptions">
+                        {{ option }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label for="birthdate">Birthdate</label>
+                    <input type="text" 
+                           class="form-control"
+                           id="birthdate"
+                           placeholder="MM/DD/YYYY"
+                           ng-model="person.PDOB">
+                </div>
+                <div class="form-group col-md-1">
+                    <label>Age</label>
+                    <div>{{ getAge(person.PDOB) }}</div>
+                </div>
+                <div class="form-group col-md-3">
+                    <label for="ssn">Social Security #</label>
+                    <input type="text" 
+                           class="form-control" 
+                           id="ssn"
+                           ng-model="person.PSSN">
+                </div>
+                <div class="form-group col-md-3">
+                    <label class="mr-sm-2" for="ethnicity">Ethnicity</label><br>
+                    <select class="form-control" 
+                            id="ethnicity">
+                        <option selected></option>
+                        <option ng-repeat="option in raceOptions" value="{{
+                        option.RaceID }}">
+                        {{ option.Race }}
+                        </option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2 text-center">
+                    <label class="mr-sm-2" for="ethnicity">Is
+                        Hispanic?</label><br>
+                    <input type="checkbox" 
+                           class="form-check-input td-center-checkbox"
+                           ng-model="person.PEthnicityIsHispanic">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="form-group col-md-3">
+                    <label class="mr-sm-2" for="gender">Gender</label><br>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" 
+                               type="radio"
+                               id="gender-male" 
+                               value="male"
+                               ng-model="person.PGender"
+                               ng-value="'M'">
+                        <label class="form-check-label"
+                               for="gender-male">Male</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" 
+                               type="radio"
+                               id="gender-female" 
+                               value="female"
+                               ng-model="person.PGender"
+                               ng-value="'F'">
+                        <label class="form-check-label"
+                               for="gender-female">Female</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="address-container">
+            <h5>Address</h5>
+            <div id="mailing-address-container">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="address">Physical Address</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="address" 
+                               placeholder="1234 Main St"
+                               ng-model="person.PAddress">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="address2">Physical Address 2</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="address2" 
+                               placeholder="Apartment, studio, or floor"
+                               ng-model="person.PAddress2">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="city">City</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="city"
+                               ng-model="person.PCity">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="state">State</label>
+                        <select id="state" 
+                                class="custom-select form-control"
+                                ng-model="person.PState">
+                            <option selected></option>
+                            <option ng-repeat="option in stateOptions"
+                                    value="{{ option.StateID }}">
+                            {{ option.StateName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="zip">Zip</label>
+                        <input type="text" 
+                               class="form-control" 
+                               id="zip"
+                               ng-model="person.PZip">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="form-check">
+                    <input class="form-check-input" 
+                           type="checkbox"
+                           id="gridCheck"
+                           name="mailing-check"
+                           ng-value-true="true"
+                           ng-value-false="false"
+                           ng-model="hasSameMailingAddress">
+                    <label class="form-check-label" for="gridCheck">
+                        Mailing address is same as physical
+                    </label>
+                </div>
+            </div>
+            <div id="physical-address-container"
+                 ng-show="!hasSameMailingAddress">
+                <div class="form-row">
+                    <div class="form-group col-md-3">
+                        <label for="mailing-address">Mailing Address</label>
+                        <input type="text" 
+                               class="form-control"
+                               id="mailing-address" 
+                               placeholder="1234 Main St"
+                               ng-model="person.PMailAddress">
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="mailing-address-2">Mailing Address 2</label>
+                        <input type="text" 
+                               class="form-control"
+                               id="mailing-address-2" 
+                               placeholder="Apartment, studio, or floor"
+                               ng-model="person.PMailAddress2">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="mailing-city">City</label>
+                        <input type="text" 
+                               class="form-control"
+                               id="mailing-city"
+                               ng-model="person.PMailCity">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="mailing-state">State</label>
+                        <select id="mailing-state"
+                                class="custom-select form-control"
+                                ng-model="person.PMailState">
+                            <option selected>Choose...</option>
+                            <option>...</option>
+                            <option ng-repeat="option in stateOptions"
+                                    value="{{ option.StateID }}">
+                            {{ option.StateName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="mailing-zip">Zip</label>
+                        <input type="text" 
+                               class="form-control"
+                               id="mailing-zip"
+                               ng-model="person.PMailZip">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="contact-container">
+            <h5>Contact Information</h5>
+            <div class="form-row">
+                <label class="col-md-2">Type</label>
+                <label class="col-md-3 offset-md-3">Value</label>
+                <label class="col-md-2">Description</label>
+                <label class="col-md-1">Preferred?</label>
+            </div>
+            <div class="form-row" ng-repeat="ci in contactInformation">
+                <div class="form-group col-md-2">
+                    <select class="form-control" 
+                            ng-model="ci.ContactType">
+                        <option ng-value="'phone'" selected>Phone</option>
+                        <option ng-value="'email'">Email</option>
+                        <option ng-value="'social media'">Social Media</option>
+                    </select>
+                </div>
+                <div class="form-group col-md-2">
+                    <select class="form-control" 
+                            ng-disabled="ci.ContactType!='phone'"
+                            ng-model="ci.ContactTypeExt">
+                        <option ng-value="'home'" selected>Home</option>
+                        <option ng-value="'cell'">Cell</option>
+                        <option ng-value="'work'">Work</option>
+                        <option ng-value="'other'">Other</option>
+                    </select>
+                </div>
+                <div  class="form-group col-md-1">
+                    <input type="text" 
+                           ng-disabled="ci.ContactType!='phone'"
+                           class="form-control"
+                           placeholder="Ext"
+                           ng-model="ci.Ext">
+                </div>
+                <div class="form-group col-md-3">
+                    <input type="text" 
+                           class="form-control"
+                           ng-model="ci.Value">
+                </div>
+                <div class="form-group col-md-2">
+                    <input type="text" 
+                           class="form-control"
+                           ng-model="ci.Description">
+                </div>
+                <div class="form-group col-md-1 text-center">
+                    <input type="checkbox" 
+                           class="form-check-input td-center-checkbox "
+                           ng-model="ci.IsPreferred">
+                </div>
+                <div class="form-group col-md-1">
+                    <button type="button" 
+                            class="btn btnDelete"
+                            ng-click="removeContactInformation(ci)"> Delete</button>
+                </div>
+            </div>
+            <div class="form-row" id="add-contact-btn">
+                <button type="button" 
+                        class="btn btnCreate"
+                        ng-click="addContactInformation()" > Add Contact Information</button>
+            </div>
+        </div>
+        <div id="location-container">
+            <h5>Location</h5>
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <label for="county">County</label>
+                    <select id="county"
+                            class="custom-select form-control"
+                            ng-model="person.PCounty">
+                        <option selected></option>
+                    </select>
+                </div>
+                <div class="form-group col-md-6">
+                    <label for="urbanization">Urbanization</label>
+                    <select id="urbanization"
+                            class="custom-select form-control"
+                            ng-model="person.PUrbanization">
+                        <option selected></option>
+                        <option ng-repeat="option in urbanizationOptions">
+                        {{ option }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <input type="submit" class="btn btn-primary"></input>
+    </div>
+</form>

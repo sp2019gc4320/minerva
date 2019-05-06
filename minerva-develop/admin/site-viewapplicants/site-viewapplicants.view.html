@@ -1,0 +1,50 @@
+<!--view page for Admin  tab-->
+<!-- Programmer: Lauren Alibey -->
+<div ng-controller="viewApplicants">
+    <div id="print">
+    <div class = "row">
+        <div class="dropdown">
+            
+            <button class="btn btn-primary" ng-click="printToCart('print')">Print Current Roster</button>
+            <label >Search</label><input type="text" ng-model="search" placeholder="Search">
+        </div>
+    </div> <!-- row-->
+    <table class="table minerva-table">
+        <thead>
+            <tr>
+                <th colspan="5">Applicants <input type="button" class="btn btn-primary" ng-click="addSelCadets()" value="Add Selected To Cadets"></th>
+            </tr>
+        </thead>
+        <tr>
+            <th> Select </th>
+            <th ng-click="sort('fname')">First Name</th>
+            <th ng-click="sort('lname')">Last Name</th>
+            <th ng-click="sort('applicantID')">Applicant ID</th>
+            <!-- <th ng-click="sort('Attendance')">Attendance</th> -->
+            <!--<th ng-click="sort('AStatus')">Status</th>-->
+            <th></th>
+        </tr>
+        <tr dir-paginate="x in applicants|orderBy:sortKey:reverse|filter:search|itemsPerPage:15">
+            <td><input id="{{x.applicantID}}" type="checkbox" value=""></td>
+            <td>{{x.fname}}</td>
+            <td>{{x.lname}}</td>
+            <td>{{x.applicantID}}</td>
+            <!--<td> <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Present</a></li>
+                    <li><a href="#">Absent</a></li>
+                </ul>
+            </td>-->
+            <!--<td>{{x.AStatus}}</td>-->
+            <td><input type="button" class="btn btn-primary" ng-click="addSingleCadet(x.applicantID)" value="Add To Cadets"></td>
+
+        </tr>
+    </table>
+    </div>
+    <dir-pagination-controls
+        max-size="60"
+        direction-links="true"
+        boundary-links="true" >
+    </dir-pagination-controls>
+</div>

@@ -1,0 +1,69 @@
+<?php
+
+/* 
+ * login.php
+ * Sign in 
+ * The purpose of this file is to use the information input from adminsLogin.html
+ * and to check if there is a user that matches that username and password and sign them in.
+ */
+require_once 'dbcontroller.php';
+
+session_start(); 
+$connection = new DBController();
+
+$username1=$_POST['username'];
+$username1=str_replace('"', "'", $username1);
+$username1=str_replace("\\", "/", $username1);
+$username=filter_var($username1, FILTER_SANITIZE_ENCODED);
+
+$password1=$_POST['password'];
+$password1=str_replace('"', "'", $password1);
+$password1=str_replace("\\", "/", $password1);
+$password=filter_var($password1, FILTER_SANITIZE_ENCODED);
+
+
+
+$sql = "SELECT * FROM tblUsers WHERE UserLoginName = '$username' AND UserPW = '$password'";
+
+//Puts rowCount equal to the amount of users with that specific information
+$rowCount = $connection->numRows($sql);
+
+if($rowCount) //If there is a user with that information, this signs them in
+{
+
+    $result = $connection->runSelectQuery($sql);
+    $record = $result->fetch_assoc();
+    $privilege = $record['Privilege'];
+    $fkSiteID = $record['fkSiteID'];
+
+    $permission_map = function($permission) {
+        return $permission->fkPermissionId;
+    };
+    $permission_query = "SELECT * FROM tblUserPermissions WHERE fkUserId='$username'";
+    $permissions = array_map($permission_map, $connection->runSelectQueryArray($permission_query));
+
+    //print_r ($record);  //used during debugging to show all fields retrieved
+
+    $_SESSION["loggedIn"] = true; //Put to true so all pages know that this user is signed in.
+
+    setcookie("minerva_user", $username, time() + 86400, "/");
+    $_SESSION["minerva_user"] = $username; //hmmm not added on users computer
+    $_SESSION["Privilege"] = $privilege;
+    $_SESSION["SiteID"] = $fkSiteID;
+    $_SESSION["Permissions"] = $permissions;
+
+    //generates positive message  -- access it with  result.data.status
+    echo '{"status": "user logged in", "fkSiteID" :"'. $fkSiteID.'", "username": "'.$username.'"}' ;
+
+}
+else
+{
+    echo 'not found';
+    http_response_code(404);
+
+}
+
+
+?>
+
+
