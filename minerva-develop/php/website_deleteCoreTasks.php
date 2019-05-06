@@ -3,12 +3,8 @@ require_once 'dbcontroller.php';
 
 //Create connection
 $connection = new DBController();
-$taskNumber=$_POST["TaskNumber"];
-if(isset($_POST["CoreComponentID"])){
-$coreID= $_POST["CoreComponentID"];
-}
-
-$sql="DELETE FROM tlkpCoreComponentTasks WHERE TaskNumber='$taskNumber' AND CoreComponentID='$coreID'";
+$taskID=$_POST["TaskID"];
+$sql="DELETE FROM tlkpCoreComponentTasks WHERE TaskID='$taskID'";
 $result=$connection->runQuery($sql);
 
 
