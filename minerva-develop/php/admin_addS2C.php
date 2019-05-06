@@ -10,7 +10,7 @@ $siteStatus = $_POST['siteStatus'];
 $siteID = $_POST['siteID'];
 
 $sql = "INSERT INTO 
-        tlkpservicesite
+        tlkpServiceSite
         (AutoID, ServiceSite, ServiceSiteDesc, ReportingCode, IsActive, fkSiteID) 
         VALUES 
         ('$serviceSite', '$siteDescript', '$reportCode', '$siteStatus', '$siteID');";
