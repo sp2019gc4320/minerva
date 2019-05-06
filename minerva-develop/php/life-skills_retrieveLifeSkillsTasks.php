@@ -15,10 +15,9 @@ if (isset($_POST['cadetID'])) {
     $cadetID = filter_input(INPUT_POST, 'cadetID');
 }
 
-//Create and empty array for tests
+//Create and empty array for tasks
 $tasks = array();
 $testIDs = array();
-$testDates = array();
 
 $sql="SELECT tblCadetClassEvents.*, tlkpCoreComponentTasks.TaskID, tlkpCoreComponentTasks.TaskNumber, tlkpCoreComponentTasks.Task 
 FROM
@@ -30,27 +29,6 @@ FROM
 
 $result = $connection->runSelectQuery($sql);
 
-/*echo '{ "taskTbl":[';
-//print_r($result);
-if ($result->num_rows > 0)
-{
-    $count=0;
-
-    // output data on each row
-    while($row = $result->fetch_assoc()) {
-
-        //display comma
-        if ($count >0 )
-            echo ",";
-
-        //format output as an object -- specify each field along with its value
-        echo '{"TaskID": "' . $row["TaskID"]. '","TaskNumber": "' . $row["TaskNumber"]. '","Task": "' . $row["Task"]. '","EventDate": "' .$row["EventDate"]. '", "EventNote": "' .$row["EventNote"]. '", "DidPass": "' .$row["DidPass"].'"}';
-
-        $count = $count+1;
-    }
-}
-echo ']} ';
-*/
 if ($result->num_rows > 0) {
 
     //Store the tasks WITHOUT any associated tests in the tasks array.
@@ -79,7 +57,7 @@ $result2 = $connection->runSelectQuery($sql2);
 
 if ($result2->num_rows > 0) {
 
-    //Store the tasks WITHOUT any associated tests in the tasks array.
+    //Store all tasks including repeats for date and did pass comparison
     while ($row2 = $result2->fetch_assoc())
     {
         $allTasks[] = $row2;
