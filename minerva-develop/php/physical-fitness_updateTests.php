@@ -1,8 +1,6 @@
 <?php
-// File: job-skills_updateTests.php
-// Updates Job Skills Tests (for the 2nd table in the jobskills view) in the database by sending a sql update statment.
-// Input:  all info from test table -- only the test with a fkTaskEventID will be sent.
-// Output: none
+// File: physical-fitness_updateTests.php
+// Updates Phys Fit Tests (for the 2nd table in the Phys Fit view) in the database by sending a sql update statment.
 
 //connect to db controller
 require_once 'dbcontroller.php';
