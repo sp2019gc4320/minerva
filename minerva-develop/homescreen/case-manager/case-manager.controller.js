@@ -29,7 +29,8 @@ controller("caseManagerController", function($scope, $http, $window){
         {view:'S2C', url:'./core-components/s2c/s2c.view.html'},
         {view: 'Job Skills', url:'./core-components/job-skills/job-skills.view.html'},
         {view: 'PRAP', url: './notes/prap/prap.view.html'},
-        {view: 'Post Residential', url:'./notes/postres/postres.view.html'}];
+        {view: 'Post Residential', url:'./notes/postres/postres.view.html'},
+        {view: 'Life Skills', url:'./core-components/life-skills/life-skills.view.html'}];
 
     $scope.showView= function showView(item){
         $scope.dataurl = item.url;

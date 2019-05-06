@@ -1,0 +1,100 @@
+<!--life-skills.view.html-->
+<!-- This code shares a scope with lifeSkillsController.js -->
+
+<div class="well container infoContainer" id="jscontainer">
+    <h3>Life Skills</h3>
+    <div ng-controller="lifeSkillsController">
+        <!--name form two way binding-->
+        <form name="LifeSkillsForm">
+            <table class="table minerva-table" id = "LifeSkillsTaskTable">
+                <thead>
+                <tr>
+                    <th colspan="5">TASKS
+                        <button class="btn btnEdit" ng-click="makeTasksEditable()" ng-hide="editTasks"> Edit</button>
+                        <button class="btn btnSave" ng-click="saveTasksUpdate()" ng-show="editTasks"> Save</button>
+                        <button class="btn btnCancel" ng-click="cancelTasksUpdate()" ng-show="editTasks"> Cancel</button>
+                    </th>
+                </tr>
+                </thead>
+                <tr>
+                    <th>Tasks</th>
+                    <th>Description</th>
+                    <th>Last Activity</th>
+                    <th>Note</th>
+                    <th>Completion</th>
+                </tr>
+                <!--iterate through each instance in scope from controller-->
+                <tr ng-repeat="task in tasks track by $index" ng-class = "current($index)">
+                    <td><input name="TaskNumber" ng-model="task.TaskNumber" ng-disabled="!editable"></td>
+                    <td class="text-left">{{task.Task}}</td>
+                    <!--If the task has multiple tests, make the date and did pass read only. Otherwise, allow for editing to update singular task data-->
+                    <td>
+
+                        <span ng-if="!hasTests(task)"><input name="EventDate" type="date"
+                                                             ng-model="task.EventDate" ng-readonly="!editTasks"></span>
+                        <span ng-if="hasTests(task)"><input name="EventDate" type="date" ng-model="task.EventDate"
+                                                            ng-readonly="true"></span>
+                    </td>
+                    <td>
+                        <!--If the task has multiple tests, include a "Show Tests" button, as each of the task's test notes will be displayed in it's related test table. Otherwise, allow a note field for a singular task-->
+                        <span ng-if="!hasTests(task)"><input name="EventNote" type="text"
+                                                             ng-model="task.EventNote" ng-readonly="!editTasks"></span>
+                        <span ng-if="hasTests(task)"><button class = "btn btnView" ng-click="showTests(task.TaskID);store($index);setCurrTask(task)">Show Tests</button></span>
+                        
+                    </td>
+                        <!--If the task's DidPass is 1, make it a checked green checkbox-->
+                    <td ng-if="task.DidPass == '1'" class="bg-success text-center">
+                        <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                ng-model="task.DidPass"  disabled>
+                    </td>
+                        <!--If the task's DidPass is 0, make it an unchecked red checkbox-->
+                    <td ng-if="task.DidPass == '0'" class="bg-danger text-center">
+                        <input  type="checkbox" ng-model="task.DidPass"
+                                ng-true-value="'1'" ng-false-value="'0'" disabled>
+                    </td>
+                </tr>
+            </table>
+            <br>
+            <table class="table minerva-table" id = "LifeSkillsTestTable">
+                <thead>
+                <tr>
+                    <th colspan="5">
+                        <!--Code to make test table headers dynamic-->
+                        <text>{{this.currTask.Task}}</text> 
+                        <button class="btn btnEdit" ng-click="makeTestsEditable()" ng-hide="editTests"> Edit</button>
+                        <button class="btn btnSave" ng-click="saveTestsUpdate(tests);showTests(tests[0].fkTaskID)" ng-show="editTests"> Save</button>
+                        <button class="btn btnCancel" ng-click="cancelTestsUpdate();showTests(tests[0].fkTaskID)" ng-show="editTests"> Cancel</button>
+                    </th>
+                </tr>
+                </thead>
+                <tr>
+                    <th>Tests</th>
+                    <th>Test Number</th>
+                    <th>Last Activity</th>
+                    <th>Note</th>
+                    <th>Completion</th>
+                </tr>
+                <!--iterate through each instance in scope from controller-->
+                <tr ng-repeat="test in tests track by $index" ng-class="currentTaskTest($index)">
+                    <td><input name="TestName" ng-model="test.TaskTest" ng-disabled="!editableTests"></td>
+                    <td>{{test.TaskTestID}}</td>
+                    
+                    <td><input name="EventDate" type="date" placeholder="MM/DD/YYYY" ng-model="test.EventDate"  ng-readonly="!editTests"></td>
+                    <td><input name="EventNote" type="text" ng-model="test.EventNote" ng-disabled="!editTests"></td>
+                    <td ng-if="test.DidPass == '1'" class="bg-success text-center">
+                        <input  name="DidPass" type="checkbox" ng-true-value="'1'" ng-false-value="'0'"
+                                ng-model="test.DidPass"  ng-disabled="!editTests">
+                    </td>
+
+                    <td ng-if="test.DidPass == '0'" class="bg-danger text-center">
+                        <input  type="checkbox" ng-model="test.DidPass"
+                                ng-true-value="'1'" ng-false-value="'0'" ng-disabled="!editTests">
+                    </td>
+                </tr>
+            </table>
+        </form>
+
+
+    </div>
+
+</div>
