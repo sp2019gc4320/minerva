@@ -33,4 +33,5 @@ ALTER TABLE `tblPTDetails` ADD `IsWaived` TINYINT(1) NOT NULL DEFAULT '0' AFTER 
 For tblCadetClassEvents
 
  ALTER TABLE `tblCadetClassEvents` ADD `CadetClassEventID` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`CadetClassEventID`);
+ 
  ALTER TABLE `tblCadetClassEvents` ADD `MaxDate` DATETIME NULL AFTER `EventDate`;
