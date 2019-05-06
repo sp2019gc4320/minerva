@@ -1,5 +1,5 @@
 <?php
-// File: showPhysFit2.php
+// File: retrievePhysFit2
 // Accesses the info needed for the Physical Fitness Page
 // Prints a Json array with all info
 // This file should be passed a cadetID
