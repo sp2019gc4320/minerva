@@ -168,12 +168,16 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
             $window.localStorage.setItem("CadetName", firstChosen.PersonFN + " " + firstChosen.PersonLN);
             $window.localStorage.setItem("CadetGender", firstChosen.PGender);
             $window.localStorage.setItem("CadetDOB", firstChosen.PDOB);
+            $window.localStorage.setItem("ClassDetailID", firstChosen.fkCadetID);
+
         }
         else {
             $window.localStorage.removeItem("CadetID");
             $window.localStorage.removeItem("CadetName");
             $window.localStorage.removeItem("CadetGender");
             $window.localStorage.removeItem("CadetDOB");
+            $window.localStorage.removeItem("ClassDetailID");
+
         }
 
         $window.opener.location.reload();
@@ -190,9 +194,15 @@ angular.module('findApp').controller("FindCadetController", function FindCadetCo
         $window.sessionStorage.setItem("theCadet", cadet.fkCadetID);
         $window.localStorage.setItem("theCadet", cadet.fkCadetID);
 
+        //store class detail id here
+        $window.sessionStorage.setItem("fkClassDetailID", cadet.fkCadetID);
+        $window.localStorage.setItem("fkClassDetailID", cadet.fkCadetID);
+        $window.localStorage.setItem("ClassDetailID", cadet.fkCadetID);
 
         $window.localStorage.setItem("CadetID", cadet.fkCadetID);
         $window.localStorage.setItem("CadetName", cadet.PersonFN + " " + cadet.PersonLN);
+        
+        
 
         $scope.myCadet = {fkCadetID: cadet.fkCadetID};
         $http({
