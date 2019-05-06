@@ -8,5 +8,5 @@ $siteID=$_POST['SiteID'];
 
 $sql="DELETE FROM tlkpSite WHERE SiteID='$siteID'";
 
-$result = $conn->runQuery($sql);
+$result = $connection->runQuery($sql);
 ?>
