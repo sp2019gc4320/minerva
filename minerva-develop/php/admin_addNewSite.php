@@ -43,7 +43,7 @@ $sql = "INSERT INTO
         (SiteID,SiteName,SiteCode,SiteAddress,SiteCity,SiteState, SiteZip, SitePhone, SiteFax, SchoolType, StartingNGB, USDASchoolLunch, StudentGovt, BackgroundChkSrc, 
         DefaultTABEVers, UnionsCount, Sec501c3AltFunding, Sec501c3Foundation, RequireSSN, SiteLogo, LegislatorLink, PrimaryColor, SecondaryColor, TertiaryColor,
         InputTextColor, LabelTextColor, InputBackgroundColor) 
- VALUES ('$siteID','$siteName','$siteCode','$siteAddress','$siteCity','$siteState','$siteZip','$sitePhone','$siteFax','$schoolType','$startingNGB','$usdaSchoolLunch','$studentGovt','$backgroundChkSrc','$defaultTABEVers','$unionsCount','$sec501c3AltFunding','$sec501c3Foundation','$requireSSN','$siteLogo','$legislatorLink','$$primaryColor','$secondaryColor','$tertiaryColor', '$inputTextColor');";
+ VALUES ('$siteID','$siteName','$siteCode','$siteAddress','$siteCity','$siteState','$siteZip','$sitePhone','$siteFax','$schoolType','$startingNGB','$usdaSchoolLunch','$studentGovt','$backgroundChkSrc','$defaultTABEVers','$unionsCount','$sec501c3AltFunding','$sec501c3Foundation','$requireSSN','$siteLogo','$legislatorLink','$$primaryColor','$secondaryColor','$tertiaryColor', '$inputTextColor', '$labelTextColor', '$inputBackgroundColor');";
 
 $result = $conn->createRecord($sql);
 
