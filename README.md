@@ -24,3 +24,13 @@ CREATE TABLE `minerva`.`tblAppContacts` ( `ContactID` INT(11) NOT NULL AUTO_INCR
 For tblAppGuardians
 
 CREATE TABLE `minerva`.`tblAppGuardians` ( `GuardianID` INT(11) NOT NULL AUTO_INCREMENT , `fkPersonID` INT(11) NOT NULL , `fName` VARCHAR(255) NOT NULL , `lName` VARCHAR(255) NOT NULL , `Relationship` VARCHAR(48) NOT NULL , `PhoneNum` VARCHAR(15) NOT NULL , `Email` VARCHAR(48) NOT NULL , `IsLegalGuardian` TINYINT(1) NOT NULL , PRIMARY KEY (`GuardianID`)) ENGINE = InnoDB CHARSET=utf8 COLLATE utf8_general_ci;
+
+
+For tblPTDetails
+
+ALTER TABLE `tblPTDetails` ADD `IsWaived` TINYINT(1) NOT NULL DEFAULT '0' AFTER `PTDetailResult`;
+
+For tblCadetClassEvents
+
+ ALTER TABLE `tblCadetClassEvents` ADD `CadetClassEventID` INT NOT NULL AUTO_INCREMENT FIRST, ADD PRIMARY KEY (`CadetClassEventID`);
+ ALTER TABLE `tblCadetClassEvents` ADD `MaxDate` DATETIME NULL AFTER `EventDate`;
