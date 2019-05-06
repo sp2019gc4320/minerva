@@ -19,6 +19,7 @@ angular.module('admin.addS2C').component('addS2C',{
                         siteDescript:$scope.siteDescript,
                         reportCode:$scope.reportCode,
                         siteStatus:$scope.siteStatus,
+                        siteID.$scope.siteID,
                     };
 
                 $http ({
