@@ -11,6 +11,7 @@ controller('ctrl_homeOptions', function($scope, $http, $window) {
         {view:'Manage Permissions', url:'./admin/site-managepermissions/managePermissions.view.html'},
         {view:'Add Class', url:'./admin/site-addclass/site-addclass.view.html'},
         {view:'Add Cadet', url:'./admin/site-addcadet/site-addcadet.view.html'},
+        {view:'Add Cadet', url:'./admin/site-adds2c/site-adds2c.view.php'},
         {view:'View Cadets', url:'./admin/site-viewcadets/site-viewcadets.view.html'},
         {view:'View Graduates', url:'./admin/site-viewgraduates/site-viewgraduates.view.html'},
         {view:'View Applicants', url:'./admin/site-viewapplicants/site-viewapplicants.view.html'},
