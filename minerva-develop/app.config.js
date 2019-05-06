@@ -8,7 +8,7 @@ angular.
         $routeProvider
             .when('/login', { template: '<login></login>'})
            // .when('/findCadet', {templateURL:'./utility/find-cadet/find-cadet.view.html'})
-            .when('/adminSite', {template:'<site-setup></site-setup>'})
+          //  .when('/adminSite', {template:'<site-setup></site-setup>'})
 
 
             .when('/homeOptions',   { templateUrl: './main/main.view.html'})
@@ -21,6 +21,7 @@ angular.
             .when('/websiteDropDown', { template: '<web-dropdown></web-dropdown>'})
             .when('/websiteFileSubmission', { templateUrl: './website/fileSubmission/fileSubmission.view.html'})
             .when('/websiteCoreComponent', { templateUrl: '<./website/editCoreComponent/editCoreComponent.view.html>'})
+            .when('/websiteSiteSetup', { templateUrl: '<./website/SiteSetup/SiteSetup.view.html>'})
             //.when('/websiteDropDown', { templateUrl: './websiteModule/views/findLookupView.html'})
             .when('/error', { templateUrl: './views/workInProgress.html'})
 
