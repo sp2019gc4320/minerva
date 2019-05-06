@@ -14,8 +14,8 @@ function search()
     $search = mysqli_real_escape_string($result,$_POST["text_search"]);
 
     $sql = "SELECT lName, fName, AppSubmitDate, applicantID, documentID 
-            FROM tblApplicants W
-            HERE lName LIKE '%$search%' AND AStatus = 0 
+            FROM tblApplicants
+            WHERE lName LIKE '%$search%' AND AStatus = 0 
             OR fName LIKE '%$search%' AND AStatus = 0 
             OR applicantID LIKE '%$search%' AND AStatus = 0";
 
