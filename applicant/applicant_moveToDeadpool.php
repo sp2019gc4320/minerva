@@ -12,7 +12,7 @@ function moveToDeadpool($value,$dumpy){
     if(!$connection) die("Unable to connect to the database!");
 
     //query to set status to 'deadpool'
-    $sqlAdd = "UPDATE tblApplicants SET AStatus = 3 WHERE applicantID = $value";
+    $sqlAdd = "UPDATE tblApplicants SET ApplicantStatus = 3 WHERE ApplicantID = $value";
 
     //calls the query
     mysqli_query($result, $sqlAdd);

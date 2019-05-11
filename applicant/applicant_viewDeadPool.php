@@ -5,23 +5,31 @@
 
 require_once '../php/dbcontroller.php';
 
-function listDeadPool() {
+function listDeadPool()
+{
     $connection = new DBController();
     if (!$connection) die("Unable to connect to the database!");
 
     //retrieve dead pool population
-    $sql = "SELECT lName, fName, applicantID FROM tblApplicants WHERE AStatus = 3";
+    $sql = "SELECT tblPeople2.PersonFN, tblPeople2.PersonLN, tblApplicants.ApplicantStatus, tblAppContacts.Value, tblApplicants.applicantID, tblAppContacts.Description
+            FROM tblApplicants
+            JOIN tblAppContacts ON (tblApplicants.fkPersonID = tblAppContacts.fkPersonID)
+            JOIN tblPeople2 ON (tblAppContacts.fkPersonID = tblPeople2.PersonID)
+            WHERE tblApplicants.ApplicantStatus = 3";
 
-    $result = $connection -> connectDB();
+    $result = $connection->connectDB();
     $query = mysqli_query($result, $sql);
 
-    while($row = mysqli_fetch_array($query)) {
+    while ($row = mysqli_fetch_array($query)) {
         $value = $row['applicantID'];
         echo "<tr>";
-        echo "<td>"."<input type='checkbox' name='id[]' value=$value>&nbsp;</td>";
-        echo "<td>".$row['lName']."</td>";
-        echo "<td>".$row['fName']."</td>";
-        echo "<td>".$row['applicantID']."</td>";
+        echo "<td>" . "<input type='checkbox' name='id[]' value=$value>&nbsp;</td>";
+        echo "<td>" . $row['PersonLN'] . "</td>";
+        echo "<td>" . $row['PersonFN'] . "</td>";
+        // echo "<td>" . $row['AppSubmitDate'] . "</td>";
+        echo "<td>" . $row['applicantID'] . "</td>";
+        // echo "<td>" . $row['documentID'] . "</td>";
+        echo "<td>".$row['Value']."</td>";
         echo "</tr>";
     }
 }

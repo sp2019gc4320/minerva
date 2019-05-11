@@ -12,7 +12,7 @@ function moveToCandidatepool($value, $dumpy)
     if (!$connection) die("Unable to connect to the database!");
 
     //query to change status to candidate
-    $sqlAdd = "UPDATE tblApplicants SET AStatus = 2 WHERE applicantID = $value";
+    $sqlAdd = "UPDATE tblApplicants SET ApplicantStatus = 2 WHERE ApplicantID = $value";
 
     //calls the query 
     mysqli_query($result, $sqlAdd);

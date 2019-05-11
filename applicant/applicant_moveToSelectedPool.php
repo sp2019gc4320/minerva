@@ -14,7 +14,7 @@ function moveToSelectedPool($value, $dumpy)
     if (!$connection) die("Unable to connect to the database!");
 
     //query to set status to 'selected'
-    $sqlAdd = "UPDATE tblApplicants SET AStatus=1 WHERE applicantID = $value";
+    $sqlAdd = "UPDATE tblApplicants SET ApplicantStatus=1 WHERE ApplicantID = $value";
     
     //calls the query
     mysqli_query($result, $sqlAdd);

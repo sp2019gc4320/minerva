@@ -1,9 +1,15 @@
+<?php
+session_start();
+?>
+
 <head>
     <meta charset="UTF-8">
     <title>Documents and Forms</title>
 
-    <link rel="stylesheet" type="text/css" href="applicant_view.css">
+    <!-- <link rel="stylesheet" type="text/css" href="applicant_view.css"> -->
     <link rel="stylesheet" type="text/css" href="applicant_view2.css">
+    <link rel="stylesheet" type="text/css" href="../css/site.css">
+
 
 
     <!-- Bootstrap 4 -->
@@ -49,26 +55,29 @@
 
 </head>
 <body>
-<br>
+
 <div id="main">
     <h3 style="font-size:40px; text-indent: 20px; text-align:left">Documents and Forms</h3></div>
 
 <hr style="height:3px;border:none;color:#333;background-color:#333;margin-bottom: 0px" />
 
 <div class="topnav">
-    <a href="./applicant_list.php">Home</a>
+    <a href="../index.html#!homeOptions">Home</a>
+    <a href="./applicant_list.php">Applicants</a>
     <a href="./candidate_list.php">Candidates</a>
     <a href="./deadpool_list.php">Dead Pool</a>
-    <a class="active"  href="./applicant_view.php">Documents</a>
+    <a href="./selected_list.php">Selected</a>
     <a href="./forms.php">Form Management</a>
-</div><br>
-<button type="button" style="width:300px;" class="btn btn-danger">INELIGIBLE FOR REVIEW</button>
+    <a class="active"  href="./applicant_view.php">Documents</a>
 
-<font size="5"><?php require_once "./applicant_documents.php"; displayName($value); ?></font>
+</div>
+<div style="float:right; margin-right: 50px;"><font size="5"><?php require_once "./applicant_documents.php"; eligibility($value); ?></font></div>
+
+<center><font size="5"><?php require_once "./applicant_documents.php"; displayName($value); ?></font></center>
     
 <table border="0" class="gfg">
     <tr>
-        <th><font size="5"> Pending Documents </font> <button type="button" style="width:65px;height:35px;" class="btn btn-primary">SAVE</button></th>
+        <th><font size="5"> Pending Documents </font> </th>
         <th style="width:30%"> </th>
         <th style="width:30%"></th>
     </tr>

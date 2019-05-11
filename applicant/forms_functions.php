@@ -12,10 +12,10 @@ if (isset($_POST['data']) && !empty($_POST['data'])) {
     $arr = $formData->selected;
     switch ($action) {
         case 'save':
-            saveForm($text, $id);
+            saveForm($text, $name);
             break;
         case 'delete':
-            deleteForm($id);
+            deleteForm($name);
             break;
         case 'create':
             createFormPage();
@@ -30,15 +30,16 @@ if (isset($_POST['data']) && !empty($_POST['data'])) {
     }
 }
 
-function listSelected() {
+function listAll() {
     $connection = new DBController();
     if (!$connection) die("Unable to connect to the database!");
 
     // retrieve applicant info
-    $sql = "SELECT lName, fName, AEmail, applicantID 
-            FROM tblApplicants 
-            WHERE AStatus = 1
-            ORDER BY lName";
+    $sql = "SELECT tblPeople2.PersonFN, tblPeople2.PersonLN, tblApplicants.ApplicantStatus, tblAppContacts.Value, tblApplicants.applicantID, tblAppContacts.Description
+            FROM tblApplicants
+            JOIN tblAppContacts ON (tblApplicants.fkPersonID = tblAppContacts.fkPersonID)
+            JOIN tblPeople2 ON (tblAppContacts.fkPersonID = tblPeople2.PersonID)
+            ORDER BY tblApplicants.ApplicantStatus";
     $result = $connection->connectDB();
     $query = mysqli_query($result, $sql);
 
@@ -46,9 +47,21 @@ function listSelected() {
         $value = $row['applicantID'];
         echo "<tr>";
         echo "<td>" . "<label class='selected'><input type='checkbox' name='id[]' value=$value></label>&nbsp;</td>";
-        echo "<td>" . $row['lName'] . "</td>";
-        echo "<td>" . $row['fName'] . "</td>";
-        echo "<td>" . $row['AEmail'] . "</td>";
+        echo "<td>" . $row['PersonLN'] . "</td>";
+        echo "<td>" . $row['PersonFN'] . "</td>";
+        if($row['ApplicantStatus'] == 0)
+            echo "<td>" . "Applicant" . "</td>";
+        if($row['ApplicantStatus'] == 2)
+            echo "<td>" . "Candidate" . "</td>";
+        if($row['ApplicantStatus'] == 1)
+            echo "<td>" . "Selected" . "</td>";
+        if($row['ApplicantStatus'] == 3)
+            echo "<td>" . "Inactive" . "</td>";
+        echo "<td>".$row['applicantID']."</td>";
+        if($row['Description'] == "email")
+            echo "<td>" . $row['Value'] . "</td>";
+        else
+            echo "<td>" . "No email set." . "</td>";
         echo "</tr>";
     }
 }
@@ -67,13 +80,13 @@ function generateDefaultForm() {
     echo <<< EOT
     <div class='tab'>
     Forms: 
-    <select>
+    <select id="select" onChange="openForm(event, this.value)">
 EOT;
     while ($row = mysqli_fetch_array($query)) {
         $name = $row['formName'];
         $id = $row['formID'];
         echo <<< EOT
-        <option id=$id class="tablinks" onclick="openForm(event, '$name')">$name</option>
+        <option id=$id class="tablinks">$name</option>
 EOT;
     }
     echo <<< EOT
@@ -87,7 +100,7 @@ EOT;
         $text = $row['formText'];
         echo <<< EOT
         <div id='$name' class='tabcontent'>
-        <textarea rows='5' cols='50' name='$name' wrap='soft' style='width:850px; height:500px; float:right;'>
+        <textarea rows='5' cols='50' name='$name' wrap='soft' style='width:650px; height:500px; float:right;'>
 $text
         </textarea>
     </div>
@@ -105,10 +118,11 @@ function generateForms($formData) {
     $result = $connection->connectDB();
 
     for ($i = 0; $i < count($arr); $i++) {
-        $sql = "SELECT * 
-            FROM tblApplicants
-            WHERE applicantID = '$arr[$i]'
-            ORDER BY lName;";
+        $sql = "SELECT tblPeople2.PersonLN, tblApplicants.applicantID 
+        FROM tblApplicants 
+        JOIN tblPeople2 ON (tblApplicants.fkPersonID = tblPeople2.PersonID) 
+        WHERE tblApplicants.applicantID = '$arr[$i]' 
+        ORDER BY tblPeople2.PersonLN";
         $query = mysqli_query($result, $sql);
         $row = mysqli_fetch_array($query);
 
@@ -118,10 +132,10 @@ function generateForms($formData) {
 EOT;
         }
 
-        $last_name = $row['lName'];
+        $last_name = $row['PersonLN'];
         $id = $row['applicantID'];
         echo <<< EOT
-        <button id=$id class="tablinks" onclick="openForm(event, '$last_name')">$last_name</button>
+        <button id=$id type="button" class="tablinks" onclick="openForm(event, '$last_name')">$last_name</button>
 EOT;
     }
     echo <<< EOT
@@ -130,28 +144,30 @@ EOT;
 
     for ($i = 0; $i < count($arr); $i++) {
         $text = $newText;
-        $sql = "SELECT * 
+        $sql = "SELECT tblPeople2.PersonFN, tblPeople2.PersonLN, tblAppContacts.Value, tblApplicants.ApplicantID
             FROM tblApplicants
+            JOIN tblAppContacts ON (tblApplicants.fkPersonID = tblAppContacts.fkPersonID)
+            JOIN tblPeople2 ON (tblAppContacts.fkPersonID = tblPeople2.PersonID)
             WHERE applicantID = '$arr[$i]'
-            ORDER BY lName;";
+            ORDER BY tblPeople2.PersonLN";
         $query = mysqli_query($result, $sql);
         $row = mysqli_fetch_array($query);
 
-        $text = str_replace("{firstname}", $row['fName'], $text);
-        $text = str_replace("{lastname}", $row['lName'], $text);
-        $text = str_replace("{email}", $row['AEmail'], $text);
+        $text = str_replace("{firstname}", $row['PersonFN'], $text);
+        $text = str_replace("{lastname}", $row['PersonLN'], $text);
+        $text = str_replace("{email}", $row['Value'], $text);
 
-        $last_name = $row['lName'];
-        $email = $row['AEmail'];
+        $last_name = $row['PersonLN'];
+        $email = $row['Value'];
         $name=$formData->formName;
 
         echo <<< EOT
         <div id='$last_name' class='tabcontent'>
             <p style="float:left;">Email: $email</p>
-            <textarea rows='5' cols='50' name='$last_name' wrap='soft' style='width:850px; height:500px; float:right;'>$text</textarea>
+            <textarea rows='5' cols='50' name='$last_name' wrap='soft' style='width:625px; height:400px; float:right;'>$text</textarea>
             <div class="container-fluid " style="float:right; margin-right: 0px;">
                 <a name='$last_name' href="mailto:$email?subject=$name&body=$text">
-                    <button type="submit" name='$last_name' id="email" style="width: 150px; float:left;" class="btn btn-success">Email Form</button>
+                    <button type="button" name='$last_name' id="email" style="width: 150px; float:left;" class="btn btn-success">Email Form</button>
                 </a>
             </div>
             <div>
@@ -169,17 +185,16 @@ function createFormPage() {
     echo <<< EOT
     <div>
         <p style="float:left; margin-left: 10px;">Form name:</p>
-        <input id="newFormName" type="text" style="float:left; margin-left:20px;">
+        <input id="newFormName" type="text" style="float:left; margin-left:20px; ">
     </div>
-        <div id='99'>
-        <textarea id="newText" rows='5' cols='50' name='new' wrap='soft' style='width:700px; height:500px; float:right;'></textarea>
-    </div>
-    <div class="container-fluid " style="float:right; margin-right: 275px;">
-        <button type="submit" name="Save" id="save" style="width: 150px; float:left;" class="btn btn-success" onclick="saveNewFormJS()">
+        <div>
+        <textarea id="newText" rows='5' cols='50' name='new' wrap='soft' style='width:650px; height:400px; float:right;'></textarea>
+    
+        <button type="submit" name="Save" id="save" style="width: 150px; float:right;" class="btn btn-success" onclick="saveNewFormJS()">
             Save New Form
         </button>
         <form action="forms.php" method="POST">
-        <button type="submit" name="Cancel" id="cancel" style="width: 150px; float:left;" class="btn btn-danger">
+        <button type="submit" name="Cancel" id="cancel" style="width: 150px; float:right;" class="btn btn-danger">
             Cancel
         </button>
         </form>
@@ -203,32 +218,32 @@ function createNewForm($text, $last_name) {
     if (!$query) die("Unable to perform query.");
 }
 
-function deleteForm($id) {
+function deleteForm($name) {
     $connection = new DBController();
     $result = $connection->connectDB();
-    $id = mysqli_escape_string($result, $id);
+    $id = mysqli_escape_string($result, $name);
 
     if (!$connection) die("Unable to connect to the database!");
 
     // retrieve applicant info
     $sql = "DELETE FROM tblApplicantForms 
-            WHERE formID = '$id'";
+            WHERE formName = '$name'";
     $query = mysqli_query($result, $sql);
     if (!$query) die("Unable to perform query.");
 }
 
-function saveForm($text, $id) {
+function saveForm($text, $name) {
     $connection = new DBController();
     $result = $connection->connectDB();
     $text = mysqli_escape_string($result, $text);
-    $id = mysqli_escape_string($result, $id);
+    $id = mysqli_escape_string($result, $name);
 
     if (!$connection) die("Unable to connect to the database!");
 
     // retrieve applicant info
     $sql = "UPDATE tblApplicantForms 
             SET formText = '$text'
-            WHERE formID = '$id'";
+            WHERE formName = '$name'";
     $query = mysqli_query($result, $sql);
     if (!$query) die("Unable to perform query.");
 

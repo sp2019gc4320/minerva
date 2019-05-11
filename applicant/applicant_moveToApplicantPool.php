@@ -12,7 +12,7 @@ function moveToApplicantPool($value, $dumpy)
     if (!$connection) die("Unable to connect to the database!");
 
     //Query to change status of applicants to 'Applicant'
-    $sqlAdd = "UPDATE tblApplicants SET AStatus = 0 WHERE applicantID = $value";
+    $sqlAdd = "UPDATE tblApplicants SET ApplicantStatus = 0 WHERE ApplicantID = $value";
     
     //calls the function to change the status
     mysqli_query($result, $sqlAdd);
